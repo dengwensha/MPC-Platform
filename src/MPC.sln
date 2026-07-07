@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Foundation", "MPC.Found
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Geometry", "MPC.Geometry\MPC.Geometry.csproj", "{76F9D193-BD20-48B9-ACEE-65C0E572EA97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Tests", "..\tests\MPC.Tests\MPC.Tests.csproj", "{BC4CA25B-2675-47C2-9284-5FDEA9E61EF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{76F9D193-BD20-48B9-ACEE-65C0E572EA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76F9D193-BD20-48B9-ACEE-65C0E572EA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76F9D193-BD20-48B9-ACEE-65C0E572EA97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC4CA25B-2675-47C2-9284-5FDEA9E61EF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4CA25B-2675-47C2-9284-5FDEA9E61EF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4CA25B-2675-47C2-9284-5FDEA9E61EF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4CA25B-2675-47C2-9284-5FDEA9E61EF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
