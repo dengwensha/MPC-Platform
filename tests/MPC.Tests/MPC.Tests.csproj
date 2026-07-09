@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MPC.Geometry\MPC.Geometry.csproj" />
+    <ProjectReference Include="..\..\src\MPC.Topology\MPC.Topology.csproj" />
   </ItemGroup>
 
 </Project>
