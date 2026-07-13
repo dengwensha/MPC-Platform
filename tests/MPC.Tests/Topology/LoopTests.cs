@@ -112,9 +112,38 @@ public sealed class LoopTests
 
     private static Edge CreateEdge(Vertex start, Vertex end)
     {
+        var direction = CreateUnitDirection(
+            start.Position,
+            end.Position);
+
         return new Edge(
             start,
             end,
-            new Line3D(start.Position, end.Position));
+            new Line3D(start.Position, direction));
+    }
+
+    private static Vector3D CreateUnitDirection(
+        Point3D start,
+        Point3D end)
+    {
+        var x = end.X - start.X;
+        var y = end.Y - start.Y;
+        var z = end.Z - start.Z;
+
+        var length = Math.Sqrt(
+            x * x +
+            y * y +
+            z * z);
+
+        if (length == 0.0)
+        {
+            throw new ArgumentException(
+                "Cannot create a line direction from identical points.");
+        }
+
+        return new Vector3D(
+            x / length,
+            y / length,
+            z / length);
     }
 }

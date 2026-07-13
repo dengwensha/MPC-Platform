@@ -82,24 +82,61 @@ public sealed class ShellTests
 
     private static Face CreateSimpleFace()
     {
-        var p1 = new Point3D(0, 0, 0);
-        var p2 = new Point3D(1, 0, 0);
-        var p3 = new Point3D(1, 1, 0);
-        var p4 = new Point3D(0, 1, 0);
+        var p1 = new Point3D(0.0, 0.0, 0.0);
+        var p2 = new Point3D(1.0, 0.0, 0.0);
+        var p3 = new Point3D(1.0, 1.0, 0.0);
+        var p4 = new Point3D(0.0, 1.0, 0.0);
 
         var v1 = new Vertex(p1);
         var v2 = new Vertex(p2);
         var v3 = new Vertex(p3);
         var v4 = new Vertex(p4);
 
-        var e1 = new Edge(v1, v2, new Line3D(p1, p2));
-        var e2 = new Edge(v2, v3, new Line3D(p2, p3));
-        var e3 = new Edge(v3, v4, new Line3D(p3, p4));
-        var e4 = new Edge(v4, v1, new Line3D(p4, p1));
+        var e1 = CreateEdge(v1, v2);
+        var e2 = CreateEdge(v2, v3);
+        var e3 = CreateEdge(v3, v4);
+        var e4 = CreateEdge(v4, v1);
 
         var loop = new Loop(new[] { e1, e2, e3, e4 });
 
         return new Face(new TestSurface(), loop);
+    }
+
+    private static Edge CreateEdge(Vertex start, Vertex end)
+    {
+        var direction = CreateUnitDirection(
+            start.Position,
+            end.Position);
+
+        return new Edge(
+            start,
+            end,
+            new Line3D(start.Position, direction));
+    }
+
+    private static Vector3D CreateUnitDirection(
+        Point3D start,
+        Point3D end)
+    {
+        var x = end.X - start.X;
+        var y = end.Y - start.Y;
+        var z = end.Z - start.Z;
+
+        var length = Math.Sqrt(
+            x * x +
+            y * y +
+            z * z);
+
+        if (length == 0.0)
+        {
+            throw new ArgumentException(
+                "Cannot create a line direction from identical points.");
+        }
+
+        return new Vector3D(
+            x / length,
+            y / length,
+            z / length);
     }
 
     private sealed class TestSurface : ISurface3D
