@@ -31,11 +31,7 @@ public sealed class Loop
             var next = edges[(i + 1) % edges.Count];
 
             if (!Equals(current.EndVertex, next.StartVertex))
-            {
-                throw new ArgumentException(
-                    "Edges must form a continuous closed loop.",
-                    nameof(edges));
-            }
+                throw new ArgumentException("Edges must form a continuous closed loop.", nameof(edges));
         }
     }
 }
