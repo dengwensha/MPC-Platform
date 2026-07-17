@@ -8,10 +8,12 @@ public sealed class TopologyBuilder
     private readonly List<Vertex> _vertices;
     private readonly List<Edge> _edges;
     private readonly List<Loop> _loops;
+    private readonly List<Face> _faces;
 
     private readonly ReadOnlyCollection<Vertex> _verticesView;
     private readonly ReadOnlyCollection<Edge> _edgesView;
     private readonly ReadOnlyCollection<Loop> _loopsView;
+    private readonly ReadOnlyCollection<Face> _facesView;
 
     public TopologyBuilderState State { get; private set; }
 
@@ -24,17 +26,30 @@ public sealed class TopologyBuilder
     public IReadOnlyCollection<Loop> Loops =>
         _loopsView;
 
+    public IReadOnlyCollection<Face> Faces =>
+        _facesView;
+
     public TopologyBuilder()
     {
         _vertices = [];
         _edges = [];
         _loops = [];
+        _faces = [];
 
-        _verticesView = _vertices.AsReadOnly();
-        _edgesView = _edges.AsReadOnly();
-        _loopsView = _loops.AsReadOnly();
+        _verticesView =
+            _vertices.AsReadOnly();
 
-        State = TopologyBuilderState.Open;
+        _edgesView =
+            _edges.AsReadOnly();
+
+        _loopsView =
+            _loops.AsReadOnly();
+
+        _facesView =
+            _faces.AsReadOnly();
+
+        State =
+            TopologyBuilderState.Open;
     }
 
     public void RegisterVertex(Vertex vertex)
@@ -62,8 +77,11 @@ public sealed class TopologyBuilder
             return;
         }
 
-        RegisterVertex(edge.StartVertex);
-        RegisterVertex(edge.EndVertex);
+        RegisterVertex(
+            edge.StartVertex);
+
+        RegisterVertex(
+            edge.EndVertex);
 
         _edges.Add(edge);
     }
@@ -81,12 +99,38 @@ public sealed class TopologyBuilder
 
         foreach (EdgeUse edgeUse in loop.EdgeUses)
         {
-            RegisterEdge(edgeUse.Edge);
+            RegisterEdge(
+                edgeUse.Edge);
         }
 
         VerifyLoop(loop);
 
         _loops.Add(loop);
+    }
+
+    public void RegisterFace(Face face)
+    {
+        EnsureOpen();
+
+        ArgumentNullException.ThrowIfNull(face);
+
+        if (ContainsFace(face))
+        {
+            return;
+        }
+
+        RegisterLoop(
+            face.OuterLoop);
+
+        foreach (Loop innerLoop in face.InnerLoops)
+        {
+            RegisterLoop(
+                innerLoop);
+        }
+
+        VerifyFace(face);
+
+        _faces.Add(face);
     }
 
     public void Verify()
@@ -109,14 +153,16 @@ public sealed class TopologyBuilder
             new(
                 _vertices,
                 _edges,
-                _loops);
+                _loops,
+                _faces);
 
         foreach ((Vertex vertex, Edge edge) in pendingAttachments)
         {
             vertex.AttachEdge(edge);
         }
 
-        State = TopologyBuilderState.Published;
+        State =
+            TopologyBuilderState.Published;
 
         return publishedTopology;
     }
@@ -125,11 +171,13 @@ public sealed class TopologyBuilder
     {
         EnsureOpen();
 
+        _faces.Clear();
         _loops.Clear();
         _edges.Clear();
         _vertices.Clear();
 
-        State = TopologyBuilderState.RolledBack;
+        State =
+            TopologyBuilderState.RolledBack;
     }
 
     private void VerifyGraph()
@@ -137,19 +185,22 @@ public sealed class TopologyBuilder
         VerifyRegisteredEdges();
         VerifyExistingVertexIncidentEdges();
         VerifyRegisteredLoops();
+        VerifyRegisteredFaces();
     }
 
     private void VerifyRegisteredEdges()
     {
         foreach (Edge edge in _edges)
         {
-            if (!ContainsVertex(edge.StartVertex))
+            if (!ContainsVertex(
+                    edge.StartVertex))
             {
                 throw new InvalidOperationException(
                     "An edge references an unregistered start vertex.");
             }
 
-            if (!ContainsVertex(edge.EndVertex))
+            if (!ContainsVertex(
+                    edge.EndVertex))
             {
                 throw new InvalidOperationException(
                     "An edge references an unregistered end vertex.");
@@ -162,11 +213,13 @@ public sealed class TopologyBuilder
         foreach (Vertex vertex in _vertices)
         {
             HashSet<Edge> encounteredEdges =
-                new(ReferenceEqualityComparer.Instance);
+                new(
+                    ReferenceEqualityComparer.Instance);
 
             foreach (Edge incidentEdge in vertex.IncidentEdges)
             {
-                if (!ContainsEdge(incidentEdge))
+                if (!ContainsEdge(
+                        incidentEdge))
                 {
                     throw new InvalidOperationException(
                         "A registered vertex references an edge that is not registered in the builder.");
@@ -186,7 +239,8 @@ public sealed class TopologyBuilder
                         "A vertex contains an incident edge that does not reference the vertex.");
                 }
 
-                if (!encounteredEdges.Add(incidentEdge))
+                if (!encounteredEdges.Add(
+                        incidentEdge))
                 {
                     throw new InvalidOperationException(
                         "A vertex contains the same incident edge more than once.");
@@ -200,6 +254,24 @@ public sealed class TopologyBuilder
         foreach (Loop loop in _loops)
         {
             VerifyLoop(loop);
+        }
+    }
+
+    private void VerifyRegisteredFaces()
+    {
+        HashSet<Face> encounteredFaces =
+            new(
+                ReferenceEqualityComparer.Instance);
+
+        foreach (Face face in _faces)
+        {
+            if (!encounteredFaces.Add(face))
+            {
+                throw new InvalidOperationException(
+                    "The same face is registered more than once.");
+            }
+
+            VerifyFace(face);
         }
     }
 
@@ -218,7 +290,8 @@ public sealed class TopologyBuilder
             EdgeUse currentEdgeUse =
                 loop.EdgeUses[index];
 
-            if (!ContainsEdge(currentEdgeUse.Edge))
+            if (!ContainsEdge(
+                    currentEdgeUse.Edge))
             {
                 throw new InvalidOperationException(
                     "A loop references an edge that is not registered in the builder.");
@@ -241,10 +314,56 @@ public sealed class TopologyBuilder
         }
     }
 
+    private void VerifyFace(Face face)
+    {
+        if (face.Surface is null)
+        {
+            throw new InvalidOperationException(
+                "A face must reference a surface.");
+        }
+
+        if (!ContainsLoop(
+                face.OuterLoop))
+        {
+            throw new InvalidOperationException(
+                "A face references an outer loop that is not registered in the builder.");
+        }
+
+        HashSet<Loop> encounteredInnerLoops =
+            new(
+                ReferenceEqualityComparer.Instance);
+
+        foreach (Loop innerLoop in face.InnerLoops)
+        {
+            if (ReferenceEquals(
+                    face.OuterLoop,
+                    innerLoop))
+            {
+                throw new InvalidOperationException(
+                    "A face outer loop cannot also be registered as an inner loop.");
+            }
+
+            if (!encounteredInnerLoops.Add(
+                    innerLoop))
+            {
+                throw new InvalidOperationException(
+                    "A face contains the same inner loop more than once.");
+            }
+
+            if (!ContainsLoop(
+                    innerLoop))
+            {
+                throw new InvalidOperationException(
+                    "A face references an inner loop that is not registered in the builder.");
+            }
+        }
+    }
+
     private List<(Vertex Vertex, Edge Edge)>
         CreatePendingAttachments()
     {
-        List<(Vertex Vertex, Edge Edge)> attachments = [];
+        List<(Vertex Vertex, Edge Edge)> attachments =
+            [];
 
         foreach (Edge edge in _edges)
         {
@@ -294,6 +413,15 @@ public sealed class TopologyBuilder
                 ReferenceEquals(
                     registeredLoop,
                     loop));
+    }
+
+    private bool ContainsFace(Face face)
+    {
+        return _faces.Any(
+            registeredFace =>
+                ReferenceEquals(
+                    registeredFace,
+                    face));
     }
 
     private void EnsureOpen()
