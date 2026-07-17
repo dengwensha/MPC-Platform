@@ -77,13 +77,26 @@ public sealed class TopologyBuilder
             return;
         }
 
-        RegisterVertex(
-            edge.StartVertex);
+        RegistrationCheckpoint checkpoint =
+            CreateRegistrationCheckpoint();
 
-        RegisterVertex(
-            edge.EndVertex);
+        try
+        {
+            RegisterVertex(
+                edge.StartVertex);
 
-        _edges.Add(edge);
+            RegisterVertex(
+                edge.EndVertex);
+
+            _edges.Add(edge);
+        }
+        catch
+        {
+            RestoreRegistrationCheckpoint(
+                checkpoint);
+
+            throw;
+        }
     }
 
     public void RegisterLoop(Loop loop)
@@ -97,15 +110,28 @@ public sealed class TopologyBuilder
             return;
         }
 
-        foreach (EdgeUse edgeUse in loop.EdgeUses)
+        RegistrationCheckpoint checkpoint =
+            CreateRegistrationCheckpoint();
+
+        try
         {
-            RegisterEdge(
-                edgeUse.Edge);
+            foreach (EdgeUse edgeUse in loop.EdgeUses)
+            {
+                RegisterEdge(
+                    edgeUse.Edge);
+            }
+
+            VerifyLoop(loop);
+
+            _loops.Add(loop);
         }
+        catch
+        {
+            RestoreRegistrationCheckpoint(
+                checkpoint);
 
-        VerifyLoop(loop);
-
-        _loops.Add(loop);
+            throw;
+        }
     }
 
     public void RegisterFace(Face face)
@@ -119,18 +145,31 @@ public sealed class TopologyBuilder
             return;
         }
 
-        RegisterLoop(
-            face.OuterLoop);
+        RegistrationCheckpoint checkpoint =
+            CreateRegistrationCheckpoint();
 
-        foreach (Loop innerLoop in face.InnerLoops)
+        try
         {
             RegisterLoop(
-                innerLoop);
+                face.OuterLoop);
+
+            foreach (Loop innerLoop in face.InnerLoops)
+            {
+                RegisterLoop(
+                    innerLoop);
+            }
+
+            VerifyFace(face);
+
+            _faces.Add(face);
         }
+        catch
+        {
+            RestoreRegistrationCheckpoint(
+                checkpoint);
 
-        VerifyFace(face);
-
-        _faces.Add(face);
+            throw;
+        }
     }
 
     public void Verify()
@@ -388,6 +427,54 @@ public sealed class TopologyBuilder
         return attachments;
     }
 
+    private RegistrationCheckpoint
+        CreateRegistrationCheckpoint()
+    {
+        return new RegistrationCheckpoint(
+            _vertices.Count,
+            _edges.Count,
+            _loops.Count,
+            _faces.Count);
+    }
+
+    private void RestoreRegistrationCheckpoint(
+        RegistrationCheckpoint checkpoint)
+    {
+        RemoveAddedItems(
+            _faces,
+            checkpoint.FaceCount);
+
+        RemoveAddedItems(
+            _loops,
+            checkpoint.LoopCount);
+
+        RemoveAddedItems(
+            _edges,
+            checkpoint.EdgeCount);
+
+        RemoveAddedItems(
+            _vertices,
+            checkpoint.VertexCount);
+    }
+
+    private static void RemoveAddedItems<T>(
+        List<T> items,
+        int originalCount)
+    {
+        int addedCount =
+            items.Count -
+            originalCount;
+
+        if (addedCount <= 0)
+        {
+            return;
+        }
+
+        items.RemoveRange(
+            originalCount,
+            addedCount);
+    }
+
     private bool ContainsVertex(Vertex vertex)
     {
         return _vertices.Any(
@@ -432,4 +519,10 @@ public sealed class TopologyBuilder
                 $"TopologyBuilder is closed. Current state: {State}.");
         }
     }
+
+    private readonly record struct RegistrationCheckpoint(
+        int VertexCount,
+        int EdgeCount,
+        int LoopCount,
+        int FaceCount);
 }
