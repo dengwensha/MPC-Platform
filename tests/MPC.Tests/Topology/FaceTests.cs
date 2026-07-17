@@ -27,7 +27,25 @@ public sealed class FaceTests
         var e2 = new Edge(v2, v3, curve);
         var e3 = new Edge(v3, v1, curve);
 
-        return new Loop(new[] { e1, e2, e3 });
+        var edgeUse1 = new EdgeUse(
+            e1,
+            EdgeUseDirection.Forward);
+
+        var edgeUse2 = new EdgeUse(
+            e2,
+            EdgeUseDirection.Forward);
+
+        var edgeUse3 = new EdgeUse(
+            e3,
+            EdgeUseDirection.Forward);
+
+        return new Loop(
+            new[]
+            {
+                edgeUse1,
+                edgeUse2,
+                edgeUse3
+            });
     }
 
     [Fact]

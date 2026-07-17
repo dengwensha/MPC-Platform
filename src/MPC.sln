@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11925.98 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Foundation", "MPC.Foundation\MPC.Foundation.csproj", "{2D660357-D211-4DF5-858C-D561ADDEA5C5}"
 EndProject
@@ -11,13 +11,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Tests", "..\tests\MPC.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Topology", "MPC.Topology\MPC.Topology.csproj", "{7129C6DA-5963-4DDA-9152-BBF9D0F7DDE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Validation", "MPC.Validation\MPC.Validation.csproj", "{7B9D8690-EC7C-4261-B252-7076F9967442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Connectors", "MPC.Connectors\MPC.Connectors.csproj", "{76C60C13-75CD-46E7-A879-A75683D1F98F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Connectors.Step", "MPC.Connectors.Step\MPC.Connectors.Step.csproj", "{1CC66FBA-BB92-45FE-AD65-E38A9C83FCE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Connectors.Step.Runner", "..\tools\MPC.Connectors.Step.Runner\MPC.Connectors.Step.Runner.csproj", "{999E81FB-C876-4100-8FF5-F1BB49CAE3AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2D660357-D211-4DF5-858C-D561ADDEA5C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +41,24 @@ Global
 		{7129C6DA-5963-4DDA-9152-BBF9D0F7DDE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7129C6DA-5963-4DDA-9152-BBF9D0F7DDE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7129C6DA-5963-4DDA-9152-BBF9D0F7DDE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B9D8690-EC7C-4261-B252-7076F9967442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B9D8690-EC7C-4261-B252-7076F9967442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B9D8690-EC7C-4261-B252-7076F9967442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B9D8690-EC7C-4261-B252-7076F9967442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76C60C13-75CD-46E7-A879-A75683D1F98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C60C13-75CD-46E7-A879-A75683D1F98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C60C13-75CD-46E7-A879-A75683D1F98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C60C13-75CD-46E7-A879-A75683D1F98F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CC66FBA-BB92-45FE-AD65-E38A9C83FCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CC66FBA-BB92-45FE-AD65-E38A9C83FCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CC66FBA-BB92-45FE-AD65-E38A9C83FCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CC66FBA-BB92-45FE-AD65-E38A9C83FCE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{999E81FB-C876-4100-8FF5-F1BB49CAE3AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{999E81FB-C876-4100-8FF5-F1BB49CAE3AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{999E81FB-C876-4100-8FF5-F1BB49CAE3AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{999E81FB-C876-4100-8FF5-F1BB49CAE3AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

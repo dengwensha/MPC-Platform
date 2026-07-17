@@ -23,6 +23,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MPC.Geometry\MPC.Geometry.csproj" />
     <ProjectReference Include="..\..\src\MPC.Topology\MPC.Topology.csproj" />
+    <ProjectReference Include="..\..\src\MPC.Validation\MPC.Validation.csproj" />
+    <ProjectReference Include="..\..\src\MPC.Connectors\MPC.Connectors.csproj" />
+    <ProjectReference Include="..\..\src\MPC.Connectors.Step\MPC.Connectors.Step.csproj" />
   </ItemGroup>
 
 </Project>

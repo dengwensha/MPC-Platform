@@ -97,12 +97,34 @@ public sealed class ShellTests
         var e3 = CreateEdge(v3, v4);
         var e4 = CreateEdge(v4, v1);
 
-        var loop = new Loop(new[] { e1, e2, e3, e4 });
+        var loop = new Loop(
+            new[]
+            {
+                new EdgeUse(
+                    e1,
+                    EdgeUseDirection.Forward),
 
-        return new Face(new TestSurface(), loop);
+                new EdgeUse(
+                    e2,
+                    EdgeUseDirection.Forward),
+
+                new EdgeUse(
+                    e3,
+                    EdgeUseDirection.Forward),
+
+                new EdgeUse(
+                    e4,
+                    EdgeUseDirection.Forward)
+            });
+
+        return new Face(
+            new TestSurface(),
+            loop);
     }
 
-    private static Edge CreateEdge(Vertex start, Vertex end)
+    private static Edge CreateEdge(
+        Vertex start,
+        Vertex end)
     {
         var direction = CreateUnitDirection(
             start.Position,
@@ -111,7 +133,9 @@ public sealed class ShellTests
         return new Edge(
             start,
             end,
-            new Line3D(start.Position, direction));
+            new Line3D(
+                start.Position,
+                direction));
     }
 
     private static Vector3D CreateUnitDirection(

@@ -2,36 +2,81 @@
 
 public sealed class Loop
 {
-    private readonly IReadOnlyList<Edge> _edges;
+    private readonly IReadOnlyList<EdgeUse> _edgeUses;
 
-    public IReadOnlyList<Edge> Edges => _edges;
+    public Guid Id { get; }
 
-    public int Count => _edges.Count;
+    public IReadOnlyList<EdgeUse> EdgeUses => _edgeUses;
 
-    public Loop(IEnumerable<Edge> edges)
+    public Loop(IEnumerable<EdgeUse> edgeUses)
     {
-        if (edges is null)
-            throw new ArgumentNullException(nameof(edges));
+        ArgumentNullException.ThrowIfNull(edgeUses);
 
-        var list = edges.ToList();
+        EdgeUse[] edgeUseArray = edgeUses.ToArray();
 
-        if (list.Count < 3)
-            throw new ArgumentException("A loop must contain at least three edges.", nameof(edges));
+        ValidateEdgeUses(edgeUseArray);
 
-        ValidateConnectedAndClosed(list);
-
-        _edges = list.AsReadOnly();
+        Id = Guid.NewGuid();
+        _edgeUses = Array.AsReadOnly(edgeUseArray);
     }
 
-    private static void ValidateConnectedAndClosed(IReadOnlyList<Edge> edges)
+    private static void ValidateEdgeUses(
+        IReadOnlyList<EdgeUse> edgeUses)
     {
-        for (var i = 0; i < edges.Count; i++)
+        if (edgeUses.Count < 3)
         {
-            var current = edges[i];
-            var next = edges[(i + 1) % edges.Count];
+            throw new ArgumentException(
+                "A loop must contain at least three directed edge uses.",
+                nameof(edgeUses));
+        }
 
-            if (!Equals(current.EndVertex, next.StartVertex))
-                throw new ArgumentException("Edges must form a continuous closed loop.", nameof(edges));
+        for (int index = 0; index < edgeUses.Count; index++)
+        {
+            if (edgeUses[index] is null)
+            {
+                throw new ArgumentException(
+                    "A loop cannot contain a null edge use.",
+                    nameof(edgeUses));
+            }
+        }
+
+        ValidateContinuity(edgeUses);
+        ValidateClosure(edgeUses);
+    }
+
+    private static void ValidateContinuity(
+        IReadOnlyList<EdgeUse> edgeUses)
+    {
+        for (int index = 0; index < edgeUses.Count - 1; index++)
+        {
+            EdgeUse current = edgeUses[index];
+            EdgeUse next = edgeUses[index + 1];
+
+            if (!ReferenceEquals(
+                    current.EndVertex,
+                    next.StartVertex))
+            {
+                throw new ArgumentException(
+                    $"Loop continuity is broken between edge uses " +
+                    $"{index} and {index + 1}.",
+                    nameof(edgeUses));
+            }
+        }
+    }
+
+    private static void ValidateClosure(
+        IReadOnlyList<EdgeUse> edgeUses)
+    {
+        EdgeUse first = edgeUses[0];
+        EdgeUse last = edgeUses[^1];
+
+        if (!ReferenceEquals(
+                last.EndVertex,
+                first.StartVertex))
+        {
+            throw new ArgumentException(
+                "A loop must form a closed topological cycle.",
+                nameof(edgeUses));
         }
     }
 }
