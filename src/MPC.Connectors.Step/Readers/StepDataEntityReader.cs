@@ -7,7 +7,8 @@ using MPC.Connectors.Step.Models;
 
 namespace MPC.Connectors.Step.Readers;
 
-public sealed class StepDataEntityReader : IStepDataEntityReader
+public sealed class StepDataEntityReader
+    : IStepDataEntityReader
 {
     private static readonly Regex SimpleEntityRegex =
         new(
@@ -27,6 +28,18 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
             RegexOptions.IgnoreCase |
             RegexOptions.CultureInvariant);
 
+    private readonly IStepDataInventoryValidator
+        _inventoryValidator;
+
+    public StepDataEntityReader(
+        IStepDataInventoryValidator inventoryValidator)
+    {
+        _inventoryValidator =
+            inventoryValidator ??
+            throw new ArgumentNullException(
+                nameof(inventoryValidator));
+    }
+
     public CadConnectorResult<StepDataInventory> Read(
         string filePath)
     {
@@ -40,7 +53,8 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
         if (!File.Exists(filePath))
         {
             return Failure(
-                code: "STEP_FILE_NOT_FOUND",
+                code:
+                    "STEP_FILE_NOT_FOUND",
                 message:
                     $"STEP file was not found: '{filePath}'.");
         }
@@ -48,7 +62,8 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
         if (!HasSupportedExtension(filePath))
         {
             return Failure(
-                code: "STEP_FILE_EXTENSION_UNSUPPORTED",
+                code:
+                    "STEP_FILE_EXTENSION_UNSUPPORTED",
                 message:
                     "STEP DATA Reader accepts only .step and .stp files.");
         }
@@ -57,14 +72,16 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
 
         try
         {
-            content = File.ReadAllText(
-                filePath,
-                Encoding.UTF8);
+            content =
+                File.ReadAllText(
+                    filePath,
+                    Encoding.UTF8);
         }
         catch (Exception exception)
         {
             return Failure(
-                code: "STEP_FILE_READ_FAILED",
+                code:
+                    "STEP_FILE_READ_FAILED",
                 message:
                     "STEP file could not be read.",
                 exceptionType:
@@ -77,7 +94,8 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
         if (dataSection is null)
         {
             return Failure(
-                code: "STEP_DATA_SECTION_NOT_FOUND",
+                code:
+                    "STEP_DATA_SECTION_NOT_FOUND",
                 message:
                     "A valid DATA...ENDSEC section could not be found.");
         }
@@ -91,17 +109,29 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
         var diagnostics =
             new List<CadDiagnostic>();
 
-        foreach (var statement in statements)
+        foreach (var statement
+                 in statements)
         {
             var record =
-                CreateEntityRecord(statement);
+                CreateEntityRecord(
+                    statement);
 
             entities.Add(record);
-            diagnostics.AddRange(record.Diagnostics);
+
+            diagnostics.AddRange(
+                record.Diagnostics);
         }
 
+        var inventoryDiagnostics =
+            _inventoryValidator.Validate(
+                entities);
+
+        diagnostics.AddRange(
+            inventoryDiagnostics);
+
         var inventory =
-            new StepDataInventory(entities);
+            new StepDataInventory(
+                entities);
 
         if (diagnostics.Count > 0)
         {
@@ -115,8 +145,9 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
             .Success(inventory);
     }
 
-    private static StepDataEntityRecord CreateEntityRecord(
-        string statement)
+    private static StepDataEntityRecord
+        CreateEntityRecord(
+            string statement)
     {
         var normalizedStatement =
             statement.Trim();
@@ -247,10 +278,11 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
                 complexBody);
 
         return matches
-            .Select(match =>
-                match.Groups[1]
-                    .Value
-                    .ToUpperInvariant())
+            .Select(
+                match =>
+                    match.Groups[1]
+                        .Value
+                        .ToUpperInvariant())
             .Distinct(
                 StringComparer.OrdinalIgnoreCase)
             .ToList()
@@ -307,13 +339,15 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
         var searchIndex =
             startIndex;
 
-        while (searchIndex < content.Length)
+        while (searchIndex <
+               content.Length)
         {
             var index =
                 content.IndexOf(
                     keyword,
                     searchIndex,
-                    StringComparison.OrdinalIgnoreCase);
+                    StringComparison
+                        .OrdinalIgnoreCase);
 
             if (index < 0)
             {
@@ -326,10 +360,12 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
                     content[index - 1]);
 
             var afterIndex =
-                index + keyword.Length;
+                index +
+                keyword.Length;
 
             var afterIsValid =
-                afterIndex >= content.Length ||
+                afterIndex >=
+                content.Length ||
                 !IsIdentifierCharacter(
                     content[afterIndex]);
 
@@ -340,7 +376,8 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
             }
 
             searchIndex =
-                index + keyword.Length;
+                index +
+                keyword.Length;
         }
 
         return -1;
@@ -349,12 +386,14 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
     private static bool IsIdentifierCharacter(
         char character)
     {
-        return char.IsLetterOrDigit(character) ||
+        return char.IsLetterOrDigit(
+                   character) ||
                character == '_';
     }
 
-    private static IReadOnlyList<string> SplitStatements(
-        string dataSection)
+    private static IReadOnlyList<string>
+        SplitStatements(
+            string dataSection)
     {
         var statements =
             new List<string>();
@@ -374,7 +413,8 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
 
             if (character == '\'')
             {
-                current.Append(character);
+                current.Append(
+                    character);
 
                 if (insideString &&
                     index + 1 <
@@ -414,7 +454,8 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
                 continue;
             }
 
-            current.Append(character);
+            current.Append(
+                character);
         }
 
         var remaining =
@@ -425,27 +466,32 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
         if (!string.IsNullOrWhiteSpace(
                 remaining))
         {
-            statements.Add(remaining);
+            statements.Add(
+                remaining);
         }
 
         return statements.AsReadOnly();
     }
 
-    private static string? TryReadSourceEntityId(
-        string statement)
+    private static string?
+        TryReadSourceEntityId(
+            string statement)
     {
         var trimmed =
             statement.TrimStart();
 
-        if (!trimmed.StartsWith('#'))
+        if (!trimmed.StartsWith(
+                '#'))
         {
             return null;
         }
 
         var index = 1;
 
-        while (index < trimmed.Length &&
-               char.IsDigit(trimmed[index]))
+        while (index <
+                   trimmed.Length &&
+               char.IsDigit(
+                   trimmed[index]))
         {
             index++;
         }
@@ -459,17 +505,21 @@ public sealed class StepDataEntityReader : IStepDataEntityReader
         string filePath)
     {
         var extension =
-            Path.GetExtension(filePath);
+            Path.GetExtension(
+                filePath);
 
         return extension.Equals(
                    ".step",
-                   StringComparison.OrdinalIgnoreCase) ||
+                   StringComparison
+                       .OrdinalIgnoreCase) ||
                extension.Equals(
                    ".stp",
-                   StringComparison.OrdinalIgnoreCase);
+                   StringComparison
+                       .OrdinalIgnoreCase);
     }
 
-    private static CadConnectorResult<StepDataInventory>
+    private static
+        CadConnectorResult<StepDataInventory>
         Failure(
             string code,
             string message,

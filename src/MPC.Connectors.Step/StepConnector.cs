@@ -3,6 +3,7 @@ using MPC.Connectors.Snapshots;
 using MPC.Connectors.Snapshots.Entities;
 using MPC.Connectors.Snapshots.Source;
 using MPC.Connectors.Step.Contracts;
+using MPC.Connectors.Step.Models;
 
 namespace MPC.Connectors.Step;
 
@@ -86,14 +87,16 @@ public sealed class StepConnector
                 .Concat(unitResult.Diagnostics)
                 .ToList();
 
+        var entities =
+            ProjectEntities(
+                dataResult.Value!);
+
         var snapshot =
             new CadModelSnapshot(
                 source: source,
                 units: unitResult.Value!,
-                entities:
-                    Array.Empty<CadEntitySnapshot>(),
-                diagnostics:
-                    diagnostics);
+                entities: entities,
+                diagnostics: diagnostics);
 
         if (diagnostics.Count > 0)
         {
@@ -105,6 +108,97 @@ public sealed class StepConnector
 
         return CadConnectorResult<CadModelSnapshot>
             .Success(snapshot);
+    }
+
+    private static IReadOnlyList<CadEntitySnapshot> ProjectEntities(
+        StepDataInventory inventory)
+    {
+        ArgumentNullException.ThrowIfNull(inventory);
+
+        return inventory.Entities
+            .OrderBy(
+                entity => ResolveEntityIdGroup(
+                    entity.SourceEntityId))
+            .ThenBy(
+                entity => ResolveNumericEntityId(
+                    entity.SourceEntityId))
+            .ThenBy(
+                entity => entity.SourceEntityId,
+                StringComparer.Ordinal)
+            .ThenBy(
+                entity => entity.SourceEntityType,
+                StringComparer.Ordinal)
+            .ThenBy(
+                entity => entity.RawStatement,
+                StringComparer.Ordinal)
+            .Select(
+                entity =>
+                    new CadEntitySnapshot(
+                        sourceEntityId:
+                            entity.SourceEntityId,
+                        sourceEntityType:
+                            entity.SourceEntityType,
+                        category:
+                            CadEntityCategory.Unknown,
+                        readStatus:
+                            entity.ReadStatus,
+                        diagnostics:
+                            entity.Diagnostics))
+            .ToArray();
+    }
+
+    private static int ResolveEntityIdGroup(
+        string? sourceEntityId)
+    {
+        if (TryResolveNumericEntityId(
+                sourceEntityId,
+                out _))
+        {
+            return 0;
+        }
+
+        return sourceEntityId is null
+            ? 2
+            : 1;
+    }
+
+    private static long ResolveNumericEntityId(
+        string? sourceEntityId)
+    {
+        return TryResolveNumericEntityId(
+            sourceEntityId,
+            out var numericEntityId)
+                ? numericEntityId
+                : long.MaxValue;
+    }
+
+    private static bool TryResolveNumericEntityId(
+        string? sourceEntityId,
+        out long numericEntityId)
+    {
+        numericEntityId = default;
+
+        if (string.IsNullOrWhiteSpace(
+                sourceEntityId))
+        {
+            return false;
+        }
+
+        var normalizedId =
+            sourceEntityId.Trim();
+
+        if (normalizedId.StartsWith(
+                '#'))
+        {
+            normalizedId =
+                normalizedId[1..];
+        }
+
+        return long.TryParse(
+            normalizedId,
+            System.Globalization.NumberStyles.None,
+            System.Globalization.CultureInfo.InvariantCulture,
+            out numericEntityId);
     }
 
     private static string ResolveSourceFormat(

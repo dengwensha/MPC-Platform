@@ -1,9 +1,9 @@
 ﻿using MPC.Connectors.Results;
 using MPC.Connectors.Step;
-using MPC.Connectors.Step.Contracts;
 using MPC.Connectors.Step.Models;
 using MPC.Connectors.Step.Readers;
 using MPC.Connectors.Step.Resolution;
+using MPC.Connectors.Step.Validation;
 
 if (args.Length != 1)
 {
@@ -19,8 +19,12 @@ var filePath =
 var headerReader =
     new StepHeaderReader();
 
+var inventoryValidator =
+    new StepDataInventoryValidator();
+
 var dataReader =
-    new StepDataEntityReader();
+    new StepDataEntityReader(
+        inventoryValidator);
 
 var unitResolver =
     new StepUnitResolver();
