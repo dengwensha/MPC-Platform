@@ -8,18 +8,80 @@ namespace MPC.Connectors.Step.Validation;
 public sealed class StepDataInventoryValidator
     : IStepDataInventoryValidator
 {
+    private const string DuplicateSourceEntityIdCode =
+        "STEP_DUPLICATE_SOURCE_ENTITY_ID";
+
+    private const string MissingEntityReferenceCode =
+        "STEP_MISSING_ENTITY_REFERENCE";
+
     public IReadOnlyList<CadDiagnostic> Validate(
         IReadOnlyList<StepDataEntityRecord> entities)
     {
-        ArgumentNullException.ThrowIfNull(entities);
+        ArgumentNullException.ThrowIfNull(
+            entities);
 
-        var duplicateGroups =
+        var indexedEntities =
             entities
                 .Select(
                     (entity, index) =>
                         CreateIndexedEntity(
                             entity,
                             index))
+                .ToArray();
+
+        var diagnosticCandidates =
+            new List<DiagnosticCandidate>();
+
+        AddDuplicateSourceEntityIdDiagnostics(
+            indexedEntities,
+            diagnosticCandidates);
+
+        AddMissingEntityReferenceDiagnostics(
+            indexedEntities,
+            diagnosticCandidates);
+
+        if (diagnosticCandidates.Count == 0)
+        {
+            return Array.Empty<CadDiagnostic>();
+        }
+
+        return diagnosticCandidates
+            .OrderBy(
+                candidate =>
+                    candidate.NumericSourceEntityId
+                        is null)
+            .ThenBy(
+                candidate =>
+                    candidate.NumericSourceEntityId)
+            .ThenBy(
+                candidate =>
+                    candidate.NumericTargetEntityId
+                        is not null)
+            .ThenBy(
+                candidate =>
+                    candidate.NumericTargetEntityId)
+            .ThenBy(
+                candidate =>
+                    candidate.Code,
+                StringComparer.Ordinal)
+            .ThenBy(
+                candidate =>
+                    candidate.OriginalIndex)
+            .Select(
+                candidate =>
+                    candidate.Diagnostic)
+            .ToList()
+            .AsReadOnly();
+    }
+
+    private static void
+        AddDuplicateSourceEntityIdDiagnostics(
+            IReadOnlyList<IndexedEntity> indexedEntities,
+            ICollection<DiagnosticCandidate>
+                diagnosticCandidates)
+    {
+        var duplicateGroups =
+            indexedEntities
                 .Where(
                     item =>
                         item.NumericSourceEntityId
@@ -32,24 +94,17 @@ public sealed class StepDataInventoryValidator
                         group.Count() > 1)
                 .OrderBy(
                     group =>
-                        group.Key)
-                .ToArray();
-
-        if (duplicateGroups.Length == 0)
-        {
-            return Array.Empty<CadDiagnostic>();
-        }
-
-        var diagnostics =
-            new List<CadDiagnostic>(
-                duplicateGroups.Length);
+                        group.Key);
 
         foreach (var duplicateGroup
                  in duplicateGroups)
         {
+            var numericSourceEntityId =
+                duplicateGroup.Key;
+
             var canonicalSourceEntityId =
                 CreateCanonicalSourceEntityId(
-                    duplicateGroup.Key);
+                    numericSourceEntityId);
 
             var duplicateCount =
                 duplicateGroup.Count();
@@ -72,10 +127,10 @@ public sealed class StepDataInventoryValidator
                     ? sourceEntityTypes[0]
                     : "MULTIPLE";
 
-            diagnostics.Add(
+            var diagnostic =
                 new CadDiagnostic(
                     code:
-                        "STEP_DUPLICATE_SOURCE_ENTITY_ID",
+                        DuplicateSourceEntityIdCode,
                     severity:
                         CadDiagnosticSeverity.Error,
                     message:
@@ -86,38 +141,173 @@ public sealed class StepDataInventoryValidator
                     sourceEntityId:
                         canonicalSourceEntityId,
                     sourceEntityType:
-                        sourceEntityType));
-        }
+                        sourceEntityType);
 
-        return diagnostics.AsReadOnly();
+            diagnosticCandidates.Add(
+                new DiagnosticCandidate(
+                    Diagnostic:
+                        diagnostic,
+                    Code:
+                        DuplicateSourceEntityIdCode,
+                    NumericSourceEntityId:
+                        numericSourceEntityId,
+                    NumericTargetEntityId:
+                        null,
+                    OriginalIndex:
+                        duplicateGroup
+                            .Min(
+                                item =>
+                                    item.OriginalIndex)));
+        }
+    }
+
+    private static void
+        AddMissingEntityReferenceDiagnostics(
+            IReadOnlyList<IndexedEntity> indexedEntities,
+            ICollection<DiagnosticCandidate>
+                diagnosticCandidates)
+    {
+        var declaredEntityIds =
+            indexedEntities
+                .Where(
+                    entity =>
+                        entity.NumericSourceEntityId
+                            is not null)
+                .Select(
+                    entity =>
+                        entity.NumericSourceEntityId!.Value)
+                .ToHashSet();
+
+        foreach (var indexedEntity
+                 in indexedEntities)
+        {
+            var uniqueReferences =
+                indexedEntity
+                    .Entity
+                    .ReferencedEntityIds
+                    .Select(
+                        referencedEntityId =>
+                            new ParsedReference(
+                                OriginalEntityId:
+                                    referencedEntityId,
+                                NumericEntityId:
+                                    TryParseNumericEntityId(
+                                        referencedEntityId)))
+                    .Where(
+                        reference =>
+                            reference.NumericEntityId
+                                is not null)
+                    .GroupBy(
+                        reference =>
+                            reference.NumericEntityId!.Value)
+                    .Select(
+                        group =>
+                            group.First())
+                    .OrderBy(
+                        reference =>
+                            reference.NumericEntityId!.Value)
+                    .ToArray();
+
+            foreach (var reference
+                     in uniqueReferences)
+            {
+                var numericTargetEntityId =
+                    reference
+                        .NumericEntityId!.Value;
+
+                if (declaredEntityIds.Contains(
+                        numericTargetEntityId))
+                {
+                    continue;
+                }
+
+                var canonicalTargetEntityId =
+                    CreateCanonicalSourceEntityId(
+                        numericTargetEntityId);
+
+                var canonicalSourceEntityId =
+                    indexedEntity
+                        .NumericSourceEntityId
+                        is not null
+                        ? CreateCanonicalSourceEntityId(
+                            indexedEntity
+                                .NumericSourceEntityId
+                                .Value)
+                        : indexedEntity
+                            .Entity
+                            .SourceEntityId;
+
+                var sourceEntityDescription =
+                    canonicalSourceEntityId ??
+                    "Unknown";
+
+                var diagnostic =
+                    new CadDiagnostic(
+                        code:
+                            MissingEntityReferenceCode,
+                        severity:
+                            CadDiagnosticSeverity.Error,
+                        message:
+                            $"STEP entity " +
+                            $"'{sourceEntityDescription}' " +
+                            $"references missing entity " +
+                            $"'{canonicalTargetEntityId}'. " +
+                            "The source entity and reference " +
+                            "were preserved.",
+                        sourceEntityId:
+                            canonicalSourceEntityId,
+                        sourceEntityType:
+                            indexedEntity
+                                .Entity
+                                .SourceEntityType);
+
+                diagnosticCandidates.Add(
+                    new DiagnosticCandidate(
+                        Diagnostic:
+                            diagnostic,
+                        Code:
+                            MissingEntityReferenceCode,
+                        NumericSourceEntityId:
+                            indexedEntity
+                                .NumericSourceEntityId,
+                        NumericTargetEntityId:
+                            numericTargetEntityId,
+                        OriginalIndex:
+                            indexedEntity
+                                .OriginalIndex));
+            }
+        }
     }
 
     private static IndexedEntity CreateIndexedEntity(
         StepDataEntityRecord entity,
         int index)
     {
-        ArgumentNullException.ThrowIfNull(entity);
+        ArgumentNullException.ThrowIfNull(
+            entity);
 
         return new IndexedEntity(
-            Entity: entity,
-            OriginalIndex: index,
+            Entity:
+                entity,
+            OriginalIndex:
+                index,
             NumericSourceEntityId:
-                TryParseNumericSourceEntityId(
+                TryParseNumericEntityId(
                     entity.SourceEntityId));
     }
 
     private static BigInteger?
-        TryParseNumericSourceEntityId(
-            string? sourceEntityId)
+        TryParseNumericEntityId(
+            string? entityId)
     {
         if (string.IsNullOrWhiteSpace(
-                sourceEntityId))
+                entityId))
         {
             return null;
         }
 
         var normalized =
-            sourceEntityId.Trim();
+            entityId.Trim();
 
         if (!normalized.StartsWith(
                 '#'))
@@ -141,29 +331,40 @@ public sealed class StepDataInventoryValidator
 
         if (!BigInteger.TryParse(
                 numericPart,
-                out var numericSourceEntityId))
+                out var numericEntityId))
         {
             return null;
         }
 
-        if (numericSourceEntityId < 0)
+        if (numericEntityId < 0)
         {
             return null;
         }
 
-        return numericSourceEntityId;
+        return numericEntityId;
     }
 
     private static string
         CreateCanonicalSourceEntityId(
-            BigInteger numericSourceEntityId)
+            BigInteger numericEntityId)
     {
         return
-            $"#{numericSourceEntityId}";
+            $"#{numericEntityId}";
     }
 
     private sealed record IndexedEntity(
         StepDataEntityRecord Entity,
         int OriginalIndex,
         BigInteger? NumericSourceEntityId);
+
+    private sealed record ParsedReference(
+        string OriginalEntityId,
+        BigInteger? NumericEntityId);
+
+    private sealed record DiagnosticCandidate(
+        CadDiagnostic Diagnostic,
+        string Code,
+        BigInteger? NumericSourceEntityId,
+        BigInteger? NumericTargetEntityId,
+        int OriginalIndex);
 }

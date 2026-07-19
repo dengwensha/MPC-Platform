@@ -89,7 +89,8 @@ public sealed class StepDataEntityReader
         }
 
         var dataSection =
-            ExtractDataSection(content);
+            ExtractDataSection(
+                content);
 
         if (dataSection is null)
         {
@@ -101,7 +102,8 @@ public sealed class StepDataEntityReader
         }
 
         var statements =
-            SplitStatements(dataSection);
+            SplitStatements(
+                dataSection);
 
         var entities =
             new List<StepDataEntityRecord>();
@@ -116,7 +118,8 @@ public sealed class StepDataEntityReader
                 CreateEntityRecord(
                     statement);
 
-            entities.Add(record);
+            entities.Add(
+                record);
 
             diagnostics.AddRange(
                 record.Diagnostics);
@@ -142,7 +145,8 @@ public sealed class StepDataEntityReader
         }
 
         return CadConnectorResult<StepDataInventory>
-            .Success(inventory);
+            .Success(
+                inventory);
     }
 
     private static StepDataEntityRecord
@@ -151,6 +155,10 @@ public sealed class StepDataEntityReader
     {
         var normalizedStatement =
             statement.Trim();
+
+        var referencedEntityIds =
+            ExtractReferencedEntityIds(
+                normalizedStatement);
 
         var simpleMatch =
             SimpleEntityRegex.Match(
@@ -168,7 +176,9 @@ public sealed class StepDataEntityReader
                 rawStatement:
                     normalizedStatement,
                 readStatus:
-                    CadReadStatus.Complete);
+                    CadReadStatus.Complete,
+                referencedEntityIds:
+                    referencedEntityIds);
         }
 
         var complexMatch =
@@ -193,7 +203,9 @@ public sealed class StepDataEntityReader
                     readStatus:
                         CadReadStatus.Complete,
                     componentTypes:
-                        componentTypes);
+                        componentTypes,
+                    referencedEntityIds:
+                        referencedEntityIds);
             }
 
             var complexDiagnostic =
@@ -222,7 +234,9 @@ public sealed class StepDataEntityReader
                     new[]
                     {
                         complexDiagnostic
-                    });
+                    },
+                referencedEntityIds:
+                    referencedEntityIds);
         }
 
         var sourceEntityId =
@@ -255,7 +269,137 @@ public sealed class StepDataEntityReader
                 new[]
                 {
                     diagnostic
-                });
+                },
+            referencedEntityIds:
+                referencedEntityIds);
+    }
+
+    private static IReadOnlyList<string>
+        ExtractReferencedEntityIds(
+            string statement)
+    {
+        var equalsIndex =
+            FindEqualsOutsideString(
+                statement);
+
+        if (equalsIndex < 0 ||
+            equalsIndex + 1 >=
+            statement.Length)
+        {
+            return Array.Empty<string>();
+        }
+
+        var referencedEntityIds =
+            new List<string>();
+
+        var insideString =
+            false;
+
+        for (var index =
+                 equalsIndex + 1;
+             index <
+             statement.Length;
+             index++)
+        {
+            var character =
+                statement[index];
+
+            if (character == '\'')
+            {
+                if (insideString &&
+                    index + 1 <
+                    statement.Length &&
+                    statement[index + 1] ==
+                    '\'')
+                {
+                    index++;
+                    continue;
+                }
+
+                insideString =
+                    !insideString;
+
+                continue;
+            }
+
+            if (insideString ||
+                character != '#')
+            {
+                continue;
+            }
+
+            var digitStart =
+                index + 1;
+
+            var digitEnd =
+                digitStart;
+
+            while (digitEnd <
+                       statement.Length &&
+                   char.IsDigit(
+                       statement[digitEnd]))
+            {
+                digitEnd++;
+            }
+
+            if (digitEnd ==
+                digitStart)
+            {
+                continue;
+            }
+
+            referencedEntityIds.Add(
+                statement[
+                    index..digitEnd]);
+
+            index =
+                digitEnd - 1;
+        }
+
+        return referencedEntityIds
+            .AsReadOnly();
+    }
+
+    private static int FindEqualsOutsideString(
+        string statement)
+    {
+        var insideString =
+            false;
+
+        for (var index = 0;
+             index <
+             statement.Length;
+             index++)
+        {
+            var character =
+                statement[index];
+
+            if (character == '\'')
+            {
+                if (insideString &&
+                    index + 1 <
+                    statement.Length &&
+                    statement[index + 1] ==
+                    '\'')
+                {
+                    index++;
+                    continue;
+                }
+
+                insideString =
+                    !insideString;
+
+                continue;
+            }
+
+            if (!insideString &&
+                character == '=')
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
     private static IReadOnlyList<string>
@@ -271,7 +415,8 @@ public sealed class StepDataEntityReader
         }
 
         var complexBody =
-            statement[(equalsIndex + 1)..];
+            statement[
+                (equalsIndex + 1)..];
 
         var matches =
             ComplexComponentRegex.Matches(
@@ -296,7 +441,8 @@ public sealed class StepDataEntityReader
             FindKeywordStatement(
                 content,
                 "DATA",
-                startIndex: 0);
+                startIndex:
+                    0);
 
         if (dataStart < 0)
         {
@@ -405,7 +551,8 @@ public sealed class StepDataEntityReader
             false;
 
         for (var index = 0;
-             index < dataSection.Length;
+             index <
+             dataSection.Length;
              index++)
         {
             var character =
@@ -470,7 +617,8 @@ public sealed class StepDataEntityReader
                 remaining);
         }
 
-        return statements.AsReadOnly();
+        return statements
+            .AsReadOnly();
     }
 
     private static string?
@@ -486,7 +634,8 @@ public sealed class StepDataEntityReader
             return null;
         }
 
-        var index = 1;
+        var index =
+            1;
 
         while (index <
                    trimmed.Length &&

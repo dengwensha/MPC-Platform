@@ -29,8 +29,12 @@ public sealed class StepDataEntityReaderTests
                 DATA;
                 #1 = APPLICATION_CONTEXT('configuration controlled 3d designs');
                 #2 = PRODUCT('PART','PART','',(#1));
+                #10 = FACE_BOUND('',#20,.T.);
+                #20 = PLANE('',#44);
                 #42 = ADVANCED_FACE('',(#10),#20,.T.);
                 #43 = CYLINDRICAL_SURFACE('',#44,0.025);
+                #44 = AXIS2_PLACEMENT_3D('',#45,$,$);
+                #45 = CARTESIAN_POINT('',(0.0,0.0,0.0));
                 ENDSEC;
                 END-ISO-10303-21;
                 """);
@@ -41,7 +45,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus.Succeeded,
@@ -51,7 +56,7 @@ public sealed class StepDataEntityReaderTests
                 result.Value);
 
             Assert.Equal(
-                4,
+                8,
                 result.Value.TotalEntityCount);
 
             Assert.Equal(
@@ -86,7 +91,8 @@ public sealed class StepDataEntityReaderTests
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
         }
     }
 
@@ -107,6 +113,8 @@ public sealed class StepDataEntityReaderTests
                     'Cylinder Surface',
                     #101,
                     0.025);
+                #101 = AXIS2_PLACEMENT_3D('',#102,$,$);
+                #102 = CARTESIAN_POINT('',(0.0,0.0,0.0));
                 ENDSEC;
                 END-ISO-10303-21;
                 """);
@@ -117,7 +125,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus.Succeeded,
@@ -125,11 +134,10 @@ public sealed class StepDataEntityReaderTests
 
             var entity =
                 Assert.Single(
-                    result.Value!.Entities);
-
-            Assert.Equal(
-                "#100",
-                entity.SourceEntityId);
+                    result.Value!.Entities,
+                    item =>
+                        item.SourceEntityId ==
+                        "#100");
 
             Assert.Equal(
                 "CYLINDRICAL_SURFACE",
@@ -142,10 +150,18 @@ public sealed class StepDataEntityReaderTests
             Assert.EndsWith(
                 ";",
                 entity.RawStatement);
+
+            Assert.Equal(
+                new[]
+                {
+                    "#101"
+                },
+                entity.ReferencedEntityIds);
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
         }
     }
 
@@ -174,7 +190,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus.Succeeded,
@@ -192,7 +209,451 @@ public sealed class StepDataEntityReaderTests
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
+        }
+    }
+
+    [Fact]
+    public void Read_WithEntityReferences_PreservesSourceOrderAndDuplicates()
+    {
+        var filePath =
+            CreateTemporaryStepFile(
+                """
+                ISO-10303-21;
+                HEADER;
+                FILE_DESCRIPTION(('ISO 10303-21'),'2;1');
+                FILE_NAME('Part.step','',('MPC'),('MPC'),'','','');
+                FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+                ENDSEC;
+                DATA;
+                #5 = CARTESIAN_POINT('',(0.0,0.0,0.0));
+                #7 = CARTESIAN_POINT('',(1.0,0.0,0.0));
+                #8 = CARTESIAN_POINT('',(0.0,1.0,0.0));
+                #42 = TEST_ENTITY(#5,(#7,#8),#5);
+                ENDSEC;
+                END-ISO-10303-21;
+                """);
+
+        try
+        {
+            var reader =
+                CreateReader();
+
+            var result =
+                reader.Read(
+                    filePath);
+
+            Assert.Equal(
+                CadConnectorResultStatus.Succeeded,
+                result.Status);
+
+            var entity =
+                Assert.Single(
+                    result.Value!.Entities,
+                    item =>
+                        item.SourceEntityId ==
+                        "#42");
+
+            Assert.Equal(
+                new[]
+                {
+                    "#5",
+                    "#7",
+                    "#8",
+                    "#5"
+                },
+                entity.ReferencedEntityIds);
+
+            Assert.Empty(
+                result.Diagnostics);
+        }
+        finally
+        {
+            File.Delete(
+                filePath);
+        }
+    }
+
+    [Fact]
+    public void Read_WithReferenceLikeTextInsideString_DoesNotExtractStringContent()
+    {
+        var filePath =
+            CreateTemporaryStepFile(
+                """
+                ISO-10303-21;
+                HEADER;
+                FILE_DESCRIPTION(('ISO 10303-21'),'2;1');
+                FILE_NAME('Part.step','',('MPC'),('MPC'),'','','');
+                FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+                ENDSEC;
+                DATA;
+                #5 = CARTESIAN_POINT('',(0.0,0.0,0.0));
+                #42 = TEST_ENTITY('Text containing #999',#5);
+                ENDSEC;
+                END-ISO-10303-21;
+                """);
+
+        try
+        {
+            var reader =
+                CreateReader();
+
+            var result =
+                reader.Read(
+                    filePath);
+
+            Assert.Equal(
+                CadConnectorResultStatus.Succeeded,
+                result.Status);
+
+            var entity =
+                Assert.Single(
+                    result.Value!.Entities,
+                    item =>
+                        item.SourceEntityId ==
+                        "#42");
+
+            Assert.Equal(
+                new[]
+                {
+                    "#5"
+                },
+                entity.ReferencedEntityIds);
+
+            Assert.DoesNotContain(
+                "#999",
+                entity.ReferencedEntityIds);
+
+            Assert.Empty(
+                result.Diagnostics);
+        }
+        finally
+        {
+            File.Delete(
+                filePath);
+        }
+    }
+
+    [Fact]
+    public void Read_WithMissingEntityReference_PreservesEntityAndReportsDiagnostic()
+    {
+        var filePath =
+            CreateTemporaryStepFile(
+                """
+                ISO-10303-21;
+                HEADER;
+                FILE_DESCRIPTION(('ISO 10303-21'),'2;1');
+                FILE_NAME('Part.step','',('MPC'),('MPC'),'','','');
+                FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+                ENDSEC;
+                DATA;
+                #42 = TEST_ENTITY(#999);
+                ENDSEC;
+                END-ISO-10303-21;
+                """);
+
+        try
+        {
+            var reader =
+                CreateReader();
+
+            var result =
+                reader.Read(
+                    filePath);
+
+            Assert.Equal(
+                CadConnectorResultStatus
+                    .SucceededWithDiagnostics,
+                result.Status);
+
+            var entity =
+                Assert.Single(
+                    result.Value!.Entities);
+
+            Assert.Equal(
+                "#42",
+                entity.SourceEntityId);
+
+            Assert.Equal(
+                new[]
+                {
+                    "#999"
+                },
+                entity.ReferencedEntityIds);
+
+            var diagnostic =
+                Assert.Single(
+                    result.Diagnostics,
+                    item =>
+                        item.Code ==
+                        "STEP_MISSING_ENTITY_REFERENCE");
+
+            Assert.Equal(
+                CadDiagnosticSeverity.Error,
+                diagnostic.Severity);
+
+            Assert.Equal(
+                "#42",
+                diagnostic.SourceEntityId);
+
+            Assert.Contains(
+                "#999",
+                diagnostic.Message);
+        }
+        finally
+        {
+            File.Delete(
+                filePath);
+        }
+    }
+
+    [Fact]
+    public void Read_WithRepeatedMissingReference_ReportsSingleDiagnostic()
+    {
+        var filePath =
+            CreateTemporaryStepFile(
+                """
+                ISO-10303-21;
+                HEADER;
+                FILE_DESCRIPTION(('ISO 10303-21'),'2;1');
+                FILE_NAME('Part.step','',('MPC'),('MPC'),'','','');
+                FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+                ENDSEC;
+                DATA;
+                #42 = TEST_ENTITY(#999,(#999,#999));
+                ENDSEC;
+                END-ISO-10303-21;
+                """);
+
+        try
+        {
+            var reader =
+                CreateReader();
+
+            var result =
+                reader.Read(
+                    filePath);
+
+            Assert.Equal(
+                CadConnectorResultStatus
+                    .SucceededWithDiagnostics,
+                result.Status);
+
+            var entity =
+                Assert.Single(
+                    result.Value!.Entities);
+
+            Assert.Equal(
+                new[]
+                {
+                    "#999",
+                    "#999",
+                    "#999"
+                },
+                entity.ReferencedEntityIds);
+
+            var diagnostics =
+                result.Diagnostics
+                    .Where(
+                        item =>
+                            item.Code ==
+                            "STEP_MISSING_ENTITY_REFERENCE")
+                    .ToArray();
+
+            var diagnostic =
+                Assert.Single(
+                    diagnostics);
+
+            Assert.Equal(
+                "#42",
+                diagnostic.SourceEntityId);
+
+            Assert.Contains(
+                "#999",
+                diagnostic.Message);
+        }
+        finally
+        {
+            File.Delete(
+                filePath);
+        }
+    }
+
+    [Fact]
+    public void Read_WithMultipleMissingReferences_ReportsOneDiagnosticPerTarget()
+    {
+        var filePath =
+            CreateTemporaryStepFile(
+                """
+                ISO-10303-21;
+                HEADER;
+                FILE_DESCRIPTION(('ISO 10303-21'),'2;1');
+                FILE_NAME('Part.step','',('MPC'),('MPC'),'','','');
+                FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+                ENDSEC;
+                DATA;
+                #42 = TEST_ENTITY(#100,#75,#100);
+                ENDSEC;
+                END-ISO-10303-21;
+                """);
+
+        try
+        {
+            var reader =
+                CreateReader();
+
+            var result =
+                reader.Read(
+                    filePath);
+
+            Assert.Equal(
+                CadConnectorResultStatus
+                    .SucceededWithDiagnostics,
+                result.Status);
+
+            var diagnostics =
+                result.Diagnostics
+                    .Where(
+                        item =>
+                            item.Code ==
+                            "STEP_MISSING_ENTITY_REFERENCE")
+                    .ToArray();
+
+            Assert.Equal(
+                2,
+                diagnostics.Length);
+
+            Assert.Contains(
+                diagnostics,
+                diagnostic =>
+                    diagnostic.Message.Contains(
+                        "#75",
+                        StringComparison.Ordinal));
+
+            Assert.Contains(
+                diagnostics,
+                diagnostic =>
+                    diagnostic.Message.Contains(
+                        "#100",
+                        StringComparison.Ordinal));
+        }
+        finally
+        {
+            File.Delete(
+                filePath);
+        }
+    }
+
+    [Fact]
+    public void Read_WithEquivalentNumericReference_RecognizesDeclaredTarget()
+    {
+        var filePath =
+            CreateTemporaryStepFile(
+                """
+                ISO-10303-21;
+                HEADER;
+                FILE_DESCRIPTION(('ISO 10303-21'),'2;1');
+                FILE_NAME('Part.step','',('MPC'),('MPC'),'','','');
+                FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+                ENDSEC;
+                DATA;
+                #025 = CARTESIAN_POINT('',(0.0,0.0,0.0));
+                #42 = TEST_ENTITY(#25);
+                ENDSEC;
+                END-ISO-10303-21;
+                """);
+
+        try
+        {
+            var reader =
+                CreateReader();
+
+            var result =
+                reader.Read(
+                    filePath);
+
+            Assert.Equal(
+                CadConnectorResultStatus.Succeeded,
+                result.Status);
+
+            var entity =
+                Assert.Single(
+                    result.Value!.Entities,
+                    item =>
+                        item.SourceEntityId ==
+                        "#42");
+
+            Assert.Equal(
+                new[]
+                {
+                    "#25"
+                },
+                entity.ReferencedEntityIds);
+
+            Assert.DoesNotContain(
+                result.Diagnostics,
+                diagnostic =>
+                    diagnostic.Code ==
+                    "STEP_MISSING_ENTITY_REFERENCE");
+        }
+        finally
+        {
+            File.Delete(
+                filePath);
+        }
+    }
+
+    [Fact]
+    public void Read_WithDuplicateTargetIds_DoesNotReportMissingReference()
+    {
+        var filePath =
+            CreateTemporaryStepFile(
+                """
+                ISO-10303-21;
+                HEADER;
+                FILE_DESCRIPTION(('ISO 10303-21'),'2;1');
+                FILE_NAME('Part.step','',('MPC'),('MPC'),'','','');
+                FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+                ENDSEC;
+                DATA;
+                #25 = CARTESIAN_POINT('',(0.0,0.0,0.0));
+                #025 = DIRECTION('',(1.0,0.0,0.0));
+                #42 = TEST_ENTITY(#25);
+                ENDSEC;
+                END-ISO-10303-21;
+                """);
+
+        try
+        {
+            var reader =
+                CreateReader();
+
+            var result =
+                reader.Read(
+                    filePath);
+
+            Assert.Equal(
+                CadConnectorResultStatus
+                    .SucceededWithDiagnostics,
+                result.Status);
+
+            Assert.Contains(
+                result.Diagnostics,
+                diagnostic =>
+                    diagnostic.Code ==
+                    "STEP_DUPLICATE_SOURCE_ENTITY_ID");
+
+            Assert.DoesNotContain(
+                result.Diagnostics,
+                diagnostic =>
+                    diagnostic.Code ==
+                    "STEP_MISSING_ENTITY_REFERENCE");
+        }
+        finally
+        {
+            File.Delete(
+                filePath);
         }
     }
 
@@ -209,7 +670,7 @@ public sealed class StepDataEntityReaderTests
                 FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
                 ENDSEC;
                 DATA;
-                #1 = PRODUCT('PART','PART','',(#2));
+                #1 = PRODUCT('PART','PART','',());
                 INVALID DATA RECORD;
                 ENDSEC;
                 END-ISO-10303-21;
@@ -221,7 +682,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus
@@ -251,7 +713,8 @@ public sealed class StepDataEntityReaderTests
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
         }
     }
 
@@ -280,7 +743,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus
@@ -330,7 +794,8 @@ public sealed class StepDataEntityReaderTests
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
         }
     }
 
@@ -359,7 +824,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus
@@ -383,7 +849,8 @@ public sealed class StepDataEntityReaderTests
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
         }
     }
 
@@ -408,7 +875,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus.Failed,
@@ -420,7 +888,8 @@ public sealed class StepDataEntityReaderTests
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
         }
     }
 
@@ -447,7 +916,8 @@ public sealed class StepDataEntityReaderTests
                 CreateReader();
 
             var result =
-                reader.Read(filePath);
+                reader.Read(
+                    filePath);
 
             Assert.Equal(
                 CadConnectorResultStatus.Succeeded,
@@ -459,7 +929,8 @@ public sealed class StepDataEntityReaderTests
         }
         finally
         {
-            File.Delete(filePath);
+            File.Delete(
+                filePath);
         }
     }
 
@@ -467,8 +938,10 @@ public sealed class StepDataEntityReaderTests
     public void Constructor_WithNullInventoryValidator_ThrowsArgumentNullException()
     {
         Assert.Throws<ArgumentNullException>(
-            () => new StepDataEntityReader(
-                inventoryValidator: null!));
+            () =>
+                new StepDataEntityReader(
+                    inventoryValidator:
+                        null!));
     }
 
     private static StepDataEntityReader
