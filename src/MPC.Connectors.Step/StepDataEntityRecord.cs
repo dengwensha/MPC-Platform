@@ -6,6 +6,7 @@ public sealed class StepDataEntityRecord
 {
     private readonly IReadOnlyList<string> _componentTypes;
     private readonly IReadOnlyList<CadDiagnostic> _diagnostics;
+    private readonly IReadOnlyList<string> _referencedEntityIds;
 
     public string? SourceEntityId { get; }
 
@@ -24,13 +25,17 @@ public sealed class StepDataEntityRecord
     public IReadOnlyList<CadDiagnostic> Diagnostics =>
         _diagnostics;
 
+    public IReadOnlyList<string> ReferencedEntityIds =>
+        _referencedEntityIds;
+
     public StepDataEntityRecord(
         string? sourceEntityId,
         string sourceEntityType,
         string rawStatement,
         CadReadStatus readStatus,
         IEnumerable<string>? componentTypes = null,
-        IEnumerable<CadDiagnostic>? diagnostics = null)
+        IEnumerable<CadDiagnostic>? diagnostics = null,
+        IEnumerable<string>? referencedEntityIds = null)
     {
         if (string.IsNullOrWhiteSpace(sourceEntityType))
         {
@@ -69,8 +74,11 @@ public sealed class StepDataEntityRecord
 
         componentTypeList =
             componentTypeList
-                .Select(componentType =>
-                    componentType.Trim().ToUpperInvariant())
+                .Select(
+                    componentType =>
+                        componentType
+                            .Trim()
+                            .ToUpperInvariant())
                 .ToList();
 
         if (componentTypeList
@@ -87,12 +95,34 @@ public sealed class StepDataEntityRecord
             new List<CadDiagnostic>();
 
         if (diagnosticList.Any(
-                diagnostic => diagnostic is null))
+                diagnostic =>
+                    diagnostic is null))
         {
             throw new ArgumentException(
                 "Diagnostics cannot contain null entries.",
                 nameof(diagnostics));
         }
+
+        var referencedEntityIdList =
+            referencedEntityIds?.ToList() ??
+            new List<string>();
+
+        if (referencedEntityIdList.Any(
+                referencedEntityId =>
+                    string.IsNullOrWhiteSpace(
+                        referencedEntityId)))
+        {
+            throw new ArgumentException(
+                "Referenced entity IDs cannot contain null, empty, or whitespace entries.",
+                nameof(referencedEntityIds));
+        }
+
+        referencedEntityIdList =
+            referencedEntityIdList
+                .Select(
+                    referencedEntityId =>
+                        referencedEntityId.Trim())
+                .ToList();
 
         EnsureStatusMatchesDiagnostics(
             readStatus,
@@ -103,7 +133,8 @@ public sealed class StepDataEntityRecord
             componentTypeList);
 
         SourceEntityId =
-            NormalizeOptional(sourceEntityId);
+            NormalizeOptional(
+                sourceEntityId);
 
         SourceEntityType =
             sourceEntityType
@@ -121,6 +152,9 @@ public sealed class StepDataEntityRecord
 
         _diagnostics =
             diagnosticList.AsReadOnly();
+
+        _referencedEntityIds =
+            referencedEntityIdList.AsReadOnly();
     }
 
     private static void EnsureComplexEntityState(
