@@ -22,12 +22,6 @@ public sealed class StepDataEntityReader
             RegexOptions.IgnoreCase |
             RegexOptions.CultureInvariant);
 
-    private static readonly Regex ComplexComponentRegex =
-        new(
-            @"(?:^|\s)([A-Z][A-Z0-9_]*)\s*\(",
-            RegexOptions.IgnoreCase |
-            RegexOptions.CultureInvariant);
-
     private readonly IStepDataInventoryValidator
         _inventoryValidator;
 
@@ -407,31 +401,136 @@ public sealed class StepDataEntityReader
             string statement)
     {
         var equalsIndex =
-            statement.IndexOf('=');
+            FindEqualsOutsideString(
+                statement);
 
-        if (equalsIndex < 0)
+        if (equalsIndex < 0 ||
+            equalsIndex + 1 >=
+            statement.Length)
         {
             return Array.Empty<string>();
         }
 
-        var complexBody =
-            statement[
-                (equalsIndex + 1)..];
+        var componentTypes =
+            new List<string>();
 
-        var matches =
-            ComplexComponentRegex.Matches(
-                complexBody);
+        var insideString =
+            false;
 
-        return matches
-            .Select(
-                match =>
-                    match.Groups[1]
-                        .Value
-                        .ToUpperInvariant())
-            .Distinct(
-                StringComparer.OrdinalIgnoreCase)
-            .ToList()
+        var parenthesisDepth =
+            0;
+
+        for (var index =
+                 equalsIndex + 1;
+             index <
+             statement.Length;
+             index++)
+        {
+            var character =
+                statement[index];
+
+            if (character == '\'')
+            {
+                if (insideString &&
+                    index + 1 <
+                    statement.Length &&
+                    statement[index + 1] ==
+                    '\'')
+                {
+                    index++;
+                    continue;
+                }
+
+                insideString =
+                    !insideString;
+
+                continue;
+            }
+
+            if (insideString)
+            {
+                continue;
+            }
+
+            if (character == '(')
+            {
+                parenthesisDepth++;
+                continue;
+            }
+
+            if (character == ')')
+            {
+                if (parenthesisDepth > 0)
+                {
+                    parenthesisDepth--;
+                }
+
+                continue;
+            }
+
+            if (parenthesisDepth != 1 ||
+                !IsStepIdentifierStart(
+                    character))
+            {
+                continue;
+            }
+
+            var identifierStart =
+                index;
+
+            var identifierEnd =
+                index + 1;
+
+            while (identifierEnd <
+                       statement.Length &&
+                   IsStepIdentifierCharacter(
+                       statement[identifierEnd]))
+            {
+                identifierEnd++;
+            }
+
+            var nextIndex =
+                identifierEnd;
+
+            while (nextIndex <
+                       statement.Length &&
+                   char.IsWhiteSpace(
+                       statement[nextIndex]))
+            {
+                nextIndex++;
+            }
+
+            if (nextIndex <
+                    statement.Length &&
+                statement[nextIndex] == '(')
+            {
+                componentTypes.Add(
+                    statement[
+                            identifierStart..identifierEnd]
+                        .ToUpperInvariant());
+            }
+
+            index =
+                identifierEnd - 1;
+        }
+
+        return componentTypes
             .AsReadOnly();
+    }
+
+    private static bool IsStepIdentifierStart(
+        char character)
+    {
+        return char.IsLetter(
+            character);
+    }
+
+    private static bool IsStepIdentifierCharacter(
+        char character)
+    {
+        return char.IsLetterOrDigit(
+                   character) ||
+               character == '_';
     }
 
     private static string? ExtractDataSection(

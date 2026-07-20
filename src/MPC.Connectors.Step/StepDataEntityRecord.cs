@@ -81,15 +81,6 @@ public sealed class StepDataEntityRecord
                             .ToUpperInvariant())
                 .ToList();
 
-        if (componentTypeList
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Count() != componentTypeList.Count)
-        {
-            throw new ArgumentException(
-                "Component types cannot contain duplicate entries.",
-                nameof(componentTypes));
-        }
-
         var diagnosticList =
             diagnostics?.ToList() ??
             new List<CadDiagnostic>();
