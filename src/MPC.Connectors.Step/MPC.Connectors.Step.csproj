@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MPC.Connectors\MPC.Connectors.csproj" />
+    <ProjectReference Include="..\MPC.Geometry\MPC.Geometry.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
