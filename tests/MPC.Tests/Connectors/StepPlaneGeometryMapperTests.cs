@@ -10,7 +10,7 @@ public sealed class StepPlaneGeometryMapperTests
     public void Map_WithResolvedPlacement_ReturnsPlane3D()
     {
         var location =
-            new StepCartesianPoint(
+            new StepCartesianPointEntity(
                 sourceEntityId:
                     "#10",
                 name:
@@ -24,12 +24,12 @@ public sealed class StepPlaneGeometryMapperTests
                     });
 
         var axis =
-            new StepDirection(
+            new StepDirectionEntity(
                 sourceEntityId:
                     "#11",
                 name:
                     string.Empty,
-                directionRatios:
+                ratios:
                     new[]
                     {
                         0.0,
@@ -38,12 +38,12 @@ public sealed class StepPlaneGeometryMapperTests
                     });
 
         var referenceDirection =
-            new StepDirection(
+            new StepDirectionEntity(
                 sourceEntityId:
                     "#12",
                 name:
                     string.Empty,
-                directionRatios:
+                ratios:
                     new[]
                     {
                         1.0,
@@ -52,7 +52,7 @@ public sealed class StepPlaneGeometryMapperTests
                     });
 
         var placement =
-            new StepAxis2Placement3D(
+            new StepAxis2Placement3DEntity(
                 sourceEntityId:
                     "#20",
                 name:
@@ -61,16 +61,16 @@ public sealed class StepPlaneGeometryMapperTests
                     "#10",
                 axisReferenceId:
                     "#11",
-                referenceDirectionId:
+                refDirectionReferenceId:
                     "#12");
 
         var plane =
-            new StepPlane(
+            new StepPlaneEntity(
                 sourceEntityId:
                     "#30",
                 name:
                     string.Empty,
-                positionReferenceId:
+                placementReferenceId:
                     "#20");
 
         var semanticEntities =
@@ -128,3 +128,6 @@ public sealed class StepPlaneGeometryMapperTests
                 10);
     }
 }
+
+
+
