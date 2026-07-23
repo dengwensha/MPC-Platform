@@ -52,6 +52,24 @@ public sealed class TopologyBuilder
             TopologyBuilderState.Open;
     }
 
+    public Loop BuildLoop(
+        IEnumerable<EdgeUse> edgeUses)
+    {
+        EnsureOpen();
+
+        ArgumentNullException.ThrowIfNull(
+            edgeUses);
+
+        Loop loop =
+            new(
+                edgeUses);
+
+        RegisterLoop(
+            loop);
+
+        return loop;
+    }
+
     public void RegisterVertex(Vertex vertex)
     {
         EnsureOpen();
