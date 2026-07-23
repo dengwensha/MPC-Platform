@@ -50,13 +50,10 @@ public sealed class StepFaceOuterBoundEntityHandler
                 "FACE_OUTER_BOUND third parameter must be a STEP enumeration.");
 
         var orientation =
-            orientationParameter.Name switch
-            {
-                "T" => true,
-                "F" => false,
-                _ => throw new FormatException(
-                    $"FACE_OUTER_BOUND orientation must be .T. or .F., but '{orientationParameter.RawText}' was provided.")
-            };
+            StepBooleanEnumerationParser.Parse(
+                orientationParameter,
+                SupportedEntityType,
+                "orientation");
 
         return new StepFaceOuterBoundEntity(
             sourceEntityId:

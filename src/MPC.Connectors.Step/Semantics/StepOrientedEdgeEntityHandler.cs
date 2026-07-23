@@ -60,8 +60,10 @@ public sealed class StepOrientedEdgeEntityHandler
                 "ORIENTED_EDGE fifth parameter must be a STEP enumeration.");
 
         var orientation =
-            ParseBooleanEnumeration(
-                orientationParameter);
+            StepBooleanEnumerationParser.Parse(
+                orientationParameter,
+                SupportedEntityType,
+                "orientation");
 
         return new StepOrientedEdgeEntity(
             sourceEntityId:
@@ -72,22 +74,5 @@ public sealed class StepOrientedEdgeEntityHandler
                 edgeElementParameter.EntityId,
             orientation:
                 orientation);
-    }
-
-    private static bool ParseBooleanEnumeration(
-        StepEnumerationParameter parameter)
-    {
-        return parameter.Name switch
-        {
-            "T" =>
-                true,
-
-            "F" =>
-                false,
-
-            _ =>
-                throw new FormatException(
-                    $"ORIENTED_EDGE orientation must be .T. or .F., but '{parameter.RawText}' was provided.")
-        };
     }
 }
