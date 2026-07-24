@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\src\MPC.Connectors\MPC.Connectors.csproj" />
     <ProjectReference Include="..\..\src\MPC.Connectors.Step\MPC.Connectors.Step.csproj" />
     <ProjectReference Include="..\..\src\MPC.Mapping\MPC.Mapping.csproj" />
+    <ProjectReference Include="..\..\src\MPC.Mapping.Step\MPC.Mapping.Step.csproj" />
   </ItemGroup>
 
 </Project>

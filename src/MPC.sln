@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Connectors.Step.Runner"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Mapping", "MPC.Mapping\MPC.Mapping.csproj", "{722440C6-DC6C-440B-855C-2DC9000E5769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Mapping.Step", "MPC.Mapping.Step\MPC.Mapping.Step.csproj", "{51DB60AF-D303-4315-A720-B379EB2B572A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{722440C6-DC6C-440B-855C-2DC9000E5769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{722440C6-DC6C-440B-855C-2DC9000E5769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{722440C6-DC6C-440B-855C-2DC9000E5769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51DB60AF-D303-4315-A720-B379EB2B572A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51DB60AF-D303-4315-A720-B379EB2B572A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51DB60AF-D303-4315-A720-B379EB2B572A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51DB60AF-D303-4315-A720-B379EB2B572A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
