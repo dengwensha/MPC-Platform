@@ -11,7 +11,7 @@ public sealed class EntityMapperContractTests
             new TestMapper();
 
         var source = new TestSource("source");
-        var context = new MappingContext();
+        var context = CreateContext();
 
         var result = mapper.Map(source, context);
 
@@ -31,7 +31,7 @@ public sealed class EntityMapperContractTests
         Assert.Throws<ArgumentNullException>(
             () => mapper.Map(
                 null!,
-                new MappingContext()));
+                CreateContext()));
     }
 
     [Fact]
@@ -46,6 +46,12 @@ public sealed class EntityMapperContractTests
                 null!));
     }
 
+    private static MappingContext CreateContext()
+    {
+        return new MappingContext(
+            new StubReferenceResolver());
+    }
+
     private sealed class TestMapper :
         IEntityMapper<TestSource, TestTarget>
     {
@@ -58,6 +64,18 @@ public sealed class EntityMapperContractTests
 
             return MappingResult<TestTarget>.Success(
                 new TestTarget(source.Name));
+        }
+    }
+
+    private sealed class StubReferenceResolver :
+        IReferenceResolver
+    {
+        public ReferenceResolutionResult<T> Resolve<T>(
+            string referenceId)
+            where T : class
+        {
+            throw new NotSupportedException(
+                "Reference resolution is not required by these tests.");
         }
     }
 

@@ -5,19 +5,29 @@ namespace MPC.Tests.Mapping;
 public sealed class MappingContextTests
 {
     [Fact]
-    public void Constructor_CreatesEmptyContext()
+    public void Constructor_WithResolver_CreatesEmptyContext()
     {
-        var context = new MappingContext();
+        var resolver = new StubReferenceResolver();
 
+        var context = new MappingContext(resolver);
+
+        Assert.Same(resolver, context.ReferenceResolver);
         Assert.Empty(context.Diagnostics);
         Assert.False(context.HasDiagnostics);
         Assert.False(context.HasErrors);
     }
 
     [Fact]
+    public void Constructor_WithNullResolver_ThrowsArgumentNullException()
+    {
+        Assert.Throws<ArgumentNullException>(
+            () => new MappingContext(null!));
+    }
+
+    [Fact]
     public void AddDiagnostic_WithValidDiagnostic_AddsDiagnostic()
     {
-        var context = new MappingContext();
+        var context = CreateContext();
 
         var diagnostic = new MappingDiagnostic(
             "MAP001",
@@ -36,7 +46,7 @@ public sealed class MappingContextTests
     [Fact]
     public void AddDiagnostic_WithNullDiagnostic_ThrowsArgumentNullException()
     {
-        var context = new MappingContext();
+        var context = CreateContext();
 
         Assert.Throws<ArgumentNullException>(
             () => context.AddDiagnostic(null!));
@@ -45,7 +55,7 @@ public sealed class MappingContextTests
     [Fact]
     public void AddDiagnostic_PreservesInsertionOrder()
     {
-        var context = new MappingContext();
+        var context = CreateContext();
 
         var firstDiagnostic = new MappingDiagnostic(
             "MAP001",
@@ -68,7 +78,7 @@ public sealed class MappingContextTests
     [Fact]
     public void HasErrors_WithErrorDiagnostic_ReturnsTrue()
     {
-        var context = new MappingContext();
+        var context = CreateContext();
 
         context.AddDiagnostic(
             new MappingDiagnostic(
@@ -83,7 +93,7 @@ public sealed class MappingContextTests
     [Fact]
     public void HasErrors_WithInformationAndWarningDiagnostics_ReturnsFalse()
     {
-        var context = new MappingContext();
+        var context = CreateContext();
 
         context.AddDiagnostic(
             new MappingDiagnostic(
@@ -104,7 +114,7 @@ public sealed class MappingContextTests
     [Fact]
     public void Diagnostics_CannotBeModifiedThroughContext()
     {
-        var context = new MappingContext();
+        var context = CreateContext();
 
         context.AddDiagnostic(
             new MappingDiagnostic(
@@ -122,5 +132,23 @@ public sealed class MappingContextTests
                     "MAP002",
                     "Another warning.",
                     MappingDiagnosticSeverity.Warning)));
+    }
+
+    private static MappingContext CreateContext()
+    {
+        return new MappingContext(
+            new StubReferenceResolver());
+    }
+
+    private sealed class StubReferenceResolver :
+        IReferenceResolver
+    {
+        public ReferenceResolutionResult<T> Resolve<T>(
+            string referenceId)
+            where T : class
+        {
+            throw new NotSupportedException(
+                "Reference resolution is not required by these tests.");
+        }
     }
 }
