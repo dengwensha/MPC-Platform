@@ -36,7 +36,8 @@ public sealed class MappingContextTests
 
         context.AddDiagnostic(diagnostic);
 
-        var actualDiagnostic = Assert.Single(context.Diagnostics);
+        var actualDiagnostic =
+            Assert.Single(context.Diagnostics);
 
         Assert.Same(diagnostic, actualDiagnostic);
         Assert.True(context.HasDiagnostics);
@@ -71,8 +72,95 @@ public sealed class MappingContextTests
         context.AddDiagnostic(secondDiagnostic);
 
         Assert.Equal(2, context.Diagnostics.Count);
-        Assert.Same(firstDiagnostic, context.Diagnostics[0]);
-        Assert.Same(secondDiagnostic, context.Diagnostics[1]);
+        Assert.Same(
+            firstDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            secondDiagnostic,
+            context.Diagnostics[1]);
+    }
+
+    [Fact]
+    public void AddDiagnostics_WithValidDiagnostics_AddsAllDiagnostics()
+    {
+        var context = CreateContext();
+
+        var firstDiagnostic = new MappingDiagnostic(
+            "REF001",
+            "Referenced entity could not be resolved.",
+            MappingDiagnosticSeverity.Error);
+
+        var secondDiagnostic = new MappingDiagnostic(
+            "REF002",
+            "Referenced entity had an unexpected type.",
+            MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostics(
+            new[]
+            {
+                firstDiagnostic,
+                secondDiagnostic
+            });
+
+        Assert.Equal(2, context.Diagnostics.Count);
+        Assert.Same(
+            firstDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            secondDiagnostic,
+            context.Diagnostics[1]);
+
+        Assert.True(context.HasDiagnostics);
+        Assert.True(context.HasErrors);
+    }
+
+    [Fact]
+    public void AddDiagnostics_WithEmptyCollection_DoesNotAddDiagnostic()
+    {
+        var context = CreateContext();
+
+        context.AddDiagnostics(
+            Array.Empty<MappingDiagnostic>());
+
+        Assert.Empty(context.Diagnostics);
+        Assert.False(context.HasDiagnostics);
+        Assert.False(context.HasErrors);
+    }
+
+    [Fact]
+    public void AddDiagnostics_WithNullCollection_ThrowsArgumentNullException()
+    {
+        var context = CreateContext();
+
+        Assert.Throws<ArgumentNullException>(
+            () => context.AddDiagnostics(null!));
+    }
+
+    [Fact]
+    public void AddDiagnostics_WithNullItem_ThrowsArgumentNullException()
+    {
+        var context = CreateContext();
+
+        var validDiagnostic = new MappingDiagnostic(
+            "REF001",
+            "Valid diagnostic.",
+            MappingDiagnosticSeverity.Warning);
+
+        MappingDiagnostic[] diagnostics =
+        {
+            validDiagnostic,
+            null!
+        };
+
+        Assert.Throws<ArgumentNullException>(
+            () => context.AddDiagnostics(diagnostics));
+
+        Assert.Single(context.Diagnostics);
+        Assert.Same(
+            validDiagnostic,
+            context.Diagnostics[0]);
     }
 
     [Fact]
