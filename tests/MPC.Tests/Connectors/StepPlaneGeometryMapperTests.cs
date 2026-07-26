@@ -1,11 +1,33 @@
-﻿using MPC.Connectors.Step.Mapping;
-using MPC.Connectors.Step.Semantics;
+﻿using MPC.Connectors.Step.Semantics;
 using MPC.Geometry.Primitives;
+using ConnectorStepPlaneGeometryMapper =
+    MPC.Connectors.Step.Mapping.StepPlaneGeometryMapper;
 
 namespace MPC.Tests.Connectors;
 
 public sealed class StepPlaneGeometryMapperTests
 {
+    private static readonly double[] LocationCoordinates =
+    [
+        1.0,
+        2.0,
+        3.0
+    ];
+
+    private static readonly double[] AxisRatios =
+    [
+        0.0,
+        0.0,
+        1.0
+    ];
+
+    private static readonly double[] ReferenceDirectionRatios =
+    [
+        1.0,
+        0.0,
+        0.0
+    ];
+
     [Fact]
     public void Map_WithResolvedPlacement_ReturnsPlane3D()
     {
@@ -16,12 +38,7 @@ public sealed class StepPlaneGeometryMapperTests
                 name:
                     string.Empty,
                 coordinates:
-                    new[]
-                    {
-                        1.0,
-                        2.0,
-                        3.0
-                    });
+                    LocationCoordinates);
 
         var axis =
             new StepDirectionEntity(
@@ -30,12 +47,7 @@ public sealed class StepPlaneGeometryMapperTests
                 name:
                     string.Empty,
                 ratios:
-                    new[]
-                    {
-                        0.0,
-                        0.0,
-                        1.0
-                    });
+                    AxisRatios);
 
         var referenceDirection =
             new StepDirectionEntity(
@@ -44,12 +56,7 @@ public sealed class StepPlaneGeometryMapperTests
                 name:
                     string.Empty,
                 ratios:
-                    new[]
-                    {
-                        1.0,
-                        0.0,
-                        0.0
-                    });
+                    ReferenceDirectionRatios);
 
         var placement =
             new StepAxis2Placement3DEntity(
@@ -73,18 +80,17 @@ public sealed class StepPlaneGeometryMapperTests
                 placementReferenceId:
                     "#20");
 
-        var semanticEntities =
-            new StepSemanticEntity[]
-            {
-                location,
-                axis,
-                referenceDirection,
-                placement,
-                plane
-            };
+        StepSemanticEntity[] semanticEntities =
+        [
+            location,
+            axis,
+            referenceDirection,
+            placement,
+            plane
+        ];
 
         var mapper =
-            new StepPlaneGeometryMapper(
+            new ConnectorStepPlaneGeometryMapper(
                 semanticEntities);
 
         Plane3D result =
@@ -128,6 +134,3 @@ public sealed class StepPlaneGeometryMapperTests
                 10);
     }
 }
-
-
-

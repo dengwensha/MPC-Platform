@@ -1,21 +1,16 @@
-﻿using MPC.Connectors.Step.Semantics;
-
-namespace MPC.Connectors.Step.Mapping;
+﻿namespace MPC.Connectors.Step.Semantics;
 
 public sealed class StepSemanticEntityResolver
 {
-    private readonly IReadOnlyDictionary<string, StepSemanticEntity> _entitiesById;
+    private readonly Dictionary<string, StepSemanticEntity> _entitiesById;
 
     public StepSemanticEntityResolver(
         IEnumerable<StepSemanticEntity> semanticEntities)
     {
-        if (semanticEntities is null)
-        {
-            throw new ArgumentNullException(
-                nameof(semanticEntities));
-        }
+        ArgumentNullException.ThrowIfNull(
+            semanticEntities);
 
-        var entitiesById =
+        _entitiesById =
             new Dictionary<string, StepSemanticEntity>(
                 StringComparer.Ordinal);
 
@@ -34,7 +29,7 @@ public sealed class StepSemanticEntityResolver
                 continue;
             }
 
-            if (!entitiesById.TryAdd(
+            if (!_entitiesById.TryAdd(
                     entity.SourceEntityId,
                     entity))
             {
@@ -42,14 +37,10 @@ public sealed class StepSemanticEntityResolver
                     $"Duplicate STEP semantic entity id '{entity.SourceEntityId}'.");
             }
         }
-
-        _entitiesById =
-            entitiesById;
     }
 
-    public TEntity Resolve<TEntity>(
+    public StepSemanticEntity Resolve(
         string referenceId)
-        where TEntity : StepSemanticEntity
     {
         if (string.IsNullOrWhiteSpace(
                 referenceId))
@@ -65,6 +56,17 @@ public sealed class StepSemanticEntityResolver
             throw new InvalidOperationException(
                 $"STEP semantic entity '{referenceId}' could not be resolved.");
         }
+
+        return entity;
+    }
+
+    public TEntity Resolve<TEntity>(
+        string referenceId)
+        where TEntity : StepSemanticEntity
+    {
+        var entity =
+            Resolve(
+                referenceId);
 
         if (entity is not TEntity typedEntity)
         {

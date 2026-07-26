@@ -18,10 +18,8 @@ public sealed class StepCylindricalSurfaceEntity
             sourceEntityId,
             "CYLINDRICAL_SURFACE")
     {
-        Name =
-            name ??
-            throw new ArgumentNullException(
-                nameof(name));
+        ArgumentNullException.ThrowIfNull(
+            name);
 
         if (string.IsNullOrWhiteSpace(
                 placementReferenceId))
@@ -36,6 +34,7 @@ public sealed class StepCylindricalSurfaceEntity
         {
             throw new ArgumentOutOfRangeException(
                 nameof(radius),
+                radius,
                 "STEP CYLINDRICAL_SURFACE radius must be finite.");
         }
 
@@ -43,8 +42,12 @@ public sealed class StepCylindricalSurfaceEntity
         {
             throw new ArgumentOutOfRangeException(
                 nameof(radius),
+                radius,
                 "STEP CYLINDRICAL_SURFACE radius must be greater than zero.");
         }
+
+        Name =
+            name;
 
         PlacementReferenceId =
             placementReferenceId;
