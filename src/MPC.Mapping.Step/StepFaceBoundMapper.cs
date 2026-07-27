@@ -28,8 +28,11 @@ public sealed class StepFaceBoundMapper :
         StepFaceBoundEntity source,
         MappingContext context)
     {
-        ArgumentNullException.ThrowIfNull(source);
-        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(
+            source);
+
+        ArgumentNullException.ThrowIfNull(
+            context);
 
         ReferenceResolutionResult<
             StepEdgeLoopEntity> resolution =
