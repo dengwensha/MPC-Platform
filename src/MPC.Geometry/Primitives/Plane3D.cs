@@ -1,6 +1,8 @@
-﻿namespace MPC.Geometry.Primitives;
+﻿using MPC.Geometry.Contracts;
 
-public sealed record Plane3D
+namespace MPC.Geometry.Primitives;
+
+public sealed record Plane3D : ISurface3D
 {
     private const double UnitVectorTolerance = 1e-12;
 
@@ -12,15 +14,21 @@ public sealed record Plane3D
         Point3D origin,
         Vector3D normal)
     {
-        ValidateFinitePoint(origin);
-        ValidateFiniteVector(normal);
-        ValidateUnitVector(normal);
+        ValidateFinitePoint(
+            origin);
+
+        ValidateFiniteVector(
+            normal);
+
+        ValidateUnitVector(
+            normal);
 
         Origin = origin;
         Normal = normal;
     }
 
-    private static void ValidateFinitePoint(Point3D point)
+    private static void ValidateFinitePoint(
+        Point3D point)
     {
         if (!double.IsFinite(point.X) ||
             !double.IsFinite(point.Y) ||
@@ -33,7 +41,8 @@ public sealed record Plane3D
         }
     }
 
-    private static void ValidateFiniteVector(Vector3D vector)
+    private static void ValidateFiniteVector(
+        Vector3D vector)
     {
         if (!double.IsFinite(vector.X) ||
             !double.IsFinite(vector.Y) ||
@@ -46,14 +55,17 @@ public sealed record Plane3D
         }
     }
 
-    private static void ValidateUnitVector(Vector3D normal)
+    private static void ValidateUnitVector(
+        Vector3D normal)
     {
-        var lengthSquared =
+        double lengthSquared =
             normal.X * normal.X +
             normal.Y * normal.Y +
             normal.Z * normal.Z;
 
-        if (Math.Abs(lengthSquared - 1.0) > UnitVectorTolerance)
+        if (Math.Abs(
+                lengthSquared - 1.0) >
+            UnitVectorTolerance)
         {
             throw new ArgumentException(
                 "Plane normal must be a unit vector within tolerance.",
