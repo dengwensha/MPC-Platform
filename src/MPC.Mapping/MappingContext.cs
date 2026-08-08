@@ -9,14 +9,32 @@ public sealed class MappingContext
 
     public MappingContext(
         IReferenceResolver referenceResolver)
+        : this(
+            referenceResolver,
+            null)
     {
-        ArgumentNullException.ThrowIfNull(referenceResolver);
+    }
 
-        ReferenceResolver = referenceResolver;
-        _readOnlyDiagnostics = _diagnostics.AsReadOnly();
+    public MappingContext(
+        IReferenceResolver referenceResolver,
+        ICanonicalReferenceResolver? canonicalReferenceResolver)
+    {
+        ArgumentNullException.ThrowIfNull(
+            referenceResolver);
+
+        ReferenceResolver =
+            referenceResolver;
+
+        CanonicalReferenceResolver =
+            canonicalReferenceResolver;
+
+        _readOnlyDiagnostics =
+            _diagnostics.AsReadOnly();
     }
 
     public IReferenceResolver ReferenceResolver { get; }
+
+    public ICanonicalReferenceResolver? CanonicalReferenceResolver { get; }
 
     public IReadOnlyList<MappingDiagnostic> Diagnostics =>
         _readOnlyDiagnostics;
@@ -33,19 +51,23 @@ public sealed class MappingContext
     public void AddDiagnostic(
         MappingDiagnostic diagnostic)
     {
-        ArgumentNullException.ThrowIfNull(diagnostic);
+        ArgumentNullException.ThrowIfNull(
+            diagnostic);
 
-        _diagnostics.Add(diagnostic);
+        _diagnostics.Add(
+            diagnostic);
     }
 
     public void AddDiagnostics(
         IEnumerable<MappingDiagnostic> diagnostics)
     {
-        ArgumentNullException.ThrowIfNull(diagnostics);
+        ArgumentNullException.ThrowIfNull(
+            diagnostics);
 
         foreach (var diagnostic in diagnostics)
         {
-            AddDiagnostic(diagnostic);
+            AddDiagnostic(
+                diagnostic);
         }
     }
 }
