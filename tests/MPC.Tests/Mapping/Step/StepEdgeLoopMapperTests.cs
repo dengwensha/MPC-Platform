@@ -23,14 +23,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateTriangleFixture();
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges);
-
-        var context =
-            new MappingContext(
-                resolver);
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out StubReferenceResolver referenceResolver,
+                out _);
 
         var source =
             CreateEdgeLoopEntity(
@@ -39,11 +36,8 @@ public sealed class StepEdgeLoopMapperTests
                 "#12",
                 "#13");
 
-        var mapper =
-            CreateMapper();
-
         MappingResult<Loop> result =
-            mapper.Map(
+            CreateMapper().Map(
                 source,
                 context);
 
@@ -82,13 +76,12 @@ public sealed class StepEdgeLoopMapperTests
                     edgeUse.Direction));
 
         Assert.Equal(
-            new[]
-            {
+            [
                 "#11",
                 "#12",
                 "#13"
-            },
-            resolver.OrientedEdgeResolutionOrder);
+            ],
+            referenceResolver.OrientedEdgeResolutionOrder);
 
         Assert.Empty(
             result.Diagnostics);
@@ -103,14 +96,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateTriangleWithReversedSecondEdgeFixture();
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges);
-
-        var context =
-            new MappingContext(
-                resolver);
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _);
 
         var source =
             CreateEdgeLoopEntity(
@@ -143,6 +133,18 @@ public sealed class StepEdgeLoopMapperTests
         Assert.Equal(
             EdgeUseDirection.Forward,
             loop.EdgeUses[2].Direction);
+
+        Assert.Same(
+            loop.EdgeUses[0].EndVertex,
+            loop.EdgeUses[1].StartVertex);
+
+        Assert.Same(
+            loop.EdgeUses[1].EndVertex,
+            loop.EdgeUses[2].StartVertex);
+
+        Assert.Same(
+            loop.EdgeUses[2].EndVertex,
+            loop.EdgeUses[0].StartVertex);
     }
 
     [Fact]
@@ -151,14 +153,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateTriangleFixture();
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges);
-
-        var context =
-            new MappingContext(
-                resolver);
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out StubReferenceResolver referenceResolver,
+                out _);
 
         var source =
             CreateEdgeLoopEntity(
@@ -181,13 +180,12 @@ public sealed class StepEdgeLoopMapperTests
                 result.Value);
 
         Assert.Equal(
-            new[]
-            {
+            [
                 "#13",
                 "#11",
                 "#12"
-            },
-            resolver.OrientedEdgeResolutionOrder);
+            ],
+            referenceResolver.OrientedEdgeResolutionOrder);
 
         Assert.Same(
             fixture.Edges["#23"],
@@ -220,20 +218,17 @@ public sealed class StepEdgeLoopMapperTests
                 "Referenced ORIENTED_EDGE could not be resolved.",
                 MappingDiagnosticSeverity.Error);
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges,
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out StubReferenceResolver referenceResolver,
+                out _,
                 failedOrientedEdgeReferences:
                     new Dictionary<string, MappingDiagnostic>
                     {
                         ["#12"] =
                             diagnostic
                     });
-
-        var context =
-            new MappingContext(
-                resolver);
 
         var source =
             CreateEdgeLoopEntity(
@@ -268,13 +263,12 @@ public sealed class StepEdgeLoopMapperTests
                 context.Diagnostics));
 
         Assert.Equal(
-            new[]
-            {
+            [
                 "#11",
                 "#12",
                 "#13"
-            },
-            resolver.OrientedEdgeResolutionOrder);
+            ],
+            referenceResolver.OrientedEdgeResolutionOrder);
     }
 
     [Fact]
@@ -295,10 +289,11 @@ public sealed class StepEdgeLoopMapperTests
                 "Second ORIENTED_EDGE could not be resolved.",
                 MappingDiagnosticSeverity.Error);
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges,
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _,
                 failedOrientedEdgeReferences:
                     new Dictionary<string, MappingDiagnostic>
                     {
@@ -308,10 +303,6 @@ public sealed class StepEdgeLoopMapperTests
                         ["#13"] =
                             secondDiagnostic
                     });
-
-        var context =
-            new MappingContext(
-                resolver);
 
         var source =
             CreateEdgeLoopEntity(
@@ -366,20 +357,17 @@ public sealed class StepEdgeLoopMapperTests
                 "Referenced canonical edge could not be resolved.",
                 MappingDiagnosticSeverity.Error);
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges,
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out StubCanonicalReferenceResolver canonicalResolver,
                 failedEdgeReferences:
                     new Dictionary<string, MappingDiagnostic>
                     {
                         ["#22"] =
                             diagnostic
                     });
-
-        var context =
-            new MappingContext(
-                resolver);
 
         var source =
             CreateEdgeLoopEntity(
@@ -397,6 +385,9 @@ public sealed class StepEdgeLoopMapperTests
             MappingStatus.Failed,
             result.Status);
 
+        Assert.False(
+            result.IsSuccessful);
+
         Assert.Null(
             result.Value);
 
@@ -409,6 +400,14 @@ public sealed class StepEdgeLoopMapperTests
             diagnostic,
             Assert.Single(
                 context.Diagnostics));
+
+        Assert.Equal(
+            [
+                "#21",
+                "#22",
+                "#23"
+            ],
+            canonicalResolver.EdgeResolutionOrder);
     }
 
     [Fact]
@@ -417,14 +416,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateTriangleFixture();
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges);
-
-        var context =
-            new MappingContext(
-                resolver);
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _);
 
         var source =
             CreateEdgeLoopEntity(
@@ -456,6 +452,11 @@ public sealed class StepEdgeLoopMapperTests
             MappingDiagnosticSeverity.Error,
             diagnostic.Severity);
 
+        Assert.Contains(
+            "at least three",
+            diagnostic.Message,
+            StringComparison.OrdinalIgnoreCase);
+
         Assert.Same(
             diagnostic,
             Assert.Single(
@@ -468,14 +469,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateDiscontinuousFixture();
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges);
-
-        var context =
-            new MappingContext(
-                resolver);
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _);
 
         var source =
             CreateEdgeLoopEntity(
@@ -508,6 +506,11 @@ public sealed class StepEdgeLoopMapperTests
             "continuity",
             diagnostic.Message,
             StringComparison.OrdinalIgnoreCase);
+
+        Assert.Same(
+            diagnostic,
+            Assert.Single(
+                context.Diagnostics));
     }
 
     [Fact]
@@ -516,14 +519,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateOpenChainFixture();
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges);
-
-        var context =
-            new MappingContext(
-                resolver);
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _);
 
         var source =
             CreateEdgeLoopEntity(
@@ -556,6 +556,11 @@ public sealed class StepEdgeLoopMapperTests
             "closed",
             diagnostic.Message,
             StringComparison.OrdinalIgnoreCase);
+
+        Assert.Same(
+            diagnostic,
+            Assert.Single(
+                context.Diagnostics));
     }
 
     [Fact]
@@ -564,14 +569,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateTriangleFixture();
 
-        var resolver =
-            new StubReferenceResolver(
-                fixture.OrientedEdges,
-                fixture.Edges);
-
-        var context =
-            new MappingContext(
-                resolver);
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _);
 
         var diagnostic =
             new MappingDiagnostic(
@@ -598,6 +600,9 @@ public sealed class StepEdgeLoopMapperTests
             MappingStatus.SucceededWithDiagnostics,
             result.Status);
 
+        Assert.True(
+            result.IsSuccessful);
+
         Assert.NotNull(
             result.Value);
 
@@ -613,11 +618,11 @@ public sealed class StepEdgeLoopMapperTests
         TriangleFixture fixture =
             CreateTriangleFixture();
 
-        var context =
-            new MappingContext(
-                new StubReferenceResolver(
-                    fixture.OrientedEdges,
-                    fixture.Edges));
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _);
 
         Assert.Throws<ArgumentNullException>(
             () => CreateMapper().Map(
@@ -655,6 +660,32 @@ public sealed class StepEdgeLoopMapperTests
             sourceEntityId,
             "Triangle loop",
             referenceIds);
+    }
+
+    private static MappingContext CreateContext(
+        TriangleFixture fixture,
+        out StubReferenceResolver referenceResolver,
+        out StubCanonicalReferenceResolver canonicalResolver,
+        IReadOnlyDictionary<
+            string,
+            MappingDiagnostic>? failedOrientedEdgeReferences = null,
+        IReadOnlyDictionary<
+            string,
+            MappingDiagnostic>? failedEdgeReferences = null)
+    {
+        referenceResolver =
+            new StubReferenceResolver(
+                fixture.OrientedEdges,
+                failedOrientedEdgeReferences);
+
+        canonicalResolver =
+            new StubCanonicalReferenceResolver(
+                fixture.Edges,
+                failedEdgeReferences);
+
+        return new MappingContext(
+            referenceResolver,
+            canonicalResolver);
     }
 
     private static TriangleFixture CreateTriangleFixture()
@@ -959,18 +990,10 @@ public sealed class StepEdgeLoopMapperTests
 
         private readonly IReadOnlyDictionary<
             string,
-            Edge> _edges;
-
-        private readonly IReadOnlyDictionary<
-            string,
-            MappingDiagnostic> _failedOrientedEdgeReferences;
-
-        private readonly IReadOnlyDictionary<
-            string,
-            MappingDiagnostic> _failedEdgeReferences;
+            MappingDiagnostic> _failures;
 
         private readonly List<string>
-            _orientedEdgeResolutionOrder = new();
+            _resolutionOrder = [];
 
         public StubReferenceResolver(
             IReadOnlyDictionary<
@@ -978,32 +1001,15 @@ public sealed class StepEdgeLoopMapperTests
                 StepOrientedEdgeEntity> orientedEdges,
             IReadOnlyDictionary<
                 string,
-                Edge> edges,
-            IReadOnlyDictionary<
-                string,
-                MappingDiagnostic>? failedOrientedEdgeReferences = null,
-            IReadOnlyDictionary<
-                string,
-                MappingDiagnostic>? failedEdgeReferences = null)
+                MappingDiagnostic>? failures = null)
         {
             _orientedEdges =
                 orientedEdges
                 ?? throw new ArgumentNullException(
                     nameof(orientedEdges));
 
-            _edges =
-                edges
-                ?? throw new ArgumentNullException(
-                    nameof(edges));
-
-            _failedOrientedEdgeReferences =
-                failedOrientedEdgeReferences
-                ?? new Dictionary<
-                    string,
-                    MappingDiagnostic>();
-
-            _failedEdgeReferences =
-                failedEdgeReferences
+            _failures =
+                failures
                 ?? new Dictionary<
                     string,
                     MappingDiagnostic>();
@@ -1011,75 +1017,127 @@ public sealed class StepEdgeLoopMapperTests
 
         public IReadOnlyList<string>
             OrientedEdgeResolutionOrder =>
-                _orientedEdgeResolutionOrder;
+                _resolutionOrder;
 
         public ReferenceResolutionResult<T> Resolve<T>(
             string referenceId)
             where T : class
         {
-            if (typeof(T) ==
+            if (typeof(T) !=
                 typeof(StepOrientedEdgeEntity))
             {
-                _orientedEdgeResolutionOrder.Add(
-                    referenceId);
-
-                if (_failedOrientedEdgeReferences.TryGetValue(
-                        referenceId,
-                        out MappingDiagnostic? diagnostic))
-                {
-                    return ReferenceResolutionResult<T>.Failure(
-                        referenceId,
-                        new[]
-                        {
-                            diagnostic
-                        });
-                }
-
-                if (!_orientedEdges.TryGetValue(
-                        referenceId,
-                        out StepOrientedEdgeEntity? entity))
-                {
-                    throw new InvalidOperationException(
-                        $"No ORIENTED_EDGE test entity was configured for '{referenceId}'.");
-                }
-
-                return ReferenceResolutionResult<T>.Resolved(
-                    referenceId,
-                    Assert.IsAssignableFrom<T>(
-                        entity));
+                throw new InvalidOperationException(
+                    $"Semantic resolver must not resolve canonical type '{typeof(T).Name}'.");
             }
 
-            if (typeof(T) ==
+            _resolutionOrder.Add(
+                referenceId);
+
+            if (_failures.TryGetValue(
+                    referenceId,
+                    out MappingDiagnostic? diagnostic))
+            {
+                return ReferenceResolutionResult<T>.Failure(
+                    referenceId,
+                    [
+                        diagnostic
+                    ]);
+            }
+
+            if (!_orientedEdges.TryGetValue(
+                    referenceId,
+                    out StepOrientedEdgeEntity? entity))
+            {
+                throw new InvalidOperationException(
+                    $"No ORIENTED_EDGE test entity was configured for '{referenceId}'.");
+            }
+
+            return ReferenceResolutionResult<T>.Resolved(
+                referenceId,
+                Assert.IsAssignableFrom<T>(
+                    entity));
+        }
+    }
+
+    private sealed class StubCanonicalReferenceResolver :
+        ICanonicalReferenceResolver
+    {
+        private readonly IReadOnlyDictionary<
+            string,
+            Edge> _edges;
+
+        private readonly IReadOnlyDictionary<
+            string,
+            MappingDiagnostic> _failures;
+
+        private readonly List<string>
+            _edgeResolutionOrder = [];
+
+        public StubCanonicalReferenceResolver(
+            IReadOnlyDictionary<
+                string,
+                Edge> edges,
+            IReadOnlyDictionary<
+                string,
+                MappingDiagnostic>? failures = null)
+        {
+            _edges =
+                edges
+                ?? throw new ArgumentNullException(
+                    nameof(edges));
+
+            _failures =
+                failures
+                ?? new Dictionary<
+                    string,
+                    MappingDiagnostic>();
+        }
+
+        public IReadOnlyList<string> EdgeResolutionOrder =>
+            _edgeResolutionOrder;
+
+        public MappingResult<T> Resolve<T>(
+            string referenceId,
+            MappingContext context)
+            where T : class
+        {
+            ArgumentNullException.ThrowIfNull(
+                context);
+
+            if (typeof(T) !=
                 typeof(Edge))
             {
-                if (_failedEdgeReferences.TryGetValue(
-                        referenceId,
-                        out MappingDiagnostic? diagnostic))
-                {
-                    return ReferenceResolutionResult<T>.Failure(
-                        referenceId,
-                        new[]
-                        {
-                            diagnostic
-                        });
-                }
-
-                if (!_edges.TryGetValue(
-                        referenceId,
-                        out Edge? edge))
-                {
-                    throw new InvalidOperationException(
-                        $"No canonical Edge test object was configured for '{referenceId}'.");
-                }
-
-                return ReferenceResolutionResult<T>.Resolved(
-                    referenceId,
-                    Assert.IsAssignableFrom<T>(
-                        edge));
+                throw new InvalidOperationException(
+                    $"Canonical resolver does not support '{typeof(T).Name}' in this test.");
             }
 
-            throw new NotSupportedException(
-                $"Resolution of '{typeof(T).Name}' is not supported by this test resolver.");
+            _edgeResolutionOrder.Add(
+                referenceId);
+
+            if (_failures.TryGetValue(
+                    referenceId,
+                    out MappingDiagnostic? diagnostic))
+            {
+                context.AddDiagnostic(
+                    diagnostic);
+
+                return MappingResult<T>.Failure(
+                    [
+                        diagnostic
+                    ]);
+            }
+
+            if (!_edges.TryGetValue(
+                    referenceId,
+                    out Edge? edge))
+            {
+                throw new InvalidOperationException(
+                    $"No canonical Edge test object was configured for '{referenceId}'.");
+            }
+
+            return MappingResult<T>.Success(
+                Assert.IsAssignableFrom<T>(
+                    edge));
         }
     }
 }

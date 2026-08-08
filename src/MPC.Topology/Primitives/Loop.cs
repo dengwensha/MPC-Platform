@@ -6,18 +6,27 @@ public sealed class Loop
 
     public Guid Id { get; }
 
-    public IReadOnlyList<EdgeUse> EdgeUses => _edgeUses;
+    public IReadOnlyList<EdgeUse> EdgeUses =>
+        _edgeUses;
 
-    public Loop(IEnumerable<EdgeUse> edgeUses)
+    public Loop(
+        IEnumerable<EdgeUse> edgeUses)
     {
-        ArgumentNullException.ThrowIfNull(edgeUses);
+        ArgumentNullException.ThrowIfNull(
+            edgeUses);
 
-        EdgeUse[] edgeUseArray = edgeUses.ToArray();
+        EdgeUse[] edgeUseArray =
+            edgeUses.ToArray();
 
-        ValidateEdgeUses(edgeUseArray);
+        ValidateEdgeUses(
+            edgeUseArray);
 
-        Id = Guid.NewGuid();
-        _edgeUses = Array.AsReadOnly(edgeUseArray);
+        Id =
+            Guid.NewGuid();
+
+        _edgeUses =
+            Array.AsReadOnly(
+                edgeUseArray);
     }
 
     private static void ValidateEdgeUses(
@@ -30,7 +39,9 @@ public sealed class Loop
                 nameof(edgeUses));
         }
 
-        for (int index = 0; index < edgeUses.Count; index++)
+        for (int index = 0;
+             index < edgeUses.Count;
+             index++)
         {
             if (edgeUses[index] is null)
             {
@@ -40,17 +51,25 @@ public sealed class Loop
             }
         }
 
-        ValidateContinuity(edgeUses);
-        ValidateClosure(edgeUses);
+        ValidateContinuity(
+            edgeUses);
+
+        ValidateClosure(
+            edgeUses);
     }
 
     private static void ValidateContinuity(
         IReadOnlyList<EdgeUse> edgeUses)
     {
-        for (int index = 0; index < edgeUses.Count - 1; index++)
+        for (int index = 0;
+             index < edgeUses.Count - 1;
+             index++)
         {
-            EdgeUse current = edgeUses[index];
-            EdgeUse next = edgeUses[index + 1];
+            EdgeUse current =
+                edgeUses[index];
+
+            EdgeUse next =
+                edgeUses[index + 1];
 
             if (!ReferenceEquals(
                     current.EndVertex,
@@ -67,8 +86,11 @@ public sealed class Loop
     private static void ValidateClosure(
         IReadOnlyList<EdgeUse> edgeUses)
     {
-        EdgeUse first = edgeUses[0];
-        EdgeUse last = edgeUses[^1];
+        EdgeUse first =
+            edgeUses[0];
+
+        EdgeUse last =
+            edgeUses[^1];
 
         if (!ReferenceEquals(
                 last.EndVertex,

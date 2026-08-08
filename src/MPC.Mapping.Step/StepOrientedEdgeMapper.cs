@@ -4,32 +4,53 @@ using MPC.Topology.Primitives;
 namespace MPC.Mapping.Step;
 
 public sealed class StepOrientedEdgeMapper :
-    IEntityMapper<StepOrientedEdgeEntity, EdgeUse>
+    IEntityMapper<
+        StepOrientedEdgeEntity,
+        EdgeUse>
 {
+    private const string MissingCanonicalResolverDiagnosticCode =
+        "MAP-STEP-ORIENTED-EDGE-001";
+
     public MappingResult<EdgeUse> Map(
         StepOrientedEdgeEntity source,
         MappingContext context)
     {
-        ArgumentNullException.ThrowIfNull(source);
-        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(
+            source);
 
-        ReferenceResolutionResult<Edge> resolution =
-            context.ReferenceResolver.Resolve<Edge>(
-                source.EdgeElementReferenceId);
+        ArgumentNullException.ThrowIfNull(
+            context);
 
-        if (!resolution.IsResolved)
+        ICanonicalReferenceResolver? canonicalResolver =
+            context.CanonicalReferenceResolver;
+
+        if (canonicalResolver is null)
         {
-            context.AddDiagnostics(
-                resolution.Diagnostics);
+            MappingDiagnostic diagnostic =
+                CreateDiagnostic(
+                    source,
+                    "Canonical reference resolution is required to map ORIENTED_EDGE.");
+
+            context.AddDiagnostic(
+                diagnostic);
 
             return MappingResult<EdgeUse>.Failure(
-                resolution.Diagnostics);
+                [
+                    diagnostic
+                ]);
         }
 
-        Edge edge =
-            resolution.Value
-            ?? throw new InvalidOperationException(
-                "A resolved edge reference must contain an edge.");
+        MappingResult<Edge> edgeResult =
+            canonicalResolver.Resolve<Edge>(
+                source.EdgeElementReferenceId,
+                context);
+
+        if (!edgeResult.IsSuccessful ||
+            edgeResult.Value is null)
+        {
+            return MappingResult<EdgeUse>.Failure(
+                edgeResult.Diagnostics);
+        }
 
         EdgeUseDirection direction =
             source.Orientation
@@ -38,7 +59,7 @@ public sealed class StepOrientedEdgeMapper :
 
         var edgeUse =
             new EdgeUse(
-                edge,
+                edgeResult.Value,
                 direction);
 
         if (context.HasDiagnostics)
@@ -51,5 +72,21 @@ public sealed class StepOrientedEdgeMapper :
 
         return MappingResult<EdgeUse>.Success(
             edgeUse);
+    }
+
+    private static MappingDiagnostic CreateDiagnostic(
+        StepOrientedEdgeEntity source,
+        string message)
+    {
+        string sourceIdentity =
+            string.IsNullOrWhiteSpace(
+                source.SourceEntityId)
+                ? "ORIENTED_EDGE"
+                : source.SourceEntityId;
+
+        return new MappingDiagnostic(
+            MissingCanonicalResolverDiagnosticCode,
+            $"STEP ORIENTED_EDGE '{sourceIdentity}' could not be mapped. {message}",
+            MappingDiagnosticSeverity.Error);
     }
 }
