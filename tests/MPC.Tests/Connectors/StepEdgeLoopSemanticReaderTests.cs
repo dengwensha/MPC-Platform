@@ -9,6 +9,27 @@ namespace MPC.Tests.Connectors;
 
 public sealed class StepEdgeLoopSemanticReaderTests
 {
+    private static readonly string[] CreatedEdgeLoopReferenceIds =
+    [
+        "#210",
+        "#211",
+        "#212"
+    ];
+
+    private static readonly string[] OrderedEdgeLoopReferenceIds =
+    [
+        "#900",
+        "#100",
+        "#500"
+    ];
+
+    private static readonly string[] DuplicateEdgeLoopReferenceIds =
+    [
+        "#210",
+        "#211",
+        "#210"
+    ];
+
     [Fact]
     public void Read_ShouldCreateEdgeLoopSemanticEntity()
     {
@@ -40,12 +61,7 @@ public sealed class StepEdgeLoopSemanticReaderTests
             edgeLoop.Name);
 
         Assert.Equal(
-            new[]
-            {
-                "#210",
-                "#211",
-                "#212"
-            },
+            CreatedEdgeLoopReferenceIds,
             edgeLoop.OrientedEdgeReferenceIds);
     }
 
@@ -91,12 +107,7 @@ public sealed class StepEdgeLoopSemanticReaderTests
                 result);
 
         Assert.Equal(
-            new[]
-            {
-                "#900",
-                "#100",
-                "#500"
-            },
+            OrderedEdgeLoopReferenceIds,
             edgeLoop.OrientedEdgeReferenceIds);
     }
 
@@ -119,12 +130,7 @@ public sealed class StepEdgeLoopSemanticReaderTests
                 result);
 
         Assert.Equal(
-            new[]
-            {
-                "#210",
-                "#211",
-                "#210"
-            },
+            DuplicateEdgeLoopReferenceIds,
             edgeLoop.OrientedEdgeReferenceIds);
     }
 

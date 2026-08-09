@@ -11,6 +11,18 @@ namespace MPC.Tests.Mapping.Step;
 
 public sealed class StepAdvancedFaceMapperTests
 {
+    private static readonly string[] SingleBoundResolutionOrder =
+    [
+        "#20"
+    ];
+
+    private static readonly string[] MultipleBoundResolutionOrder =
+    [
+        "#21",
+        "#20",
+        "#22"
+    ];
+
     [Fact]
     public void Constructor_WithNullFaceBuilderMapper_ThrowsArgumentNullException()
     {
@@ -145,17 +157,11 @@ public sealed class StepAdvancedFaceMapperTests
             faceBuilderMapper.LastContext);
 
         Assert.Equal(
-            new[]
-            {
-                "#20"
-            },
+            SingleBoundResolutionOrder,
             resolver.ResolutionOrder);
 
         Assert.Equal(
-            new[]
-            {
-                "#20"
-            },
+            SingleBoundResolutionOrder,
             faceBoundMapper.MappingOrder);
 
         Assert.Empty(
@@ -459,12 +465,7 @@ public sealed class StepAdvancedFaceMapperTests
             face.InnerLoops[1]);
 
         Assert.Equal(
-            new[]
-            {
-                "#21",
-                "#20",
-                "#22"
-            },
+            MultipleBoundResolutionOrder,
             resolver.ResolutionOrder);
 
         Assert.True(

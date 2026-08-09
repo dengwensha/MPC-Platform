@@ -19,11 +19,8 @@ public sealed class StepLineGeometryMapper
     public Line3D Map(
         StepLineEntity source)
     {
-        if (source is null)
-        {
-            throw new ArgumentNullException(
-                nameof(source));
-        }
+        ArgumentNullException.ThrowIfNull(
+            source);
 
         var point =
             _resolver.Resolve<StepCartesianPointEntity>(
