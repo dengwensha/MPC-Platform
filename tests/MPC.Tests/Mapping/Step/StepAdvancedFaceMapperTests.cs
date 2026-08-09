@@ -3,6 +3,7 @@ using MPC.Geometry.Contracts;
 using MPC.Geometry.Primitives;
 using MPC.Mapping;
 using MPC.Mapping.Step;
+using MPC.Topology;
 using MPC.Topology.Building;
 using MPC.Topology.Primitives;
 
@@ -156,6 +157,168 @@ public sealed class StepAdvancedFaceMapperTests
                 "#20"
             },
             faceBoundMapper.MappingOrder);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.Empty(
+            context.Diagnostics);
+    }
+
+    [Fact]
+    public void Map_WhenSameSenseIsTrue_SetsForwardFaceOrientation()
+    {
+        Loop outerLoop =
+            CreateTriangleLoop(
+                0.0);
+
+        var outerBound =
+            new StepFaceOuterBoundEntity(
+                "#20",
+                "Outer boundary",
+                "#30",
+                true);
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<
+                    string,
+                    StepFaceBoundEntity>
+                {
+                    ["#20"] =
+                        outerBound
+                });
+
+        var mapper =
+            new StepAdvancedFaceMapper(
+                new StubFaceBuilderMapper(
+                    MappingResult<FaceBuilder>.Success(
+                        new FaceBuilder(
+                            new TestSurface3D()))),
+                new StubFaceBoundMapper(
+                    new Dictionary<
+                        string,
+                        MappingResult<FaceLoopMapping>>
+                    {
+                        ["#20"] =
+                            MappingResult<FaceLoopMapping>
+                                .Success(
+                                    new FaceLoopMapping(
+                                        outerLoop,
+                                        true,
+                                        true))
+                    }));
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        StepAdvancedFaceEntity source =
+            CreateAdvancedFace(
+                "#100",
+                true,
+                "#20");
+
+        MappingResult<Face> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Face face =
+            Assert.IsType<Face>(
+                result.Value);
+
+        Assert.Equal(
+            FaceOrientation.Forward,
+            face.Orientation);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.Empty(
+            context.Diagnostics);
+    }
+
+    [Fact]
+    public void Map_WhenSameSenseIsFalse_SetsReversedFaceOrientation()
+    {
+        Loop outerLoop =
+            CreateTriangleLoop(
+                0.0);
+
+        var outerBound =
+            new StepFaceOuterBoundEntity(
+                "#20",
+                "Outer boundary",
+                "#30",
+                true);
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<
+                    string,
+                    StepFaceBoundEntity>
+                {
+                    ["#20"] =
+                        outerBound
+                });
+
+        var mapper =
+            new StepAdvancedFaceMapper(
+                new StubFaceBuilderMapper(
+                    MappingResult<FaceBuilder>.Success(
+                        new FaceBuilder(
+                            new TestSurface3D()))),
+                new StubFaceBoundMapper(
+                    new Dictionary<
+                        string,
+                        MappingResult<FaceLoopMapping>>
+                    {
+                        ["#20"] =
+                            MappingResult<FaceLoopMapping>
+                                .Success(
+                                    new FaceLoopMapping(
+                                        outerLoop,
+                                        true,
+                                        true))
+                    }));
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        StepAdvancedFaceEntity source =
+            CreateAdvancedFace(
+                "#100",
+                false,
+                "#20");
+
+        MappingResult<Face> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Face face =
+            Assert.IsType<Face>(
+                result.Value);
+
+        Assert.Equal(
+            FaceOrientation.Reversed,
+            face.Orientation);
 
         Assert.Empty(
             result.Diagnostics);
@@ -823,12 +986,23 @@ public sealed class StepAdvancedFaceMapperTests
         string sourceEntityId,
         params string[] boundReferenceIds)
     {
+        return CreateAdvancedFace(
+            sourceEntityId,
+            true,
+            boundReferenceIds);
+    }
+
+    private static StepAdvancedFaceEntity CreateAdvancedFace(
+        string sourceEntityId,
+        bool sameSense,
+        params string[] boundReferenceIds)
+    {
         return new StepAdvancedFaceEntity(
             sourceEntityId,
             "Advanced face",
             boundReferenceIds,
             "#500",
-            true);
+            sameSense);
     }
 
     private static Loop CreateTriangleLoop(

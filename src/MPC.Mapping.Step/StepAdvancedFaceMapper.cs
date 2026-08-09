@@ -1,4 +1,5 @@
 ﻿using MPC.Connectors.Step.Semantics;
+using MPC.Topology;
 using MPC.Topology.Building;
 using MPC.Topology.Primitives;
 
@@ -161,10 +162,9 @@ public sealed class StepAdvancedFaceMapper :
                 diagnostic);
 
             return MappingResult<Face>.Failure(
-                new[]
-                {
+                [
                     diagnostic
-                });
+                ]);
         }
 
         if (outerMappings.Count > 1)
@@ -179,14 +179,21 @@ public sealed class StepAdvancedFaceMapper :
                 diagnostic);
 
             return MappingResult<Face>.Failure(
-                new[]
-                {
+                [
                     diagnostic
-                });
+                ]);
         }
 
         try
         {
+            FaceOrientation orientation =
+                source.SameSense
+                    ? FaceOrientation.Forward
+                    : FaceOrientation.Reversed;
+
+            faceBuilder.SetOrientation(
+                orientation);
+
             foreach (FaceLoopMapping boundaryMapping
                      in boundaryMappings)
             {
@@ -228,10 +235,9 @@ public sealed class StepAdvancedFaceMapper :
                 diagnostic);
 
             return MappingResult<Face>.Failure(
-                new[]
-                {
+                [
                     diagnostic
-                });
+                ]);
         }
     }
 
