@@ -564,7 +564,7 @@ public sealed class StepEdgeLoopMapperTests
     }
 
     [Fact]
-    public void Map_WithExistingContextDiagnostic_ReturnsSuccessWithDiagnostics()
+    public void Map_WithPreExistingInformation_DoesNotIncludeItInSuccessfulResult()
     {
         TriangleFixture fixture =
             CreateTriangleFixture();
@@ -597,7 +597,7 @@ public sealed class StepEdgeLoopMapperTests
                 context);
 
         Assert.Equal(
-            MappingStatus.SucceededWithDiagnostics,
+            MappingStatus.Succeeded,
             result.Status);
 
         Assert.True(
@@ -606,10 +606,150 @@ public sealed class StepEdgeLoopMapperTests
         Assert.NotNull(
             result.Value);
 
+        Assert.Empty(
+            result.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
         Assert.Same(
             diagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        TriangleFixture fixture =
+            CreateTriangleFixture();
+
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _);
+
+        var diagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-ERROR-001",
+                "A previous mapping operation failed.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            diagnostic);
+
+        var source =
+            CreateEdgeLoopEntity(
+                "#100",
+                "#11",
+                "#12",
+                "#13");
+
+        MappingResult<Loop> result =
+            CreateMapper().Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        MappingDiagnostic contextDiagnostic =
             Assert.Single(
-                result.Diagnostics));
+                context.Diagnostics);
+
+        Assert.Same(
+            diagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
+    public void Map_WithUnresolvedOrientedEdgeAndPreExistingDiagnostic_ReturnsOnlyCurrentFailure()
+    {
+        TriangleFixture fixture =
+            CreateTriangleFixture();
+
+        var currentDiagnostic =
+            new MappingDiagnostic(
+                "MAP-REF-ORIENTED-001",
+                "Referenced ORIENTED_EDGE could not be resolved.",
+                MappingDiagnosticSeverity.Error);
+
+        MappingContext context =
+            CreateContext(
+                fixture,
+                out _,
+                out _,
+                failedOrientedEdgeReferences:
+                    new Dictionary<string, MappingDiagnostic>
+                    {
+                        ["#12"] =
+                            currentDiagnostic
+                    });
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-INFO-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Information);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        var source =
+            CreateEdgeLoopEntity(
+                "#100",
+                "#11",
+                "#12",
+                "#13");
+
+        MappingResult<Loop> result =
+            CreateMapper().Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Same(
+            currentDiagnostic,
+            resultDiagnostic);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            priorDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            currentDiagnostic,
+            context.Diagnostics[1]);
     }
 
     [Fact]

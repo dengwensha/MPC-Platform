@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Geometry.Contracts;
 using MPC.Geometry.Primitives;
 using MPC.Mapping;
@@ -549,6 +549,88 @@ public sealed class StepCanonicalReferenceResolverTests
 
         Assert.Empty(
             context.Diagnostics);
+    }
+
+    [Fact]
+    public void Resolve_CacheHitWithPreExistingContextDiagnostic_DoesNotIncludeItInResult()
+    {
+        var point =
+            new StepCartesianPointEntity(
+                "#10",
+                "Vertex position",
+                [
+                    1.0,
+                    2.0,
+                    3.0
+                ]);
+
+        var vertexPoint =
+            new StepVertexPointEntity(
+                "#20",
+                "Vertex",
+                "#10");
+
+        MappingContext context =
+            CreateContext(
+                out StepCanonicalReferenceResolver resolver,
+                point,
+                vertexPoint);
+
+        MappingResult<Vertex> first =
+            resolver.Resolve<Vertex>(
+                "#20",
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            first.Status);
+
+        Assert.Empty(
+            first.Diagnostics);
+
+        Vertex firstVertex =
+            Assert.IsType<Vertex>(
+                first.Value);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        MappingResult<Vertex> second =
+            resolver.Resolve<Vertex>(
+                "#20",
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            second.Status);
+
+        Assert.True(
+            second.IsSuccessful);
+
+        Vertex secondVertex =
+            Assert.IsType<Vertex>(
+                second.Value);
+
+        Assert.Same(
+            firstVertex,
+            secondVertex);
+
+        Assert.Empty(
+            second.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
     }
 
     [Fact]

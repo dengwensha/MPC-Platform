@@ -27,6 +27,9 @@ public sealed class StepLineGeometryMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ReferenceResolutionResult<
             StepCartesianPointEntity> pointResolution =
                 context.ReferenceResolver
@@ -120,12 +123,17 @@ public sealed class StepLineGeometryMapper :
                 ]);
         }
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic>
+            operationDiagnostics =
+                context.GetDiagnosticsSince(
+                    diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<Line3D>
                 .SuccessWithDiagnostics(
                     line,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<Line3D>.Success(

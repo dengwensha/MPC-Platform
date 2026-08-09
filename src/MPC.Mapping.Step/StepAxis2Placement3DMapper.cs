@@ -22,8 +22,14 @@ public sealed class StepAxis2Placement3DMapper :
         StepAxis2Placement3DEntity source,
         MappingContext context)
     {
-        ArgumentNullException.ThrowIfNull(source);
-        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(
+            source);
+
+        ArgumentNullException.ThrowIfNull(
+            context);
+
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
 
         ReferenceResolutionResult<StepCartesianPoint>
             locationResolution =
@@ -38,7 +44,8 @@ public sealed class StepAxis2Placement3DMapper :
 
             return MappingResult<
                 CoordinateSystem3D>.Failure(
-                    locationResolution.Diagnostics);
+                    context.GetDiagnosticsSince(
+                        diagnosticCheckpoint));
         }
 
         try
@@ -59,11 +66,13 @@ public sealed class StepAxis2Placement3DMapper :
                     source,
                     context);
 
-            if (context.HasErrors)
+            if (context.HasErrorsSince(
+                    diagnosticCheckpoint))
             {
                 return MappingResult<
                     CoordinateSystem3D>.Failure(
-                        context.Diagnostics);
+                        context.GetDiagnosticsSince(
+                            diagnosticCheckpoint));
             }
 
             CoordinateSystem3D coordinateSystem =
@@ -72,13 +81,15 @@ public sealed class StepAxis2Placement3DMapper :
                     zAxis,
                     referenceDirection);
 
-            if (context.HasDiagnostics)
+            if (context.HasDiagnosticsSince(
+                    diagnosticCheckpoint))
             {
                 return MappingResult<
                     CoordinateSystem3D>
                     .SuccessWithDiagnostics(
                         coordinateSystem,
-                        context.Diagnostics);
+                        context.GetDiagnosticsSince(
+                            diagnosticCheckpoint));
             }
 
             return MappingResult<
@@ -97,10 +108,8 @@ public sealed class StepAxis2Placement3DMapper :
 
             return MappingResult<
                 CoordinateSystem3D>.Failure(
-                    new[]
-                    {
-                        diagnostic
-                    });
+                    context.GetDiagnosticsSince(
+                        diagnosticCheckpoint));
         }
     }
 

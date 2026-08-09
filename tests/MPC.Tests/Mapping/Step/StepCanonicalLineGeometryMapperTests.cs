@@ -245,6 +245,89 @@ public sealed class StepCanonicalLineGeometryMapperTests
     }
 
     [Fact]
+    public void Map_WithPreExistingContextDiagnostic_DoesNotIncludeItInSuccessfulResult()
+    {
+        var point =
+            new StepCartesianPointEntity(
+                "#10",
+                "Line origin",
+                [
+                    1.0,
+                    2.0,
+                    3.0
+                ]);
+
+        var direction =
+            new StepDirectionEntity(
+                "#20",
+                "Line direction",
+                [
+                    1.0,
+                    0.0,
+                    0.0
+                ]);
+
+        var vector =
+            new StepVectorEntity(
+                "#30",
+                "Line vector",
+                "#20",
+                25.0);
+
+        var source =
+            new StepLineEntity(
+                "#40",
+                "Main line",
+                "#10",
+                "#30");
+
+        MappingContext context =
+            CreateContext(
+                point,
+                direction,
+                vector,
+                source);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-LINE-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepLineGeometryMapper();
+
+        MappingResult<Line3D> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.IsType<Line3D>(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
     public void Map_WhenPointReferenceCannotBeResolved_ReturnsFailure()
     {
         var direction =

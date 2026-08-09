@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Mapping;
 using MPC.Mapping.Step;
 using MPC.Topology.Primitives;
@@ -236,6 +236,69 @@ public sealed class StepCanonicalVertexPointMapperTests
             diagnostic,
             Assert.Single(
                 context.Diagnostics));
+    }
+
+    [Fact]
+    public void Map_WithPreExistingContextDiagnostic_DoesNotIncludeItInSuccessfulResult()
+    {
+        var point =
+            new StepCartesianPointEntity(
+                "#10",
+                "Vertex position",
+                [
+                    1.0,
+                    2.0,
+                    3.0
+                ]);
+
+        var source =
+            new StepVertexPointEntity(
+                "#20",
+                "Vertex",
+                "#10");
+
+        MappingContext context =
+            CreateContext(
+                point,
+                source);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepVertexPointMapper();
+
+        MappingResult<Vertex> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
     }
 
     [Fact]

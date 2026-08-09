@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Topology.Primitives;
 
 namespace MPC.Mapping.Step;
@@ -31,6 +31,9 @@ public sealed class StepEdgeLoopMapper :
     {
         ArgumentNullException.ThrowIfNull(source);
         ArgumentNullException.ThrowIfNull(context);
+
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
 
         var edgeUses =
             new List<EdgeUse>(
@@ -120,12 +123,16 @@ public sealed class StepEdgeLoopMapper :
                 });
         }
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic> operationResultDiagnostics =
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint);
+
+        if (operationResultDiagnostics.Count > 0)
         {
             return MappingResult<Loop>
                 .SuccessWithDiagnostics(
                     loop,
-                    context.Diagnostics);
+                    operationResultDiagnostics);
         }
 
         return MappingResult<Loop>.Success(

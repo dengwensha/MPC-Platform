@@ -34,6 +34,9 @@ public sealed class StepFaceBoundMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ReferenceResolutionResult<
             StepEdgeLoopEntity> resolution =
                 context.ReferenceResolver
@@ -78,13 +81,17 @@ public sealed class StepFaceBoundMapper :
                 source.Orientation,
                 source is StepFaceOuterBoundEntity);
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic> operationDiagnostics =
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<
                 FaceLoopMapping>
                 .SuccessWithDiagnostics(
                     mapping,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<

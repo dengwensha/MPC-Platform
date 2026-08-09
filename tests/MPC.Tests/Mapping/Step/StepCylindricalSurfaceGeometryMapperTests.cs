@@ -122,6 +122,101 @@ public sealed class StepCylindricalSurfaceGeometryMapperTests
     }
 
     [Fact]
+    public void Map_WithPreExistingWarning_DoesNotIncludeItInSuccessfulResult()
+    {
+        MappingContext context =
+            CreateValidContext(
+                out StepCylindricalSurfaceEntity cylindricalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-CYLINDER-WARNING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepCylindricalSurfaceGeometryMapper();
+
+        MappingResult<Cylinder3D> result =
+            mapper.Map(
+                cylindricalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        MappingContext context =
+            CreateValidContext(
+                out StepCylindricalSurfaceEntity cylindricalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-CYLINDER-ERROR-001",
+                "Error from a previous mapping operation.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepCylindricalSurfaceGeometryMapper();
+
+        MappingResult<Cylinder3D> result =
+            mapper.Map(
+                cylindricalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
     public void Map_WithUnresolvedPlacement_ReturnsFailure()
     {
         StepCylindricalSurfaceEntity cylindricalSurface =
@@ -143,6 +238,64 @@ public sealed class StepCylindricalSurfaceGeometryMapperTests
             result,
             context,
             "STEP_REFERENCE_RESOLUTION_FAILED");
+    }
+
+    [Fact]
+    public void Map_WithUnresolvedPlacementAndPreExistingDiagnostic_ReturnsOnlyCurrentOperationFailure()
+    {
+        StepCylindricalSurfaceEntity cylindricalSurface =
+            CreateCylindricalSurface();
+
+        MappingContext context =
+            CreateContext(
+                cylindricalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-CYLINDER-WARNING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepCylindricalSurfaceGeometryMapper();
+
+        MappingResult<Cylinder3D> result =
+            mapper.Map(
+                cylindricalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Equal(
+            "STEP_REFERENCE_RESOLUTION_FAILED",
+            resultDiagnostic.Code);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            existingDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            resultDiagnostic,
+            context.Diagnostics[1]);
     }
 
     [Fact]
@@ -328,6 +481,35 @@ public sealed class StepCylindricalSurfaceGeometryMapperTests
             result,
             context,
             "MAP-STEP-CYLINDER-004");
+    }
+
+    private static MappingContext CreateValidContext(
+        out StepCylindricalSurfaceEntity cylindricalSurface)
+    {
+        StepCartesianPointEntity location =
+            CreateLocation(
+                ValidLocationCoordinates);
+
+        StepDirectionEntity axis =
+            CreateAxis(
+                ValidAxisRatios);
+
+        StepDirectionEntity referenceDirection =
+            CreateReferenceDirection(
+                ValidReferenceDirectionRatios);
+
+        StepAxis2Placement3DEntity placement =
+            CreatePlacement();
+
+        cylindricalSurface =
+            CreateCylindricalSurface();
+
+        return CreateContext(
+            location,
+            axis,
+            referenceDirection,
+            placement,
+            cylindricalSurface);
     }
 
     private static StepCartesianPointEntity CreateLocation(

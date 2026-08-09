@@ -25,6 +25,9 @@ public sealed class StepVertexPointMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ReferenceResolutionResult<
             StepCartesianPointEntity> pointResolution =
                 context.ReferenceResolver
@@ -73,12 +76,17 @@ public sealed class StepVertexPointMapper :
                 ]);
         }
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic>
+            operationDiagnostics =
+                context.GetDiagnosticsSince(
+                    diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<Vertex>
                 .SuccessWithDiagnostics(
                     vertex,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<Vertex>.Success(

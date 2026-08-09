@@ -373,39 +373,15 @@ public sealed class StepFaceBoundMapperTests
     }
 
     [Fact]
-    public void Map_WithExistingContextDiagnostic_ReturnsSuccessWithDiagnostics()
+    public void Map_WithPreExistingInformation_DoesNotIncludeItInSuccessfulResult()
     {
         Loop loop =
             CreateTriangleLoop();
 
-        var edgeLoop =
-            new StepEdgeLoopEntity(
-                "#20",
-                "Boundary loop",
-                new[]
-                {
-                    "#11",
-                    "#12",
-                    "#13"
-                });
-
-        var resolver =
-            new StubReferenceResolver(
-                new Dictionary<string, StepEdgeLoopEntity>
-                {
-                    ["#20"] =
-                        edgeLoop
-                });
-
-        var mapper =
-            new StepFaceBoundMapper(
-                new StubEdgeLoopMapper(
-                    MappingResult<Loop>.Success(
-                        loop)));
-
-        var context =
-            new MappingContext(
-                resolver);
+        StepFaceBoundMapper mapper =
+            CreateSuccessfulMapper(
+                loop,
+                out MappingContext context);
 
         var diagnostic =
             new MappingDiagnostic(
@@ -429,16 +405,162 @@ public sealed class StepFaceBoundMapperTests
                 context);
 
         Assert.Equal(
-            MappingStatus.SucceededWithDiagnostics,
+            MappingStatus.Succeeded,
             result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
 
         Assert.NotNull(
             result.Value);
 
+        Assert.Empty(
+            result.Diagnostics);
+
         Assert.Same(
             diagnostic,
             Assert.Single(
-                result.Diagnostics));
+                context.Diagnostics));
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        Loop loop =
+            CreateTriangleLoop();
+
+        StepFaceBoundMapper mapper =
+            CreateSuccessfulMapper(
+                loop,
+                out MappingContext context);
+
+        var diagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-ERROR-001",
+                "A previous mapping operation failed.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            diagnostic);
+
+        var source =
+            new StepFaceBoundEntity(
+                "#30",
+                "Boundary",
+                "#20",
+                true);
+
+        MappingResult<FaceLoopMapping> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        Assert.Same(
+            diagnostic,
+            Assert.Single(
+                context.Diagnostics));
+    }
+
+    [Fact]
+    public void Map_WithUnresolvedEdgeLoopAndPreExistingDiagnostic_ReturnsOnlyCurrentFailure()
+    {
+        var currentDiagnostic =
+            new MappingDiagnostic(
+                "MAP-REF-EDGE-LOOP-001",
+                "Referenced EDGE_LOOP could not be resolved.",
+                MappingDiagnosticSeverity.Error);
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<string, StepEdgeLoopEntity>(),
+                new Dictionary<string, MappingDiagnostic>
+                {
+                    ["#20"] =
+                        currentDiagnostic
+                });
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-INFO-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Information);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        var loopMapper =
+            new StubEdgeLoopMapper(
+                MappingResult<Loop>.Success(
+                    CreateTriangleLoop()));
+
+        var mapper =
+            new StepFaceBoundMapper(
+                loopMapper);
+
+        var source =
+            new StepFaceBoundEntity(
+                "#30",
+                "Boundary",
+                "#20",
+                true);
+
+        MappingResult<FaceLoopMapping> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Same(
+            currentDiagnostic,
+            resultDiagnostic);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            priorDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            currentDiagnostic,
+            context.Diagnostics[1]);
+
+        Assert.Null(
+            loopMapper.LastSource);
     }
 
     [Fact]

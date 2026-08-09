@@ -21,6 +21,9 @@ public sealed class StepOrientedEdgeMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ICanonicalReferenceResolver? canonicalResolver =
             context.CanonicalReferenceResolver;
 
@@ -35,9 +38,8 @@ public sealed class StepOrientedEdgeMapper :
                 diagnostic);
 
             return MappingResult<EdgeUse>.Failure(
-                [
-                    diagnostic
-                ]);
+                context.GetDiagnosticsSince(
+                    diagnosticCheckpoint));
         }
 
         MappingResult<Edge> edgeResult =
@@ -62,12 +64,16 @@ public sealed class StepOrientedEdgeMapper :
                 edgeResult.Value,
                 direction);
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic> operationDiagnostics =
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<EdgeUse>
                 .SuccessWithDiagnostics(
                     edgeUse,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<EdgeUse>.Success(

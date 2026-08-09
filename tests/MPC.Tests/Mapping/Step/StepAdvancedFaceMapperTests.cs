@@ -860,7 +860,7 @@ public sealed class StepAdvancedFaceMapperTests
     }
 
     [Fact]
-    public void Map_WithExistingContextDiagnostic_ReturnsSuccessWithDiagnostics()
+    public void Map_WithPreExistingInformation_DoesNotIncludeItInSuccessfulResult()
     {
         Loop outerLoop =
             CreateTriangleLoop(
@@ -924,16 +924,192 @@ public sealed class StepAdvancedFaceMapperTests
                 context);
 
         Assert.Equal(
-            MappingStatus.SucceededWithDiagnostics,
+            MappingStatus.Succeeded,
             result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
 
         Assert.NotNull(
             result.Value);
 
+        Assert.Empty(
+            result.Diagnostics);
+
         Assert.Same(
             diagnostic,
             Assert.Single(
-                result.Diagnostics));
+                context.Diagnostics));
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        Loop outerLoop =
+            CreateTriangleLoop(
+                0.0);
+
+        var outerBound =
+            new StepFaceOuterBoundEntity(
+                "#20",
+                "Outer boundary",
+                "#30",
+                true);
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<
+                    string,
+                    StepFaceBoundEntity>
+                {
+                    ["#20"] =
+                        outerBound
+                });
+
+        var mapper =
+            new StepAdvancedFaceMapper(
+                new StubFaceBuilderMapper(
+                    MappingResult<FaceBuilder>.Success(
+                        new FaceBuilder(
+                            new TestSurface3D()))),
+                new StubFaceBoundMapper(
+                    new Dictionary<
+                        string,
+                        MappingResult<FaceLoopMapping>>
+                    {
+                        ["#20"] =
+                            MappingResult<FaceLoopMapping>
+                                .Success(
+                                    new FaceLoopMapping(
+                                        outerLoop,
+                                        true,
+                                        true))
+                    }));
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        var diagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-ERROR-001",
+                "A previous mapping operation failed.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            diagnostic);
+
+        MappingResult<Face> result =
+            mapper.Map(
+                CreateAdvancedFace(
+                    "#100",
+                    "#20"),
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        Assert.Same(
+            diagnostic,
+            Assert.Single(
+                context.Diagnostics));
+    }
+
+    [Fact]
+    public void Map_WithUnresolvedBoundReferenceAndPreExistingDiagnostic_ReturnsOnlyCurrentFailure()
+    {
+        var currentDiagnostic =
+            new MappingDiagnostic(
+                "MAP-REF-FACE-BOUND-001",
+                "Referenced FACE_BOUND could not be resolved.",
+                MappingDiagnosticSeverity.Error);
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<
+                    string,
+                    StepFaceBoundEntity>(),
+                new Dictionary<
+                    string,
+                    MappingDiagnostic>
+                {
+                    ["#20"] =
+                        currentDiagnostic
+                });
+
+        var mapper =
+            new StepAdvancedFaceMapper(
+                new StubFaceBuilderMapper(
+                    MappingResult<FaceBuilder>.Success(
+                        new FaceBuilder(
+                            new TestSurface3D()))),
+                new StubFaceBoundMapper(
+                    new Dictionary<
+                        string,
+                        MappingResult<FaceLoopMapping>>()));
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-INFO-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Information);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        MappingResult<Face> result =
+            mapper.Map(
+                CreateAdvancedFace(
+                    "#100",
+                    "#20"),
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Same(
+            currentDiagnostic,
+            resultDiagnostic);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            priorDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            currentDiagnostic,
+            context.Diagnostics[1]);
     }
 
     [Fact]

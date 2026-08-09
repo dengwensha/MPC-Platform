@@ -239,7 +239,7 @@ public sealed class StepManifoldSolidBrepMapperTests
     }
 
     [Fact]
-    public void Map_WithExistingContextDiagnostic_ReturnsSuccessWithDiagnostics()
+    public void Map_WithPreExistingInformation_DoesNotIncludeItInSuccessfulResult()
     {
         StepClosedShellEntity closedShellEntity =
             CreateClosedShellEntity();
@@ -282,7 +282,7 @@ public sealed class StepManifoldSolidBrepMapperTests
                 context);
 
         Assert.Equal(
-            MappingStatus.SucceededWithDiagnostics,
+            MappingStatus.Succeeded,
             result.Status);
 
         Assert.True(
@@ -299,13 +299,8 @@ public sealed class StepManifoldSolidBrepMapperTests
         Assert.Empty(
             solid.InnerShells);
 
-        MappingDiagnostic resultDiagnostic =
-            Assert.Single(
-                result.Diagnostics);
-
-        Assert.Same(
-            diagnostic,
-            resultDiagnostic);
+        Assert.Empty(
+            result.Diagnostics);
 
         MappingDiagnostic contextDiagnostic =
             Assert.Single(
@@ -322,6 +317,71 @@ public sealed class StepManifoldSolidBrepMapperTests
         Assert.Same(
             context,
             shellMapper.LastContext);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        StepClosedShellEntity closedShellEntity =
+            CreateClosedShellEntity();
+
+        Shell canonicalShell =
+            CreateCanonicalShell();
+
+        var resolver =
+            new StubReferenceResolver(
+                closedShellEntity);
+
+        var shellMapper =
+            new StubClosedShellMapper(
+                MappingResult<Shell>.Success(
+                    canonicalShell));
+
+        var mapper =
+            new StepManifoldSolidBrepMapper(
+                shellMapper);
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        var diagnostic =
+            new MappingDiagnostic(
+                "TEST-PRIOR-ERROR-001",
+                "A previous mapping operation failed.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            diagnostic);
+
+        StepManifoldSolidBrepEntity source =
+            CreateManifoldSolidBrepEntity();
+
+        MappingResult<Solid> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        Assert.Same(
+            diagnostic,
+            Assert.Single(
+                context.Diagnostics));
     }
 
     [Fact]

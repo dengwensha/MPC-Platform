@@ -34,6 +34,9 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ReferenceResolutionResult<StepAxis2Placement3DEntity>
             placementResolution =
                 context.ReferenceResolver
@@ -44,6 +47,7 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
         {
             return CreateResolutionFailure(
                 context,
+                diagnosticCheckpoint,
                 placementResolution.Diagnostics);
         }
 
@@ -62,6 +66,7 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
         {
             return CreateResolutionFailure(
                 context,
+                diagnosticCheckpoint,
                 locationResolution.Diagnostics);
         }
 
@@ -74,6 +79,7 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
         {
             return CreateFailure(
                 context,
+                diagnosticCheckpoint,
                 InvalidLocationDiagnosticCode,
                 $"STEP CARTESIAN_POINT '{location.SourceEntityId}' " +
                 "must contain exactly three coordinates for Cylinder3D mapping.");
@@ -101,6 +107,7 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
             {
                 return CreateResolutionFailure(
                     context,
+                    diagnosticCheckpoint,
                     axisResolution.Diagnostics);
             }
 
@@ -113,6 +120,7 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
             {
                 return CreateFailure(
                     context,
+                    diagnosticCheckpoint,
                     InvalidAxisDiagnosticCode,
                     $"STEP DIRECTION '{axisEntity.SourceEntityId}' " +
                     "must contain exactly three direction ratios " +
@@ -142,6 +150,7 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
             {
                 return CreateResolutionFailure(
                     context,
+                    diagnosticCheckpoint,
                     referenceDirectionResolution.Diagnostics);
             }
 
@@ -154,6 +163,7 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
             {
                 return CreateFailure(
                     context,
+                    diagnosticCheckpoint,
                     InvalidReferenceDirectionDiagnosticCode,
                     $"STEP DIRECTION '{referenceDirectionEntity.SourceEntityId}' " +
                     "must contain exactly three direction ratios " +
@@ -187,18 +197,23 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
         {
             return CreateFailure(
                 context,
+                diagnosticCheckpoint,
                 InvalidCylinderDiagnosticCode,
                 CreateInvalidCylinderMessage(
                     source,
                     exception));
         }
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic> operationDiagnostics =
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<Cylinder3D>
                 .SuccessWithDiagnostics(
                     cylinder,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<Cylinder3D>.Success(
@@ -208,17 +223,20 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
     private static MappingResult<Cylinder3D>
         CreateResolutionFailure(
             MappingContext context,
+            int diagnosticCheckpoint,
             IReadOnlyList<MappingDiagnostic> diagnostics)
     {
         context.AddDiagnostics(
             diagnostics);
 
         return MappingResult<Cylinder3D>.Failure(
-            diagnostics);
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint));
     }
 
     private static MappingResult<Cylinder3D> CreateFailure(
         MappingContext context,
+        int diagnosticCheckpoint,
         string code,
         string message)
     {
@@ -232,7 +250,8 @@ public sealed class StepCylindricalSurfaceGeometryMapper :
             diagnostic);
 
         return MappingResult<Cylinder3D>.Failure(
-            [diagnostic]);
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint));
     }
 
     private static string CreateInvalidCylinderMessage(

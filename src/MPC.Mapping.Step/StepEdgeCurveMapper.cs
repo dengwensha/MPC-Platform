@@ -25,6 +25,9 @@ public sealed class StepEdgeCurveMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ICanonicalReferenceResolver? canonicalResolver =
             context.CanonicalReferenceResolver;
 
@@ -104,12 +107,17 @@ public sealed class StepEdgeCurveMapper :
                 endVertexResult.Value,
                 curveResult.Value);
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic>
+            operationDiagnostics =
+                context.GetDiagnosticsSince(
+                    diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<Edge>
                 .SuccessWithDiagnostics(
                     edge,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<Edge>.Success(

@@ -34,6 +34,9 @@ public sealed class StepPlaneGeometryMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ReferenceResolutionResult<StepAxis2Placement3DEntity>
             placementResolution =
                 context.ReferenceResolver
@@ -44,6 +47,7 @@ public sealed class StepPlaneGeometryMapper :
         {
             return CreateResolutionFailure(
                 context,
+                diagnosticCheckpoint,
                 placementResolution.Diagnostics);
         }
 
@@ -62,6 +66,7 @@ public sealed class StepPlaneGeometryMapper :
         {
             return CreateResolutionFailure(
                 context,
+                diagnosticCheckpoint,
                 locationResolution.Diagnostics);
         }
 
@@ -74,6 +79,7 @@ public sealed class StepPlaneGeometryMapper :
         {
             return CreateFailure(
                 context,
+                diagnosticCheckpoint,
                 InvalidLocationDiagnosticCode,
                 $"STEP CARTESIAN_POINT '{location.SourceEntityId}' " +
                 "must contain exactly three coordinates for Plane3D mapping.");
@@ -101,6 +107,7 @@ public sealed class StepPlaneGeometryMapper :
             {
                 return CreateResolutionFailure(
                     context,
+                    diagnosticCheckpoint,
                     axisResolution.Diagnostics);
             }
 
@@ -113,6 +120,7 @@ public sealed class StepPlaneGeometryMapper :
             {
                 return CreateFailure(
                     context,
+                    diagnosticCheckpoint,
                     InvalidAxisDiagnosticCode,
                     $"STEP DIRECTION '{axisEntity.SourceEntityId}' " +
                     "must contain exactly three direction ratios " +
@@ -142,6 +150,7 @@ public sealed class StepPlaneGeometryMapper :
             {
                 return CreateResolutionFailure(
                     context,
+                    diagnosticCheckpoint,
                     referenceDirectionResolution.Diagnostics);
             }
 
@@ -154,6 +163,7 @@ public sealed class StepPlaneGeometryMapper :
             {
                 return CreateFailure(
                     context,
+                    diagnosticCheckpoint,
                     InvalidReferenceDirectionDiagnosticCode,
                     $"STEP DIRECTION '{referenceDirectionEntity.SourceEntityId}' " +
                     "must contain exactly three direction ratios " +
@@ -186,18 +196,23 @@ public sealed class StepPlaneGeometryMapper :
         {
             return CreateFailure(
                 context,
+                diagnosticCheckpoint,
                 InvalidPlaneDiagnosticCode,
                 CreateInvalidPlaneMessage(
                     source,
                     exception));
         }
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic> operationDiagnostics =
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<Plane3D>
                 .SuccessWithDiagnostics(
                     plane,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<Plane3D>.Success(
@@ -206,17 +221,20 @@ public sealed class StepPlaneGeometryMapper :
 
     private static MappingResult<Plane3D> CreateResolutionFailure(
         MappingContext context,
+        int diagnosticCheckpoint,
         IReadOnlyList<MappingDiagnostic> diagnostics)
     {
         context.AddDiagnostics(
             diagnostics);
 
         return MappingResult<Plane3D>.Failure(
-            diagnostics);
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint));
     }
 
     private static MappingResult<Plane3D> CreateFailure(
         MappingContext context,
+        int diagnosticCheckpoint,
         string code,
         string message)
     {
@@ -230,7 +248,8 @@ public sealed class StepPlaneGeometryMapper :
             diagnostic);
 
         return MappingResult<Plane3D>.Failure(
-            [diagnostic]);
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint));
     }
 
     private static string CreateInvalidPlaneMessage(

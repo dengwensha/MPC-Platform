@@ -619,6 +619,262 @@ public sealed class StepClosedShellMapperTests
             faceMapper.MappedSourceEntityIds);
     }
 
+    [Fact]
+    public void Map_WithPreExistingInformation_DoesNotIncludeItInSuccessfulResult()
+    {
+        var sourceFace =
+            new StepAdvancedFaceEntity(
+                "#20",
+                "Advanced face",
+                new[]
+                {
+                    "#30"
+                },
+                "#40",
+                true);
+
+        Face canonicalFace =
+            TopologyTestFactory.CreateFace();
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<string, StepAdvancedFaceEntity>
+                {
+                    ["#20"] = sourceFace
+                });
+
+        var faceMapper =
+            new StubAdvancedFaceMapper(
+                new Dictionary<string, MappingResult<Face>>
+                {
+                    ["#20"] =
+                        MappingResult<Face>.Success(
+                            canonicalFace)
+                });
+
+        var mapper =
+            new StepClosedShellMapper(
+                faceMapper);
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-INFO-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Information);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        var source =
+            new StepClosedShellEntity(
+                "#100",
+                "Closed shell",
+                new[]
+                {
+                    "#20"
+                });
+
+        MappingResult<Shell> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.Same(
+            priorDiagnostic,
+            Assert.Single(
+                context.Diagnostics));
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        var sourceFace =
+            new StepAdvancedFaceEntity(
+                "#20",
+                "Advanced face",
+                new[]
+                {
+                    "#30"
+                },
+                "#40",
+                true);
+
+        Face canonicalFace =
+            TopologyTestFactory.CreateFace();
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<string, StepAdvancedFaceEntity>
+                {
+                    ["#20"] = sourceFace
+                });
+
+        var faceMapper =
+            new StubAdvancedFaceMapper(
+                new Dictionary<string, MappingResult<Face>>
+                {
+                    ["#20"] =
+                        MappingResult<Face>.Success(
+                            canonicalFace)
+                });
+
+        var mapper =
+            new StepClosedShellMapper(
+                faceMapper);
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-ERROR-001",
+                "A previous mapping operation failed.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        var source =
+            new StepClosedShellEntity(
+                "#100",
+                "Closed shell",
+                new[]
+                {
+                    "#20"
+                });
+
+        MappingResult<Shell> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        Assert.Same(
+            priorDiagnostic,
+            Assert.Single(
+                context.Diagnostics));
+    }
+
+    [Fact]
+    public void Map_WithUnresolvedFaceReferenceAndPreExistingDiagnostic_ReturnsOnlyCurrentFailure()
+    {
+        var currentDiagnostic =
+            new MappingDiagnostic(
+                "TEST-REFERENCE-CURRENT-001",
+                "STEP reference '#21' could not be resolved.",
+                MappingDiagnosticSeverity.Error);
+
+        var resolver =
+            new StubReferenceResolver(
+                new Dictionary<string, StepAdvancedFaceEntity>(),
+                new Dictionary<string, MappingDiagnostic>
+                {
+                    ["#21"] =
+                        currentDiagnostic
+                });
+
+        var faceMapper =
+            new StubAdvancedFaceMapper(
+                new Dictionary<string, MappingResult<Face>>());
+
+        var mapper =
+            new StepClosedShellMapper(
+                faceMapper);
+
+        var context =
+            new MappingContext(
+                resolver);
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-INFO-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Information);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        var source =
+            new StepClosedShellEntity(
+                "#100",
+                "Closed shell",
+                new[]
+                {
+                    "#21"
+                });
+
+        MappingResult<Shell> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Same(
+            currentDiagnostic,
+            resultDiagnostic);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            priorDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            currentDiagnostic,
+            context.Diagnostics[1]);
+
+        Assert.Empty(
+            faceMapper.MappedSourceEntityIds);
+    }
+
     private sealed class StubAdvancedFaceMapper :
         IEntityMapper<StepAdvancedFaceEntity, Face>
     {

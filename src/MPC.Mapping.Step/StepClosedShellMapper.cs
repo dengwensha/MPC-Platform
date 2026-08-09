@@ -50,6 +50,9 @@ public sealed class StepClosedShellMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         var faces =
             new List<Face>(
                 source.FaceReferenceIds.Count);
@@ -160,12 +163,16 @@ public sealed class StepClosedShellMapper :
                 new Shell(
                     faces);
 
-            if (context.HasDiagnostics)
+            IReadOnlyList<MappingDiagnostic> operationResultDiagnostics =
+                context.GetDiagnosticsSince(
+                    diagnosticCheckpoint);
+
+            if (operationResultDiagnostics.Count > 0)
             {
                 return MappingResult<Shell>
                     .SuccessWithDiagnostics(
                         shell,
-                        context.Diagnostics);
+                        operationResultDiagnostics);
             }
 
             return MappingResult<Shell>.Success(

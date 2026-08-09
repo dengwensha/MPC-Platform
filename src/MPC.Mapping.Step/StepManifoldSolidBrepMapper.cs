@@ -41,6 +41,9 @@ public sealed class StepManifoldSolidBrepMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         ReferenceResolutionResult<
             StepClosedShellEntity> shellResolution =
                 context.ReferenceResolver
@@ -77,12 +80,16 @@ public sealed class StepManifoldSolidBrepMapper :
             new Solid(
                 shellResult.Value);
 
-        if (context.HasDiagnostics)
+        IReadOnlyList<MappingDiagnostic> operationDiagnostics =
+            context.GetDiagnosticsSince(
+                diagnosticCheckpoint);
+
+        if (operationDiagnostics.Count > 0)
         {
             return MappingResult<Solid>
                 .SuccessWithDiagnostics(
                     solid,
-                    context.Diagnostics);
+                    operationDiagnostics);
         }
 
         return MappingResult<Solid>.Success(

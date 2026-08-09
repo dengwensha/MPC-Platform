@@ -287,14 +287,6 @@ public sealed class StepCanonicalReferenceResolver :
                 ]);
         }
 
-        if (context.HasDiagnostics)
-        {
-            return MappingResult<T>
-                .SuccessWithDiagnostics(
-                    typedValue,
-                    context.Diagnostics);
-        }
-
         return MappingResult<T>.Success(
             typedValue);
     }

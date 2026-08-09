@@ -46,31 +46,9 @@ public sealed class StepConicalSurfaceGeometryMapperTests
     [Fact]
     public void Map_WithResolvedPlacement_ReturnsSuccessfulCone3DResult()
     {
-        StepCartesianPointEntity location =
-            CreateLocation(
-                ValidLocationCoordinates);
-
-        StepDirectionEntity axis =
-            CreateAxis(
-                ValidAxisRatios);
-
-        StepDirectionEntity referenceDirection =
-            CreateReferenceDirection(
-                ValidReferenceDirectionRatios);
-
-        StepAxis2Placement3DEntity placement =
-            CreatePlacement();
-
-        StepConicalSurfaceEntity conicalSurface =
-            CreateConicalSurface();
-
         MappingContext context =
-            CreateContext(
-                location,
-                axis,
-                referenceDirection,
-                placement,
-                conicalSurface);
+            CreateValidContext(
+                out StepConicalSurfaceEntity conicalSurface);
 
         var mapper =
             new StepConicalSurfaceGeometryMapper();
@@ -134,6 +112,104 @@ public sealed class StepConicalSurfaceGeometryMapperTests
             result.Value.SemiAngle,
             precision:
                 10);
+
+        Assert.Empty(
+            context.Diagnostics);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingWarning_DoesNotIncludeItInSuccessfulResult()
+    {
+        MappingContext context =
+            CreateValidContext(
+                out StepConicalSurfaceEntity conicalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-CONE-WARNING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepConicalSurfaceGeometryMapper();
+
+        MappingResult<Cone3D> result =
+            mapper.Map(
+                conicalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        MappingContext context =
+            CreateValidContext(
+                out StepConicalSurfaceEntity conicalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-CONE-ERROR-001",
+                "Error from a previous mapping operation.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepConicalSurfaceGeometryMapper();
+
+        MappingResult<Cone3D> result =
+            mapper.Map(
+                conicalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
     }
 
     [Fact]
@@ -178,10 +254,8 @@ public sealed class StepConicalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-CONE-001");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -226,10 +300,8 @@ public sealed class StepConicalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-CONE-002");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -274,10 +346,8 @@ public sealed class StepConicalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-CONE-003");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -323,10 +393,8 @@ public sealed class StepConicalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-CONE-004");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -350,6 +418,64 @@ public sealed class StepConicalSurfaceGeometryMapperTests
         AssertResolutionFailure(
             result,
             context);
+    }
+
+    [Fact]
+    public void Map_WhenPlacementCannotBeResolvedWithPreExistingDiagnostic_ReturnsOnlyCurrentOperationFailure()
+    {
+        StepConicalSurfaceEntity conicalSurface =
+            CreateConicalSurface();
+
+        MappingContext context =
+            CreateContext(
+                conicalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-CONE-WARNING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepConicalSurfaceGeometryMapper();
+
+        MappingResult<Cone3D> result =
+            mapper.Map(
+                conicalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Equal(
+            "STEP_REFERENCE_RESOLUTION_FAILED",
+            resultDiagnostic.Code);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            existingDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            resultDiagnostic,
+            context.Diagnostics[1]);
     }
 
     [Fact]
@@ -463,6 +589,35 @@ public sealed class StepConicalSurfaceGeometryMapperTests
             context);
     }
 
+    private static MappingContext CreateValidContext(
+        out StepConicalSurfaceEntity conicalSurface)
+    {
+        StepCartesianPointEntity location =
+            CreateLocation(
+                ValidLocationCoordinates);
+
+        StepDirectionEntity axis =
+            CreateAxis(
+                ValidAxisRatios);
+
+        StepDirectionEntity referenceDirection =
+            CreateReferenceDirection(
+                ValidReferenceDirectionRatios);
+
+        StepAxis2Placement3DEntity placement =
+            CreatePlacement();
+
+        conicalSurface =
+            CreateConicalSurface();
+
+        return CreateContext(
+            location,
+            axis,
+            referenceDirection,
+            placement,
+            conicalSurface);
+    }
+
     private static StepCartesianPointEntity CreateLocation(
         IReadOnlyList<double> coordinates)
     {
@@ -546,6 +701,7 @@ public sealed class StepConicalSurfaceGeometryMapperTests
 
     private static void AssertFailureWithDiagnostic(
         MappingResult<Cone3D> result,
+        MappingContext context,
         string expectedDiagnosticCode)
     {
         Assert.Equal(
@@ -558,11 +714,22 @@ public sealed class StepConicalSurfaceGeometryMapperTests
         Assert.Null(
             result.Value);
 
-        Assert.Contains(
-            result.Diagnostics,
-            diagnostic =>
-                diagnostic.Code ==
-                expectedDiagnosticCode);
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Equal(
+            expectedDiagnosticCode,
+            resultDiagnostic.Code);
+
+        Assert.Equal(
+            MappingDiagnosticSeverity.Error,
+            resultDiagnostic.Severity);
+
+        Assert.Same(
+            resultDiagnostic,
+            Assert.Single(
+                context.Diagnostics));
     }
 
     private static void AssertResolutionFailure(
@@ -579,10 +746,17 @@ public sealed class StepConicalSurfaceGeometryMapperTests
         Assert.Null(
             result.Value);
 
-        Assert.NotEmpty(
-            result.Diagnostics);
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
 
-        Assert.True(
-            context.HasDiagnostics);
+        Assert.Equal(
+            "STEP_REFERENCE_RESOLUTION_FAILED",
+            resultDiagnostic.Code);
+
+        Assert.Same(
+            resultDiagnostic,
+            Assert.Single(
+                context.Diagnostics));
     }
 }

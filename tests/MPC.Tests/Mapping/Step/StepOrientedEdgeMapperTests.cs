@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Geometry.Contracts;
 using MPC.Geometry.Primitives;
 using MPC.Mapping;
@@ -26,11 +26,9 @@ public sealed class StepOrientedEdgeMapperTests
                 canonicalResolver);
 
         var source =
-            new StepOrientedEdgeEntity(
-                sourceEntityId: "#100",
-                name: "Forward edge use",
-                edgeElementReferenceId: "#42",
-                orientation: true);
+            CreateSource(
+                orientation:
+                    true);
 
         var mapper =
             new StepOrientedEdgeMapper();
@@ -103,11 +101,9 @@ public sealed class StepOrientedEdgeMapperTests
                 canonicalResolver);
 
         var source =
-            new StepOrientedEdgeEntity(
-                sourceEntityId: "#100",
-                name: "Reversed edge use",
-                edgeElementReferenceId: "#42",
-                orientation: false);
+            CreateSource(
+                orientation:
+                    false);
 
         var mapper =
             new StepOrientedEdgeMapper();
@@ -173,11 +169,9 @@ public sealed class StepOrientedEdgeMapperTests
                 canonicalResolver);
 
         var source =
-            new StepOrientedEdgeEntity(
-                sourceEntityId: "#100",
-                name: "Unresolved edge use",
-                edgeElementReferenceId: "#42",
-                orientation: true);
+            CreateSource(
+                orientation:
+                    true);
 
         var mapper =
             new StepOrientedEdgeMapper();
@@ -219,7 +213,7 @@ public sealed class StepOrientedEdgeMapperTests
     }
 
     [Fact]
-    public void Map_WithExistingContextDiagnostic_ReturnsSuccessWithDiagnostics()
+    public void Map_WithPreExistingInformation_DoesNotIncludeItInSuccessfulResult()
     {
         Edge edge =
             CreateEdge();
@@ -244,11 +238,144 @@ public sealed class StepOrientedEdgeMapperTests
             diagnostic);
 
         var source =
-            new StepOrientedEdgeEntity(
-                sourceEntityId: "#100",
-                name: "Forward edge use",
-                edgeElementReferenceId: "#42",
-                orientation: true);
+            CreateSource(
+                orientation:
+                    true);
+
+        var mapper =
+            new StepOrientedEdgeMapper();
+
+        MappingResult<EdgeUse> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        EdgeUse edgeUse =
+            Assert.IsType<EdgeUse>(
+                result.Value);
+
+        Assert.Same(
+            edge,
+            edgeUse.Edge);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            diagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        Edge edge =
+            CreateEdge();
+
+        var canonicalResolver =
+            new StubCanonicalReferenceResolver(
+                "#42",
+                MappingResult<Edge>.Success(
+                    edge));
+
+        var context =
+            CreateContext(
+                canonicalResolver);
+
+        var diagnostic =
+            new MappingDiagnostic(
+                "MAP-ERROR-PRIOR-001",
+                "A previous mapping operation failed.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            diagnostic);
+
+        var source =
+            CreateSource(
+                orientation:
+                    true);
+
+        var mapper =
+            new StepOrientedEdgeMapper();
+
+        MappingResult<EdgeUse> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            diagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
+    public void Map_WhenCanonicalResolverAddsCurrentDiagnostic_ReturnsSuccessWithOnlyCurrentDiagnostic()
+    {
+        Edge edge =
+            CreateEdge();
+
+        var currentDiagnostic =
+            new MappingDiagnostic(
+                "MAP-REF-EDGE-INFO-001",
+                "Canonical edge resolution produced current-operation information.",
+                MappingDiagnosticSeverity.Information);
+
+        var canonicalResolver =
+            new StubCanonicalReferenceResolver(
+                "#42",
+                MappingResult<Edge>.Success(
+                    edge),
+                currentDiagnostic);
+
+        var context =
+            CreateContext(
+                canonicalResolver);
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-INFO-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Information);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        var source =
+            CreateSource(
+                orientation:
+                    true);
 
         var mapper =
             new StepOrientedEdgeMapper();
@@ -265,21 +392,28 @@ public sealed class StepOrientedEdgeMapperTests
         Assert.True(
             result.IsSuccessful);
 
-        EdgeUse edgeUse =
-            Assert.IsType<EdgeUse>(
-                result.Value);
+        Assert.NotNull(
+            result.Value);
 
-        Assert.Same(
-            edge,
-            edgeUse.Edge);
-
-        MappingDiagnostic actualDiagnostic =
+        MappingDiagnostic resultDiagnostic =
             Assert.Single(
                 result.Diagnostics);
 
         Assert.Same(
-            diagnostic,
-            actualDiagnostic);
+            currentDiagnostic,
+            resultDiagnostic);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            priorDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            currentDiagnostic,
+            context.Diagnostics[1]);
     }
 
     [Fact]
@@ -299,11 +433,9 @@ public sealed class StepOrientedEdgeMapperTests
                 canonicalResolver);
 
         var source =
-            new StepOrientedEdgeEntity(
-                sourceEntityId: "#100",
-                name: "Canonical identity test",
-                edgeElementReferenceId: "#42",
-                orientation: true);
+            CreateSource(
+                orientation:
+                    true);
 
         var mapper =
             new StepOrientedEdgeMapper();
@@ -342,11 +474,9 @@ public sealed class StepOrientedEdgeMapperTests
                 new StubReferenceResolver());
 
         var source =
-            new StepOrientedEdgeEntity(
-                sourceEntityId: "#100",
-                name: "Missing canonical resolver",
-                edgeElementReferenceId: "#42",
-                orientation: true);
+            CreateSource(
+                orientation:
+                    true);
 
         var mapper =
             new StepOrientedEdgeMapper();
@@ -381,6 +511,66 @@ public sealed class StepOrientedEdgeMapperTests
     }
 
     [Fact]
+    public void Map_WithoutCanonicalReferenceResolverAndWithPreExistingDiagnostic_ReturnsOnlyCurrentFailure()
+    {
+        var context =
+            new MappingContext(
+                new StubReferenceResolver());
+
+        var priorDiagnostic =
+            new MappingDiagnostic(
+                "MAP-PRIOR-INFO-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Information);
+
+        context.AddDiagnostic(
+            priorDiagnostic);
+
+        var source =
+            CreateSource(
+                orientation:
+                    true);
+
+        var mapper =
+            new StepOrientedEdgeMapper();
+
+        MappingResult<EdgeUse> result =
+            mapper.Map(
+                source,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Equal(
+            "MAP-STEP-ORIENTED-EDGE-001",
+            resultDiagnostic.Code);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            priorDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            resultDiagnostic,
+            context.Diagnostics[1]);
+    }
+
+    [Fact]
     public void Map_WithNullSource_ThrowsArgumentNullException()
     {
         var canonicalResolver =
@@ -406,11 +596,9 @@ public sealed class StepOrientedEdgeMapperTests
     public void Map_WithNullContext_ThrowsArgumentNullException()
     {
         var source =
-            new StepOrientedEdgeEntity(
-                sourceEntityId: "#100",
-                name: "Forward edge use",
-                edgeElementReferenceId: "#42",
-                orientation: true);
+            CreateSource(
+                orientation:
+                    true);
 
         var mapper =
             new StepOrientedEdgeMapper();
@@ -419,6 +607,20 @@ public sealed class StepOrientedEdgeMapperTests
             () => mapper.Map(
                 source,
                 null!));
+    }
+
+    private static StepOrientedEdgeEntity CreateSource(
+        bool orientation)
+    {
+        return new StepOrientedEdgeEntity(
+            sourceEntityId:
+                "#100",
+            name:
+                "Canonical edge use",
+            edgeElementReferenceId:
+                "#42",
+            orientation:
+                orientation);
     }
 
     private static MappingContext CreateContext(
@@ -473,10 +675,12 @@ public sealed class StepOrientedEdgeMapperTests
     {
         private readonly string _expectedReferenceId;
         private readonly MappingResult<Edge> _result;
+        private readonly MappingDiagnostic? _diagnosticToAddToContext;
 
         public StubCanonicalReferenceResolver(
             string expectedReferenceId,
-            MappingResult<Edge> result)
+            MappingResult<Edge> result,
+            MappingDiagnostic? diagnosticToAddToContext = null)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(
                 expectedReferenceId);
@@ -489,6 +693,9 @@ public sealed class StepOrientedEdgeMapperTests
 
             _result =
                 result;
+
+            _diagnosticToAddToContext =
+                diagnosticToAddToContext;
         }
 
         public string? LastReferenceId { get; private set; }
@@ -521,6 +728,12 @@ public sealed class StepOrientedEdgeMapperTests
             Assert.Equal(
                 typeof(Edge),
                 typeof(T));
+
+            if (_diagnosticToAddToContext is not null)
+            {
+                context.AddDiagnostic(
+                    _diagnosticToAddToContext);
+            }
 
             if (!_result.IsSuccessful ||
                 _result.Value is null)

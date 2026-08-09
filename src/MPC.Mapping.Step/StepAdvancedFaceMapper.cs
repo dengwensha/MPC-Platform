@@ -67,6 +67,9 @@ public sealed class StepAdvancedFaceMapper :
         ArgumentNullException.ThrowIfNull(
             context);
 
+        int diagnosticCheckpoint =
+            context.CaptureDiagnosticCheckpoint();
+
         MappingResult<FaceBuilder> builderResult =
             _faceBuilderMapper.Map(
                 source,
@@ -212,12 +215,16 @@ public sealed class StepAdvancedFaceMapper :
             Face face =
                 faceBuilder.Build();
 
-            if (context.HasDiagnostics)
+            IReadOnlyList<MappingDiagnostic> operationResultDiagnostics =
+                context.GetDiagnosticsSince(
+                    diagnosticCheckpoint);
+
+            if (operationResultDiagnostics.Count > 0)
             {
                 return MappingResult<Face>
                     .SuccessWithDiagnostics(
                         face,
-                        context.Diagnostics);
+                        operationResultDiagnostics);
             }
 
             return MappingResult<Face>.Success(

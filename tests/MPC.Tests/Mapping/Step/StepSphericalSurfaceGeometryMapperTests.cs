@@ -46,31 +46,9 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
     [Fact]
     public void Map_WithResolvedPlacement_ReturnsSuccessfulSphere3DResult()
     {
-        StepCartesianPointEntity location =
-            CreateLocation(
-                ValidLocationCoordinates);
-
-        StepDirectionEntity axis =
-            CreateAxis(
-                ValidAxisRatios);
-
-        StepDirectionEntity referenceDirection =
-            CreateReferenceDirection(
-                ValidReferenceDirectionRatios);
-
-        StepAxis2Placement3DEntity placement =
-            CreatePlacement();
-
-        StepSphericalSurfaceEntity sphericalSurface =
-            CreateSphericalSurface();
-
         MappingContext context =
-            CreateContext(
-                location,
-                axis,
-                referenceDirection,
-                placement,
-                sphericalSurface);
+            CreateValidContext(
+                out StepSphericalSurfaceEntity sphericalSurface);
 
         var mapper =
             new StepSphericalSurfaceGeometryMapper();
@@ -116,6 +94,104 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
             result.Value.Radius,
             precision:
                 10);
+
+        Assert.Empty(
+            context.Diagnostics);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingWarning_DoesNotIncludeItInSuccessfulResult()
+    {
+        MappingContext context =
+            CreateValidContext(
+                out StepSphericalSurfaceEntity sphericalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-SPHERE-WARNING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepSphericalSurfaceGeometryMapper();
+
+        MappingResult<Sphere3D> result =
+            mapper.Map(
+                sphericalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
+    }
+
+    [Fact]
+    public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
+    {
+        MappingContext context =
+            CreateValidContext(
+                out StepSphericalSurfaceEntity sphericalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-SPHERE-ERROR-001",
+                "Error from a previous mapping operation.",
+                MappingDiagnosticSeverity.Error);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepSphericalSurfaceGeometryMapper();
+
+        MappingResult<Sphere3D> result =
+            mapper.Map(
+                sphericalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.True(
+            context.HasErrors);
+
+        MappingDiagnostic contextDiagnostic =
+            Assert.Single(
+                context.Diagnostics);
+
+        Assert.Same(
+            existingDiagnostic,
+            contextDiagnostic);
     }
 
     [Fact]
@@ -160,10 +236,8 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-SPHERE-001");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -208,10 +282,8 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-SPHERE-002");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -256,10 +328,8 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-SPHERE-003");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -305,10 +375,8 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
 
         AssertFailureWithDiagnostic(
             result,
+            context,
             "MAP-STEP-SPHERE-004");
-
-        Assert.True(
-            context.HasDiagnostics);
     }
 
     [Fact]
@@ -332,6 +400,64 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
         AssertResolutionFailure(
             result,
             context);
+    }
+
+    [Fact]
+    public void Map_WhenPlacementCannotBeResolvedWithPreExistingDiagnostic_ReturnsOnlyCurrentOperationFailure()
+    {
+        StepSphericalSurfaceEntity sphericalSurface =
+            CreateSphericalSurface();
+
+        MappingContext context =
+            CreateContext(
+                sphericalSurface);
+
+        var existingDiagnostic =
+            new MappingDiagnostic(
+                "TEST-PRE-EXISTING-SPHERE-WARNING-001",
+                "Diagnostic from a previous mapping operation.",
+                MappingDiagnosticSeverity.Warning);
+
+        context.AddDiagnostic(
+            existingDiagnostic);
+
+        var mapper =
+            new StepSphericalSurfaceGeometryMapper();
+
+        MappingResult<Sphere3D> result =
+            mapper.Map(
+                sphericalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Failed,
+            result.Status);
+
+        Assert.False(
+            result.IsSuccessful);
+
+        Assert.Null(
+            result.Value);
+
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Equal(
+            "STEP_REFERENCE_RESOLUTION_FAILED",
+            resultDiagnostic.Code);
+
+        Assert.Equal(
+            2,
+            context.Diagnostics.Count);
+
+        Assert.Same(
+            existingDiagnostic,
+            context.Diagnostics[0]);
+
+        Assert.Same(
+            resultDiagnostic,
+            context.Diagnostics[1]);
     }
 
     [Fact]
@@ -445,6 +571,35 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
             context);
     }
 
+    private static MappingContext CreateValidContext(
+        out StepSphericalSurfaceEntity sphericalSurface)
+    {
+        StepCartesianPointEntity location =
+            CreateLocation(
+                ValidLocationCoordinates);
+
+        StepDirectionEntity axis =
+            CreateAxis(
+                ValidAxisRatios);
+
+        StepDirectionEntity referenceDirection =
+            CreateReferenceDirection(
+                ValidReferenceDirectionRatios);
+
+        StepAxis2Placement3DEntity placement =
+            CreatePlacement();
+
+        sphericalSurface =
+            CreateSphericalSurface();
+
+        return CreateContext(
+            location,
+            axis,
+            referenceDirection,
+            placement,
+            sphericalSurface);
+    }
+
     private static StepCartesianPointEntity CreateLocation(
         IReadOnlyList<double> coordinates)
     {
@@ -526,6 +681,7 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
 
     private static void AssertFailureWithDiagnostic(
         MappingResult<Sphere3D> result,
+        MappingContext context,
         string expectedDiagnosticCode)
     {
         Assert.Equal(
@@ -538,11 +694,22 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
         Assert.Null(
             result.Value);
 
-        Assert.Contains(
-            result.Diagnostics,
-            diagnostic =>
-                diagnostic.Code ==
-                expectedDiagnosticCode);
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
+
+        Assert.Equal(
+            expectedDiagnosticCode,
+            resultDiagnostic.Code);
+
+        Assert.Equal(
+            MappingDiagnosticSeverity.Error,
+            resultDiagnostic.Severity);
+
+        Assert.Same(
+            resultDiagnostic,
+            Assert.Single(
+                context.Diagnostics));
     }
 
     private static void AssertResolutionFailure(
@@ -559,10 +726,17 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
         Assert.Null(
             result.Value);
 
-        Assert.NotEmpty(
-            result.Diagnostics);
+        MappingDiagnostic resultDiagnostic =
+            Assert.Single(
+                result.Diagnostics);
 
-        Assert.True(
-            context.HasDiagnostics);
+        Assert.Equal(
+            "STEP_REFERENCE_RESOLUTION_FAILED",
+            resultDiagnostic.Code);
+
+        Assert.Same(
+            resultDiagnostic,
+            Assert.Single(
+                context.Diagnostics));
     }
 }
