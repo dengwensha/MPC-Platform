@@ -283,6 +283,156 @@ public sealed class StepCanonicalReferenceResolverTests
     }
 
     [Fact]
+    public void Resolve_CylindricalSurface_ReturnsCanonicalCylinder()
+    {
+        var location =
+            new StepCartesianPointEntity(
+                "#28",
+                "Cylinder origin",
+                [
+                    0.0,
+                    0.0,
+                    50.0
+                ]);
+
+        var axis =
+            new StepDirectionEntity(
+                "#77",
+                "Cylinder axis",
+                [
+                    0.0,
+                    0.0,
+                    -1.0
+                ]);
+
+        var referenceDirection =
+            new StepDirectionEntity(
+                "#52",
+                "Cylinder reference direction",
+                [
+                    -1.0,
+                    0.0,
+                    0.0
+                ]);
+
+        var placement =
+            new StepAxis2Placement3DEntity(
+                "#39",
+                "Cylinder placement",
+                "#28",
+                "#77",
+                "#52");
+
+        var cylindricalSurface =
+            new StepCylindricalSurfaceEntity(
+                "#43",
+                "Cylinder surface",
+                "#39",
+                50.0);
+
+        MappingContext context =
+            CreateContext(
+                out StepCanonicalReferenceResolver resolver,
+                location,
+                axis,
+                referenceDirection,
+                placement,
+                cylindricalSurface);
+
+        MappingResult<Cylinder3D> result =
+            resolver.Resolve<Cylinder3D>(
+                "#43",
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Cylinder3D cylinder =
+            Assert.IsType<Cylinder3D>(
+                result.Value);
+
+        Assert.Equal(0.0, cylinder.AxisOrigin.X, precision: 10);
+        Assert.Equal(0.0, cylinder.AxisOrigin.Y, precision: 10);
+        Assert.Equal(50.0, cylinder.AxisOrigin.Z, precision: 10);
+        Assert.Equal(0.0, cylinder.AxisDirection.X, precision: 10);
+        Assert.Equal(0.0, cylinder.AxisDirection.Y, precision: 10);
+        Assert.Equal(-1.0, cylinder.AxisDirection.Z, precision: 10);
+        Assert.Equal(50.0, cylinder.Radius, precision: 10);
+
+        Assert.Empty(result.Diagnostics);
+        Assert.Empty(context.Diagnostics);
+    }
+
+    [Fact]
+    public void Resolve_SameCylindricalSurfaceReferenceTwice_ReturnsSameCanonicalInstance()
+    {
+        var location = new StepCartesianPointEntity("#28", "Cylinder origin", [0.0, 0.0, 50.0]);
+        var axis = new StepDirectionEntity("#77", "Cylinder axis", [0.0, 0.0, -1.0]);
+        var referenceDirection = new StepDirectionEntity("#52", "Cylinder reference direction", [-1.0, 0.0, 0.0]);
+        var placement = new StepAxis2Placement3DEntity("#39", "Cylinder placement", "#28", "#77", "#52");
+        var cylindricalSurface = new StepCylindricalSurfaceEntity("#43", "Cylinder surface", "#39", 50.0);
+
+        MappingContext context =
+            CreateContext(
+                out StepCanonicalReferenceResolver resolver,
+                location,
+                axis,
+                referenceDirection,
+                placement,
+                cylindricalSurface);
+
+        MappingResult<Cylinder3D> first = resolver.Resolve<Cylinder3D>("#43", context);
+        MappingResult<ISurface3D> second = resolver.Resolve<ISurface3D>("#43", context);
+
+        Assert.True(first.IsSuccessful);
+        Assert.True(second.IsSuccessful);
+
+        Cylinder3D firstCylinder = Assert.IsType<Cylinder3D>(first.Value);
+        ISurface3D secondSurface = Assert.IsAssignableFrom<ISurface3D>(second.Value);
+
+        Assert.Same(firstCylinder, secondSurface);
+        Assert.Empty(first.Diagnostics);
+        Assert.Empty(second.Diagnostics);
+        Assert.Empty(context.Diagnostics);
+    }
+
+    [Fact]
+    public void Resolve_CylindricalSurfaceAsWrongCanonicalType_ReturnsTypeMismatchFailure()
+    {
+        var location = new StepCartesianPointEntity("#28", "Cylinder origin", [0.0, 0.0, 50.0]);
+        var axis = new StepDirectionEntity("#77", "Cylinder axis", [0.0, 0.0, -1.0]);
+        var referenceDirection = new StepDirectionEntity("#52", "Cylinder reference direction", [-1.0, 0.0, 0.0]);
+        var placement = new StepAxis2Placement3DEntity("#39", "Cylinder placement", "#28", "#77", "#52");
+        var cylindricalSurface = new StepCylindricalSurfaceEntity("#43", "Cylinder surface", "#39", 50.0);
+
+        MappingContext context =
+            CreateContext(
+                out StepCanonicalReferenceResolver resolver,
+                location,
+                axis,
+                referenceDirection,
+                placement,
+                cylindricalSurface);
+
+        MappingResult<Vertex> result = resolver.Resolve<Vertex>("#43", context);
+
+        Assert.Equal(MappingStatus.Failed, result.Status);
+        Assert.False(result.IsSuccessful);
+        Assert.Null(result.Value);
+
+        MappingDiagnostic diagnostic = Assert.Single(result.Diagnostics);
+
+        Assert.Equal("MAP-STEP-CANONICAL-REFERENCE-002", diagnostic.Code);
+        Assert.Contains("Cylinder3D", diagnostic.Message, StringComparison.Ordinal);
+        Assert.Contains("Vertex", diagnostic.Message, StringComparison.Ordinal);
+        Assert.Same(diagnostic, Assert.Single(context.Diagnostics));
+    }
+
+    [Fact]
     public void Resolve_EdgeCurve_ReturnsCanonicalEdge()
     {
         var startPoint =

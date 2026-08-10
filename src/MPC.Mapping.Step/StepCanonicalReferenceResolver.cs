@@ -29,6 +29,10 @@ public sealed class StepCanonicalReferenceResolver :
         StepEdgeCurveEntity,
         Edge> _edgeCurveMapper;
 
+    private readonly IEntityMapper<
+        StepCylindricalSurfaceEntity,
+        Cylinder3D> _cylindricalSurfaceMapper;
+
     private readonly Dictionary<string, object>
         _canonicalCache;
 
@@ -38,7 +42,8 @@ public sealed class StepCanonicalReferenceResolver :
             semanticResolver,
             new StepVertexPointMapper(),
             new StepLineGeometryMapper(),
-            new StepEdgeCurveMapper())
+            new StepEdgeCurveMapper(),
+            new StepCylindricalSurfaceGeometryMapper())
     {
     }
 
@@ -52,7 +57,10 @@ public sealed class StepCanonicalReferenceResolver :
             Line3D> lineMapper,
         IEntityMapper<
             StepEdgeCurveEntity,
-            Edge> edgeCurveMapper)
+            Edge> edgeCurveMapper,
+        IEntityMapper<
+            StepCylindricalSurfaceEntity,
+            Cylinder3D> cylindricalSurfaceMapper)
     {
         ArgumentNullException.ThrowIfNull(
             semanticResolver);
@@ -66,6 +74,9 @@ public sealed class StepCanonicalReferenceResolver :
         ArgumentNullException.ThrowIfNull(
             edgeCurveMapper);
 
+        ArgumentNullException.ThrowIfNull(
+            cylindricalSurfaceMapper);
+
         _semanticResolver =
             semanticResolver;
 
@@ -77,6 +88,9 @@ public sealed class StepCanonicalReferenceResolver :
 
         _edgeCurveMapper =
             edgeCurveMapper;
+
+        _cylindricalSurfaceMapper =
+            cylindricalSurfaceMapper;
 
         _canonicalCache =
             new Dictionary<string, object>(
@@ -215,6 +229,17 @@ public sealed class StepCanonicalReferenceResolver :
                     MappingResult<Edge> result =
                         _edgeCurveMapper.Map(
                             edgeCurve,
+                            context);
+
+                    return ConvertResult(
+                        result);
+                }
+
+            case StepCylindricalSurfaceEntity cylindricalSurface:
+                {
+                    MappingResult<Cylinder3D> result =
+                        _cylindricalSurfaceMapper.Map(
+                            cylindricalSurface,
                             context);
 
                     return ConvertResult(
