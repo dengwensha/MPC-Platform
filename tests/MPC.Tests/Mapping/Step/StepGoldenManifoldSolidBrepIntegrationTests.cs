@@ -217,8 +217,84 @@ public sealed class StepGoldenManifoldSolidBrepIntegrationTests
                         })
                 .Distinct<Vertex>(ReferenceEqualityComparer.Instance)
                 .ToArray();
-
         Assert.Equal(8, uniqueCanonicalVertices.Length);
+
+        Assert.All(
+            uniqueCanonicalVertices,
+            vertex =>
+                Assert.Empty(
+                    vertex.IncidentEdges));
+
+        var assembler =
+            new CanonicalTopologyAssembler();
+
+        CanonicalTopologyAssemblyResult assemblyResult =
+            assembler.Assemble(
+                solid);
+
+        Assert.Same(
+            solid,
+            assemblyResult.Solid);
+
+        Assert.Equal(
+            6,
+            assemblyResult.Topology.Faces.Count);
+
+        Assert.Equal(
+            6,
+            assemblyResult.Topology.Loops.Count);
+
+        Assert.Equal(
+            12,
+            assemblyResult.Topology.Edges.Count);
+
+        Assert.Equal(
+            8,
+            assemblyResult.Topology.Vertices.Count);
+
+        foreach (Face face in outerShell.Faces)
+        {
+            Assert.Contains(
+                assemblyResult.Topology.Faces,
+                publishedFace =>
+                    ReferenceEquals(
+                        publishedFace,
+                        face));
+        }
+
+        foreach (Edge edge in uniqueCanonicalEdges)
+        {
+            Assert.Contains(
+                assemblyResult.Topology.Edges,
+                publishedEdge =>
+                    ReferenceEquals(
+                        publishedEdge,
+                        edge));
+        }
+
+        foreach (Vertex vertex in uniqueCanonicalVertices)
+        {
+            Assert.Contains(
+                assemblyResult.Topology.Vertices,
+                publishedVertex =>
+                    ReferenceEquals(
+                        publishedVertex,
+                        vertex));
+
+            Assert.NotEmpty(
+                vertex.IncidentEdges);
+
+            Assert.All(
+                vertex.IncidentEdges,
+                incidentEdge =>
+                    Assert.True(
+                        ReferenceEquals(
+                            incidentEdge.StartVertex,
+                            vertex) ||
+                        ReferenceEquals(
+                            incidentEdge.EndVertex,
+                            vertex)));
+        }
 
         Assert.Empty(result.Diagnostics);
         Assert.Empty(context.Diagnostics);
