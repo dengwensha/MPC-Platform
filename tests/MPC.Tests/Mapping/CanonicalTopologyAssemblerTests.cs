@@ -181,6 +181,126 @@ public sealed class CanonicalTopologyAssemblerTests
     }
 
     [Fact]
+    public void Assemble_SameCanonicalGraphTwice_DoesNotDuplicateIncidentEdges()
+    {
+        TestTopology topology =
+            CreateSingleTriangleSolid();
+
+        var assembler =
+            new CanonicalTopologyAssembler();
+
+        CanonicalTopologyAssemblyResult firstResult =
+            assembler.Assemble(
+                topology.Solid);
+
+        CanonicalTopologyAssemblyResult secondResult =
+            assembler.Assemble(
+                topology.Solid);
+
+        Assert.Same(
+            topology.Solid,
+            firstResult.Solid);
+
+        Assert.Same(
+            topology.Solid,
+            secondResult.Solid);
+
+        Assert.Same(
+            topology.Face,
+            Assert.Single(
+                firstResult.Topology.Faces));
+
+        Assert.Same(
+            topology.Face,
+            Assert.Single(
+                secondResult.Topology.Faces));
+
+        Assert.Same(
+            topology.Loop,
+            Assert.Single(
+                firstResult.Topology.Loops));
+
+        Assert.Same(
+            topology.Loop,
+            Assert.Single(
+                secondResult.Topology.Loops));
+
+        Assert.Equal(
+            2,
+            topology.Vertex1.IncidentEdges.Count);
+
+        Assert.Equal(
+            2,
+            topology.Vertex2.IncidentEdges.Count);
+
+        Assert.Equal(
+            2,
+            topology.Vertex3.IncidentEdges.Count);
+
+        Assert.Single(
+            topology.Vertex1.IncidentEdges,
+            edge =>
+                ReferenceEquals(
+                    edge,
+                    topology.Edge1));
+
+        Assert.Single(
+            topology.Vertex1.IncidentEdges,
+            edge =>
+                ReferenceEquals(
+                    edge,
+                    topology.Edge3));
+
+        Assert.Single(
+            topology.Vertex2.IncidentEdges,
+            edge =>
+                ReferenceEquals(
+                    edge,
+                    topology.Edge1));
+
+        Assert.Single(
+            topology.Vertex2.IncidentEdges,
+            edge =>
+                ReferenceEquals(
+                    edge,
+                    topology.Edge2));
+
+        Assert.Single(
+            topology.Vertex3.IncidentEdges,
+            edge =>
+                ReferenceEquals(
+                    edge,
+                    topology.Edge2));
+
+        Assert.Single(
+            topology.Vertex3.IncidentEdges,
+            edge =>
+                ReferenceEquals(
+                    edge,
+                    topology.Edge3));
+
+        Assert.All(
+            firstResult.Topology.Vertices,
+            firstVertex =>
+                Assert.Contains(
+                    secondResult.Topology.Vertices,
+                    secondVertex =>
+                        ReferenceEquals(
+                            firstVertex,
+                            secondVertex)));
+
+        Assert.All(
+            firstResult.Topology.Edges,
+            firstEdge =>
+                Assert.Contains(
+                    secondResult.Topology.Edges,
+                    secondEdge =>
+                        ReferenceEquals(
+                            firstEdge,
+                            secondEdge)));
+    }
+
+    [Fact]
     public void Assemble_InnerShell_PublishesReachableFaces()
     {
         TestTopology outerTopology =
