@@ -111,6 +111,53 @@ public sealed class StepCanonicalMappingOperationTests
     }
 
     [Fact]
+    public void Resolve_WhenFirstOperationAccumulatesDiagnostic_DoesNotAffectSecondOperation()
+    {
+        StepSemanticEntityResolver semanticResolver =
+            CreateVertexSemanticResolver();
+
+        StepCanonicalMappingOperation firstOperation =
+            StepCanonicalMappingOperation.Create(
+                semanticResolver);
+
+        StepCanonicalMappingOperation secondOperation =
+            StepCanonicalMappingOperation.Create(
+                semanticResolver);
+
+        MappingResult<Edge> incompatibleResult =
+            firstOperation.Resolve<Edge>(
+                "#20");
+
+        Assert.False(
+            incompatibleResult.IsSuccessful);
+
+        Assert.Null(
+            incompatibleResult.Value);
+
+        Assert.Single(
+            incompatibleResult.Diagnostics);
+
+        Assert.Single(
+            firstOperation.Context.Diagnostics);
+
+        MappingResult<Vertex> validResult =
+            secondOperation.Resolve<Vertex>(
+                "#20");
+
+        Assert.True(
+            validResult.IsSuccessful);
+
+        Assert.IsType<Vertex>(
+            validResult.Value);
+
+        Assert.Empty(
+            validResult.Diagnostics);
+
+        Assert.Empty(
+            secondOperation.Context.Diagnostics);
+    }
+
+    [Fact]
     public void Create_WithNullSemanticResolver_ThrowsArgumentNullException()
     {
         Assert.Throws<ArgumentNullException>(
