@@ -97,26 +97,16 @@ public sealed class StepGoldenManifoldSolidBrepIntegrationTests
             closedShell.FaceReferenceIds);
 
         var semanticResolver =
-            new StepSemanticEntityResolver(semanticEntities);
+            new StepSemanticEntityResolver(
+                semanticEntities);
 
-        var referenceResolver =
-            new StepReferenceResolver(semanticResolver);
-
-        var canonicalResolver =
-            new StepCanonicalReferenceResolver(semanticResolver);
-
-        var context =
-            new MappingContext(
-                referenceResolver,
-                canonicalResolver);
-
-        var mapper =
-            new StepManifoldSolidBrepMapper();
+        StepCanonicalMappingOperation operation =
+            StepCanonicalMappingOperation.Create(
+                semanticResolver);
 
         MappingResult<Solid> result =
-            mapper.Map(
-                manifoldSolidBrep,
-                context);
+            operation.Map(
+                manifoldSolidBrep);
 
         Assert.True(
             result.IsSuccessful,
@@ -217,6 +207,7 @@ public sealed class StepGoldenManifoldSolidBrepIntegrationTests
                         })
                 .Distinct<Vertex>(ReferenceEqualityComparer.Instance)
                 .ToArray();
+
         Assert.Equal(8, uniqueCanonicalVertices.Length);
 
         Assert.All(
@@ -297,7 +288,7 @@ public sealed class StepGoldenManifoldSolidBrepIntegrationTests
         }
 
         Assert.Empty(result.Diagnostics);
-        Assert.Empty(context.Diagnostics);
+        Assert.Empty(operation.Context.Diagnostics);
     }
 
     private static void AssertLoopContinuity(Loop loop)
