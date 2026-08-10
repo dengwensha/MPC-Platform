@@ -174,8 +174,8 @@ public sealed class StepGoldenClosedShellIntegrationTests
                 referenceResolver,
                 canonicalResolver);
 
-        var mapper =
-            new StepClosedShellMapper();
+        StepClosedShellMapper mapper =
+            CreateMapper();
 
         MappingResult<Shell> result =
             mapper.Map(
@@ -307,6 +307,39 @@ public sealed class StepGoldenClosedShellIntegrationTests
 
         Assert.Empty(
             context.Diagnostics);
+    }
+
+    private static StepClosedShellMapper CreateMapper()
+    {
+        var geometryMapper =
+            new StepAdvancedFaceGeometryMapper(
+                new StepPlaneGeometryMapper(),
+                new StepCylindricalSurfaceGeometryMapper(),
+                new StepConicalSurfaceGeometryMapper(),
+                new StepSphericalSurfaceGeometryMapper());
+
+        var faceBuilderMapper =
+            new StepAdvancedFaceBuilderMapper(
+                geometryMapper);
+
+        var orientedEdgeMapper =
+            new StepOrientedEdgeMapper();
+
+        var edgeLoopMapper =
+            new StepEdgeLoopMapper(
+                orientedEdgeMapper);
+
+        var faceBoundMapper =
+            new StepFaceBoundMapper(
+                edgeLoopMapper);
+
+        var faceMapper =
+            new StepAdvancedFaceMapper(
+                faceBuilderMapper,
+                faceBoundMapper);
+
+        return new StepClosedShellMapper(
+            faceMapper);
     }
 
     private static void AssertLoopContinuity(

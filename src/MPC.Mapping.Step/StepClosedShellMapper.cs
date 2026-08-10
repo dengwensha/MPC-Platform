@@ -22,12 +22,6 @@ public sealed class StepClosedShellMapper :
         StepAdvancedFaceEntity,
         Face> _faceMapper;
 
-    public StepClosedShellMapper()
-        : this(
-            new StepAdvancedFaceMapper())
-    {
-    }
-
     public StepClosedShellMapper(
         IEntityMapper<
             StepAdvancedFaceEntity,

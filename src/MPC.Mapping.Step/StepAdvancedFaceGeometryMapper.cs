@@ -5,7 +5,9 @@ using MPC.Mapping;
 namespace MPC.Mapping.Step;
 
 public sealed class StepAdvancedFaceGeometryMapper :
-    IEntityMapper<StepAdvancedFaceEntity, ISurface3D>
+    IEntityMapper<
+        StepAdvancedFaceEntity,
+        ISurface3D>
 {
     private const string UnsupportedSurfaceDiagnosticCode =
         "MAP-STEP-FACE-001";
@@ -20,15 +22,6 @@ public sealed class StepAdvancedFaceGeometryMapper :
 
     private readonly StepSphericalSurfaceGeometryMapper
         _sphericalSurfaceMapper;
-
-    public StepAdvancedFaceGeometryMapper()
-        : this(
-            new StepPlaneGeometryMapper(),
-            new StepCylindricalSurfaceGeometryMapper(),
-            new StepConicalSurfaceGeometryMapper(),
-            new StepSphericalSurfaceGeometryMapper())
-    {
-    }
 
     public StepAdvancedFaceGeometryMapper(
         StepPlaneGeometryMapper planeMapper,

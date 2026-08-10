@@ -13,12 +13,6 @@ public sealed class StepManifoldSolidBrepMapper :
         StepClosedShellEntity,
         Shell> _closedShellMapper;
 
-    public StepManifoldSolidBrepMapper()
-        : this(
-            new StepClosedShellMapper())
-    {
-    }
-
     public StepManifoldSolidBrepMapper(
         IEntityMapper<
             StepClosedShellEntity,

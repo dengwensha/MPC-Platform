@@ -83,8 +83,8 @@ public sealed class StepAdvancedFaceGeometryMapperTests
                 plane,
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceGeometryMapper();
+        StepAdvancedFaceGeometryMapper mapper =
+            CreateMapper();
 
         MappingResult<ISurface3D> result =
             mapper.Map(
@@ -173,8 +173,8 @@ public sealed class StepAdvancedFaceGeometryMapperTests
                 cylindricalSurface,
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceGeometryMapper();
+        StepAdvancedFaceGeometryMapper mapper =
+            CreateMapper();
 
         MappingResult<ISurface3D> result =
             mapper.Map(
@@ -238,8 +238,8 @@ public sealed class StepAdvancedFaceGeometryMapperTests
                 conicalSurface,
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceGeometryMapper();
+        StepAdvancedFaceGeometryMapper mapper =
+            CreateMapper();
 
         MappingResult<ISurface3D> result =
             mapper.Map(
@@ -298,8 +298,8 @@ public sealed class StepAdvancedFaceGeometryMapperTests
                 sphericalSurface,
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceGeometryMapper();
+        StepAdvancedFaceGeometryMapper mapper =
+            CreateMapper();
 
         MappingResult<ISurface3D> result =
             mapper.Map(
@@ -330,8 +330,8 @@ public sealed class StepAdvancedFaceGeometryMapperTests
             CreateContext(
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceGeometryMapper();
+        StepAdvancedFaceGeometryMapper mapper =
+            CreateMapper();
 
         MappingResult<ISurface3D> result =
             mapper.Map(
@@ -372,8 +372,8 @@ public sealed class StepAdvancedFaceGeometryMapperTests
                 unsupportedSurface,
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceGeometryMapper();
+        StepAdvancedFaceGeometryMapper mapper =
+            CreateMapper();
 
         MappingResult<ISurface3D> result =
             mapper.Map(
@@ -401,6 +401,15 @@ public sealed class StepAdvancedFaceGeometryMapperTests
         Assert.Equal(
             MappingDiagnosticSeverity.Error,
             diagnostic.Severity);
+    }
+
+    private static StepAdvancedFaceGeometryMapper CreateMapper()
+    {
+        return new StepAdvancedFaceGeometryMapper(
+            new StepPlaneGeometryMapper(),
+            new StepCylindricalSurfaceGeometryMapper(),
+            new StepConicalSurfaceGeometryMapper(),
+            new StepSphericalSurfaceGeometryMapper());
     }
 
     private static StepCartesianPointEntity CreateLocation()
@@ -459,9 +468,9 @@ public sealed class StepAdvancedFaceGeometryMapperTests
             name:
                 string.Empty,
             boundReferenceIds:
-                [
-                    "#50"
-                ],
+            [
+                "#50"
+            ],
             surfaceReferenceId:
                 SurfaceReferenceId,
             sameSense:

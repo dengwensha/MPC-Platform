@@ -235,8 +235,8 @@ public sealed class StepGoldenAdvancedFaceIntegrationTests
                 referenceResolver,
                 canonicalResolver);
 
-        var mapper =
-            new StepAdvancedFaceMapper();
+        StepAdvancedFaceMapper mapper =
+            CreateMapper();
 
         var canonicalFaces =
             new List<Face>(
@@ -368,6 +368,35 @@ public sealed class StepGoldenAdvancedFaceIntegrationTests
 
         Assert.Empty(
             context.Diagnostics);
+    }
+
+    private static StepAdvancedFaceMapper CreateMapper()
+    {
+        var geometryMapper =
+            new StepAdvancedFaceGeometryMapper(
+                new StepPlaneGeometryMapper(),
+                new StepCylindricalSurfaceGeometryMapper(),
+                new StepConicalSurfaceGeometryMapper(),
+                new StepSphericalSurfaceGeometryMapper());
+
+        var faceBuilderMapper =
+            new StepAdvancedFaceBuilderMapper(
+                geometryMapper);
+
+        var orientedEdgeMapper =
+            new StepOrientedEdgeMapper();
+
+        var edgeLoopMapper =
+            new StepEdgeLoopMapper(
+                orientedEdgeMapper);
+
+        var faceBoundMapper =
+            new StepFaceBoundMapper(
+                edgeLoopMapper);
+
+        return new StepAdvancedFaceMapper(
+            faceBuilderMapper,
+            faceBoundMapper);
     }
 
     private static void AssertLoopContinuity(

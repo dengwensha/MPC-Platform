@@ -27,15 +27,6 @@ public sealed class StepAdvancedFaceMapper :
         StepFaceBoundEntity,
         FaceLoopMapping> _faceBoundMapper;
 
-    public StepAdvancedFaceMapper()
-        : this(
-            new StepAdvancedFaceBuilderMapper(),
-            new StepFaceBoundMapper(
-                new StepEdgeLoopMapper(
-                    new StepOrientedEdgeMapper())))
-    {
-    }
-
     public StepAdvancedFaceMapper(
         IEntityMapper<
             StepAdvancedFaceEntity,

@@ -5,15 +5,11 @@ using MPC.Topology.Building;
 namespace MPC.Mapping.Step;
 
 public sealed class StepAdvancedFaceBuilderMapper :
-    IEntityMapper<StepAdvancedFaceEntity, FaceBuilder>
+    IEntityMapper<
+        StepAdvancedFaceEntity,
+        FaceBuilder>
 {
     private readonly StepAdvancedFaceGeometryMapper _geometryMapper;
-
-    public StepAdvancedFaceBuilderMapper()
-        : this(
-            new StepAdvancedFaceGeometryMapper())
-    {
-    }
 
     public StepAdvancedFaceBuilderMapper(
         StepAdvancedFaceGeometryMapper geometryMapper)

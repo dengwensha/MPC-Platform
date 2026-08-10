@@ -92,8 +92,8 @@ public sealed class StepAdvancedFaceBuilderMapperTests
                 plane,
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceBuilderMapper();
+        StepAdvancedFaceBuilderMapper mapper =
+            CreateMapper();
 
         MappingResult<FaceBuilder> result =
             mapper.Map(
@@ -174,8 +174,8 @@ public sealed class StepAdvancedFaceBuilderMapperTests
             CreateContext(
                 advancedFace);
 
-        var mapper =
-            new StepAdvancedFaceBuilderMapper();
+        StepAdvancedFaceBuilderMapper mapper =
+            CreateMapper();
 
         MappingResult<FaceBuilder> result =
             mapper.Map(
@@ -202,8 +202,8 @@ public sealed class StepAdvancedFaceBuilderMapperTests
         MappingContext context =
             CreateContext();
 
-        var mapper =
-            new StepAdvancedFaceBuilderMapper();
+        StepAdvancedFaceBuilderMapper mapper =
+            CreateMapper();
 
         Assert.Throws<ArgumentNullException>(
             () => mapper.Map(
@@ -217,8 +217,8 @@ public sealed class StepAdvancedFaceBuilderMapperTests
         StepAdvancedFaceEntity advancedFace =
             CreateAdvancedFace();
 
-        var mapper =
-            new StepAdvancedFaceBuilderMapper();
+        StepAdvancedFaceBuilderMapper mapper =
+            CreateMapper();
 
         Assert.Throws<ArgumentNullException>(
             () => mapper.Map(
@@ -232,6 +232,19 @@ public sealed class StepAdvancedFaceBuilderMapperTests
         Assert.Throws<ArgumentNullException>(
             () => new StepAdvancedFaceBuilderMapper(
                 null!));
+    }
+
+    private static StepAdvancedFaceBuilderMapper CreateMapper()
+    {
+        var geometryMapper =
+            new StepAdvancedFaceGeometryMapper(
+                new StepPlaneGeometryMapper(),
+                new StepCylindricalSurfaceGeometryMapper(),
+                new StepConicalSurfaceGeometryMapper(),
+                new StepSphericalSurfaceGeometryMapper());
+
+        return new StepAdvancedFaceBuilderMapper(
+            geometryMapper);
     }
 
     private static StepAdvancedFaceEntity CreateAdvancedFace()
