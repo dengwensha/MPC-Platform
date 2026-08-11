@@ -12,8 +12,29 @@ public sealed class Solid
         Shell outerShell,
         IEnumerable<Shell>? innerShells = null)
     {
-        OuterShell = outerShell;
-        InnerShells = innerShells?.ToList() ?? [];
-        Id = Guid.NewGuid();
+        ArgumentNullException.ThrowIfNull(
+            outerShell);
+
+        List<Shell> shells =
+            innerShells?.ToList() ??
+            [];
+
+        if (shells.Any(
+                shell =>
+                    shell is null))
+        {
+            throw new ArgumentException(
+                "A solid cannot contain null inner shells.",
+                nameof(innerShells));
+        }
+
+        OuterShell =
+            outerShell;
+
+        InnerShells =
+            shells.AsReadOnly();
+
+        Id =
+            Guid.NewGuid();
     }
 }
