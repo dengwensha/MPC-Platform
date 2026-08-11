@@ -122,6 +122,83 @@ public sealed class StepCylindricalSurfaceGeometryMapperTests
     }
 
     [Fact]
+    public void Map_WithoutPlacementAxis_UsesDefaultPositiveZAxis()
+    {
+        StepCartesianPointEntity location =
+            CreateLocation(
+                ValidLocationCoordinates);
+
+        StepDirectionEntity referenceDirection =
+            CreateReferenceDirection(
+                ValidReferenceDirectionRatios);
+
+        var placement =
+            new StepAxis2Placement3DEntity(
+                sourceEntityId:
+                    "#20",
+                name:
+                    string.Empty,
+                locationReferenceId:
+                    "#10",
+                axisReferenceId:
+                    null,
+                refDirectionReferenceId:
+                    "#12");
+
+        StepCylindricalSurfaceEntity cylindricalSurface =
+            CreateCylindricalSurface();
+
+        MappingContext context =
+            CreateContext(
+                location,
+                referenceDirection,
+                placement,
+                cylindricalSurface);
+
+        var mapper =
+            new StepCylindricalSurfaceGeometryMapper();
+
+        MappingResult<Cylinder3D> result =
+            mapper.Map(
+                cylindricalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.Equal(
+            0.0,
+            result.Value.AxisDirection.X,
+            precision:
+                10);
+
+        Assert.Equal(
+            0.0,
+            result.Value.AxisDirection.Y,
+            precision:
+                10);
+
+        Assert.Equal(
+            1.0,
+            result.Value.AxisDirection.Z,
+            precision:
+                10);
+
+        Assert.Empty(
+            context.Diagnostics);
+    }
+
+    [Fact]
     public void Map_WithPreExistingWarning_DoesNotIncludeItInSuccessfulResult()
     {
         MappingContext context =

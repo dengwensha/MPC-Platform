@@ -44,6 +44,22 @@ public sealed class StepSphericalSurfaceGeometryMapperTests
     ];
 
     [Fact]
+    public void Map_WithNullSource_ThrowsArgumentNullException()
+    {
+        MappingContext context =
+            CreateContext();
+
+        var mapper =
+            new StepSphericalSurfaceGeometryMapper();
+
+        Assert.Throws<ArgumentNullException>(
+            () =>
+                mapper.Map(
+                    null!,
+                    context));
+    }
+
+    [Fact]
     public void Map_WithResolvedPlacement_ReturnsSuccessfulSphere3DResult()
     {
         MappingContext context =
