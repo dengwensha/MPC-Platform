@@ -187,18 +187,37 @@ public sealed class StepConicalSurfaceGeometryMapper :
                     axis,
                     referenceDirection);
 
+            double semiAngle =
+                source.SemiAngle;
+
+            Vector3D axisDirection =
+                coordinateSystem.ZAxis;
+
+            if (semiAngle < 0.0)
+            {
+                semiAngle =
+                    Math.Abs(
+                        semiAngle);
+
+                axisDirection =
+                    new Vector3D(
+                        -axisDirection.X,
+                        -axisDirection.Y,
+                        -axisDirection.Z);
+            }
+
             Point3D apex =
                 CalculateApex(
                     coordinateSystem.Origin,
-                    coordinateSystem.ZAxis,
+                    axisDirection,
                     source.Radius,
-                    source.SemiAngle);
+                    semiAngle);
 
             cone =
                 new Cone3D(
                     apex,
-                    coordinateSystem.ZAxis,
-                    source.SemiAngle);
+                    axisDirection,
+                    semiAngle);
         }
         catch (ArgumentException exception)
         {

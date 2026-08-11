@@ -44,6 +44,22 @@ public sealed class StepConicalSurfaceGeometryMapperTests
     ];
 
     [Fact]
+    public void Map_WithNullSource_ThrowsArgumentNullException()
+    {
+        MappingContext context =
+            CreateContext();
+
+        var mapper =
+            new StepConicalSurfaceGeometryMapper();
+
+        Assert.Throws<ArgumentNullException>(
+            () =>
+                mapper.Map(
+                    null!,
+                    context));
+    }
+
+    [Fact]
     public void Map_WithResolvedPlacement_ReturnsSuccessfulCone3DResult()
     {
         MappingContext context =
@@ -110,6 +126,189 @@ public sealed class StepConicalSurfaceGeometryMapperTests
         Assert.Equal(
             Math.PI / 4.0,
             result.Value.SemiAngle,
+            precision:
+                10);
+
+        Assert.Empty(
+            context.Diagnostics);
+    }
+
+    [Fact]
+    public void Map_WithNegativeSemiAngle_NormalizesAngleAndReversesAxis()
+    {
+        StepCartesianPointEntity location =
+            CreateLocation(
+                ValidLocationCoordinates);
+
+        StepDirectionEntity axis =
+            CreateAxis(
+                ValidAxisRatios);
+
+        StepDirectionEntity referenceDirection =
+            CreateReferenceDirection(
+                ValidReferenceDirectionRatios);
+
+        StepAxis2Placement3DEntity placement =
+            CreatePlacement();
+
+        var conicalSurface =
+            new StepConicalSurfaceEntity(
+                sourceEntityId:
+                    ConicalSurfaceReferenceId,
+                name:
+                    string.Empty,
+                placementReferenceId:
+                    PlacementReferenceId,
+                radius:
+                    1.0,
+                semiAngle:
+                    -Math.PI / 4.0);
+
+        MappingContext context =
+            CreateContext(
+                location,
+                axis,
+                referenceDirection,
+                placement,
+                conicalSurface);
+
+        var mapper =
+            new StepConicalSurfaceGeometryMapper();
+
+        MappingResult<Cone3D> result =
+            mapper.Map(
+                conicalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.Equal(
+            1.0,
+            result.Value.Apex.X,
+            precision:
+                10);
+
+        Assert.Equal(
+            2.0,
+            result.Value.Apex.Y,
+            precision:
+                10);
+
+        Assert.Equal(
+            4.0,
+            result.Value.Apex.Z,
+            precision:
+                10);
+
+        Assert.Equal(
+            0.0,
+            result.Value.AxisDirection.X,
+            precision:
+                10);
+
+        Assert.Equal(
+            0.0,
+            result.Value.AxisDirection.Y,
+            precision:
+                10);
+
+        Assert.Equal(
+            -1.0,
+            result.Value.AxisDirection.Z,
+            precision:
+                10);
+
+        Assert.Equal(
+            Math.PI / 4.0,
+            result.Value.SemiAngle,
+            precision:
+                10);
+
+        Assert.Empty(
+            context.Diagnostics);
+    }
+
+    [Fact]
+    public void Map_WithoutPlacementAxis_UsesDefaultPositiveZAxis()
+    {
+        StepCartesianPointEntity location =
+            CreateLocation(
+                ValidLocationCoordinates);
+
+        StepDirectionEntity referenceDirection =
+            CreateReferenceDirection(
+                ValidReferenceDirectionRatios);
+
+        var placement =
+            new StepAxis2Placement3DEntity(
+                sourceEntityId:
+                    PlacementReferenceId,
+                name:
+                    string.Empty,
+                locationReferenceId:
+                    LocationReferenceId,
+                axisReferenceId:
+                    null,
+                refDirectionReferenceId:
+                    ReferenceDirectionReferenceId);
+
+        StepConicalSurfaceEntity conicalSurface =
+            CreateConicalSurface();
+
+        MappingContext context =
+            CreateContext(
+                location,
+                referenceDirection,
+                placement,
+                conicalSurface);
+
+        var mapper =
+            new StepConicalSurfaceGeometryMapper();
+
+        MappingResult<Cone3D> result =
+            mapper.Map(
+                conicalSurface,
+                context);
+
+        Assert.Equal(
+            MappingStatus.Succeeded,
+            result.Status);
+
+        Assert.True(
+            result.IsSuccessful);
+
+        Assert.NotNull(
+            result.Value);
+
+        Assert.Empty(
+            result.Diagnostics);
+
+        Assert.Equal(
+            0.0,
+            result.Value.AxisDirection.X,
+            precision:
+                10);
+
+        Assert.Equal(
+            0.0,
+            result.Value.AxisDirection.Y,
+            precision:
+                10);
+
+        Assert.Equal(
+            1.0,
+            result.Value.AxisDirection.Z,
             precision:
                 10);
 
