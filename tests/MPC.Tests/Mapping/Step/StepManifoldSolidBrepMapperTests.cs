@@ -446,13 +446,8 @@ public sealed class StepManifoldSolidBrepMapperTests
 
     private static Shell CreateCanonicalShell()
     {
-        Face canonicalFace =
-            TopologyTestFactory.CreateFace();
-
-        return new Shell(
-            [
-                canonicalFace
-            ]);
+        return TopologyTestFactory
+            .CreateClosedTetrahedronShell();
     }
 
     private sealed class StubClosedShellMapper :

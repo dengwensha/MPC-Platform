@@ -9,6 +9,9 @@ public sealed class StepManifoldSolidBrepMapper :
         StepManifoldSolidBrepEntity,
         Solid>
 {
+    private const string OpenOuterShellDiagnosticCode =
+        "MAP-STEP-MANIFOLD-SOLID-BREP-001";
+
     private readonly IEntityMapper<
         StepClosedShellEntity,
         Shell> _closedShellMapper;
@@ -70,9 +73,29 @@ public sealed class StepManifoldSolidBrepMapper :
                 shellResult.Diagnostics);
         }
 
+        Shell canonicalShell =
+            shellResult.Value;
+
+        if (!canonicalShell.IsClosed)
+        {
+            MappingDiagnostic diagnostic =
+                CreateDiagnostic(
+                    source,
+                    "The canonical outer shell is not topologically closed. " +
+                    "Every canonical edge must be used exactly twice across the shell boundaries.");
+
+            context.AddDiagnostic(
+                diagnostic);
+
+            return MappingResult<Solid>.Failure(
+                [
+                    diagnostic
+                ]);
+        }
+
         var solid =
             new Solid(
-                shellResult.Value);
+                canonicalShell);
 
         IReadOnlyList<MappingDiagnostic> operationDiagnostics =
             context.GetDiagnosticsSince(
@@ -88,5 +111,21 @@ public sealed class StepManifoldSolidBrepMapper :
 
         return MappingResult<Solid>.Success(
             solid);
+    }
+
+    private static MappingDiagnostic CreateDiagnostic(
+        StepManifoldSolidBrepEntity source,
+        string message)
+    {
+        string sourceIdentity =
+            string.IsNullOrWhiteSpace(
+                source.SourceEntityId)
+                ? "MANIFOLD_SOLID_BREP"
+                : source.SourceEntityId;
+
+        return new MappingDiagnostic(
+            OpenOuterShellDiagnosticCode,
+            $"STEP MANIFOLD_SOLID_BREP '{sourceIdentity}' could not be mapped. {message}",
+            MappingDiagnosticSeverity.Error);
     }
 }
