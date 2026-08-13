@@ -8,7 +8,12 @@ public sealed class Face
 
     public ISurface3D Surface { get; }
 
-    public Loop OuterLoop { get; }
+    public LoopUse OuterLoopUse { get; }
+
+    public IReadOnlyList<LoopUse> InnerLoopUses { get; }
+
+    public Loop OuterLoop =>
+        OuterLoopUse.Loop;
 
     public IReadOnlyList<Loop> InnerLoops { get; }
 
@@ -18,21 +23,113 @@ public sealed class Face
         ISurface3D surface,
         Loop outerLoop,
         IEnumerable<Loop>? innerLoops = null,
-        FaceOrientation orientation = FaceOrientation.Forward)
+        FaceOrientation orientation =
+            FaceOrientation.Forward)
     {
-        Surface = surface ?? throw new ArgumentNullException(nameof(surface));
-        OuterLoop = outerLoop ?? throw new ArgumentNullException(nameof(outerLoop));
+        ArgumentNullException.ThrowIfNull(
+            surface);
 
-        var loops = innerLoops?.ToList() ?? new List<Loop>();
+        ArgumentNullException.ThrowIfNull(
+            outerLoop);
 
-        if (loops.Any(loop => loop is null))
+        List<Loop> loops =
+            innerLoops?.ToList()
+            ?? [];
+
+        if (loops.Any(
+                loop => loop is null))
         {
-            throw new ArgumentNullException(nameof(innerLoops));
+            throw new ArgumentNullException(
+                nameof(innerLoops));
         }
 
-        InnerLoops = loops.AsReadOnly();
+        Surface =
+            surface;
 
-        Id = Guid.NewGuid();
-        Orientation = orientation;
+        OuterLoopUse =
+            new LoopUse(
+                outerLoop,
+                LoopUseDirection.Forward);
+
+        InnerLoopUses =
+            loops
+                .Select(
+                    loop =>
+                        new LoopUse(
+                            loop,
+                            LoopUseDirection.Forward))
+                .ToList()
+                .AsReadOnly();
+
+        InnerLoops =
+            loops.AsReadOnly();
+
+        Id =
+            Guid.NewGuid();
+
+        Orientation =
+            orientation;
+    }
+
+    private Face(
+        ISurface3D surface,
+        LoopUse outerLoopUse,
+        IEnumerable<LoopUse> innerLoopUses,
+        FaceOrientation orientation)
+    {
+        ArgumentNullException.ThrowIfNull(
+            surface);
+
+        ArgumentNullException.ThrowIfNull(
+            outerLoopUse);
+
+        ArgumentNullException.ThrowIfNull(
+            innerLoopUses);
+
+        List<LoopUse> loopUses =
+            innerLoopUses.ToList();
+
+        if (loopUses.Any(
+                loopUse => loopUse is null))
+        {
+            throw new ArgumentNullException(
+                nameof(innerLoopUses));
+        }
+
+        Surface =
+            surface;
+
+        OuterLoopUse =
+            outerLoopUse;
+
+        InnerLoopUses =
+            loopUses.AsReadOnly();
+
+        InnerLoops =
+            loopUses
+                .Select(
+                    loopUse =>
+                        loopUse.Loop)
+                .ToList()
+                .AsReadOnly();
+
+        Id =
+            Guid.NewGuid();
+
+        Orientation =
+            orientation;
+    }
+
+    internal static Face CreateWithLoopUses(
+        ISurface3D surface,
+        LoopUse outerLoopUse,
+        IEnumerable<LoopUse> innerLoopUses,
+        FaceOrientation orientation)
+    {
+        return new Face(
+            surface,
+            outerLoopUse,
+            innerLoopUses,
+            orientation);
     }
 }

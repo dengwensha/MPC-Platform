@@ -6,9 +6,9 @@ namespace MPC.Topology.Building;
 public sealed class FaceBuilder
 {
     private readonly ISurface3D _surface;
-    private readonly List<Loop> _innerLoops;
+    private readonly List<LoopUse> _innerLoopUses;
 
-    private Loop? _outerLoop;
+    private LoopUse? _outerLoopUse;
     private FaceOrientation _orientation;
     private bool _isBuilt;
 
@@ -16,10 +16,21 @@ public sealed class FaceBuilder
         _surface;
 
     public Loop? OuterLoop =>
-        _outerLoop;
+        _outerLoopUse?.Loop;
+
+    public LoopUse? OuterLoopUse =>
+        _outerLoopUse;
 
     public IReadOnlyList<Loop> InnerLoops =>
-        _innerLoops.AsReadOnly();
+        _innerLoopUses
+            .Select(
+                loopUse =>
+                    loopUse.Loop)
+            .ToList()
+            .AsReadOnly();
+
+    public IReadOnlyList<LoopUse> InnerLoopUses =>
+        _innerLoopUses.AsReadOnly();
 
     public FaceOrientation Orientation =>
         _orientation;
@@ -35,7 +46,7 @@ public sealed class FaceBuilder
             ?? throw new ArgumentNullException(
                 nameof(surface));
 
-        _innerLoops = [];
+        _innerLoopUses = [];
 
         _orientation =
             FaceOrientation.Forward;
@@ -44,12 +55,21 @@ public sealed class FaceBuilder
     public FaceBuilder SetOuterLoop(
         Loop outerLoop)
     {
+        return SetOuterLoop(
+            outerLoop,
+            LoopUseDirection.Forward);
+    }
+
+    public FaceBuilder SetOuterLoop(
+        Loop outerLoop,
+        LoopUseDirection direction)
+    {
         EnsureNotBuilt();
 
         ArgumentNullException.ThrowIfNull(
             outerLoop);
 
-        if (_outerLoop is not null)
+        if (_outerLoopUse is not null)
         {
             throw new InvalidOperationException(
                 "A face outer loop has already been assigned.");
@@ -62,8 +82,10 @@ public sealed class FaceBuilder
                 "A face inner loop cannot also be assigned as its outer loop.");
         }
 
-        _outerLoop =
-            outerLoop;
+        _outerLoopUse =
+            new LoopUse(
+                outerLoop,
+                direction);
 
         return this;
     }
@@ -71,13 +93,23 @@ public sealed class FaceBuilder
     public FaceBuilder AddInnerLoop(
         Loop innerLoop)
     {
+        return AddInnerLoop(
+            innerLoop,
+            LoopUseDirection.Forward);
+    }
+
+    public FaceBuilder AddInnerLoop(
+        Loop innerLoop,
+        LoopUseDirection direction)
+    {
         EnsureNotBuilt();
 
         ArgumentNullException.ThrowIfNull(
             innerLoop);
 
-        if (ReferenceEquals(
-                _outerLoop,
+        if (_outerLoopUse is not null &&
+            ReferenceEquals(
+                _outerLoopUse.Loop,
                 innerLoop))
         {
             throw new InvalidOperationException(
@@ -91,8 +123,10 @@ public sealed class FaceBuilder
                 "The same inner loop cannot be added more than once.");
         }
 
-        _innerLoops.Add(
-            innerLoop);
+        _innerLoopUses.Add(
+            new LoopUse(
+                innerLoop,
+                direction));
 
         return this;
     }
@@ -112,17 +146,17 @@ public sealed class FaceBuilder
     {
         EnsureNotBuilt();
 
-        if (_outerLoop is null)
+        if (_outerLoopUse is null)
         {
             throw new InvalidOperationException(
                 "A face cannot be built without an outer loop.");
         }
 
         Face face =
-            new(
+            Face.CreateWithLoopUses(
                 _surface,
-                _outerLoop,
-                _innerLoops,
+                _outerLoopUse,
+                _innerLoopUses,
                 _orientation);
 
         _isBuilt =
@@ -134,10 +168,10 @@ public sealed class FaceBuilder
     private bool ContainsInnerLoop(
         Loop loop)
     {
-        return _innerLoops.Any(
-            existingLoop =>
+        return _innerLoopUses.Any(
+            existingLoopUse =>
                 ReferenceEquals(
-                    existingLoop,
+                    existingLoopUse.Loop,
                     loop));
     }
 

@@ -191,15 +191,22 @@ public sealed class StepAdvancedFaceMapper :
             foreach (FaceLoopMapping boundaryMapping
                      in boundaryMappings)
             {
+                LoopUseDirection loopUseDirection =
+                    boundaryMapping.Orientation
+                        ? LoopUseDirection.Forward
+                        : LoopUseDirection.Reversed;
+
                 if (boundaryMapping.IsOuter)
                 {
                     faceBuilder.SetOuterLoop(
-                        boundaryMapping.Loop);
+                        boundaryMapping.Loop,
+                        loopUseDirection);
                 }
                 else
                 {
                     faceBuilder.AddInnerLoop(
-                        boundaryMapping.Loop);
+                        boundaryMapping.Loop,
+                        loopUseDirection);
                 }
             }
 
