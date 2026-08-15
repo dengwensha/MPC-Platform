@@ -181,40 +181,38 @@ public sealed class StepDataInventoryValidator
         foreach (var indexedEntity
                  in indexedEntities)
         {
-            var uniqueReferences =
-                indexedEntity
-                    .Entity
-                    .ReferencedEntityIds
-                    .Select(
-                        referencedEntityId =>
-                            new ParsedReference(
-                                OriginalEntityId:
-                                    referencedEntityId,
-                                NumericEntityId:
-                                    TryParseNumericEntityId(
-                                        referencedEntityId)))
-                    .Where(
-                        reference =>
-                            reference.NumericEntityId
-                                is not null)
-                    .GroupBy(
-                        reference =>
-                            reference.NumericEntityId!.Value)
-                    .Select(
-                        group =>
-                            group.First())
-                    .OrderBy(
-                        reference =>
-                            reference.NumericEntityId!.Value)
-                    .ToArray();
+            SortedSet<BigInteger>? uniqueReferences =
+                null;
 
-            foreach (var reference
+            foreach (var referencedEntityId
+                     in indexedEntity
+                         .Entity
+                         .ReferencedEntityIds)
+            {
+                BigInteger? numericEntityId =
+                    TryParseNumericEntityId(
+                        referencedEntityId);
+
+                if (numericEntityId is null)
+                {
+                    continue;
+                }
+
+                uniqueReferences ??=
+                    new SortedSet<BigInteger>();
+
+                uniqueReferences.Add(
+                    numericEntityId.Value);
+            }
+
+            if (uniqueReferences is null)
+            {
+                continue;
+            }
+
+            foreach (BigInteger numericTargetEntityId
                      in uniqueReferences)
             {
-                var numericTargetEntityId =
-                    reference
-                        .NumericEntityId!.Value;
-
                 if (declaredEntityIds.Contains(
                         numericTargetEntityId))
                 {
@@ -356,10 +354,6 @@ public sealed class StepDataInventoryValidator
         StepDataEntityRecord Entity,
         int OriginalIndex,
         BigInteger? NumericSourceEntityId);
-
-    private sealed record ParsedReference(
-        string OriginalEntityId,
-        BigInteger? NumericEntityId);
 
     private sealed record DiagnosticCandidate(
         CadDiagnostic Diagnostic,
