@@ -1,0 +1,6 @@
+﻿FileName,PreMeanMicroseconds,PostMeanMicroseconds,TimeImprovementPercent,PreAllocatedKB,PostAllocatedKB,AllocationImprovementPercent
+T001_PRISM.step,686.9,561.5,18.26,575.94,511.53,11.18
+T002_SPHERE.step,343.1,298.2,13.09,249.91,224.13,10.32
+T003_CYLINDER.step,497.4,427.6,14.03,406.24,363.20,10.59
+T101_BASIC_POCKET.step,1082.8,894.7,17.37,997.49,884.00,11.38
+T103_MULTIPLE_ISLANDS.step,2407.3,2010.1,16.50,2243.81,1983.29,11.61

@@ -4,6 +4,14 @@ namespace MPC.Connectors.Step.Models;
 
 public sealed class StepDataEntityRecord
 {
+    private static readonly IReadOnlyList<string>
+        EmptyStrings =
+            Array.Empty<string>();
+
+    private static readonly IReadOnlyList<CadDiagnostic>
+        EmptyDiagnostics =
+            Array.Empty<CadDiagnostic>();
+
     private readonly IReadOnlyList<string> _componentTypes;
     private readonly IReadOnlyList<CadDiagnostic> _diagnostics;
     private readonly IReadOnlyList<string> _referencedEntityIds;
@@ -59,78 +67,49 @@ public sealed class StepDataEntityRecord
                 "Read status is not defined.");
         }
 
-        var componentTypeList =
-            componentTypes?.ToList() ??
-            new List<string>();
+        var normalizedSourceEntityType =
+            sourceEntityType
+                .Trim()
+                .ToUpperInvariant();
 
-        if (componentTypeList.Any(
-                componentType =>
-                    string.IsNullOrWhiteSpace(componentType)))
-        {
-            throw new ArgumentException(
-                "Component types cannot contain null, empty, or whitespace entries.",
-                nameof(componentTypes));
-        }
+        var normalizedComponentTypes =
+            MaterializeStrings(
+                componentTypes,
+                normalizeToUpperInvariant:
+                    true,
+                parameterName:
+                    nameof(componentTypes),
+                invalidEntryMessage:
+                    "Component types cannot contain null, empty, or whitespace entries.");
 
-        componentTypeList =
-            componentTypeList
-                .Select(
-                    componentType =>
-                        componentType
-                            .Trim()
-                            .ToUpperInvariant())
-                .ToList();
+        var materializedDiagnostics =
+            MaterializeDiagnostics(
+                diagnostics);
 
-        var diagnosticList =
-            diagnostics?.ToList() ??
-            new List<CadDiagnostic>();
-
-        if (diagnosticList.Any(
-                diagnostic =>
-                    diagnostic is null))
-        {
-            throw new ArgumentException(
-                "Diagnostics cannot contain null entries.",
-                nameof(diagnostics));
-        }
-
-        var referencedEntityIdList =
-            referencedEntityIds?.ToList() ??
-            new List<string>();
-
-        if (referencedEntityIdList.Any(
-                referencedEntityId =>
-                    string.IsNullOrWhiteSpace(
-                        referencedEntityId)))
-        {
-            throw new ArgumentException(
-                "Referenced entity IDs cannot contain null, empty, or whitespace entries.",
-                nameof(referencedEntityIds));
-        }
-
-        referencedEntityIdList =
-            referencedEntityIdList
-                .Select(
-                    referencedEntityId =>
-                        referencedEntityId.Trim())
-                .ToList();
+        var normalizedReferencedEntityIds =
+            MaterializeStrings(
+                referencedEntityIds,
+                normalizeToUpperInvariant:
+                    false,
+                parameterName:
+                    nameof(referencedEntityIds),
+                invalidEntryMessage:
+                    "Referenced entity IDs cannot contain null, empty, or whitespace entries.");
 
         EnsureStatusMatchesDiagnostics(
             readStatus,
-            diagnosticList);
+            materializedDiagnostics);
 
         EnsureComplexEntityState(
-            sourceEntityType,
-            componentTypeList);
+            normalizedSourceEntityType,
+            normalizedComponentTypes);
 
         SourceEntityId =
             NormalizeOptional(
                 sourceEntityId);
 
         SourceEntityType =
-            sourceEntityType
-                .Trim()
-                .ToUpperInvariant();
+            normalizedSourceEntityType;
 
         RawStatement =
             rawStatement.Trim();
@@ -139,32 +118,109 @@ public sealed class StepDataEntityRecord
             readStatus;
 
         _componentTypes =
-            componentTypeList.AsReadOnly();
+            normalizedComponentTypes;
 
         _diagnostics =
-            diagnosticList.AsReadOnly();
+            materializedDiagnostics;
 
         _referencedEntityIds =
-            referencedEntityIdList.AsReadOnly();
+            normalizedReferencedEntityIds;
+    }
+
+    private static IReadOnlyList<string>
+        MaterializeStrings(
+            IEnumerable<string>? values,
+            bool normalizeToUpperInvariant,
+            string parameterName,
+            string invalidEntryMessage)
+    {
+        if (values is null)
+        {
+            return EmptyStrings;
+        }
+
+        var materializedValues =
+            values is ICollection<string> collection
+                ? new List<string>(
+                    collection.Count)
+                : new List<string>();
+
+        foreach (var value in values)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException(
+                    invalidEntryMessage,
+                    parameterName);
+            }
+
+            var normalizedValue =
+                value.Trim();
+
+            if (normalizeToUpperInvariant)
+            {
+                normalizedValue =
+                    normalizedValue
+                        .ToUpperInvariant();
+            }
+
+            materializedValues.Add(
+                normalizedValue);
+        }
+
+        return materializedValues.Count == 0
+            ? EmptyStrings
+            : materializedValues.AsReadOnly();
+    }
+
+    private static IReadOnlyList<CadDiagnostic>
+        MaterializeDiagnostics(
+            IEnumerable<CadDiagnostic>? diagnostics)
+    {
+        if (diagnostics is null)
+        {
+            return EmptyDiagnostics;
+        }
+
+        var materializedDiagnostics =
+            diagnostics is
+                ICollection<CadDiagnostic> collection
+                ? new List<CadDiagnostic>(
+                    collection.Count)
+                : new List<CadDiagnostic>();
+
+        foreach (var diagnostic in diagnostics)
+        {
+            if (diagnostic is null)
+            {
+                throw new ArgumentException(
+                    "Diagnostics cannot contain null entries.",
+                    nameof(diagnostics));
+            }
+
+            materializedDiagnostics.Add(
+                diagnostic);
+        }
+
+        return materializedDiagnostics.Count == 0
+            ? EmptyDiagnostics
+            : materializedDiagnostics.AsReadOnly();
     }
 
     private static void EnsureComplexEntityState(
-        string sourceEntityType,
+        string normalizedSourceEntityType,
         IReadOnlyCollection<string> componentTypes)
     {
-        var normalizedType =
-            sourceEntityType
-                .Trim()
-                .ToUpperInvariant();
-
-        if (normalizedType == "COMPLEX_ENTITY" &&
+        if (normalizedSourceEntityType ==
+                "COMPLEX_ENTITY" &&
             componentTypes.Count == 0)
         {
             throw new InvalidOperationException(
                 "Complex STEP entity must contain at least one component type.");
         }
 
-        if (normalizedType != "COMPLEX_ENTITY" &&
+        if (normalizedSourceEntityType !=
+                "COMPLEX_ENTITY" &&
             componentTypes.Count > 0)
         {
             throw new InvalidOperationException(
@@ -177,11 +233,20 @@ public sealed class StepDataEntityRecord
         IReadOnlyCollection<CadDiagnostic> diagnostics)
     {
         var hasErrorOrFatal =
-            diagnostics.Any(
-                diagnostic =>
-                    diagnostic.Severity is
-                        CadDiagnosticSeverity.Error or
-                        CadDiagnosticSeverity.Fatal);
+            false;
+
+        foreach (var diagnostic in diagnostics)
+        {
+            if (diagnostic.Severity is
+                CadDiagnosticSeverity.Error or
+                CadDiagnosticSeverity.Fatal)
+            {
+                hasErrorOrFatal =
+                    true;
+
+                break;
+            }
+        }
 
         if (readStatus == CadReadStatus.Complete &&
             hasErrorOrFatal)
