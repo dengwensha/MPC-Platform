@@ -1,0 +1,3 @@
+﻿Input,Bytes,ProfiledMean,Error,Allocated,Profiler
+T001_PRISM.step,13446,973.951 us,18.420 us,700.61 KB,EventPipe CPU Sampling
+T103_MULTIPLE_ISLANDS.step,52511,3.646 ms,0.0714 ms,2.69 MB,EventPipe CPU Sampling
