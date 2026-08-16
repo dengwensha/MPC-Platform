@@ -1,0 +1,9 @@
+﻿FileName,Method,PrePercent,PostPercent,RelativeShareChangePercent
+T001_PRISM.step,StepDataInventoryValidator.TryParseNumericEntityId,6.65,5.48,-17.59
+T001_PRISM.step,StepDataInventoryValidator.Validate,22.99,18.98,-17.44
+T001_PRISM.step,StepDataEntityReader.CreateEntityRecord,21.95,21.30,-2.96
+T001_PRISM.step,StepDataInventoryValidator.AddMissingEntityReferenceDiagnostics,9.30,8.79,-5.48
+T103_MULTIPLE_ISLANDS.step,StepDataInventoryValidator.TryParseNumericEntityId,9.47,8.68,-8.34
+T103_MULTIPLE_ISLANDS.step,StepDataInventoryValidator.Validate,28.36,27.42,-3.31
+T103_MULTIPLE_ISLANDS.step,StepDataEntityReader.CreateEntityRecord,28.26,30.01,6.19
+T103_MULTIPLE_ISLANDS.step,StepDataInventoryValidator.AddMissingEntityReferenceDiagnostics,11.96,13.00,8.70
