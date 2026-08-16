@@ -1,0 +1,7 @@
+﻿Run,FileName,PreMeanMicroseconds,PostMeanMicroseconds,TimeImprovementPercent,PreAllocatedKB,PostAllocatedKB,AllocationImprovementPercent,Decision
+Full,T001_PRISM.step,695.9,873.7,-25.55,511.53,486.45,4.90,RepeatRequired
+Full,T002_SPHERE.step,484.9,412.1,15.01,224.13,214.61,4.25,Accepted
+Full,T003_CYLINDER.step,536.8,502.6,6.37,363.20,346.77,4.52,Accepted
+Full,T101_BASIC_POCKET.step,1091.1,999.5,8.39,884.01,839.48,5.04,Accepted
+Full,T103_MULTIPLE_ISLANDS.step,2523.0,2363.4,6.33,1983.26,1880.23,5.20,Accepted
+T001Repeat,T001_PRISM.step,613.8,614.5,-0.11,511.53,486.45,4.90,EquivalentTime

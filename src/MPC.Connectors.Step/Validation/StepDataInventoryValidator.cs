@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Globalization;
+using System.Numerics;
 using MPC.Connectors.Diagnostics;
 using MPC.Connectors.Step.Contracts;
 using MPC.Connectors.Step.Models;
@@ -305,10 +306,12 @@ public sealed class StepDataInventoryValidator
         }
 
         var normalized =
-            entityId.Trim();
+            entityId
+                .AsSpan()
+                .Trim();
 
-        if (!normalized.StartsWith(
-                '#'))
+        if (normalized.Length < 2 ||
+            normalized[0] != '#')
         {
             return null;
         }
@@ -316,19 +319,19 @@ public sealed class StepDataInventoryValidator
         var numericPart =
             normalized[1..];
 
-        if (numericPart.Length == 0)
+        foreach (var character in numericPart)
         {
-            return null;
-        }
-
-        if (!numericPart.All(
-                char.IsDigit))
-        {
-            return null;
+            if (character < '0' ||
+                character > '9')
+            {
+                return null;
+            }
         }
 
         if (!BigInteger.TryParse(
                 numericPart,
+                NumberStyles.None,
+                CultureInfo.InvariantCulture,
                 out var numericEntityId))
         {
             return null;
