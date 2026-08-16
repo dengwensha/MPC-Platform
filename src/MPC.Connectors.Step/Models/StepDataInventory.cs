@@ -17,27 +17,54 @@ public sealed class StepDataInventory
     public StepDataInventory(
         IEnumerable<StepDataEntityRecord> entities)
     {
-        ArgumentNullException.ThrowIfNull(entities);
+        ArgumentNullException.ThrowIfNull(
+            entities);
 
-        var entityList = entities.ToList();
+        var entityList =
+            entities is
+                ICollection<StepDataEntityRecord> collection
+                ? new List<StepDataEntityRecord>(
+                    collection.Count)
+                : new List<StepDataEntityRecord>();
 
-        if (entityList.Any(entity => entity is null))
+        var typeCounts =
+            new Dictionary<string, int>(
+                StringComparer.OrdinalIgnoreCase);
+
+        foreach (var entity in entities)
         {
-            throw new ArgumentException(
-                "STEP DATA inventory cannot contain null entities.",
-                nameof(entities));
+            if (entity is null)
+            {
+                throw new ArgumentException(
+                    "STEP DATA inventory cannot contain null entities.",
+                    nameof(entities));
+            }
+
+            entityList.Add(
+                entity);
+
+            if (typeCounts.TryGetValue(
+                    entity.SourceEntityType,
+                    out var currentCount))
+            {
+                typeCounts[
+                    entity.SourceEntityType
+                ] =
+                    currentCount + 1;
+            }
+            else
+            {
+                typeCounts.Add(
+                    entity.SourceEntityType,
+                    1);
+            }
         }
 
-        _entities = entityList.AsReadOnly();
+        _entities =
+            entityList.AsReadOnly();
 
-        _typeCounts = entityList
-            .GroupBy(
-                entity => entity.SourceEntityType,
-                StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(
-                group => group.Key,
-                group => group.Count(),
-                StringComparer.OrdinalIgnoreCase);
+        _typeCounts =
+            typeCounts;
     }
 
     public int GetCount(
