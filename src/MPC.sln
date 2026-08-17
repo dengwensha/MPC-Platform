@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Contracts", "MPC.Contra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Contracts.Tests", "..\tests\MPC.Contracts.Tests\MPC.Contracts.Tests.csproj", "{B35482F8-0A74-4D45-9DA2-7CE15DDD81A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Worker", "MPC.Worker\MPC.Worker.csproj", "{278FF939-3EA8-4DD7-82F0-D11A91F5258D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Worker.Tests", "..\tests\MPC.Worker.Tests\MPC.Worker.Tests.csproj", "{1416E376-B86E-4AB6-A94F-0D14A7EC815B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +105,14 @@ Global
 		{B35482F8-0A74-4D45-9DA2-7CE15DDD81A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B35482F8-0A74-4D45-9DA2-7CE15DDD81A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B35482F8-0A74-4D45-9DA2-7CE15DDD81A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{278FF939-3EA8-4DD7-82F0-D11A91F5258D}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{278FF939-3EA8-4DD7-82F0-D11A91F5258D}.Debug|Any CPU.Build.0 = Debug|x64
+		{278FF939-3EA8-4DD7-82F0-D11A91F5258D}.Release|Any CPU.ActiveCfg = Release|x64
+		{278FF939-3EA8-4DD7-82F0-D11A91F5258D}.Release|Any CPU.Build.0 = Release|x64
+		{1416E376-B86E-4AB6-A94F-0D14A7EC815B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{1416E376-B86E-4AB6-A94F-0D14A7EC815B}.Debug|Any CPU.Build.0 = Debug|x64
+		{1416E376-B86E-4AB6-A94F-0D14A7EC815B}.Release|Any CPU.ActiveCfg = Release|x64
+		{1416E376-B86E-4AB6-A94F-0D14A7EC815B}.Release|Any CPU.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
