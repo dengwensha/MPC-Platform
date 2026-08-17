@@ -1,4 +1,3 @@
-using MPC.Connectors.Step.Mapping;
 using MPC.Connectors.Step.Semantics;
 
 namespace MPC.Tests.Connectors;
