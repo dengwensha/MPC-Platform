@@ -27,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Benchmarks", "..\benchmarks\MPC.Benchmarks\MPC.Benchmarks.csproj", "{6F6A900C-65E5-490E-A7CC-B49A20547378}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Host.SolidWorks", "MPC.Host.SolidWorks\MPC.Host.SolidWorks.csproj", "{BAE57D2D-42AC-4BB0-A5E4-18289B48E0A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Host.SolidWorks.Tests", "..\tests\MPC.Host.SolidWorks.Tests\MPC.Host.SolidWorks.Tests.csproj", "{7BDCE5FA-4AAB-44A0-961A-9C686D1C8CC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,14 @@ Global
 		{6F6A900C-65E5-490E-A7CC-B49A20547378}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F6A900C-65E5-490E-A7CC-B49A20547378}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F6A900C-65E5-490E-A7CC-B49A20547378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAE57D2D-42AC-4BB0-A5E4-18289B48E0A6}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{BAE57D2D-42AC-4BB0-A5E4-18289B48E0A6}.Debug|Any CPU.Build.0 = Debug|x64
+		{BAE57D2D-42AC-4BB0-A5E4-18289B48E0A6}.Release|Any CPU.ActiveCfg = Release|x64
+		{BAE57D2D-42AC-4BB0-A5E4-18289B48E0A6}.Release|Any CPU.Build.0 = Release|x64
+		{7BDCE5FA-4AAB-44A0-961A-9C686D1C8CC5}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{7BDCE5FA-4AAB-44A0-961A-9C686D1C8CC5}.Debug|Any CPU.Build.0 = Debug|x64
+		{7BDCE5FA-4AAB-44A0-961A-9C686D1C8CC5}.Release|Any CPU.ActiveCfg = Release|x64
+		{7BDCE5FA-4AAB-44A0-961A-9C686D1C8CC5}.Release|Any CPU.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
