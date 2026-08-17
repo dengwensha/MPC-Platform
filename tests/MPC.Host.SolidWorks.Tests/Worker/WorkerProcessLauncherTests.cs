@@ -1,4 +1,4 @@
-using Xunit;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -334,7 +334,7 @@ public sealed class WorkerProcessLauncherTests
             _exception = exception;
         }
 
-        public int Start(
+        public WorkerProcessHandle Start(
             ProcessStartRequest request)
         {
             CallCount++;
@@ -345,7 +345,32 @@ public sealed class WorkerProcessLauncherTests
                 throw _exception;
             }
 
-            return _processId;
+            return new WorkerProcessHandle(
+                new StartedProcessExecution(_processId));
+        }
+    }
+
+    private sealed class StartedProcessExecution :
+        IProcessExecution
+    {
+        private readonly int _processId;
+
+        internal StartedProcessExecution(int processId)
+        {
+            _processId = processId;
+        }
+
+        public int Id => _processId;
+
+        public int ExitCode => 0;
+
+        public bool WaitForExit(int milliseconds)
+        {
+            return true;
+        }
+
+        public void Dispose()
+        {
         }
     }
 

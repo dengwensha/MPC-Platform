@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Text;
 
@@ -6,13 +6,10 @@ namespace MPC.Host.SolidWorks.Worker;
 
 internal sealed class SystemProcessStarter : IProcessStarter
 {
-    public int Start(ProcessStartRequest request)
+    public WorkerProcessHandle Start(ProcessStartRequest request)
     {
-        var startInfo =
-            CreateStartInfo(request);
-
-        var process =
-            Process.Start(startInfo);
+        var startInfo = CreateStartInfo(request);
+        var process = Process.Start(startInfo);
 
         if (process is null)
         {
@@ -20,14 +17,29 @@ internal sealed class SystemProcessStarter : IProcessStarter
                 "The operating system did not return a worker process.");
         }
 
-        using (process)
+        IProcessExecution? execution = null;
+
+        try
         {
-            return process.Id;
+            execution = new SystemProcessExecution(process);
+            return new WorkerProcessHandle(execution);
+        }
+        catch
+        {
+            if (execution is not null)
+            {
+                execution.Dispose();
+            }
+            else
+            {
+                process.Dispose();
+            }
+
+            throw;
         }
     }
 
-    internal static ProcessStartInfo CreateStartInfo(
-        ProcessStartRequest request)
+    internal static ProcessStartInfo CreateStartInfo(ProcessStartRequest request)
     {
         if (request is null)
         {
@@ -44,29 +56,23 @@ internal sealed class SystemProcessStarter : IProcessStarter
         };
     }
 
-    internal static string BuildArguments(
-        ProcessStartRequest request)
+    internal static string BuildArguments(ProcessStartRequest request)
     {
         if (request is null)
         {
             throw new ArgumentNullException(nameof(request));
         }
 
-        var builder =
-            new StringBuilder();
+        var builder = new StringBuilder();
 
-        for (var index = 0;
-             index < request.Arguments.Count;
-             index++)
+        for (var index = 0; index < request.Arguments.Count; index++)
         {
             if (index > 0)
             {
                 builder.Append(' ');
             }
 
-            AppendQuotedArgument(
-                builder,
-                request.Arguments[index]);
+            AppendQuotedArgument(builder, request.Arguments[index]);
         }
 
         return builder.ToString();
@@ -77,7 +83,6 @@ internal sealed class SystemProcessStarter : IProcessStarter
         string argument)
     {
         builder.Append('"');
-
         var backslashCount = 0;
 
         foreach (var character in argument)
@@ -90,22 +95,15 @@ internal sealed class SystemProcessStarter : IProcessStarter
 
             if (character == '"')
             {
-                builder.Append(
-                    '\\',
-                    (backslashCount * 2) + 1);
-
+                builder.Append('\\', (backslashCount * 2) + 1);
                 builder.Append('"');
                 backslashCount = 0;
-
                 continue;
             }
 
             if (backslashCount > 0)
             {
-                builder.Append(
-                    '\\',
-                    backslashCount);
-
+                builder.Append('\\', backslashCount);
                 backslashCount = 0;
             }
 
@@ -114,9 +112,7 @@ internal sealed class SystemProcessStarter : IProcessStarter
 
         if (backslashCount > 0)
         {
-            builder.Append(
-                '\\',
-                backslashCount * 2);
+            builder.Append('\\', backslashCount * 2);
         }
 
         builder.Append('"');

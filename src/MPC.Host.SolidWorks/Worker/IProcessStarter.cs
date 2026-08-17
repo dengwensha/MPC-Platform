@@ -1,6 +1,6 @@
-namespace MPC.Host.SolidWorks.Worker;
+﻿namespace MPC.Host.SolidWorks.Worker;
 
 internal interface IProcessStarter
 {
-    int Start(ProcessStartRequest request);
+    WorkerProcessHandle Start(ProcessStartRequest request);
 }

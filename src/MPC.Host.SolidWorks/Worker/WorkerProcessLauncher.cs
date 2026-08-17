@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 
@@ -90,18 +90,18 @@ internal sealed class WorkerProcessLauncher :
 
         try
         {
-            var processId =
+            var handle =
                 _processStarter.Start(processRequest);
 
-            if (processId <= 0)
+            if (handle is null)
             {
                 return WorkerLaunchResult.Failed(
                     WorkerLaunchStatus.StartFailed,
-                    "Process starter returned an invalid process identifier.");
+                    "Process starter did not return a worker process handle.");
             }
 
             return WorkerLaunchResult.Started(
-                processId);
+                handle);
         }
         catch (Exception exception)
             when (exception is Win32Exception
