@@ -36,4 +36,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MPC.Contracts\MPC.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
