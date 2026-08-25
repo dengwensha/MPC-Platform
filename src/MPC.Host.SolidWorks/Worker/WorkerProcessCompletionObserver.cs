@@ -6,6 +6,8 @@ namespace MPC.Host.SolidWorks.Worker;
 internal sealed class WorkerProcessCompletionObserver :
     IWorkerProcessCompletionObserver
 {
+    private const int TerminationTimeoutMilliseconds = 5000;
+
     public WorkerCompletionResult Observe(
         WorkerProcessHandle handle,
         int timeoutMilliseconds)
@@ -29,6 +31,8 @@ internal sealed class WorkerProcessCompletionObserver :
 
             if (!handle.WaitForExit(timeoutMilliseconds))
             {
+                TryTerminateAndWait(handle);
+
                 return WorkerCompletionResult.TimedOut(
                     "Worker process did not complete within the observation timeout.");
             }
@@ -45,6 +49,25 @@ internal sealed class WorkerProcessCompletionObserver :
         finally
         {
             handle.Dispose();
+        }
+    }
+
+    private static void TryTerminateAndWait(
+        WorkerProcessHandle handle)
+    {
+        try
+        {
+            handle.Terminate();
+            handle.WaitForExit(
+                TerminationTimeoutMilliseconds);
+        }
+        catch (Exception exception)
+            when (exception is InvalidOperationException
+                  or Win32Exception
+                  or NotSupportedException)
+        {
+            // Timeout remains the primary result. Termination is best-effort
+            // cleanup and must not replace the observed timeout status.
         }
     }
 }

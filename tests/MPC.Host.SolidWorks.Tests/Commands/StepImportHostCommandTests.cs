@@ -342,6 +342,10 @@ public sealed class StepImportHostCommandTests
             return true;
         }
 
+        public void Terminate()
+        {
+        }
+
         public void Dispose()
         {
         }

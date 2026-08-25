@@ -22,6 +22,11 @@ internal sealed class SystemProcessExecution : IProcessExecution
         return _process.WaitForExit(milliseconds);
     }
 
+    public void Terminate()
+    {
+        _process.Kill();
+    }
+
     public void Dispose()
     {
         _process.Dispose();

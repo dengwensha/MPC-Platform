@@ -369,6 +369,10 @@ public sealed class WorkerProcessLauncherTests
             return true;
         }
 
+        public void Terminate()
+        {
+        }
+
         public void Dispose()
         {
         }

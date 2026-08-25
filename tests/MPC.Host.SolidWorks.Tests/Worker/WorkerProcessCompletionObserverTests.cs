@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using MPC.Host.SolidWorks.Worker;
 using Xunit;
 
@@ -68,9 +70,11 @@ public sealed class WorkerProcessCompletionObserverTests
         Assert.Equal(0, result.ExitCode);
         Assert.Null(result.FailureType);
         Assert.Null(result.FailureMessage);
-        Assert.Equal(2500, execution.LastTimeoutMilliseconds);
-        Assert.Equal(1, execution.WaitCallCount);
+        Assert.Equal(
+            new[] { 2500 },
+            execution.WaitTimeouts);
         Assert.Equal(1, execution.ExitCodeReadCount);
+        Assert.Equal(0, execution.TerminateCallCount);
         Assert.Equal(1, execution.DisposeCallCount);
     }
 
@@ -102,15 +106,17 @@ public sealed class WorkerProcessCompletionObserverTests
 
         Assert.False(result.IsSuccessful);
         Assert.Equal(exitCode, result.ExitCode);
+        Assert.Equal(0, execution.TerminateCallCount);
         Assert.Equal(1, execution.DisposeCallCount);
     }
 
     [Fact]
-    public void Observe_ReturnsTimedOut_WhenProcessDoesNotExit()
+    public void Observe_TerminatesAndWaits_WhenProcessTimesOut()
     {
         var execution =
             new RecordingProcessExecution(
-                waitResult: false);
+                initialWaitResult: false,
+                terminationWaitResult: true);
 
         var observer =
             new WorkerProcessCompletionObserver();
@@ -131,7 +137,77 @@ public sealed class WorkerProcessCompletionObserverTests
             string.IsNullOrWhiteSpace(
                 result.FailureMessage));
 
+        Assert.Equal(
+            new[] { 3000, 5000 },
+            execution.WaitTimeouts);
         Assert.Equal(0, execution.ExitCodeReadCount);
+        Assert.Equal(1, execution.TerminateCallCount);
+        Assert.Equal(1, execution.DisposeCallCount);
+    }
+
+    [Fact]
+    public void Observe_PreservesTimeout_WhenTerminationFails()
+    {
+        var execution =
+            new RecordingProcessExecution(
+                initialWaitResult: false,
+                terminateException:
+                    new Win32Exception(
+                        "Termination failed."));
+
+        var observer =
+            new WorkerProcessCompletionObserver();
+
+        var result =
+            observer.Observe(
+                new WorkerProcessHandle(execution),
+                timeoutMilliseconds: 3000);
+
+        Assert.Equal(
+            WorkerCompletionStatus.TimedOut,
+            result.Status);
+
+        Assert.False(result.IsSuccessful);
+        Assert.Null(result.ExitCode);
+        Assert.Null(result.FailureType);
+        Assert.False(
+            string.IsNullOrWhiteSpace(
+                result.FailureMessage));
+
+        Assert.Equal(
+            new[] { 3000 },
+            execution.WaitTimeouts);
+        Assert.Equal(1, execution.TerminateCallCount);
+        Assert.Equal(0, execution.ExitCodeReadCount);
+        Assert.Equal(1, execution.DisposeCallCount);
+    }
+
+    [Fact]
+    public void Observe_PreservesTimeout_WhenTerminationWaitExpires()
+    {
+        var execution =
+            new RecordingProcessExecution(
+                initialWaitResult: false,
+                terminationWaitResult: false);
+
+        var observer =
+            new WorkerProcessCompletionObserver();
+
+        var result =
+            observer.Observe(
+                new WorkerProcessHandle(execution),
+                timeoutMilliseconds: 3000);
+
+        Assert.Equal(
+            WorkerCompletionStatus.TimedOut,
+            result.Status);
+
+        Assert.False(result.IsSuccessful);
+        Assert.Null(result.ExitCode);
+        Assert.Equal(
+            new[] { 3000, 5000 },
+            execution.WaitTimeouts);
+        Assert.Equal(1, execution.TerminateCallCount);
         Assert.Equal(1, execution.DisposeCallCount);
     }
 
@@ -166,6 +242,7 @@ public sealed class WorkerProcessCompletionObserverTests
 
         Assert.Null(result.ExitCode);
         Assert.Equal(0, execution.ExitCodeReadCount);
+        Assert.Equal(0, execution.TerminateCallCount);
         Assert.Equal(1, execution.DisposeCallCount);
     }
 
@@ -199,6 +276,7 @@ public sealed class WorkerProcessCompletionObserverTests
             result.FailureMessage);
 
         Assert.Equal(1, execution.ExitCodeReadCount);
+        Assert.Equal(0, execution.TerminateCallCount);
         Assert.Equal(1, execution.DisposeCallCount);
     }
 
@@ -258,27 +336,42 @@ public sealed class WorkerProcessCompletionObserverTests
     {
         private readonly int _processId;
         private readonly int _exitCode;
-        private readonly bool _waitResult;
+        private readonly bool _initialWaitResult;
+        private readonly bool _terminationWaitResult;
         private readonly Exception? _waitException;
         private readonly Exception? _exitCodeException;
+        private readonly Exception? _terminateException;
+        private readonly List<int> _waitTimeouts =
+            new List<int>();
 
-        internal int WaitCallCount { get; private set; }
+        internal int WaitCallCount =>
+            _waitTimeouts.Count;
+
+        internal IReadOnlyList<int> WaitTimeouts =>
+            _waitTimeouts;
+
         internal int ExitCodeReadCount { get; private set; }
+
+        internal int TerminateCallCount { get; private set; }
+
         internal int DisposeCallCount { get; private set; }
-        internal int? LastTimeoutMilliseconds { get; private set; }
 
         internal RecordingProcessExecution(
             int processId = 4172,
             int exitCode = 0,
-            bool waitResult = true,
+            bool initialWaitResult = true,
+            bool terminationWaitResult = true,
             Exception? waitException = null,
-            Exception? exitCodeException = null)
+            Exception? exitCodeException = null,
+            Exception? terminateException = null)
         {
             _processId = processId;
             _exitCode = exitCode;
-            _waitResult = waitResult;
+            _initialWaitResult = initialWaitResult;
+            _terminationWaitResult = terminationWaitResult;
             _waitException = waitException;
             _exitCodeException = exitCodeException;
+            _terminateException = terminateException;
         }
 
         public int Id => _processId;
@@ -300,15 +393,26 @@ public sealed class WorkerProcessCompletionObserverTests
 
         public bool WaitForExit(int milliseconds)
         {
-            WaitCallCount++;
-            LastTimeoutMilliseconds = milliseconds;
+            _waitTimeouts.Add(milliseconds);
 
             if (_waitException is not null)
             {
                 throw _waitException;
             }
 
-            return _waitResult;
+            return _waitTimeouts.Count == 1
+                ? _initialWaitResult
+                : _terminationWaitResult;
+        }
+
+        public void Terminate()
+        {
+            TerminateCallCount++;
+
+            if (_terminateException is not null)
+            {
+                throw _terminateException;
+            }
         }
 
         public void Dispose()

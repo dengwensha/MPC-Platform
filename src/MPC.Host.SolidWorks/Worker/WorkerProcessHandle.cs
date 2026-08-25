@@ -52,6 +52,12 @@ internal sealed class WorkerProcessHandle : IDisposable
         return _execution.ExitCode;
     }
 
+    internal void Terminate()
+    {
+        ThrowIfDisposed();
+        _execution.Terminate();
+    }
+
     public void Dispose()
     {
         if (_isDisposed)

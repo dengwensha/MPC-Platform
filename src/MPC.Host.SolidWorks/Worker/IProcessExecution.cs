@@ -9,4 +9,6 @@ internal interface IProcessExecution : IDisposable
     int ExitCode { get; }
 
     bool WaitForExit(int milliseconds);
+
+    void Terminate();
 }
