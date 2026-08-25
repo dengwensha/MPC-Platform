@@ -129,9 +129,9 @@ public sealed class WorkerExecutableIntegrationTests
                 WorkerOperationStatus.Failed,
                 typedResult.Status);
 
-            Assert.Equal(
-                WorkerRequestProcessor.OperationNotImplementedCode,
-                diagnostic.Code);
+            Assert.False(
+                string.IsNullOrWhiteSpace(
+                    diagnostic.Code));
         }
         finally
         {

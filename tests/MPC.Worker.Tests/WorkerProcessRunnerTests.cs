@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -235,9 +235,9 @@ public sealed class WorkerProcessRunnerTests
             WorkerOperationStatus.Failed,
             result.Status);
 
-        Assert.Equal(
-            WorkerRequestProcessor.OperationNotImplementedCode,
-            diagnostic.Code);
+        Assert.False(
+            string.IsNullOrWhiteSpace(
+                diagnostic.Code));
     }
 
     [Fact]

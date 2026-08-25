@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MPC.Application\MPC.Application.csproj" />
     <ProjectReference Include="..\MPC.Contracts\MPC.Contracts.csproj" />
   </ItemGroup>
 

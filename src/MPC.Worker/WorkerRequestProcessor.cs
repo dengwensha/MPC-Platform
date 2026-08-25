@@ -1,3 +1,4 @@
+using MPC.Application.Step;
 using MPC.Contracts;
 using MPC.Contracts.Validation;
 
@@ -5,14 +6,30 @@ namespace MPC.Worker;
 
 public sealed class WorkerRequestProcessor
 {
-    public const string OperationNotImplementedCode =
-        "WORKER-OPERATION-001";
+    private readonly StepImportApplicationService
+        _stepImportService;
+
+    public WorkerRequestProcessor()
+        : this(
+            new StepImportApplicationService())
+    {
+    }
+
+    public WorkerRequestProcessor(
+        StepImportApplicationService stepImportService)
+    {
+        _stepImportService =
+            stepImportService
+            ?? throw new ArgumentNullException(
+                nameof(stepImportService));
+    }
 
     public WorkerOperationResult Process(
         WorkerOperationRequest? request)
     {
         var validation =
-            WorkerOperationRequestValidator.Validate(request);
+            WorkerOperationRequestValidator.Validate(
+                request);
 
         if (!validation.IsValid)
         {
@@ -24,17 +41,83 @@ public sealed class WorkerRequestProcessor
                 validation.Diagnostics);
         }
 
+        StepImportResult applicationResult =
+            _stepImportService.Execute(
+                new StepImportRequest(
+                    request!.InputArtifactPath!));
+
+        ContractDiagnostic[] diagnostics =
+            applicationResult.Diagnostics
+                .Select(ConvertDiagnostic)
+                .ToArray();
+
+        WorkerOperationSummary? summary =
+            applicationResult.Summary is null
+                ? null
+                : ConvertSummary(
+                    applicationResult.Summary);
+
+        WorkerOperationStatus status =
+            applicationResult.Status switch
+            {
+                StepImportStatus.Succeeded =>
+                    WorkerOperationStatus.Succeeded,
+
+                StepImportStatus.SucceededWithDiagnostics =>
+                    WorkerOperationStatus.Succeeded,
+
+                StepImportStatus.Failed =>
+                    WorkerOperationStatus.Failed,
+
+                _ =>
+                    WorkerOperationStatus.Failed
+            };
+
         return new WorkerOperationResult(
             ContractVersion.Current,
-            request!.RequestId,
-            WorkerOperationStatus.Failed,
+            request.RequestId,
+            status,
             outputArtifactPath: null,
-            new[]
+            diagnostics,
+            summary);
+    }
+
+    private static ContractDiagnostic ConvertDiagnostic(
+        StepImportDiagnostic diagnostic)
+    {
+        ContractDiagnosticSeverity severity =
+            diagnostic.Severity switch
             {
-                new ContractDiagnostic(
-                    OperationNotImplementedCode,
+                StepImportDiagnosticSeverity.Information =>
+                    ContractDiagnosticSeverity.Information,
+
+                StepImportDiagnosticSeverity.Warning =>
+                    ContractDiagnosticSeverity.Warning,
+
+                StepImportDiagnosticSeverity.Error =>
                     ContractDiagnosticSeverity.Error,
-                    "AnalyzeModel operation is not implemented.")
-            });
+
+                _ =>
+                    ContractDiagnosticSeverity.Error
+            };
+
+        return new ContractDiagnostic(
+            diagnostic.Code,
+            severity,
+            diagnostic.Message);
+    }
+
+    private static WorkerOperationSummary ConvertSummary(
+        StepImportSummary summary)
+    {
+        return new WorkerOperationSummary(
+            summary.SourceSolidEntityId,
+            summary.SolidCount,
+            summary.OuterShellCount,
+            summary.InnerShellCount,
+            summary.FaceCount,
+            summary.LoopCount,
+            summary.EdgeCount,
+            summary.VertexCount);
     }
 }

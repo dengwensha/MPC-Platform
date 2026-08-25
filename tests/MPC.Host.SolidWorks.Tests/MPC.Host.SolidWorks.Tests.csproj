@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
@@ -25,6 +25,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MPC.Host.SolidWorks\MPC.Host.SolidWorks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None
+        Include="..\MPC.Tests\TestData\Step\Golden\T001_PRISM.step"
+        Link="TestData\Step\Golden\T001_PRISM.step"
+        CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

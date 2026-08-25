@@ -16,14 +16,18 @@ public sealed class WorkerOperationResult
 
     public string? OutputArtifactPath { get; }
 
-    public IReadOnlyList<ContractDiagnostic> Diagnostics => _diagnostics;
+    public IReadOnlyList<ContractDiagnostic> Diagnostics =>
+        _diagnostics;
+
+    public WorkerOperationSummary? Summary { get; }
 
     public WorkerOperationResult(
         string? contractVersion,
         string? requestId,
         WorkerOperationStatus status,
         string? outputArtifactPath,
-        IReadOnlyList<ContractDiagnostic>? diagnostics)
+        IReadOnlyList<ContractDiagnostic>? diagnostics,
+        WorkerOperationSummary? summary = null)
     {
         if (!Enum.IsDefined(typeof(WorkerOperationStatus), status))
         {
@@ -33,10 +37,12 @@ public sealed class WorkerOperationResult
                 "Worker operation status is not defined.");
         }
 
-        var diagnosticArray = diagnostics?.ToArray()
+        var diagnosticArray =
+            diagnostics?.ToArray()
             ?? Array.Empty<ContractDiagnostic>();
 
-        if (diagnosticArray.Any(diagnostic => diagnostic is null))
+        if (diagnosticArray.Any(
+                diagnostic => diagnostic is null))
         {
             throw new ArgumentException(
                 "Contract diagnostics cannot contain null entries.",
@@ -46,13 +52,20 @@ public sealed class WorkerOperationResult
         ContractVersion = contractVersion;
         RequestId = requestId;
         Status = status;
-        OutputArtifactPath = NormalizeOptional(outputArtifactPath);
-        _diagnostics = Array.AsReadOnly(diagnosticArray);
+        OutputArtifactPath =
+            NormalizeOptional(outputArtifactPath);
+
+        _diagnostics =
+            Array.AsReadOnly(diagnosticArray);
+
+        Summary = summary;
     }
 
-    private static string? NormalizeOptional(string? value)
+    private static string? NormalizeOptional(
+        string? value)
     {
-        if (value is null || string.IsNullOrWhiteSpace(value))
+        if (value is null ||
+            string.IsNullOrWhiteSpace(value))
         {
             return null;
         }

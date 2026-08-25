@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\MPC.Connectors\MPC.Connectors.csproj" />
+    <ProjectReference Include="..\MPC.Connectors.Step\MPC.Connectors.Step.csproj" />
+    <ProjectReference Include="..\MPC.Mapping\MPC.Mapping.csproj" />
+    <ProjectReference Include="..\MPC.Mapping.Step\MPC.Mapping.Step.csproj" />
+    <ProjectReference Include="..\MPC.Topology\MPC.Topology.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

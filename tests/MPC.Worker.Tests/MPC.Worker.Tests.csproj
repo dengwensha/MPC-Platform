@@ -30,4 +30,11 @@
     <ProjectReference Include="..\..\src\MPC.Worker\MPC.Worker.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None
+        Include="..\MPC.Tests\TestData\Step\Golden\*.step"
+        Link="TestData\Step\Golden\%(Filename)%(Extension)"
+        CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
