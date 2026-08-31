@@ -294,33 +294,17 @@ public sealed class StepToroidalSurfaceSemanticReaderTests
     [Fact]
     public void Read_ShouldRejectZeroMajorRadius()
     {
-        var reader =
-            CreateReader();
-
-        var record =
-            CreateRecord(
-                "#170=TOROIDAL_SURFACE('Torus',#100,0.0,10.0);");
-
-        Assert.Throws<ArgumentOutOfRangeException>(
-            () =>
-                reader.Read(
-                    record));
+        AssertMajorRadiusSemanticFailure(
+            "#170=TOROIDAL_SURFACE('Torus',#100,0.0,10.0);",
+            "0");
     }
 
     [Fact]
     public void Read_ShouldRejectNegativeMajorRadius()
     {
-        var reader =
-            CreateReader();
-
-        var record =
-            CreateRecord(
-                "#170=TOROIDAL_SURFACE('Torus',#100,-50.0,10.0);");
-
-        Assert.Throws<ArgumentOutOfRangeException>(
-            () =>
-                reader.Read(
-                    record));
+        AssertMajorRadiusSemanticFailure(
+            "#170=TOROIDAL_SURFACE('Torus',#100,-50.0,10.0);",
+            "-50");
     }
 
     [Fact]
@@ -353,6 +337,48 @@ public sealed class StepToroidalSurfaceSemanticReaderTests
             () =>
                 reader.Read(
                     record));
+    }
+
+    private static void AssertMajorRadiusSemanticFailure(
+        string rawStatement,
+        string rejectedValue)
+    {
+        var reader =
+            CreateReader();
+
+        var record =
+            CreateRecord(
+                rawStatement);
+
+        StepSemanticValueException exception =
+            Assert.Throws<StepSemanticValueException>(
+                () =>
+                    reader.Read(
+                        record));
+
+        Assert.Equal(
+            "#170",
+            exception.SourceEntityId);
+
+        Assert.Equal(
+            "TOROIDAL_SURFACE",
+            exception.SourceEntityType);
+
+        Assert.Equal(
+            "majorRadius",
+            exception.ParameterName);
+
+        Assert.Equal(
+            rejectedValue,
+            exception.RejectedValue);
+
+        ArgumentOutOfRangeException innerException =
+            Assert.IsType<ArgumentOutOfRangeException>(
+                exception.InnerException);
+
+        Assert.Equal(
+            "majorRadius",
+            innerException.ParamName);
     }
 
     private static StepSemanticEntityReader CreateReader()

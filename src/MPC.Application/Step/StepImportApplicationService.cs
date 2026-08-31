@@ -1,4 +1,4 @@
-using MPC.Connectors.Diagnostics;
+﻿using MPC.Connectors.Diagnostics;
 using MPC.Connectors.Results;
 using MPC.Connectors.Step.Models;
 using MPC.Connectors.Step.Parsing;
@@ -25,6 +25,9 @@ public sealed class StepImportApplicationService
     public const string MissingMappedSolidCode =
         "APP-STEP-MAPPING-001";
 
+    public const string SemanticFailureCode =
+        "APP-STEP-SEMANTIC-001";
+
     public const string UnexpectedFailureCode =
         "APP-STEP-UNEXPECTED-001";
 
@@ -41,6 +44,31 @@ public sealed class StepImportApplicationService
         try
         {
             return ExecuteCore(request);
+        }
+        catch (StepSemanticValueException exception)
+        {
+            string sourceEntityId =
+                string.IsNullOrWhiteSpace(
+                    exception.SourceEntityId)
+                    ? "<unknown>"
+                    : exception.SourceEntityId;
+
+            return StepImportResult.Failure(
+                new[]
+                {
+                    new StepImportDiagnostic(
+                        SemanticFailureCode,
+                        StepImportDiagnosticSeverity.Error,
+                        $"STEP semantic entity " +
+                        $"'{sourceEntityId}' " +
+                        $"of type " +
+                        $"'{exception.SourceEntityType}' " +
+                        $"rejected parameter " +
+                        $"'{exception.ParameterName}' " +
+                        $"with value " +
+                        $"'{exception.RejectedValue}'.",
+                        exception.SourceEntityId)
+                });
         }
         catch (Exception exception)
         {

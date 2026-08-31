@@ -1,4 +1,5 @@
-﻿using MPC.Connectors.Step.Models;
+﻿using System.Globalization;
+using MPC.Connectors.Step.Models;
 
 namespace MPC.Connectors.Step.Semantics;
 
@@ -52,12 +53,30 @@ public sealed class StepToroidalSurfaceEntityHandler
                 parameters[3],
                 "The fourth TOROIDAL_SURFACE parameter, minor radius, must be numeric.");
 
-        return new StepToroidalSurfaceEntity(
-            record.SourceEntityId,
-            nameParameter.Value,
-            placementReferenceParameter.EntityId,
-            majorRadius,
-            minorRadius);
+        try
+        {
+            return new StepToroidalSurfaceEntity(
+                record.SourceEntityId,
+                nameParameter.Value,
+                placementReferenceParameter.EntityId,
+                majorRadius,
+                minorRadius);
+        }
+        catch (ArgumentOutOfRangeException exception)
+            when (string.Equals(
+                exception.ParamName,
+                nameof(majorRadius),
+                StringComparison.Ordinal))
+        {
+            throw new StepSemanticValueException(
+                record.SourceEntityId,
+                SupportedEntityType,
+                nameof(majorRadius),
+                majorRadius.ToString(
+                    "R",
+                    CultureInfo.InvariantCulture),
+                exception);
+        }
     }
 
     private static double ReadNumericParameter(
