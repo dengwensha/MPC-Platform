@@ -91,6 +91,101 @@ public sealed class MappingResultTests
     }
 
     [Fact]
+    public void Failure_WithEquivalentDiagnostics_DeduplicatesAndPreservesFirstInstance()
+    {
+        var first = new MappingDiagnostic(
+            "MAP-STEP-FACE-001",
+            "STEP ADVANCED_FACE '#100' references unsupported surface '#200'.",
+            MappingDiagnosticSeverity.Error);
+
+        var equivalent = new MappingDiagnostic(
+            "MAP-STEP-FACE-001",
+            "STEP ADVANCED_FACE '#100' references unsupported surface '#200'.",
+            MappingDiagnosticSeverity.Error);
+
+        var result =
+            MappingResult<TestCanonicalObject>.Failure(
+                new[] { first, equivalent });
+
+        var actualDiagnostic = Assert.Single(result.Diagnostics);
+        Assert.Same(first, actualDiagnostic);
+    }
+
+    [Fact]
+    public void Failure_WithDifferentSourceMessages_PreservesBothDiagnostics()
+    {
+        var first = new MappingDiagnostic(
+            "MAP-STEP-FACE-001",
+            "STEP ADVANCED_FACE '#100' references unsupported surface '#200'.",
+            MappingDiagnosticSeverity.Error);
+
+        var second = new MappingDiagnostic(
+            "MAP-STEP-FACE-001",
+            "STEP ADVANCED_FACE '#101' references unsupported surface '#200'.",
+            MappingDiagnosticSeverity.Error);
+
+        var result =
+            MappingResult<TestCanonicalObject>.Failure(
+                new[] { first, second });
+
+        Assert.Equal(2, result.Diagnostics.Count);
+        Assert.Same(first, result.Diagnostics[0]);
+        Assert.Same(second, result.Diagnostics[1]);
+    }
+
+    [Fact]
+    public void Failure_WithDifferentSeverities_PreservesBothDiagnostics()
+    {
+        const string message =
+            "STEP entity '#100' could not be mapped.";
+
+        var warning = new MappingDiagnostic(
+            "MAP001",
+            message,
+            MappingDiagnosticSeverity.Warning);
+
+        var error = new MappingDiagnostic(
+            "MAP001",
+            message,
+            MappingDiagnosticSeverity.Error);
+
+        var result =
+            MappingResult<TestCanonicalObject>.Failure(
+                new[] { warning, error });
+
+        Assert.Equal(2, result.Diagnostics.Count);
+        Assert.Same(warning, result.Diagnostics[0]);
+        Assert.Same(error, result.Diagnostics[1]);
+    }
+
+    [Fact]
+    public void Failure_WithInterleavedDuplicates_PreservesFirstSeenOrder()
+    {
+        var first = new MappingDiagnostic(
+            "MAP001",
+            "First diagnostic.",
+            MappingDiagnosticSeverity.Error);
+
+        var second = new MappingDiagnostic(
+            "MAP002",
+            "Second diagnostic.",
+            MappingDiagnosticSeverity.Error);
+
+        var duplicateFirst = new MappingDiagnostic(
+            "MAP001",
+            "First diagnostic.",
+            MappingDiagnosticSeverity.Error);
+
+        var result =
+            MappingResult<TestCanonicalObject>.Failure(
+                new[] { first, second, duplicateFirst });
+
+        Assert.Equal(2, result.Diagnostics.Count);
+        Assert.Same(first, result.Diagnostics[0]);
+        Assert.Same(second, result.Diagnostics[1]);
+    }
+
+    [Fact]
     public void Diagnostics_AreDefensivelyCopied()
     {
         var diagnostic = new MappingDiagnostic(

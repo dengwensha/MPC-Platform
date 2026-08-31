@@ -22,14 +22,17 @@ public sealed class MappingResult<T>
 
         ArgumentNullException.ThrowIfNull(diagnostics);
 
-        var diagnosticList = diagnostics.ToList();
+        var materializedDiagnostics = diagnostics.ToList();
 
-        if (diagnosticList.Any(static diagnostic => diagnostic is null))
+        if (materializedDiagnostics.Any(static diagnostic => diagnostic is null))
         {
             throw new ArgumentException(
                 "Mapping diagnostics cannot contain null items.",
                 nameof(diagnostics));
         }
+
+        var diagnosticList =
+            DeduplicateDiagnostics(materializedDiagnostics);
 
         ValidateState(status, value, diagnosticList);
 
@@ -80,6 +83,31 @@ public sealed class MappingResult<T>
             MappingStatus.Failed,
             null,
             diagnostics);
+    }
+
+    private static List<MappingDiagnostic> DeduplicateDiagnostics(
+        IReadOnlyList<MappingDiagnostic> diagnostics)
+    {
+        var uniqueDiagnostics =
+            new List<MappingDiagnostic>(diagnostics.Count);
+
+        var diagnosticKeys = new HashSet<DiagnosticKey>();
+
+        foreach (MappingDiagnostic diagnostic in diagnostics)
+        {
+            var key =
+                new DiagnosticKey(
+                    diagnostic.Code,
+                    diagnostic.Message,
+                    diagnostic.Severity);
+
+            if (diagnosticKeys.Add(key))
+            {
+                uniqueDiagnostics.Add(diagnostic);
+            }
+        }
+
+        return uniqueDiagnostics;
     }
 
     private static void ValidateState(
@@ -141,4 +169,9 @@ public sealed class MappingResult<T>
                     "Mapping status is not defined.");
         }
     }
+
+    private readonly record struct DiagnosticKey(
+        string Code,
+        string Message,
+        MappingDiagnosticSeverity Severity);
 }
