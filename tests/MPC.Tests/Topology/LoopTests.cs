@@ -103,23 +103,19 @@ public sealed class LoopTests
     }
 
     [Fact]
-    public void Constructor_WithFewerThanThreeEdgeUses_ThrowsArgumentException()
+    public void Constructor_WithFewerThanTwoEdgeUses_ThrowsArgumentException()
     {
         Vertex vertex1 = CreateVertex(0.0, 0.0, 0.0);
         Vertex vertex2 = CreateVertex(1.0, 0.0, 0.0);
 
-        EdgeUse edgeUse1 =
+        EdgeUse edgeUse =
             new(CreateEdge(vertex1, vertex2));
-
-        EdgeUse edgeUse2 =
-            new(CreateEdge(vertex2, vertex1));
 
         Assert.Throws<ArgumentException>(
             () => new Loop(
                 new[]
                 {
-                    edgeUse1,
-                    edgeUse2
+                    edgeUse
                 }));
     }
 

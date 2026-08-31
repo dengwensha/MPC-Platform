@@ -26,6 +26,10 @@ public sealed class StepCanonicalReferenceResolver :
         Line3D> _lineMapper;
 
     private readonly IEntityMapper<
+        StepCircleEntity,
+        Circle3D> _circleMapper;
+
+    private readonly IEntityMapper<
         StepEdgeCurveEntity,
         Edge> _edgeCurveMapper;
 
@@ -42,6 +46,7 @@ public sealed class StepCanonicalReferenceResolver :
             semanticResolver,
             new StepVertexPointMapper(),
             new StepLineGeometryMapper(),
+            new StepCircleGeometryMapper(),
             new StepEdgeCurveMapper(),
             new StepCylindricalSurfaceGeometryMapper())
     {
@@ -55,6 +60,9 @@ public sealed class StepCanonicalReferenceResolver :
         IEntityMapper<
             StepLineEntity,
             Line3D> lineMapper,
+        IEntityMapper<
+            StepCircleEntity,
+            Circle3D> circleMapper,
         IEntityMapper<
             StepEdgeCurveEntity,
             Edge> edgeCurveMapper,
@@ -72,6 +80,9 @@ public sealed class StepCanonicalReferenceResolver :
             lineMapper);
 
         ArgumentNullException.ThrowIfNull(
+            circleMapper);
+
+        ArgumentNullException.ThrowIfNull(
             edgeCurveMapper);
 
         ArgumentNullException.ThrowIfNull(
@@ -85,6 +96,9 @@ public sealed class StepCanonicalReferenceResolver :
 
         _lineMapper =
             lineMapper;
+
+        _circleMapper =
+            circleMapper;
 
         _edgeCurveMapper =
             edgeCurveMapper;
@@ -218,6 +232,17 @@ public sealed class StepCanonicalReferenceResolver :
                     MappingResult<Line3D> result =
                         _lineMapper.Map(
                             line,
+                            context);
+
+                    return ConvertResult(
+                        result);
+                }
+
+            case StepCircleEntity circle:
+                {
+                    MappingResult<Circle3D> result =
+                        _circleMapper.Map(
+                            circle,
                             context);
 
                     return ConvertResult(

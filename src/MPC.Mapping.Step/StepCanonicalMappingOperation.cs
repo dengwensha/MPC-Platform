@@ -51,6 +51,9 @@ public sealed class StepCanonicalMappingOperation
         var lineMapper =
             new StepLineGeometryMapper();
 
+        var circleMapper =
+            new StepCircleGeometryMapper();
+
         var edgeCurveMapper =
             new StepEdgeCurveMapper();
 
@@ -62,6 +65,7 @@ public sealed class StepCanonicalMappingOperation
                 semanticResolver,
                 vertexPointMapper,
                 lineMapper,
+                circleMapper,
                 edgeCurveMapper,
                 cylindricalSurfaceMapper);
 

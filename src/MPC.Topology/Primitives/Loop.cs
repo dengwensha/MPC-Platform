@@ -32,10 +32,10 @@ public sealed class Loop
     private static void ValidateEdgeUses(
         IReadOnlyList<EdgeUse> edgeUses)
     {
-        if (edgeUses.Count < 3)
+        if (edgeUses.Count < 2)
         {
             throw new ArgumentException(
-                "A loop must contain at least three directed edge uses.",
+                "A loop must contain at least two directed edge uses.",
                 nameof(edgeUses));
         }
 

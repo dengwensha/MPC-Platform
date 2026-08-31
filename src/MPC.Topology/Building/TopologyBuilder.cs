@@ -334,10 +334,10 @@ public sealed class TopologyBuilder
 
     private void VerifyLoop(Loop loop)
     {
-        if (loop.EdgeUses.Count < 3)
+        if (loop.EdgeUses.Count < 2)
         {
             throw new InvalidOperationException(
-                "A registered loop must contain at least three edge uses.");
+                "A registered loop must contain at least two edge uses.");
         }
 
         for (int index = 0;

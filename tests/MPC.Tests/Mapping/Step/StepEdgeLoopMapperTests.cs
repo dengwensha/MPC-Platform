@@ -411,7 +411,7 @@ public sealed class StepEdgeLoopMapperTests
     }
 
     [Fact]
-    public void Map_WithFewerThanThreeMappedEdgeUses_ReturnsInvalidLoopFailure()
+    public void Map_WithOpenTwoEdgeChain_ReturnsInvalidLoopFailure()
     {
         TriangleFixture fixture =
             CreateTriangleFixture();
@@ -453,7 +453,7 @@ public sealed class StepEdgeLoopMapperTests
             diagnostic.Severity);
 
         Assert.Contains(
-            "at least three",
+            "closed topological cycle",
             diagnostic.Message,
             StringComparison.OrdinalIgnoreCase);
 

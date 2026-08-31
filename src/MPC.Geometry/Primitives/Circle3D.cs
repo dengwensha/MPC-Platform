@@ -1,6 +1,8 @@
 ﻿namespace MPC.Geometry.Primitives;
 
-public sealed record Circle3D
+using MPC.Geometry.Contracts;
+
+public sealed record Circle3D : ICurve3D
 {
     private const double UnitVectorTolerance = 1e-12;
 
