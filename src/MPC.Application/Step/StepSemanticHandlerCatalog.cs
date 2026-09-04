@@ -15,6 +15,7 @@ internal static class StepSemanticHandlerCatalog
             new StepClosedShellEntityHandler(),
             new StepConicalSurfaceEntityHandler(),
             new StepCylindricalSurfaceEntityHandler(),
+            new StepDegenerateToroidalSurfaceEntityHandler(),
             new StepDirectionEntityHandler(),
             new StepEdgeCurveEntityHandler(),
             new StepEdgeLoopEntityHandler(),

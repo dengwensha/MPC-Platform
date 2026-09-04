@@ -1,6 +1,6 @@
 ﻿namespace MPC.Connectors.Step.Semantics;
 
-public sealed class StepToroidalSurfaceEntity
+public class StepToroidalSurfaceEntity
     : StepSemanticEntity
 {
     public string Name { get; }
@@ -17,10 +17,30 @@ public sealed class StepToroidalSurfaceEntity
         string placementReferenceId,
         double majorRadius,
         double minorRadius)
+        : this(
+            sourceEntityId,
+            "TOROIDAL_SURFACE",
+            name,
+            placementReferenceId,
+            majorRadius,
+            minorRadius)
+    {
+    }
+
+    protected StepToroidalSurfaceEntity(
+        string? sourceEntityId,
+        string sourceEntityType,
+        string name,
+        string placementReferenceId,
+        double majorRadius,
+        double minorRadius)
         : base(
             sourceEntityId,
-            "TOROIDAL_SURFACE")
+            sourceEntityType)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(
+            sourceEntityType);
+
         ArgumentNullException.ThrowIfNull(name);
 
         if (string.IsNullOrWhiteSpace(placementReferenceId))
