@@ -1,0 +1,16 @@
+<Project>
+  <!--
+    SR02-C / M-03: repository-wide analyzer and warning enforcement.
+    Keep the .NET 8 default rule set explicit and stable.
+    Rule expansion and warning exceptions require a reviewed policy change.
+  -->
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>8.0</AnalysisLevel>
+    <AnalysisMode>Default</AnalysisMode>
+    <RunAnalyzers>true</RunAnalyzers>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
