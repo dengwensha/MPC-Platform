@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Topology;
 using MPC.Topology.Primitives;
 
@@ -17,6 +17,9 @@ public sealed class StepClosedShellMapper :
 
     private const string InvalidShellDiagnosticCode =
         "MAP-STEP-CLOSED-SHELL-003";
+
+    private const string OpenShellDiagnosticCode =
+        "MAP-STEP-CLOSED-SHELL-004";
 
     private readonly IEntityMapper<
         StepAdvancedFaceEntity,
@@ -156,6 +159,25 @@ public sealed class StepClosedShellMapper :
             var shell =
                 new Shell(
                     faces);
+
+            if (!shell.IsClosed)
+            {
+                MappingDiagnostic diagnostic =
+                    CreateDiagnostic(
+                        OpenShellDiagnosticCode,
+                        source,
+                        "The canonical shell is not topologically closed. " +
+                        "Every canonical edge must be used exactly twice across the shell boundaries.");
+
+                context.AddDiagnostic(
+                    diagnostic);
+
+                return MappingResult<Shell>.Failure(
+                    new[]
+                    {
+                        diagnostic
+                    });
+            }
 
             IReadOnlyList<MappingDiagnostic> operationResultDiagnostics =
                 context.GetDiagnosticsSince(

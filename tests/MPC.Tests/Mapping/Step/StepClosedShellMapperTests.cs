@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Mapping;
 using MPC.Mapping.Step;
 using MPC.Tests.Mapping.Step.TestInfrastructure;
@@ -17,37 +17,18 @@ public sealed class StepClosedShellMapperTests
     }
 
     [Fact]
-    public void Map_WithSingleFace_ReturnsCanonicalShell()
+    public void Map_WithClosedFaces_ReturnsCanonicalShell()
     {
-        var sourceFace =
-            new StepAdvancedFaceEntity(
-                "#20",
-                "Advanced face",
-                new[]
-                {
-                    "#30"
-                },
-                "#40",
-                true);
-
-        Face canonicalFace =
-            TopologyTestFactory.CreateFace();
+        ClosedShellFixture fixture =
+            CreateClosedShellFixture();
 
         var resolver =
             new StubReferenceResolver(
-                new Dictionary<string, StepAdvancedFaceEntity>
-                {
-                    ["#20"] = sourceFace
-                });
+                fixture.SourceFaces);
 
         var faceMapper =
             new StubAdvancedFaceMapper(
-                new Dictionary<string, MappingResult<Face>>
-                {
-                    ["#20"] =
-                        MappingResult<Face>.Success(
-                            canonicalFace)
-                });
+                fixture.FaceResults);
 
         var mapper =
             new StepClosedShellMapper(
@@ -57,18 +38,9 @@ public sealed class StepClosedShellMapperTests
             new MappingContext(
                 resolver);
 
-        var source =
-            new StepClosedShellEntity(
-                "#100",
-                "Closed shell",
-                new[]
-                {
-                    "#20"
-                });
-
         MappingResult<Shell> result =
             mapper.Map(
-                source,
+                fixture.Source,
                 context);
 
         Assert.Equal(
@@ -82,105 +54,38 @@ public sealed class StepClosedShellMapperTests
             Assert.IsType<Shell>(
                 result.Value);
 
-        Face shellFace =
-            Assert.Single(
-                shell.Faces);
+        Assert.True(
+            shell.IsClosed);
 
-        Assert.Same(
-            canonicalFace,
-            shellFace);
+        Assert.Equal(
+            fixture.CanonicalFaces,
+            shell.Faces);
 
         Assert.Empty(
             result.Diagnostics);
 
         Assert.Equal(
-            new[]
-            {
-                "#20"
-            },
+            fixture.Source.FaceReferenceIds,
             resolver.ResolvedReferenceIds);
 
         Assert.Equal(
-            new[]
-            {
-                "#20"
-            },
+            fixture.Source.FaceReferenceIds,
             faceMapper.MappedSourceEntityIds);
     }
 
     [Fact]
     public void Map_WithMultipleFaces_PreservesOrder()
     {
-        var firstSourceFace =
-            new StepAdvancedFaceEntity(
-                "#20",
-                "First advanced face",
-                new[]
-                {
-                    "#30"
-                },
-                "#40",
-                true);
-
-        var secondSourceFace =
-            new StepAdvancedFaceEntity(
-                "#21",
-                "Second advanced face",
-                new[]
-                {
-                    "#31"
-                },
-                "#41",
-                true);
-
-        var thirdSourceFace =
-            new StepAdvancedFaceEntity(
-                "#22",
-                "Third advanced face",
-                new[]
-                {
-                    "#32"
-                },
-                "#42",
-                true);
-
-        Face firstCanonicalFace =
-            TopologyTestFactory.CreateFace(
-                offset: 0.0);
-
-        Face secondCanonicalFace =
-            TopologyTestFactory.CreateFace(
-                offset: 10.0);
-
-        Face thirdCanonicalFace =
-            TopologyTestFactory.CreateFace(
-                offset: 20.0);
+        ClosedShellFixture fixture =
+            CreateClosedShellFixture();
 
         var resolver =
             new StubReferenceResolver(
-                new Dictionary<string, StepAdvancedFaceEntity>
-                {
-                    ["#20"] = firstSourceFace,
-                    ["#21"] = secondSourceFace,
-                    ["#22"] = thirdSourceFace
-                });
+                fixture.SourceFaces);
 
         var faceMapper =
             new StubAdvancedFaceMapper(
-                new Dictionary<string, MappingResult<Face>>
-                {
-                    ["#20"] =
-                        MappingResult<Face>.Success(
-                            firstCanonicalFace),
-
-                    ["#21"] =
-                        MappingResult<Face>.Success(
-                            secondCanonicalFace),
-
-                    ["#22"] =
-                        MappingResult<Face>.Success(
-                            thirdCanonicalFace)
-                });
+                fixture.FaceResults);
 
         var mapper =
             new StepClosedShellMapper(
@@ -190,20 +95,9 @@ public sealed class StepClosedShellMapperTests
             new MappingContext(
                 resolver);
 
-        var source =
-            new StepClosedShellEntity(
-                "#100",
-                "Closed shell",
-                new[]
-                {
-                    "#20",
-                    "#21",
-                    "#22"
-                });
-
         MappingResult<Shell> result =
             mapper.Map(
-                source,
+                fixture.Source,
                 context);
 
         Assert.Equal(
@@ -217,40 +111,19 @@ public sealed class StepClosedShellMapperTests
             Assert.IsType<Shell>(
                 result.Value);
 
-        Assert.Collection(
-            shell.Faces,
-            face =>
-                Assert.Same(
-                    firstCanonicalFace,
-                    face),
-            face =>
-                Assert.Same(
-                    secondCanonicalFace,
-                    face),
-            face =>
-                Assert.Same(
-                    thirdCanonicalFace,
-                    face));
+        Assert.Equal(
+            fixture.CanonicalFaces,
+            shell.Faces);
 
         Assert.Empty(
             result.Diagnostics);
 
         Assert.Equal(
-            new[]
-            {
-                "#20",
-                "#21",
-                "#22"
-            },
+            fixture.Source.FaceReferenceIds,
             resolver.ResolvedReferenceIds);
 
         Assert.Equal(
-            new[]
-            {
-                "#20",
-                "#21",
-                "#22"
-            },
+            fixture.Source.FaceReferenceIds,
             faceMapper.MappedSourceEntityIds);
     }
 
@@ -622,35 +495,16 @@ public sealed class StepClosedShellMapperTests
     [Fact]
     public void Map_WithPreExistingInformation_DoesNotIncludeItInSuccessfulResult()
     {
-        var sourceFace =
-            new StepAdvancedFaceEntity(
-                "#20",
-                "Advanced face",
-                new[]
-                {
-                    "#30"
-                },
-                "#40",
-                true);
-
-        Face canonicalFace =
-            TopologyTestFactory.CreateFace();
+        ClosedShellFixture fixture =
+            CreateClosedShellFixture();
 
         var resolver =
             new StubReferenceResolver(
-                new Dictionary<string, StepAdvancedFaceEntity>
-                {
-                    ["#20"] = sourceFace
-                });
+                fixture.SourceFaces);
 
         var faceMapper =
             new StubAdvancedFaceMapper(
-                new Dictionary<string, MappingResult<Face>>
-                {
-                    ["#20"] =
-                        MappingResult<Face>.Success(
-                            canonicalFace)
-                });
+                fixture.FaceResults);
 
         var mapper =
             new StepClosedShellMapper(
@@ -669,18 +523,9 @@ public sealed class StepClosedShellMapperTests
         context.AddDiagnostic(
             priorDiagnostic);
 
-        var source =
-            new StepClosedShellEntity(
-                "#100",
-                "Closed shell",
-                new[]
-                {
-                    "#20"
-                });
-
         MappingResult<Shell> result =
             mapper.Map(
-                source,
+                fixture.Source,
                 context);
 
         Assert.Equal(
@@ -705,35 +550,16 @@ public sealed class StepClosedShellMapperTests
     [Fact]
     public void Map_WithPreExistingError_DoesNotFailSuccessfulOperation()
     {
-        var sourceFace =
-            new StepAdvancedFaceEntity(
-                "#20",
-                "Advanced face",
-                new[]
-                {
-                    "#30"
-                },
-                "#40",
-                true);
-
-        Face canonicalFace =
-            TopologyTestFactory.CreateFace();
+        ClosedShellFixture fixture =
+            CreateClosedShellFixture();
 
         var resolver =
             new StubReferenceResolver(
-                new Dictionary<string, StepAdvancedFaceEntity>
-                {
-                    ["#20"] = sourceFace
-                });
+                fixture.SourceFaces);
 
         var faceMapper =
             new StubAdvancedFaceMapper(
-                new Dictionary<string, MappingResult<Face>>
-                {
-                    ["#20"] =
-                        MappingResult<Face>.Success(
-                            canonicalFace)
-                });
+                fixture.FaceResults);
 
         var mapper =
             new StepClosedShellMapper(
@@ -752,18 +578,9 @@ public sealed class StepClosedShellMapperTests
         context.AddDiagnostic(
             priorDiagnostic);
 
-        var source =
-            new StepClosedShellEntity(
-                "#100",
-                "Closed shell",
-                new[]
-                {
-                    "#20"
-                });
-
         MappingResult<Shell> result =
             mapper.Map(
-                source,
+                fixture.Source,
                 context);
 
         Assert.Equal(
@@ -873,6 +690,123 @@ public sealed class StepClosedShellMapperTests
 
         Assert.Empty(
             faceMapper.MappedSourceEntityIds);
+    }
+
+    private static ClosedShellFixture CreateClosedShellFixture()
+    {
+        Shell closedShell =
+            TopologyTestFactory.CreateClosedTetrahedronShell();
+
+        Assert.True(
+            closedShell.IsClosed);
+
+        Face[] canonicalFaces =
+            closedShell.Faces.ToArray();
+
+        var sourceFaces =
+            new Dictionary<string, StepAdvancedFaceEntity>();
+
+        var faceResults =
+            new Dictionary<string, MappingResult<Face>>();
+
+        var faceReferenceIds =
+            new List<string>(
+                canonicalFaces.Length);
+
+        for (int index = 0;
+             index < canonicalFaces.Length;
+             index++)
+        {
+            string sourceEntityId =
+                $"#{20 + index}";
+
+            faceReferenceIds.Add(
+                sourceEntityId);
+
+            sourceFaces.Add(
+                sourceEntityId,
+                new StepAdvancedFaceEntity(
+                    sourceEntityId,
+                    $"Advanced face {index + 1}",
+                    new[]
+                    {
+                        $"#{30 + index}"
+                    },
+                    $"#{40 + index}",
+                    true));
+
+            faceResults.Add(
+                sourceEntityId,
+                MappingResult<Face>.Success(
+                    canonicalFaces[index]));
+        }
+
+        return new ClosedShellFixture(
+            new StepClosedShellEntity(
+                "#100",
+                "Closed shell",
+                faceReferenceIds),
+            sourceFaces,
+            faceResults,
+            canonicalFaces);
+    }
+
+    private sealed class ClosedShellFixture
+    {
+        public StepClosedShellEntity Source
+        {
+            get;
+        }
+
+        public IReadOnlyDictionary<
+            string,
+            StepAdvancedFaceEntity> SourceFaces
+        {
+            get;
+        }
+
+        public IReadOnlyDictionary<
+            string,
+            MappingResult<Face>> FaceResults
+        {
+            get;
+        }
+
+        public IReadOnlyList<Face> CanonicalFaces
+        {
+            get;
+        }
+
+        public ClosedShellFixture(
+            StepClosedShellEntity source,
+            IReadOnlyDictionary<
+                string,
+                StepAdvancedFaceEntity> sourceFaces,
+            IReadOnlyDictionary<
+                string,
+                MappingResult<Face>> faceResults,
+            IReadOnlyList<Face> canonicalFaces)
+        {
+            Source =
+                source
+                ?? throw new ArgumentNullException(
+                    nameof(source));
+
+            SourceFaces =
+                sourceFaces
+                ?? throw new ArgumentNullException(
+                    nameof(sourceFaces));
+
+            FaceResults =
+                faceResults
+                ?? throw new ArgumentNullException(
+                    nameof(faceResults));
+
+            CanonicalFaces =
+                canonicalFaces
+                ?? throw new ArgumentNullException(
+                    nameof(canonicalFaces));
+        }
     }
 
     private sealed class StubAdvancedFaceMapper :
