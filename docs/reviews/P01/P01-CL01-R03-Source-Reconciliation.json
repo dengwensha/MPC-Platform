@@ -1,0 +1,43 @@
+{
+    "ReviewedHEAD":  "4f0095636092fad2eee8038ee2564e67a4cf154e",
+    "Classifier":  "Case-sensitive CultureInvariant Regex; supersedes Part 5",
+    "SourceEntities":  135828,
+    "MappedDiagnostics":  2772,
+    "UnclassifiedDiagnostics":  0,
+    "Groups":  [
+                   {
+                       "Count":  696,
+                       "Group":  "MAP-STEP-FACE-001, B_SPLINE_SURFACE_WITH_KNOTS"
+                   },
+                   {
+                       "Count":  1796,
+                       "Group":  "STEP_REFERENCE_RESOLUTION_FAILED, B_SPLINE_CURVE_WITH_KNOTS"
+                   },
+                   {
+                       "Count":  4,
+                       "Group":  "STEP_REFERENCE_RESOLUTION_FAILED, COMPLEX[BOUNDED_CURVE+B_SPLINE_CURVE+B_SPLINE_CURVE_WITH_KNOTS+CURVE+GEOMETRIC_REPRESENTATION_ITEM+RATIONAL_B_SPLINE_CURVE+REPRESENTATION_ITEM]"
+                   },
+                   {
+                       "Count":  276,
+                       "Group":  "STEP_REFERENCE_RESOLUTION_FAILED, COMPLEX[BOUNDED_SURFACE+B_SPLINE_SURFACE+B_SPLINE_SURFACE_WITH_KNOTS+GEOMETRIC_REPRESENTATION_ITEM+RATIONAL_B_SPLINE_SURFACE+REPRESENTATION_ITEM+SURFACE]"
+                   }
+               ],
+    "ToroidalSourceCount":  120,
+    "SignedSourceIds":  [
+                            "#106843",
+                            "#107272",
+                            "#114164",
+                            "#122903",
+                            "#128956",
+                            "#2349",
+                            "#29109",
+                            "#30640",
+                            "#35856",
+                            "#71594",
+                            "#77376",
+                            "#90166"
+                        ],
+    "ToroidalDiagnosticCount":  0,
+    "SignedDiagnosticCount":  0,
+    "EvidenceLimit":  "No toroidal blocker in observed diagnostics; not full geometry validation"
+}
