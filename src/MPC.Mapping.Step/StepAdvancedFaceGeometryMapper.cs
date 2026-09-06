@@ -27,6 +27,9 @@ public sealed class StepAdvancedFaceGeometryMapper :
     private readonly StepDegenerateToroidalSurfaceGeometryMapper
         _degenerateToroidalSurfaceMapper;
 
+    private readonly StepToroidalSurfaceGeometryMapper
+        _toroidalSurfaceMapper;
+
     public StepAdvancedFaceGeometryMapper(
         StepPlaneGeometryMapper planeMapper,
         StepCylindricalSurfaceGeometryMapper
@@ -40,7 +43,8 @@ public sealed class StepAdvancedFaceGeometryMapper :
             cylindricalSurfaceMapper,
             conicalSurfaceMapper,
             sphericalSurfaceMapper,
-            new StepDegenerateToroidalSurfaceGeometryMapper())
+            new StepDegenerateToroidalSurfaceGeometryMapper(),
+            new StepToroidalSurfaceGeometryMapper())
     {
     }
 
@@ -54,6 +58,28 @@ public sealed class StepAdvancedFaceGeometryMapper :
             sphericalSurfaceMapper,
         StepDegenerateToroidalSurfaceGeometryMapper
             degenerateToroidalSurfaceMapper)
+        : this(
+            planeMapper,
+            cylindricalSurfaceMapper,
+            conicalSurfaceMapper,
+            sphericalSurfaceMapper,
+            degenerateToroidalSurfaceMapper,
+            new StepToroidalSurfaceGeometryMapper())
+    {
+    }
+
+    public StepAdvancedFaceGeometryMapper(
+        StepPlaneGeometryMapper planeMapper,
+        StepCylindricalSurfaceGeometryMapper
+            cylindricalSurfaceMapper,
+        StepConicalSurfaceGeometryMapper
+            conicalSurfaceMapper,
+        StepSphericalSurfaceGeometryMapper
+            sphericalSurfaceMapper,
+        StepDegenerateToroidalSurfaceGeometryMapper
+            degenerateToroidalSurfaceMapper,
+        StepToroidalSurfaceGeometryMapper
+            toroidalSurfaceMapper)
     {
         _planeMapper =
             planeMapper
@@ -79,6 +105,11 @@ public sealed class StepAdvancedFaceGeometryMapper :
             degenerateToroidalSurfaceMapper
             ?? throw new ArgumentNullException(
                 nameof(degenerateToroidalSurfaceMapper));
+
+        _toroidalSurfaceMapper =
+            toroidalSurfaceMapper
+            ?? throw new ArgumentNullException(
+                nameof(toroidalSurfaceMapper));
     }
 
     public MappingResult<ISurface3D> Map(
@@ -142,6 +173,12 @@ public sealed class StepAdvancedFaceGeometryMapper :
                         _degenerateToroidalSurfaceMapper.Map(
                             degenerateToroidalSurface,
                             context)),
+
+            StepToroidalSurfaceEntity toroidalSurface =>
+                ConvertResult(
+                    _toroidalSurfaceMapper.Map(
+                        toroidalSurface,
+                        context)),
 
             _ =>
                 CreateUnsupportedSurfaceFailure(

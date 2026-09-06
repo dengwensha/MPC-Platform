@@ -86,13 +86,17 @@ public sealed class StepCanonicalMappingOperation
         var degenerateToroidalSurfaceMapper =
             new StepDegenerateToroidalSurfaceGeometryMapper();
 
+        var toroidalSurfaceMapper =
+            new StepToroidalSurfaceGeometryMapper();
+
         var advancedFaceGeometryMapper =
             new StepAdvancedFaceGeometryMapper(
                 planeMapper,
                 cylindricalSurfaceMapper,
                 conicalSurfaceMapper,
                 sphericalSurfaceMapper,
-                degenerateToroidalSurfaceMapper);
+                degenerateToroidalSurfaceMapper,
+                toroidalSurfaceMapper);
 
         var advancedFaceBuilderMapper =
             new StepAdvancedFaceBuilderMapper(
