@@ -1,4 +1,4 @@
-namespace MPC.Connectors.Step.Semantics;
+﻿namespace MPC.Connectors.Step.Semantics;
 
 public sealed class StepDegenerateToroidalSurfaceEntity
     : StepToroidalSurfaceEntity
@@ -12,9 +12,28 @@ public sealed class StepDegenerateToroidalSurfaceEntity
         double majorRadius,
         double minorRadius,
         bool selectOuter)
-        : base(
+        : this(
             sourceEntityId,
             "DEGENERATE_TOROIDAL_SURFACE",
+            name,
+            placementReferenceId,
+            majorRadius,
+            minorRadius,
+            selectOuter)
+    {
+    }
+
+    internal StepDegenerateToroidalSurfaceEntity(
+        string? sourceEntityId,
+        string sourceEntityType,
+        string name,
+        string placementReferenceId,
+        double majorRadius,
+        double minorRadius,
+        bool selectOuter)
+        : base(
+            sourceEntityId,
+            sourceEntityType,
             name,
             placementReferenceId,
             majorRadius,

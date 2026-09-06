@@ -6,8 +6,25 @@ namespace MPC.Connectors.Step.Semantics;
 public sealed class StepToroidalSurfaceEntityHandler
     : IStepSemanticEntityHandler
 {
+    private readonly SwStepSignedToroidalCompatibilityPolicy?
+        _compatibilityPolicy;
+
     public string SupportedEntityType =>
         "TOROIDAL_SURFACE";
+
+    public StepToroidalSurfaceEntityHandler()
+    {
+    }
+
+    public StepToroidalSurfaceEntityHandler(
+        SwStepSignedToroidalCompatibilityPolicy
+            compatibilityPolicy)
+    {
+        _compatibilityPolicy =
+            compatibilityPolicy ??
+            throw new ArgumentNullException(
+                nameof(compatibilityPolicy));
+    }
 
     public StepSemanticEntity Read(
         StepDataEntityRecord record,
@@ -37,7 +54,8 @@ public sealed class StepToroidalSurfaceEntityHandler
                 "The first TOROIDAL_SURFACE parameter must be a STEP string.");
         }
 
-        if (parameters[1] is not StepEntityReferenceParameter placementReferenceParameter)
+        if (parameters[1] is not StepEntityReferenceParameter
+            placementReferenceParameter)
         {
             throw new FormatException(
                 "The second TOROIDAL_SURFACE parameter must be a STEP entity reference.");
@@ -52,6 +70,23 @@ public sealed class StepToroidalSurfaceEntityHandler
             ReadNumericParameter(
                 parameters[3],
                 "The fourth TOROIDAL_SURFACE parameter, minor radius, must be numeric.");
+
+        if (
+            _compatibilityPolicy is not null &&
+            _compatibilityPolicy.TryInterpret(
+                majorRadius,
+                minorRadius,
+                out double standardMajorRadius))
+        {
+            return new StepDegenerateToroidalSurfaceEntity(
+                record.SourceEntityId,
+                SupportedEntityType,
+                nameParameter.Value,
+                placementReferenceParameter.EntityId,
+                standardMajorRadius,
+                minorRadius,
+                selectOuter: false);
+        }
 
         try
         {

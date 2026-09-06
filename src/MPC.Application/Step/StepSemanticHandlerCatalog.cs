@@ -1,10 +1,12 @@
-using MPC.Connectors.Step.Semantics;
+﻿using MPC.Connectors.Step.Semantics;
 
 namespace MPC.Application.Step;
 
 internal static class StepSemanticHandlerCatalog
 {
-    public static IReadOnlyList<IStepSemanticEntityHandler> Create()
+    public static IReadOnlyList<IStepSemanticEntityHandler> Create(
+        SwStepSignedToroidalCompatibilityPolicy?
+            signedToroidalCompatibilityPolicy = null)
     {
         IStepSemanticEntityHandler[] handlers =
         [
@@ -26,11 +28,23 @@ internal static class StepSemanticHandlerCatalog
             new StepOrientedEdgeEntityHandler(),
             new StepPlaneEntityHandler(),
             new StepSphericalSurfaceEntityHandler(),
-            new StepToroidalSurfaceEntityHandler(),
+            CreateToroidalSurfaceHandler(
+                signedToroidalCompatibilityPolicy),
             new StepVectorEntityHandler(),
             new StepVertexPointEntityHandler()
         ];
 
         return Array.AsReadOnly(handlers);
+    }
+
+    private static IStepSemanticEntityHandler
+        CreateToroidalSurfaceHandler(
+            SwStepSignedToroidalCompatibilityPolicy?
+                compatibilityPolicy)
+    {
+        return compatibilityPolicy is null
+            ? new StepToroidalSurfaceEntityHandler()
+            : new StepToroidalSurfaceEntityHandler(
+                compatibilityPolicy);
     }
 }

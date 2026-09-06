@@ -126,10 +126,16 @@ public sealed class StepImportApplicationService
                 diagnostics);
         }
 
+        SwStepSignedToroidalCompatibilityPolicy?
+            signedToroidalCompatibilityPolicy =
+                TryCreateSignedToroidalCompatibilityPolicy(
+                    request.InputFilePath);
+
         var semanticReader =
             new StepSemanticEntityReader(
                 new StepParameterParser(),
-                StepSemanticHandlerCatalog.Create());
+                StepSemanticHandlerCatalog.Create(
+                    signedToroidalCompatibilityPolicy));
 
         var semanticEntities =
             new List<StepSemanticEntity>();
@@ -240,6 +246,29 @@ public sealed class StepImportApplicationService
             : StepImportResult.SuccessWithDiagnostics(
                 summary,
                 diagnostics);
+    }
+
+    private static SwStepSignedToroidalCompatibilityPolicy?
+        TryCreateSignedToroidalCompatibilityPolicy(
+            string inputFilePath)
+    {
+        var headerReader =
+            new StepHeaderReader();
+
+        CadConnectorResult<StepHeaderInfo> headerResult =
+            headerReader.Read(
+                inputFilePath);
+
+        if (
+            headerResult.Status ==
+                CadConnectorResultStatus.Failed ||
+            headerResult.Value is null)
+        {
+            return null;
+        }
+
+        return new SwStepSignedToroidalCompatibilityPolicy(
+            headerResult.Value);
     }
 
     private static StepImportDiagnostic ConvertConnectorDiagnostic(
