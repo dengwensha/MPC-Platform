@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Geometry.Primitives;
 using MPC.Topology;
 using MPC.Topology.Primitives;
@@ -89,6 +89,9 @@ public sealed class StepCanonicalMappingOperation
         var toroidalSurfaceMapper =
             new StepToroidalSurfaceGeometryMapper();
 
+        var bSplineSurfaceMapper =
+            new StepBSplineSurfaceWithKnotsGeometryMapper();
+
         var advancedFaceGeometryMapper =
             new StepAdvancedFaceGeometryMapper(
                 planeMapper,
@@ -96,7 +99,8 @@ public sealed class StepCanonicalMappingOperation
                 conicalSurfaceMapper,
                 sphericalSurfaceMapper,
                 degenerateToroidalSurfaceMapper,
-                toroidalSurfaceMapper);
+                toroidalSurfaceMapper,
+                bSplineSurfaceMapper);
 
         var advancedFaceBuilderMapper =
             new StepAdvancedFaceBuilderMapper(

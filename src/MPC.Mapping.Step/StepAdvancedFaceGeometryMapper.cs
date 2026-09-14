@@ -1,4 +1,4 @@
-﻿using MPC.Connectors.Step.Semantics;
+using MPC.Connectors.Step.Semantics;
 using MPC.Geometry.Contracts;
 using MPC.Mapping;
 
@@ -29,6 +29,9 @@ public sealed class StepAdvancedFaceGeometryMapper :
 
     private readonly StepToroidalSurfaceGeometryMapper
         _toroidalSurfaceMapper;
+
+    private readonly StepBSplineSurfaceWithKnotsGeometryMapper
+        _bSplineSurfaceMapper;
 
     public StepAdvancedFaceGeometryMapper(
         StepPlaneGeometryMapper planeMapper,
@@ -80,6 +83,31 @@ public sealed class StepAdvancedFaceGeometryMapper :
             degenerateToroidalSurfaceMapper,
         StepToroidalSurfaceGeometryMapper
             toroidalSurfaceMapper)
+        : this(
+            planeMapper,
+            cylindricalSurfaceMapper,
+            conicalSurfaceMapper,
+            sphericalSurfaceMapper,
+            degenerateToroidalSurfaceMapper,
+            toroidalSurfaceMapper,
+            new StepBSplineSurfaceWithKnotsGeometryMapper())
+    {
+    }
+
+    public StepAdvancedFaceGeometryMapper(
+        StepPlaneGeometryMapper planeMapper,
+        StepCylindricalSurfaceGeometryMapper
+            cylindricalSurfaceMapper,
+        StepConicalSurfaceGeometryMapper
+            conicalSurfaceMapper,
+        StepSphericalSurfaceGeometryMapper
+            sphericalSurfaceMapper,
+        StepDegenerateToroidalSurfaceGeometryMapper
+            degenerateToroidalSurfaceMapper,
+        StepToroidalSurfaceGeometryMapper
+            toroidalSurfaceMapper,
+        StepBSplineSurfaceWithKnotsGeometryMapper
+            bSplineSurfaceMapper)
     {
         _planeMapper =
             planeMapper
@@ -110,6 +138,11 @@ public sealed class StepAdvancedFaceGeometryMapper :
             toroidalSurfaceMapper
             ?? throw new ArgumentNullException(
                 nameof(toroidalSurfaceMapper));
+
+        _bSplineSurfaceMapper =
+            bSplineSurfaceMapper
+            ?? throw new ArgumentNullException(
+                nameof(bSplineSurfaceMapper));
     }
 
     public MappingResult<ISurface3D> Map(
@@ -178,6 +211,12 @@ public sealed class StepAdvancedFaceGeometryMapper :
                 ConvertResult(
                     _toroidalSurfaceMapper.Map(
                         toroidalSurface,
+                        context)),
+
+            StepBSplineSurfaceWithKnotsEntity bSplineSurface =>
+                ConvertResult(
+                    _bSplineSurfaceMapper.Map(
+                        bSplineSurface,
                         context)),
 
             _ =>
