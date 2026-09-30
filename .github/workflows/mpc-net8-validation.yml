@@ -1,0 +1,106 @@
+name: MPC .NET 8 validation (partial)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mpc-net8-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  net8:
+    name: Release and four .NET 8 test projects (Host excluded)
+    runs-on: windows-2022
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          global-json-file: global.json
+      - name: Release build and test each project
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $results = Join-Path $env:RUNNER_TEMP 'mpc-net8-results'
+          New-Item -ItemType Directory -Path $results -Force | Out-Null
+          @(
+            "Commit: $env:GITHUB_SHA"
+            "Run: $env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID"
+            "SDK: $(dotnet --version)"
+            "Scope: four .NET 8 projects; Host and R01/R02/R03 excluded."
+          ) | Set-Content (Join-Path $results 'provenance.txt') -Encoding utf8
+          $projects = @(
+            @{ Name='MPC.Tests'; Platform='AnyCPU' }
+            @{ Name='MPC.Contracts.Tests'; Platform='AnyCPU' }
+            @{ Name='MPC.Application.Tests'; Platform='AnyCPU' }
+            @{ Name='MPC.Worker.Tests'; Platform='x64' }
+          )
+          foreach ($project in $projects) {
+            $path = "tests/$($project.Name)/$($project.Name).csproj"
+            $platform = "-p:Platform=$($project.Platform)"
+            dotnet build $path -c Release --no-incremental --warnaserror $platform
+            if ($LASTEXITCODE -ne 0) { throw "Build failed: $path" }
+            dotnet test $path -c Release --no-build --no-restore $platform --logger "trx;LogFileName=$($project.Name).trx" --results-directory $results
+            if ($LASTEXITCODE -ne 0) { throw "Tests failed: $path" }
+          }
+      - name: Validate all four result files and summarize evidence
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $results = Join-Path $env:RUNNER_TEMP 'mpc-net8-results'
+          $expected = @('MPC.Tests', 'MPC.Contracts.Tests', 'MPC.Application.Tests', 'MPC.Worker.Tests')
+          $files = @(Get-ChildItem $results -Filter '*.trx')
+          if ($files.Count -ne $expected.Count) { throw 'Expected exactly four TRX files.' }
+          $summary = @(
+            '## Partial .NET 8 validation'
+            ''
+            '| Project | Passed | Failed | Not executed |'
+            '|---|---:|---:|---:|'
+          )
+          $total = 0
+          foreach ($name in $expected) {
+            [xml]$trx = Get-Content (Join-Path $results "$name.trx") -Raw
+            $counter = $trx.SelectSingleNode("//*[local-name()='ResultSummary']/*[local-name()='Counters']")
+            if ($null -eq $counter) { throw "Missing counters: $name" }
+            $count = [int]$counter.total
+            $passed = [int]$counter.passed
+            $failed = [int]$counter.failed
+            $notExecuted = $count - [int]$counter.executed
+            if ($count -le 0 -or $passed -ne $count -or $failed -ne 0 -or $notExecuted -ne 0) {
+              throw "Incomplete or unsuccessful test run: $name"
+            }
+            $total += $count
+            $summary += "| $name | $passed | $failed | $notExecuted |"
+          }
+          $summary += ''
+          $summary += "Observed .NET 8 total: $total passed. This is NOT the full solution regression gate."
+          $summary += 'SOLIDWORKS Host tests require external Interop assemblies. R01/R02/R03 require the private corpus. Neither was executed here.'
+          $summary | Add-Content $env:GITHUB_STEP_SUMMARY
+          $summary | Set-Content (Join-Path $results 'summary.md') -Encoding utf8
+          git diff --check HEAD^ HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Commit whitespace check failed.' }
+          $dirty = @(git status --porcelain=v1 --untracked-files=all)
+          if ($LASTEXITCODE -ne 0) { throw 'Git status failed.' }
+          if ($dirty.Count -ne 0) { throw "Runner checkout changed: $($dirty -join '; ')" }
+      - name: Preserve test results and scope
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mpc-net8-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/mpc-net8-results/
+          if-no-files-found: warn
+          retention-days: 14
