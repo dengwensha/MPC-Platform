@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Application", "MPC.Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Application.Tests", "..\tests\MPC.Application.Tests\MPC.Application.Tests.csproj", "{2ACA09FB-615B-4340-9562-EA2ED43145E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPC.Tooling", "MPC.Tooling\MPC.Tooling.csproj", "{E4B6F9A2-6BC0-4C3A-AB8F-9DBB1654C8F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{2ACA09FB-615B-4340-9562-EA2ED43145E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ACA09FB-615B-4340-9562-EA2ED43145E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2ACA09FB-615B-4340-9562-EA2ED43145E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4B6F9A2-6BC0-4C3A-AB8F-9DBB1654C8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4B6F9A2-6BC0-4C3A-AB8F-9DBB1654C8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4B6F9A2-6BC0-4C3A-AB8F-9DBB1654C8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4B6F9A2-6BC0-4C3A-AB8F-9DBB1654C8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
