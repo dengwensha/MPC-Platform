@@ -1,0 +1,42 @@
+name: MPC full validation and real corpus
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mpc-full-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: windows-2022
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        with:
+          global-json-file: global.json
+      - name: Verify private validation packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./tools/ci/Invoke-MpcFullValidation.ps1 -Stage Prepare
+      - name: Full Release build and regression including Host
+        run: ./tools/ci/Invoke-MpcFullValidation.ps1 -Stage Regression
+      - name: R01 R02 R03 compatibility
+        run: ./tools/ci/Invoke-MpcFullValidation.ps1 -Stage Corpus
+      - name: Preserve validation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: mpc-full-evidence-${{ github.run_id }}
+          path: ${{ runner.temp }}/mpc-full-validation/evidence/
+          retention-days: 30
+          if-no-files-found: error
