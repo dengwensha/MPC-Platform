@@ -14,13 +14,20 @@ public sealed class StepImportHostCommandIntegrationTests
         string repositoryRoot =
             FindRepositoryRoot();
 
+#if DEBUG
+        const string configuration = "Debug";
+#else
+        const string configuration = "Release";
+#endif
+
         string workerExecutablePath =
             Path.Combine(
                 repositoryRoot,
                 "src",
                 "MPC.Worker",
                 "bin",
-                "Debug",
+                "x64",
+                configuration,
                 "net8.0",
                 "MPC.Worker.exe");
 
