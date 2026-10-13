@@ -76,7 +76,7 @@ assert len(set(fingerprints)) == 1, "Diagnostic runs differ"
 report = {"SourceSHA256": digest, "SourceEntities": len(records),
           "EvidenceRun": os.environ["GITHUB_RUN_ID"], "ReviewedCommit": os.environ["GITHUB_SHA"],
           "Runs": runs, "BSplineInventory": dict(collections.Counter(v for v in families.values() if "B_SPLINE" in v))}
-(root.parent / "evidence" / "b16-reconciliation.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+(root.parent / "evidence" / "b17-reconciliation.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
 print(json.dumps(report, indent=2))
 with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as output:
     output.write("## R03 source reconciliation\n\n")

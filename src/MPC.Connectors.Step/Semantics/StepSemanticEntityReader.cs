@@ -103,17 +103,19 @@ public sealed class StepSemanticEntityReader
             }
         }
 
-        var parameterText =
-            ExtractParameterText(
-                record.RawStatement);
-
-        var parameters =
-            _parameterParser.Parse(
-                parameterText);
-
-        return handler.Read(
-            record,
-            parameters);
+        try
+        {
+            var parameterText = ExtractParameterText(record.RawStatement);
+            var parameters = _parameterParser.Parse(parameterText);
+            return handler.Read(record, parameters);
+        }
+        catch (FormatException exception) when (handler is StepBSplineCurveWithKnotsEntityHandler)
+        {
+            // B17's entity-scoped failure boundary includes tokenization, before handler dispatch.
+            // Existing analytic handlers retain their established behavior.
+            throw new StepSemanticValueException(record.SourceEntityId, record.SourceEntityType,
+                "parameters", record.RawStatement, exception);
+        }
     }
 
     private static string ExtractParameterText(
