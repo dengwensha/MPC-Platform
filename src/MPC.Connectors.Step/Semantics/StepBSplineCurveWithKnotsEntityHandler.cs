@@ -12,6 +12,12 @@ public sealed class StepBSplineCurveWithKnotsEntityHandler : IStepSemanticEntity
         ArgumentNullException.ThrowIfNull(parameters);
         if (!string.Equals(record.SourceEntityType, SupportedEntityType, StringComparison.OrdinalIgnoreCase))
             throw new InvalidOperationException("Unsupported curve entity type.");
+        return ReadParameters(record, parameters);
+    }
+
+    internal StepBSplineCurveWithKnotsEntity ReadParameters(
+        StepDataEntityRecord record, IReadOnlyList<StepParameter> parameters)
+    {
         try
         {
             if (parameters.Count != 9) throw new FormatException("B-spline curve requires nine parameters.");
@@ -30,7 +36,7 @@ public sealed class StepBSplineCurveWithKnotsEntityHandler : IStepSemanticEntity
         }
         catch (FormatException exception)
         {
-            throw new StepSemanticValueException(record.SourceEntityId, SupportedEntityType,
+            throw new StepSemanticValueException(record.SourceEntityId, record.SourceEntityType,
                 "parameters", record.RawStatement, exception);
         }
         catch (ArgumentException exception) when (!string.IsNullOrWhiteSpace(exception.ParamName))
@@ -41,7 +47,7 @@ public sealed class StepBSplineCurveWithKnotsEntityHandler : IStepSemanticEntity
                 "closedCurve" => 4, "selfIntersect" => 5, "multiplicities" => 6,
                 "knots" => 7, "knotSpecification" => 8, _ => 0
             };
-            throw new StepSemanticValueException(record.SourceEntityId, SupportedEntityType,
+            throw new StepSemanticValueException(record.SourceEntityId, record.SourceEntityType,
                 exception.ParamName!, parameters[index].RawText, exception);
         }
     }

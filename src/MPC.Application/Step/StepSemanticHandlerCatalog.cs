@@ -14,7 +14,7 @@ internal static class StepSemanticHandlerCatalog
             new StepAxis2Placement3DEntityHandler(),
             new StepBSplineSurfaceWithKnotsEntityHandler(),
             new StepBSplineCurveWithKnotsEntityHandler(),
-            new StepRationalBSplineSurfaceEntityHandler(),
+            new StepComplexBSplineEntityHandler(),
             new StepCartesianPointEntityHandler(),
             new StepCircleEntityHandler(),
             new StepClosedShellEntityHandler(),
