@@ -1,0 +1,30 @@
+name: B17 targeted RED
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  red:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
+        with:
+          global-json-file: global.json
+      - name: Confirm three missing-curve failures
+        shell: bash
+        run: |
+          set +e
+          dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --filter FullyQualifiedName~BSplineCurveApplicationTests --logger trx --results-directory "$RUNNER_TEMP/red"
+          result=$?
+          set -e
+          test "$result" -eq 1
+          python3 - <<'PY'
+          import os,pathlib,xml.etree.ElementTree as E
+          files=list((pathlib.Path(os.environ['RUNNER_TEMP'])/'red').glob('*.trx'))
+          assert len(files)==1
+          c=E.parse(files[0]).getroot().find('.//{*}Counters')
+          assert c.attrib['total']=='3' and c.attrib['failed']=='3',c.attrib
+          print('PASS - three expected B17 production RED failures.')
+          PY
