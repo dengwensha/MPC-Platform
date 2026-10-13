@@ -87,6 +87,22 @@ public sealed class StepSemanticEntityReader
             return null;
         }
 
+        if (handler is IStepComplexSemanticEntityHandler complexHandler)
+        {
+            if (!complexHandler.CanRead(record)) return null;
+            try
+            {
+                string componentText = ExtractParameterText(record.RawStatement);
+                return handler.Read(record,
+                    StepComplexComponentParameters.Read(componentText, _parameterParser));
+            }
+            catch (FormatException exception)
+            {
+                throw new StepSemanticValueException(record.SourceEntityId, record.SourceEntityType,
+                    "components", record.RawStatement, exception);
+            }
+        }
+
         var parameterText =
             ExtractParameterText(
                 record.RawStatement);
