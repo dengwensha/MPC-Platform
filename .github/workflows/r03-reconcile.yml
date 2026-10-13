@@ -1,0 +1,38 @@
+name: R03 source reconciliation
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/r03-reconcile.yml'
+      - 'tools/ci/reconcile_r03.py'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  reconcile:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Retrieve pinned private inputs and existing evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir inputs evidence
+          gh release download ci-inputs-v1 --pattern p01-real-parts.zip --dir inputs
+          echo '497d4fc9b7df2d2b5ff93b89fa7ad2b78fd53ba5ddd26ddb85898ef2dbc516da  inputs/p01-real-parts.zip' | sha256sum --check
+          unzip -q inputs/p01-real-parts.zip -d inputs
+          gh api repos/$GH_REPO/actions/artifacts/11768042156/zip > evidence.zip
+          unzip -q evidence.zip -d evidence
+      - name: Reconcile source families
+        run: python3 tools/ci/reconcile_r03.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: r03-source-reconciliation
+          path: reconciliation.json
+          if-no-files-found: error
+          retention-days: 30
