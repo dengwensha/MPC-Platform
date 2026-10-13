@@ -49,7 +49,7 @@ if ($Stage -eq 'Regression') {
     $observed = @()
     $total = 0
     foreach ($file in $files) {
-        [xml]$trx = Get-Content $file.FullName -Raw
+        [xml]$trx = Get-Content -LiteralPath $file.FullName -Raw
         $c = $trx.SelectSingleNode("//*[local-name()='ResultSummary']/*[local-name()='Counters']")
         $methods = $trx.SelectNodes("//*[local-name()='TestMethod']")
         $assemblies = @($methods | ForEach-Object { [IO.Path]::GetFileName($_.codeBase) } | Sort-Object -Unique)
