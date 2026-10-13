@@ -14,7 +14,8 @@ assert digest == "319dd894747caf95ac1100c6283b55c014d40aeac4eccc00ef54648adf9aea
 # STEP statement boundaries respect escaped apostrophes inside strings.
 statements, current = [], []
 quoted = False
-text = raw.decode("ascii")
+# One-to-one byte decoding for ASCII STEP syntax; no header text interpretation.
+text = raw.decode("latin-1")
 i = 0
 while i < len(text):
     c = text[i]
