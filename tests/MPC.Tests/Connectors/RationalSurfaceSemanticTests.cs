@@ -73,13 +73,14 @@ public sealed class RationalSurfaceSemanticTests
             case "knot-order": components[2] = components[2].Replace("(-2.,5.)", "(5.,-2.)", StringComparison.Ordinal); break;
             case "logical": components[1] = components[1].Replace(".U.", ".X.", StringComparison.Ordinal); break;
         }
-        var failure = Assert.Throws<StepSemanticValueException>(() => Reader().Read(Record(components)));
+        StepSemanticEntityReader reader = Reader();
+        var failure = Assert.Throws<StepSemanticValueException>(() => reader.Read(Record(components)));
         Assert.Equal("#75", failure.SourceEntityId);
         Assert.Equal("COMPLEX_ENTITY", failure.SourceEntityType);
         Assert.False(string.IsNullOrWhiteSpace(failure.ParameterName));
         Assert.False(string.IsNullOrWhiteSpace(failure.RejectedValue));
         // Failed reads retain no mutable reader state.
-        Assert.IsType<StepRationalBSplineSurfaceEntity>(Reader().Read(Record(Components(1, 1))));
+        Assert.IsType<StepRationalBSplineSurfaceEntity>(reader.Read(Record(Components(1, 1))));
     }
 
     [Fact]

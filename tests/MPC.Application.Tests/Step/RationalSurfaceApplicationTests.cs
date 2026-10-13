@@ -59,7 +59,7 @@ public sealed class RationalSurfaceApplicationTests
                 #3=CARTESIAN_POINT('',(1.,0.,0.));
                 #4=CARTESIAN_POINT('',(1.,1.,0.));
                 """ + "\n" + surface + """
-                
+
                 #80=ADVANCED_FACE('',(#90),#75,.T.);
                 #100=CLOSED_SHELL('',(#80));
                 #110=MANIFOLD_SOLID_BREP('',#100);
