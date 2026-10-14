@@ -27,6 +27,12 @@ public sealed class StepBSplineSurfaceWithKnotsEntityHandler
                 $"Handler for {SupportedEntityType} cannot process entity type '{record.SourceEntityType}'.");
         }
 
+        return ReadParameters(record, parameters);
+    }
+
+    internal StepBSplineSurfaceWithKnotsEntity ReadParameters(
+        StepDataEntityRecord record, IReadOnlyList<StepParameter> parameters)
+    {
         if (parameters.Count != 13)
         {
             throw new FormatException(
@@ -128,7 +134,7 @@ public sealed class StepBSplineSurfaceWithKnotsEntityHandler
 
             throw new StepSemanticValueException(
                 record.SourceEntityId,
-                SupportedEntityType,
+                record.SourceEntityType,
                 exception.ParamName!,
                 rejectedValue,
                 exception);

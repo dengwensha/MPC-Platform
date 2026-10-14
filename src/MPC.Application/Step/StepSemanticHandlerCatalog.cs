@@ -13,6 +13,8 @@ internal static class StepSemanticHandlerCatalog
             new StepAdvancedFaceEntityHandler(),
             new StepAxis2Placement3DEntityHandler(),
             new StepBSplineSurfaceWithKnotsEntityHandler(),
+            new StepBSplineCurveWithKnotsEntityHandler(),
+            new StepComplexBSplineEntityHandler(),
             new StepCartesianPointEntityHandler(),
             new StepCircleEntityHandler(),
             new StepClosedShellEntityHandler(),

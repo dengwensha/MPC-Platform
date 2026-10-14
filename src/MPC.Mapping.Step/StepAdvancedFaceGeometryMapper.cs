@@ -33,6 +33,9 @@ public sealed class StepAdvancedFaceGeometryMapper :
     private readonly StepBSplineSurfaceWithKnotsGeometryMapper
         _bSplineSurfaceMapper;
 
+    private readonly StepRationalBSplineSurfaceGeometryMapper
+        _rationalBSplineSurfaceMapper = new();
+
     public StepAdvancedFaceGeometryMapper(
         StepPlaneGeometryMapper planeMapper,
         StepCylindricalSurfaceGeometryMapper
@@ -212,6 +215,9 @@ public sealed class StepAdvancedFaceGeometryMapper :
                     _toroidalSurfaceMapper.Map(
                         toroidalSurface,
                         context)),
+
+            StepRationalBSplineSurfaceEntity rationalSurface =>
+                ConvertResult(_rationalBSplineSurfaceMapper.Map(rationalSurface, context)),
 
             StepBSplineSurfaceWithKnotsEntity bSplineSurface =>
                 ConvertResult(

@@ -37,6 +37,12 @@ public sealed class StepCanonicalReferenceResolver :
         StepCylindricalSurfaceEntity,
         Cylinder3D> _cylindricalSurfaceMapper;
 
+    private readonly StepBSplineCurveWithKnotsGeometryMapper
+        _bSplineCurveMapper = new();
+
+    private readonly StepRationalBSplineCurveGeometryMapper
+        _rationalBSplineCurveMapper = new();
+
     private readonly Dictionary<string, object>
         _canonicalCache;
 
@@ -237,6 +243,12 @@ public sealed class StepCanonicalReferenceResolver :
                     return ConvertResult(
                         result);
                 }
+
+            case StepBSplineCurveWithKnotsEntity bSplineCurve:
+                return ConvertResult(_bSplineCurveMapper.Map(bSplineCurve, context));
+
+            case StepRationalBSplineCurveEntity rationalCurve:
+                return ConvertResult(_rationalBSplineCurveMapper.Map(rationalCurve, context));
 
             case StepCircleEntity circle:
                 {
