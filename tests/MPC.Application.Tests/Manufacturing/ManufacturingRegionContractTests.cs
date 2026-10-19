@@ -86,6 +86,20 @@ public sealed class ManufacturingRegionContractTests
             Assert.Equal(0, region.InnerBoundaryCount);
         }
 
+        // Reprocessing the same semantic source must replace session-local GUIDs
+        // without losing the persistent STEP source references.
+        Assert.True(operation.FaceIdentities.TryGetFace("#8", out var firstFace));
+        var secondMap = operation.Map(root);
+        Assert.True(secondMap.IsSuccessful);
+        Assert.True(operation.FaceIdentities.TryGetFace("#8", out var secondFace));
+        Assert.NotNull(firstFace);
+        Assert.NotNull(secondFace);
+        Assert.NotSame(firstFace, secondFace);
+        Assert.NotEqual(firstFace.Id, secondFace.Id);
+        Assert.True(ManufacturingRegion.TryCreate(
+            operation, fingerprint, "#8", out var secondRegion));
+        Assert.Equal(secondFace.Id, secondRegion!.CanonicalFaceId);
+
         Assert.False(operation.FaceIdentities.TryGetFace("#999999", out _));
         Assert.False(ManufacturingRegion.TryCreate(
             operation, fingerprint, "#999999", out _));
