@@ -1,0 +1,67 @@
+using MPC.Application.Manufacturing;
+using MPC.Geometry.Primitives;
+
+namespace MPC.Application.Tests.Manufacturing;
+
+public sealed class RationalBSplineNormalQueryTests
+{
+    private static BSplineSurface3D Patch() => new(
+        1,1,
+        new[]
+        {
+            new[] { new Point3D(0,0,0),new Point3D(0,1,0) },
+            new[] { new Point3D(1,0,0),new Point3D(1,1,1) }
+        },
+        new[] {2,2},new[] {2,2},
+        new[] {0.0,1.0},new[] {0.0,1.0});
+
+    [Fact]
+    public void EqualWeights_MatchNonRationalE2()
+    {
+        var basis=Patch();
+        var rational=new RationalBSplineSurface3D(basis,
+            new[] {new[] {3.0,3.0},new[] {3.0,3.0}});
+        Assert.True(BSplineSurfaceNormalQuery.TryEvaluate(basis,0.3,0.7,out var expected));
+        Assert.True(RationalBSplineNormalQuery.TryEvaluate(rational,0.3,0.7,out var actual));
+        Assert.Equal(expected.X,actual.X,10);
+        Assert.Equal(expected.Y,actual.Y,10);
+        Assert.Equal(expected.Z,actual.Z,10);
+    }
+
+    [Fact]
+    public void UnequalWeights_ChangeTwistedPatchNormal()
+    {
+        var basis=Patch();
+        var rational=new RationalBSplineSurface3D(basis,
+            new[] {new[] {1.0,1.0},new[] {1.0,4.0}});
+        Assert.True(RationalBSplineNormalQuery.TryEvaluate(rational,.5,.5,out var actual));
+        Assert.True(BSplineSurfaceNormalQuery.TryEvaluate(basis,.5,.5,out var unweighted));
+        Assert.True(Math.Abs(actual.X-unweighted.X)>1e-4 ||
+                    Math.Abs(actual.Y-unweighted.Y)>1e-4 ||
+                    Math.Abs(actual.Z-unweighted.Z)>1e-4);
+    }
+
+    [Fact]
+    public void OutsideParameterDomain_IsRejected()
+    {
+        var rational=new RationalBSplineSurface3D(Patch(),
+            new[] {new[] {1.0,1.0},new[] {1.0,1.0}});
+        Assert.False(RationalBSplineNormalQuery.TryEvaluate(rational,-.1,.5,out _));
+        Assert.False(RationalBSplineNormalQuery.TryEvaluate(rational,double.NaN,.5,out _));
+    }
+
+    [Fact]
+    public void SingularPatch_IsRejected()
+    {
+        var basis=new BSplineSurface3D(1,1,
+            new[]
+            {
+                new[] {new Point3D(0,0,0),new Point3D(0,0,0)},
+                new[] {new Point3D(1,0,0),new Point3D(1,0,0)}
+            },new[] {2,2},new[] {2,2},
+            new[] {0.0,1.0},new[] {0.0,1.0});
+        var surface=new RationalBSplineSurface3D(basis,
+            new[] {new[] {1.0,1.0},new[] {1.0,1.0}});
+        Assert.False(RationalBSplineNormalQuery.TryEvaluate(surface,.5,.5,out _));
+    }
+}
