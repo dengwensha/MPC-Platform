@@ -58,9 +58,9 @@ foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
     double u1 = surface.Basis.UKnots[^1];
     double v0 = surface.Basis.VKnots[0];
     double v1 = surface.Basis.VKnots[^1];
-    double u = u0 + (u1 - u0) / 2.0;
-    double v = v0 + (v1 - v0) / 2.0;
-    bool normalValid = RationalBSplineNormalQuery.TryEvaluate(surface, u, v, out var normal);
+    double uSample = u0 + (u1 - u0) / 2.0;
+    double vSample = v0 + (v1 - v0) / 2.0;
+    bool normalValid = RationalBSplineNormalQuery.TryEvaluate(surface, uSample, vSample, out var normal);
     if (normalValid)
     {
         double length = Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
@@ -73,7 +73,7 @@ foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
     evidence.Add(new { Surface = source.SourceEntityId, Face = face.SourceEntityId,
         surface.Basis.UDegree, surface.Basis.VDegree,
         Rows = surface.Weights.Count, Columns = surface.Weights[0].Count,
-        U = u, V = v, NormalValid = normalValid });
+        U = uSample, V = vSample, NormalValid = normalValid });
 }
 if (mapped.Count != 276 || context.Diagnostics.Count != 0)
     throw new InvalidOperationException("Not all rational surfaces mapped cleanly through advanced-face dispatch.");
