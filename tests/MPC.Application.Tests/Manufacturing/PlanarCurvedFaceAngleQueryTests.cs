@@ -31,8 +31,12 @@ public sealed class PlanarCurvedFaceAngleQueryTests
         ISurface3D surface = conical
             ? new Cone3D(new Point3D(0, 0, 0), new Vector3D(0, 0, 1), Math.PI / 4)
             : new Cylinder3D(new Point3D(0, 0, 0), new Vector3D(0, 0, 1), 1);
+        // Only the generator is topologically shared; the remaining
+        // boundary edges are independent instances on the second face.
         var curved = new Face(surface,
-            new Loop([new EdgeUse(shared), new EdgeUse(bc), new EdgeUse(ca)]));
+            new Loop([new EdgeUse(shared),
+                new EdgeUse(new Edge(b, c, bc.Curve)),
+                new EdgeUse(new Edge(c, a, ca.Curve))]));
         Assert.True(PlanarCurvedFaceAngleQuery.TryCalculate(
             [plane, curved], plane, curved, out var angle));
         Assert.InRange(angle, 90 - 1e-8, 90 + 1e-8);
