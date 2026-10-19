@@ -38,7 +38,15 @@ public sealed class LocalTangentPlaneQueryTests
     [Fact]
     public void InvalidTolerance_IsRejected()
     {
+        var start = new Vertex(0, 0, 0);
+        var end = new Vertex(1, 0, 0);
+        var edge = new Edge(start, end,
+            new Line3D(new Point3D(0, 0, 0), new Vector3D(1, 0, 0)));
+        var face = new Face(new Plane3D(new Point3D(0, 0, 0),
+            new Vector3D(0, 0, 1)),
+            new Loop([new EdgeUse(edge),
+                new EdgeUse(edge, EdgeUseDirection.Reversed)]));
         Assert.Throws<ArgumentOutOfRangeException>(() =>
-            LocalTangentPlaneQuery.Evaluate([], null!, null!, -0.1, out _));
+            LocalTangentPlaneQuery.Evaluate([face], face, face, -0.1, out _));
     }
 }
