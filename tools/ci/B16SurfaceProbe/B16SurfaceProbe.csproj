@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../../src/MPC.Mapping.Step/MPC.Mapping.Step.csproj" />
+    <ProjectReference Include="../../../src/MPC.Application/MPC.Application.csproj" />
   </ItemGroup>
 </Project>
