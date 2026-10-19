@@ -32,7 +32,7 @@ public static class FaceAdjacencyQuery
 
         return new FaceAdjacencyResult(boundaries.ToArray(),
             boundaries.SelectMany(boundary => boundary.Neighbors)
-                .Distinct(ReferenceEqualityComparer.Instance).ToArray());
+                .Distinct(ReferenceEqualityComparer.Instance).Cast<Face>().ToArray());
 
         void Append(IReadOnlyList<EdgeUse> uses, bool isInner)
         {
