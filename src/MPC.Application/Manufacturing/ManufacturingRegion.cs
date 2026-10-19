@@ -31,7 +31,7 @@ public sealed class ManufacturingRegion
 
     // The caller must supply a SHA-256 hash of the exact imported STEP bytes.
     // The operation must have completed a successful Map first.
-    public static bool TryCreate(
+    internal static bool TryCreate(
         StepCanonicalMappingOperation operation,
         string documentSha256,
         string sourceFaceId,
