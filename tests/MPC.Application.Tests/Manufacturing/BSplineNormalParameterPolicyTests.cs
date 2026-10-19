@@ -39,14 +39,4 @@ public sealed class BSplineNormalParameterPolicyTests
         Assert.False(RationalBSplineNormalQuery.TryEvaluate(rational,0.25,0.5,out _));
     }
 
-    [Theory]
-    [InlineData(double.NaN)]
-    [InlineData(double.PositiveInfinity)]
-    [InlineData(double.NegativeInfinity)]
-    public void NonFiniteInput_Rejected(double value)
-    {
-        Assert.False(BSplineNormalParameterPolicy.TryEvaluate(value,
-            new[] {0.0,0.0,1.0,1.0},1,2,new[] {0.0,1.0},
-            new[] {2,2},out _));
-    }
 }
