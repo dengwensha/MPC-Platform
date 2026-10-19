@@ -16,8 +16,8 @@ public static class BSplineSurfaceNormalQuery
         var vk = Expand(surface.VKnots, surface.VMultiplicities);
         int pu = surface.UDegree, pv = surface.VDegree;
         int nu = surface.ControlPointGrid.Count, nv = surface.ControlPointGrid[0].Count;
-        if (!Coordinate(u, uk, pu, nu, surface.UKnots, out double su) ||
-            !Coordinate(v, vk, pv, nv, surface.VKnots, out double sv))
+        if (!BSplineNormalParameterPolicy.TryEvaluate(u, uk, pu, nu, surface.UKnots, surface.UMultiplicities, out double su) ||
+            !BSplineNormalParameterPolicy.TryEvaluate(v, vk, pv, nv, surface.VKnots, surface.VMultiplicities, out double sv))
             return false;
 
         var bu = new double[nu]; var du = new double[nu];

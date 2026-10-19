@@ -16,8 +16,8 @@ public static class RationalBSplineNormalQuery
         var uk = Expand(s.UKnots, s.UMultiplicities);
         var vk = Expand(s.VKnots, s.VMultiplicities);
         int nu = s.ControlPointGrid.Count, nv = s.ControlPointGrid[0].Count;
-        if (!Coordinate(u, uk, s.UDegree, nu, s.UKnots, out double su) ||
-            !Coordinate(v, vk, s.VDegree, nv, s.VKnots, out double sv)) return false;
+        if (!BSplineNormalParameterPolicy.TryEvaluate(u, uk, s.UDegree, nu, s.UKnots, s.UMultiplicities, out double su) ||
+            !BSplineNormalParameterPolicy.TryEvaluate(v, vk, s.VDegree, nv, s.VKnots, s.VMultiplicities, out double sv)) return false;
 
         double ax = 0, ay = 0, az = 0, w = 0;
         double aux = 0, auy = 0, auz = 0, wu = 0;
