@@ -13,6 +13,7 @@ public sealed class StepCanonicalMappingOperation
 
     private StepCanonicalMappingOperation(
         MappingContext context,
+        StepFaceIdentityIndex faceIdentities,
         IEntityMapper<
             StepManifoldSolidBrepEntity,
             Solid> solidMapper)
@@ -25,6 +26,7 @@ public sealed class StepCanonicalMappingOperation
 
         Context =
             context;
+        FaceIdentities = faceIdentities;
 
         _solidMapper =
             solidMapper;
@@ -34,6 +36,8 @@ public sealed class StepCanonicalMappingOperation
     {
         get;
     }
+
+    public StepFaceIdentityIndex FaceIdentities { get; }
 
     public static StepCanonicalMappingOperation Create(
         StepSemanticEntityResolver semanticResolver)
@@ -122,9 +126,13 @@ public sealed class StepCanonicalMappingOperation
                 advancedFaceBuilderMapper,
                 faceBoundMapper);
 
+        var faceIdentities = new StepFaceIdentityIndex();
+        var identityTrackingMapper = new StepFaceIdentityTrackingMapper(
+            advancedFaceMapper, faceIdentities);
+
         var closedShellMapper =
             new StepClosedShellMapper(
-                advancedFaceMapper);
+                identityTrackingMapper);
 
         var solidMapper =
             new StepManifoldSolidBrepMapper(
@@ -132,6 +140,7 @@ public sealed class StepCanonicalMappingOperation
 
         return new StepCanonicalMappingOperation(
             context,
+            faceIdentities,
             solidMapper);
     }
 
@@ -141,9 +150,17 @@ public sealed class StepCanonicalMappingOperation
         ArgumentNullException.ThrowIfNull(
             source);
 
-        return _solidMapper.Map(
-            source,
-            Context);
+        FaceIdentities.Reset();
+        MappingResult<Solid> result = _solidMapper.Map(source, Context);
+        if (result.IsSuccessful && result.Value is not null)
+        {
+            FaceIdentities.Seal();
+        }
+        else
+        {
+            FaceIdentities.Reset();
+        }
+        return result;
     }
 
     public MappingResult<T> Resolve<T>(
