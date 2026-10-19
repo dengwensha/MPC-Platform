@@ -34,6 +34,19 @@ jobs:
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests
           if ($LASTEXITCODE -ne 0) { throw "B18 targeted GREEN failed." }
+      - name: PT-04B real R01 and R02 oriented edge and dihedral evidence
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          $cases = @(
+            @{Name="P01-R01-Prismatic.STEP"; Hash="E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD"; Id="R01"},
+            @{Name="P01-R02-InternalBoundaries.STEP"; Hash="0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F"; Id="R02"}
+          )
+          foreach ($part in $cases) {
+            $files = @(Get-ChildItem (Join-Path $root "corpus") -Recurse -File -Filter $part.Name)
+            if ($files.Count -ne 1) { throw "Expected one source for $($part.Id)" }
+            dotnet run --project tools/ci/PT04BProbe/PT04BProbe.csproj -c Release -- $files[0].FullName $part.Hash (Join-Path $root "evidence/PT04B-$($part.Id).json")
+            if ($LASTEXITCODE -ne 0) { throw "PT-04B $($part.Id) evidence failed." }
+          }
       - name: Verify all 276 real rational surface mappings
         run: |
           $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
