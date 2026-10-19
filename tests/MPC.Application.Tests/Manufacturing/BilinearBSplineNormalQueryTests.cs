@@ -48,7 +48,7 @@ public sealed class BilinearBSplineNormalQueryTests
     [Fact]
     public void SingularPatch_Rejects()
     {
-        var patch = Patch(new Point3D(0, 1, 0));
+        var patch = Patch(new Point3D(-1, 1, 0));
         Assert.False(BilinearBSplineNormalQuery.TryEvaluate(patch, 0.5, 0.5, out _));
     }
 
