@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using MPC.Application.Manufacturing;
 using System.Text.Json;
 using MPC.Connectors.Step.Parsing;
 using MPC.Connectors.Step.Readers;
@@ -26,6 +27,8 @@ var mapper = new StepAdvancedFaceGeometryMapper(new StepPlaneGeometryMapper(),
     new StepSphericalSurfaceGeometryMapper());
 var mapped = new HashSet<string>(StringComparer.Ordinal);
 var evidence = new List<object>();
+int normalSuccess = 0;
+int normalRejected = 0;
 foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
 {
     if (!rational.TryGetValue(face.SurfaceReferenceId, out var source)) continue;
@@ -49,13 +52,35 @@ foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
             if (surface.Basis.ControlPointGrid[u][v] != new Point3D(point.Coordinates[0], point.Coordinates[1], point.Coordinates[2]))
                 throw new InvalidOperationException("Control-point order or value changed.");
         }
+    // E5: evaluate a real, mapped rational STEP surface at an explicit
+    // interior UV witness, never inferring trimmed-face XYZ coordinates.
+    double u0 = surface.Basis.UKnots[0];
+    double u1 = surface.Basis.UKnots[^1];
+    double v0 = surface.Basis.VKnots[0];
+    double v1 = surface.Basis.VKnots[^1];
+    double u = u0 + (u1 - u0) / 2.0;
+    double v = v0 + (v1 - v0) / 2.0;
+    bool normalValid = RationalBSplineNormalQuery.TryEvaluate(surface, u, v, out var normal);
+    if (normalValid)
+    {
+        double length = Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
+        if (!double.IsFinite(length) || Math.Abs(length - 1.0) > 1e-8)
+            throw new InvalidOperationException($"Surface {source.SourceEntityId}: invalid unit normal.");
+        normalSuccess++;
+    }
+    else normalRejected++;
     mapped.Add(source.SourceEntityId!);
     evidence.Add(new { Surface = source.SourceEntityId, Face = face.SourceEntityId,
         surface.Basis.UDegree, surface.Basis.VDegree,
-        Rows = surface.Weights.Count, Columns = surface.Weights[0].Count });
+        Rows = surface.Weights.Count, Columns = surface.Weights[0].Count,
+        U = u, V = v, NormalValid = normalValid });
 }
 if (mapped.Count != 276 || context.Diagnostics.Count != 0)
     throw new InvalidOperationException("Not all rational surfaces mapped cleanly through advanced-face dispatch.");
-File.WriteAllText(args[1], JsonSerializer.Serialize(new { SourceSHA256 = hash, Mapped = mapped.Count, Surfaces = evidence },
+if (normalSuccess == 0 || normalSuccess + normalRejected != mapped.Count)
+    throw new InvalidOperationException("No valid real STEP B-spline normal evidence was produced.");
+File.WriteAllText(args[1], JsonSerializer.Serialize(new { SourceSHA256 = hash, Mapped = mapped.Count,
+    NormalSuccess = normalSuccess, NormalRejected = normalRejected, Surfaces = evidence },
     new JsonSerializerOptions { WriteIndented = true }));
-Console.WriteLine($"PASS - {mapped.Count}/276 real rational surfaces mapped with exact weights, knots and control points.");
+Console.WriteLine($"PASS - {mapped.Count}/276 real rational surfaces mapped; " +
+    $"E5 regular unit normals: {normalSuccess}, controlled rejections: {normalRejected}.");
