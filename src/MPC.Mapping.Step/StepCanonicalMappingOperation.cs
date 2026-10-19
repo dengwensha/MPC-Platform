@@ -151,16 +151,24 @@ public sealed class StepCanonicalMappingOperation
             source);
 
         FaceIdentities.Reset();
-        MappingResult<Solid> result = _solidMapper.Map(source, Context);
-        if (result.IsSuccessful && result.Value is not null)
+        try
         {
-            FaceIdentities.Seal();
+            MappingResult<Solid> result = _solidMapper.Map(source, Context);
+            if (result.IsSuccessful && result.Value is not null)
+            {
+                FaceIdentities.Seal();
+            }
+            else
+            {
+                FaceIdentities.Reset();
+            }
+            return result;
         }
-        else
+        catch
         {
             FaceIdentities.Reset();
+            throw;
         }
-        return result;
     }
 
     public MappingResult<T> Resolve<T>(
