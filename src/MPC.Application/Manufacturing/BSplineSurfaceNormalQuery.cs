@@ -13,6 +13,7 @@ public static class BSplineSurfaceNormalQuery
         normal = default;
         if (!double.IsFinite(u) || !double.IsFinite(v)) return false;
         var uk = Expand(surface.UKnots, surface.UMultiplicities);
+        if (RegularSurfaceNormal.IsCollapsedBoundary(surface, u, v)) return false;
         var vk = Expand(surface.VKnots, surface.VMultiplicities);
         int pu = surface.UDegree, pv = surface.VDegree;
         int nu = surface.ControlPointGrid.Count, nv = surface.ControlPointGrid[0].Count;
@@ -42,13 +43,7 @@ public static class BSplineSurfaceNormalQuery
                 ux += wu * p.X; uy += wu * p.Y; uz += wu * p.Z;
                 vx += wv * p.X; vy += wv * p.Y; vz += wv * p.Z;
             }
-        double x = uy * vz - uz * vy, y = uz * vx - ux * vz,
-            z = ux * vy - uy * vx;
-        double len = Math.Sqrt(x * x + y * y + z * z);
-        if (!double.IsFinite(len) || len <= 1e-12) return false;
-        normal = new Vector3D(x / len, y / len, z / len);
-        return double.IsFinite(normal.X) && double.IsFinite(normal.Y)
-            && double.IsFinite(normal.Z);
+        return RegularSurfaceNormal.TryCreate(ux, uy, uz, vx, vy, vz, out normal);
     }
 
     private static double[] Expand(IReadOnlyList<double> knots, IReadOnlyList<int> mult)

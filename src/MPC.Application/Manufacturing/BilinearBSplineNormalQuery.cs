@@ -26,6 +26,7 @@ public static class BilinearBSplineNormalQuery
             return false;
 
         double u0 = surface.UKnots[0], u1 = surface.UKnots[1];
+        if (RegularSurfaceNormal.IsCollapsedBoundary(surface, u, v)) return false;
         double v0 = surface.VKnots[0], v1 = surface.VKnots[1];
         if (u < u0 || u > u1 || v < v0 || v > v1) return false;
         double s = (u - u0) / (u1 - u0);
@@ -41,13 +42,6 @@ public static class BilinearBSplineNormalQuery
         double vx = (1 - s) * (p01.X - p00.X) + s * (p11.X - p10.X);
         double vy = (1 - s) * (p01.Y - p00.Y) + s * (p11.Y - p10.Y);
         double vz = (1 - s) * (p01.Z - p00.Z) + s * (p11.Z - p10.Z);
-        double nx = uy * vz - uz * vy;
-        double ny = uz * vx - ux * vz;
-        double nz = ux * vy - uy * vx;
-        double magnitude = Math.Sqrt(nx * nx + ny * ny + nz * nz);
-        if (!double.IsFinite(magnitude) || magnitude <= 1e-12) return false;
-        normal = new Vector3D(nx / magnitude, ny / magnitude, nz / magnitude);
-        return double.IsFinite(normal.X) && double.IsFinite(normal.Y) &&
-            double.IsFinite(normal.Z);
+        return RegularSurfaceNormal.TryCreate(ux, uy, uz, vx, vy, vz, out normal);
     }
 }
