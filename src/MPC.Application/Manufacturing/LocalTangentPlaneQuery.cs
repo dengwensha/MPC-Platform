@@ -6,11 +6,13 @@ namespace MPC.Application.Manufacturing;
 public enum LocalTangentStatus
 {
     Indeterminate,
-    TangentAtSample,
+    TangentPlaneCoincidentAtSample,
     NotTangentAtSample
 }
 
-/// <summary>Local tangent-plane evidence only; does not certify G0 or edge-wide G1.</summary>
+/// <summary>Unoriented tangent-plane coincidence at one witness only.
+/// Antiparallel normals also coincide as planes; this is not oriented G1,
+/// outward-material verification, or edge-wide continuity.</summary>
 public static class LocalTangentPlaneQuery
 {
     public static LocalTangentStatus Evaluate(
@@ -46,7 +48,7 @@ public static class LocalTangentPlaneQuery
         }
 
         return differenceDegrees <= angularToleranceDegrees
-            ? LocalTangentStatus.TangentAtSample
+            ? LocalTangentStatus.TangentPlaneCoincidentAtSample
             : LocalTangentStatus.NotTangentAtSample;
     }
 }
