@@ -57,7 +57,7 @@ public sealed class SignedLocalDihedralOracleTests
                 new EdgeUse(new Edge(b,c,tangent)),
                 new EdgeUse(new Edge(c,a,tangent))
             ]));
-        var normal = new Vector3D(0,Math.Sin(radians),Math.Cos(radians));
+        var normal = new Vector3D(0,-Math.Sin(radians),Math.Cos(radians));
         var second=new Face(new Plane3D(new Point3D(0,0,0),normal),
             sameDirection
               ? new Loop([
