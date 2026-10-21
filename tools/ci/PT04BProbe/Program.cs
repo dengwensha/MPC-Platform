@@ -77,6 +77,29 @@ if(samples.Count==0 || opposite+same+indeterminate!=samples.Count ||
     throw new InvalidOperationException("Incomplete adjacency evidence.");
 if (reverseAgreement != angleValid || rightAngle + otherAngle != angleValid)
     throw new InvalidOperationException("Incomplete signed-angle oracle evidence.");
+// Pinned corpus source hashes and measured golden distributions from the
+// successful independent real-corpus validation run 39645588085.
+// These are evidence regression counts, not a material-side correctness oracle.
+int expectedFaces, expectedPairs, expectedOpposite, expectedIndeterminate,
+    expectedValid, expectedRejected;
+if (hash.Equals("E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+        StringComparison.OrdinalIgnoreCase))
+{
+    expectedFaces=11;expectedPairs=24;expectedOpposite=24;
+    expectedIndeterminate=0;expectedValid=24;expectedRejected=0;
+}
+else if (hash.Equals("0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+        StringComparison.OrdinalIgnoreCase))
+{
+    expectedFaces=23;expectedPairs=44;expectedOpposite=40;
+    expectedIndeterminate=4;expectedValid=24;expectedRejected=20;
+}
+else throw new InvalidOperationException("Unrecognised real STEP golden corpus.");
+if (faces.Count!=expectedFaces || samples.Count!=expectedPairs ||
+    opposite!=expectedOpposite || same!=0 ||
+    indeterminate!=expectedIndeterminate ||
+    angleValid!=expectedValid || angleRejected!=expectedRejected)
+    throw new InvalidOperationException("Real STEP golden orientation/angle histogram drift.");
 File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     SourceSHA256=hash, Faces=faces.Count, AdjacentPairs=samples.Count,
     Opposite=opposite, SameDirection=same, Indeterminate=indeterminate,
