@@ -26,4 +26,23 @@ internal static class RegularSurfaceNormal
         return double.IsFinite(normal.X) && double.IsFinite(normal.Y) &&
                double.IsFinite(normal.Z);
     }
+    // Explicitly refuse clamped control-net poles at a parameter endpoint.
+    internal static bool IsCollapsedBoundary(BSplineSurface3D surface, double u, double v)
+    {
+        var grid = surface.ControlPointGrid;
+        if (u == surface.UKnots[0] || u == surface.UKnots[^1])
+        {
+            int i = u == surface.UKnots[0] ? 0 : grid.Count - 1;
+            Point3D first = grid[i][0];
+            if (grid[i].All(point => point == first)) return true;
+        }
+        if (v == surface.VKnots[0] || v == surface.VKnots[^1])
+        {
+            int j = v == surface.VKnots[0] ? 0 : grid[0].Count - 1;
+            Point3D first = grid[0][j];
+            if (grid.All(row => row[j] == first)) return true;
+        }
+        return false;
+    }
+
 }
