@@ -61,6 +61,7 @@ public sealed class PlanarFaceAngleGoldenTests
         var faces = mapped.Value!.OuterShell.Faces;
         Assert.Equal(6, faces.Count);
 
+        int signedWitnesses = 0;
         foreach (var face in faces)
         {
             var query = FaceAdjacencyQuery.Analyze(faces, face);
@@ -70,7 +71,22 @@ public sealed class PlanarFaceAngleGoldenTests
                 Assert.True(PlanarFaceAngleQuery.TryCalculate(
                     faces, face, neighbor, out double angle));
                 Assert.InRange(angle, 90.0 - 1e-8, 90.0 + 1e-8);
+                // Independent prism oracle: a right-angle solid's neighboring
+                // support planes rotate by 90 degrees. The sign depends on
+                // verified winding and is NOT a material-side classification.
+                var orientation = SharedEdgeOrientationQuery.Evaluate(faces, face, neighbor);
+                if (orientation == SharedEdgeOrientationStatus.Opposite)
+                {
+                    Assert.True(SignedLocalDihedralQuery.TryCalculate(
+                        faces, face, neighbor, out double signed));
+                    Assert.InRange(Math.Abs(signed), 90.0 - 1e-8, 90.0 + 1e-8);
+                    Assert.True(SignedLocalDihedralQuery.TryCalculate(
+                        faces, neighbor, face, out double reversed));
+                    Assert.InRange(Math.Abs(signed - reversed), 0, 1e-8);
+                    signedWitnesses++;
+                }
             }
         }
+        Assert.Equal(24, signedWitnesses); // 12 undirected prism edges, each visited twice.
     }
 }
