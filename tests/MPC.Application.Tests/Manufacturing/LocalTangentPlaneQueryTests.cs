@@ -7,10 +7,10 @@ namespace MPC.Application.Tests.Manufacturing;
 public sealed class LocalTangentPlaneQueryTests
 {
     [Theory]
-    [InlineData(0, 0, 1, LocalTangentStatus.TangentAtSample)]
-    [InlineData(0, 0, -1, LocalTangentStatus.TangentAtSample)]
+    [InlineData(0, 0, 1, LocalTangentStatus.TangentPlaneCoincidentAtSample)]
+    [InlineData(0, 0, -1, LocalTangentStatus.TangentPlaneCoincidentAtSample)]
     [InlineData(1, 0, 0, LocalTangentStatus.NotTangentAtSample)]
-    public void PlanarNeighbors_AreComparedWithoutNormalSign(
+    public void AntiparallelNormals_StillHaveCoincidentUnorientedTangentPlanes(
         double x, double y, double z, LocalTangentStatus expected)
     {
         var a = new Vertex(0, 0, 0);
@@ -31,8 +31,8 @@ public sealed class LocalTangentPlaneQueryTests
                 new EdgeUse(new Edge(d, b, curve))]));
         Assert.Equal(expected, LocalTangentPlaneQuery.Evaluate(
             [f1, f2], f1, f2, 0.01, out double angle));
-        Assert.InRange(angle, expected == LocalTangentStatus.TangentAtSample
-            ? 0 : 90, expected == LocalTangentStatus.TangentAtSample ? 0.001 : 90.001);
+        Assert.InRange(angle, expected == LocalTangentStatus.TangentPlaneCoincidentAtSample
+            ? 0 : 90, expected == LocalTangentStatus.TangentPlaneCoincidentAtSample ? 0.001 : 90.001);
     }
 
     [Fact]

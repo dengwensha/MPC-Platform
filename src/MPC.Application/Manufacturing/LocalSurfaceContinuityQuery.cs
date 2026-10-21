@@ -3,13 +3,14 @@ using MPC.Topology.Primitives;
 namespace MPC.Application.Manufacturing;
 
 /// <summary>Conservative classification at one verified common-edge witness.
-/// No result certifies continuous G0/G1 along a trimmed boundary.</summary>
+/// Coincident tangent planes include opposite normal directions.
+/// No result certifies oriented G1 or boundary-wide G0/G1.</summary>
 public enum LocalSurfaceContinuityKind
 {
     Indeterminate,
     GeometricMismatchAtSample,
     SharpAtSample,
-    TangentAtSample
+    TangentPlaneCoincidentAtSample
 }
 
 public sealed record LocalSurfaceContinuityEvidence(
@@ -58,7 +59,7 @@ public static class LocalSurfaceContinuityQuery
             faces, first, second, angularToleranceDegrees, out _);
         LocalSurfaceContinuityKind kind = tangent switch
         {
-            LocalTangentStatus.TangentAtSample => LocalSurfaceContinuityKind.TangentAtSample,
+            LocalTangentStatus.TangentPlaneCoincidentAtSample => LocalSurfaceContinuityKind.TangentPlaneCoincidentAtSample,
             LocalTangentStatus.NotTangentAtSample => LocalSurfaceContinuityKind.SharpAtSample,
             _ => LocalSurfaceContinuityKind.Indeterminate
         };
