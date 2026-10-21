@@ -68,4 +68,31 @@ public sealed class SurfaceNormalScaleInvariantTests
             new[] { new[] { 1.0,1.0 }, new[] { 1.0,1.0 } });
         Assert.False(RationalBSplineNormalQuery.TryEvaluate(rational,.3,1,out _));
     }
+    [Theory]
+    [InlineData(1)]
+    [InlineData(100)]
+    [InlineData(10000)]
+    public void CubicCollapsedBoundaryPole_IsRejectedAtAllScales(double scale)
+    {
+        var grid = Enumerable.Range(0, 4).Select(i =>
+            Enumerable.Range(0, 4).Select(j =>
+                j == 3
+                    ? new Point3D(0, 0, scale)
+                    : new Point3D(scale * i, scale * j, 0)).ToArray()).ToArray();
+        var patch = new BSplineSurface3D(3, 3, grid,
+            new[] {4,4}, new[] {4,4},
+            new[] {0.0,1.0}, new[] {0.0,1.0});
+        foreach (double u in new[] {0.13, 0.37, 0.61, 0.89})
+        {
+            Assert.False(BSplineSurfaceNormalQuery.TryEvaluate(patch, u, 1.0, out _));
+            foreach (double weightScale in new[] {0.0001, 1.0, 100.0, 1000000.0})
+            {
+                var weights = Enumerable.Range(0,4)
+                    .Select(_ => Enumerable.Repeat(weightScale,4).ToArray()).ToArray();
+                var rational = new RationalBSplineSurface3D(patch, weights);
+                Assert.False(RationalBSplineNormalQuery.TryEvaluate(rational, u, 1.0, out _));
+            }
+        }
+    }
+
 }
