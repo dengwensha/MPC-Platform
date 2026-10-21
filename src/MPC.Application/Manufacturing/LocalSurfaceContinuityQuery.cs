@@ -16,7 +16,7 @@ public sealed record LocalSurfaceContinuityEvidence(
     LocalSurfaceContinuityKind Kind,
     LocalG0Status G0,
     LocalTangentStatus Tangency,
-    int AvailableLineInteriorSamples);
+    int EligibleInteriorSampleCount);
 
 public static class LocalSurfaceContinuityQuery
 {
@@ -38,7 +38,7 @@ public static class LocalSurfaceContinuityQuery
         LocalTangentStatus tangent = LocalTangentStatus.Indeterminate;
         int availableSamples = 0;
 
-        // D4 sampling is separate coverage evidence, NOT a continuity proof.
+        // D4 identifies eligible interior witnesses only. These points are NOT\n        // evaluated by the G0/tangency queries below, which use one separate\n        // common-edge witness. This count is not a coverage or G0/G1 proof.
         if (!ReferenceEquals(first, second))
         {
             var boundaries = FaceAdjacencyQuery.Analyze(faces, first).Boundaries
