@@ -27,6 +27,10 @@ public static class SignedLocalDihedralQuery
             return false;
         Edge edge = candidates[0].Edge;
         Point3D p = edge.StartVertex.Position, q = edge.EndVertex.Position;
+        // Both endpoints of the straight shared edge must lie on both supporting
+        // planes. Perpendicular tangents alone do not prove plane membership.
+        if (!OnPlane(a, p) || !OnPlane(a, q) ||
+            !OnPlane(b, p) || !OnPlane(b, q)) return false;
         double tx=q.X-p.X, ty=q.Y-p.Y, tz=q.Z-p.Z;
         double length=Math.Sqrt(tx*tx+ty*ty+tz*tz);
         if (!double.IsFinite(length) || length<=1e-12) return false;
@@ -47,6 +51,16 @@ public static class SignedLocalDihedralQuery
            Math.Abs(tx*bx+ty*by+tz*bz)>1e-8) return false;
         angleDegrees=Math.Atan2(sin,dot)*180.0/Math.PI;
         return double.IsFinite(angleDegrees);
+    }
+
+    private static bool OnPlane(Plane3D plane, Point3D point)
+    {
+        double dx = point.X - plane.Origin.X;
+        double dy = point.Y - plane.Origin.Y;
+        double dz = point.Z - plane.Origin.Z;
+        double residual = dx * plane.Normal.X +
+            dy * plane.Normal.Y + dz * plane.Normal.Z;
+        return double.IsFinite(residual) && Math.Abs(residual) <= 1e-8;
     }
 
     private static bool FirstUseForward(Face face, Edge edge, out bool forward)
