@@ -13,6 +13,7 @@ public static class RationalBSplineNormalQuery
         normal = default;
         if (!double.IsFinite(u) || !double.IsFinite(v)) return false;
         BSplineSurface3D s = surface.Basis;
+        if (RegularSurfaceNormal.IsCollapsedBoundary(s, u, v)) return false;
         var uk = Expand(s.UKnots, s.UMultiplicities);
         var vk = Expand(s.VKnots, s.VMultiplicities);
         int nu = s.ControlPointGrid.Count, nv = s.ControlPointGrid[0].Count;
