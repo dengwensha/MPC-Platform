@@ -26,6 +26,7 @@ public static class BilinearBSplineNormalQuery
             return false;
 
         double u0 = surface.UKnots[0], u1 = surface.UKnots[1];
+        if (RegularSurfaceNormal.IsCollapsedBoundary(surface, u, v)) return false;
         double v0 = surface.VKnots[0], v1 = surface.VKnots[1];
         if (u < u0 || u > u1 || v < v0 || v > v1) return false;
         double s = (u - u0) / (u1 - u0);
