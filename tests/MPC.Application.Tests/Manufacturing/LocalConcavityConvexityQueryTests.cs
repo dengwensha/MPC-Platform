@@ -27,14 +27,14 @@ public sealed class LocalConcavityConvexityQueryTests
     [Fact]
     public void InvalidTolerance_IsRejected()
     {
+        var a = new Vertex(0,0,0);
+        var b = new Vertex(1,0,0);
+        var curve = new Line3D(new Point3D(0,0,0), new Vector3D(1,0,0));
+        var loop = new Loop([
+            new EdgeUse(new Edge(a,b,curve)),
+            new EdgeUse(new Edge(b,a,curve))]);
         var face = new Face(new Plane3D(
-            new Point3D(0, 0, 0), new Vector3D(0, 0, 1)),
-            new Loop([
-                new EdgeUse(new Edge(new Vertex(0,0,0), new Vertex(1,0,0),
-                    new Line3D(new Point3D(0,0,0), new Vector3D(1,0,0)))),
-                new EdgeUse(new Edge(new Vertex(1,0,0), new Vertex(0,0,0),
-                    new Line3D(new Point3D(0,0,0), new Vector3D(1,0,0))))
-            ]));
+            new Point3D(0,0,0), new Vector3D(0,0,1)), loop);
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             LocalConcavityConvexityQuery.Evaluate([face], face, face, false, 90));
     }
