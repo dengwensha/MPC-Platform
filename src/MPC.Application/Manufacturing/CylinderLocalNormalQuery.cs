@@ -10,8 +10,15 @@ public static class CylinderLocalNormalQuery
         Cylinder3D cylinder,
         Point3D point,
         out Vector3D normal)
+        => TryEvaluate(cylinder, point, 1e-8, out normal);
+
+    /// <summary>Evaluates with an explicit relative linear membership tolerance.</summary>
+    public static bool TryEvaluate(Cylinder3D cylinder, Point3D point,
+        double linearTolerance, out Vector3D normal)
     {
         ArgumentNullException.ThrowIfNull(cylinder);
+        if (!double.IsFinite(linearTolerance) || linearTolerance < 0)
+            throw new ArgumentOutOfRangeException(nameof(linearTolerance));
         normal = default;
         if (!double.IsFinite(point.X) || !double.IsFinite(point.Y) ||
             !double.IsFinite(point.Z))
@@ -29,7 +36,7 @@ public static class CylinderLocalNormalQuery
         if (!double.IsFinite(length) || length <= 0)
             return false;
         double radiusError = Math.Abs(length - cylinder.Radius);
-        if (radiusError > 1e-8 * Math.Max(1.0, cylinder.Radius))
+        if (radiusError > linearTolerance * Math.Max(1.0, cylinder.Radius))
             return false;
         normal = new Vector3D(rx / length, ry / length, rz / length);
         return true;
