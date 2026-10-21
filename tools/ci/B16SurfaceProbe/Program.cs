@@ -29,6 +29,8 @@ var mapped = new HashSet<string>(StringComparer.Ordinal);
 var evidence = new List<object>();
 int normalSuccess = 0;
 int normalRejected = 0;
+int noEligibleSpan = 0;
+int invalidAtSample = 0;
 foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
 {
     if (!rational.TryGetValue(face.SurfaceReferenceId, out var source)) continue;
@@ -58,29 +60,60 @@ foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
     double u1 = surface.Basis.UKnots[^1];
     double v0 = surface.Basis.VKnots[0];
     double v1 = surface.Basis.VKnots[^1];
-    double uSample = u0 + (u1 - u0) / 2.0;
-    double vSample = v0 + (v1 - v0) / 2.0;
-    bool normalValid = RationalBSplineNormalQuery.TryEvaluate(surface, uSample, vSample, out var normal);
+    // Select an interior point from an actual positive knot span, avoiding
+    // the midpoint coinciding with an interior knot (review GE03-R04).
+    double? uSample = InteriorSpanSample(surface.Basis.UKnots);
+    double? vSample = InteriorSpanSample(surface.Basis.VKnots);
+    bool eligible = uSample.HasValue && vSample.HasValue;
+    bool normalValid = eligible && RationalBSplineNormalQuery.TryEvaluate(
+        surface, uSample!.Value, vSample!.Value, out _);
     if (normalValid)
     {
+        if (!RationalBSplineNormalQuery.TryEvaluate(
+                surface, uSample!.Value, vSample!.Value, out var normal))
+            throw new InvalidOperationException("Non-deterministic normal query.");
         double length = Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
         if (!double.IsFinite(length) || Math.Abs(length - 1.0) > 1e-8)
             throw new InvalidOperationException($"Surface {source.SourceEntityId}: invalid unit normal.");
         normalSuccess++;
     }
-    else normalRejected++;
+    else
+    {
+        normalRejected++;
+        if (!eligible) noEligibleSpan++;
+        else invalidAtSample++;
+    }
     mapped.Add(source.SourceEntityId!);
     evidence.Add(new { Surface = source.SourceEntityId, Face = face.SourceEntityId,
         surface.Basis.UDegree, surface.Basis.VDegree,
         Rows = surface.Weights.Count, Columns = surface.Weights[0].Count,
-        U = uSample, V = vSample, NormalValid = normalValid });
+        U = uSample, V = vSample, NormalValid = normalValid,
+        RejectionReason = normalValid ? null : eligible ? "NormalUndefinedAtInteriorSample" : "NoPositiveInteriorKnotSpan" });
 }
 if (mapped.Count != 276 || context.Diagnostics.Count != 0)
     throw new InvalidOperationException("Not all rational surfaces mapped cleanly through advanced-face dispatch.");
 if (normalSuccess == 0 || normalSuccess + normalRejected != mapped.Count)
     throw new InvalidOperationException("No valid real STEP B-spline normal evidence was produced.");
+if (noEligibleSpan + invalidAtSample != normalRejected)
+    throw new InvalidOperationException("R03 rejection histogram inconsistent.");
 File.WriteAllText(args[1], JsonSerializer.Serialize(new { SourceSHA256 = hash, Mapped = mapped.Count,
-    NormalSuccess = normalSuccess, NormalRejected = normalRejected, Surfaces = evidence },
+    NormalSuccess = normalSuccess, NormalRejected = normalRejected,
+    NoEligibleSpan = noEligibleSpan, InvalidAtSample = invalidAtSample,
+    Surfaces = evidence },
     new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine($"PASS - {mapped.Count}/276 real rational surfaces mapped; " +
     $"E5 regular unit normals: {normalSuccess}, controlled rejections: {normalRejected}.");
+
+static double? InteriorSpanSample(IReadOnlyList<double> knots)
+{
+    for (int i = 0; i + 1 < knots.Count; i++)
+    {
+        double start = knots[i], end = knots[i+1];
+        if (double.IsFinite(start) && double.IsFinite(end) && end > start)
+        {
+            double sample = start + (end - start) * 0.37;
+            if (sample > start && sample < end) return sample;
+        }
+    }
+    return null;
+}
