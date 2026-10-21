@@ -7,8 +7,15 @@ namespace MPC.Application.Manufacturing;
 public static class ConeLocalNormalQuery
 {
     public static bool TryEvaluate(Cone3D cone, Point3D point, out Vector3D normal)
+        => TryEvaluate(cone, point, 1e-8, out normal);
+
+    /// <summary>Evaluates with an explicit relative linear membership tolerance.</summary>
+    public static bool TryEvaluate(Cone3D cone, Point3D point,
+        double linearTolerance, out Vector3D normal)
     {
         ArgumentNullException.ThrowIfNull(cone);
+        if (!double.IsFinite(linearTolerance) || linearTolerance < 0)
+            throw new ArgumentOutOfRangeException(nameof(linearTolerance));
         normal = default;
         if (!double.IsFinite(point.X) || !double.IsFinite(point.Y) ||
             !double.IsFinite(point.Z)) return false;
@@ -29,7 +36,7 @@ public static class ConeLocalNormalQuery
         double expectedRadius = h * Math.Tan(cone.SemiAngle);
         if (!double.IsFinite(expectedRadius) ||
             Math.Abs(radius - expectedRadius) >
-                1e-8 * Math.Max(1.0, expectedRadius)) return false;
+                linearTolerance * Math.Max(1.0, expectedRadius)) return false;
 
         double cosine = Math.Cos(cone.SemiAngle);
         double sine = Math.Sin(cone.SemiAngle);
