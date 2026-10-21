@@ -19,6 +19,10 @@ public static class RationalBSplineNormalQuery
         if (!BSplineNormalParameterPolicy.TryEvaluate(u, uk, s.UDegree, nu, s.UKnots, s.UMultiplicities, out double su) ||
             !BSplineNormalParameterPolicy.TryEvaluate(v, vk, s.VDegree, nv, s.VKnots, s.VMultiplicities, out double sv)) return false;
 
+        // Normalise homogeneous weights before accumulation: scaling all weights
+        // by a common positive factor must not change the result or its acceptance.
+        double weightScale = surface.Weights.SelectMany(row => row).Max();
+        if (!double.IsFinite(weightScale) || weightScale <= 0) return false;
         double ax = 0, ay = 0, az = 0, w = 0;
         double aux = 0, auy = 0, auz = 0, wu = 0;
         double avx = 0, avy = 0, avz = 0, wv = 0;
@@ -28,7 +32,7 @@ public static class RationalBSplineNormalQuery
             for (int j = 0; j < nv; j++)
             {
                 double bv = Basis(j,s.VDegree,sv,vk), dv = Derivative(j,s.VDegree,sv,vk);
-                double weight = surface.Weights[i][j];
+                double weight = surface.Weights[i][j] / weightScale;
                 double b = bu*bv*weight, dU = du*bv*weight, dV = bu*dv*weight;
                 Point3D p = s.ControlPointGrid[i][j];
                 ax += b*p.X; ay += b*p.Y; az += b*p.Z; w += b;
@@ -37,14 +41,16 @@ public static class RationalBSplineNormalQuery
             }
         }
         if (!double.IsFinite(w) || w <= 0) return false;
-        // The common positive 1/W² factor cancels after normalisation.
-        double ux = aux*w-ax*wu, uy = auy*w-ay*wu, uz = auz*w-az*wu;
-        double vx = avx*w-ax*wv, vy = avy*w-ay*wv, vz = avz*w-az*wv;
-        double nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx;
-        double len=Math.Sqrt(nx*nx+ny*ny+nz*nz);
-        if (!double.IsFinite(len) || len<=1e-12) return false;
-        normal=new Vector3D(nx/len,ny/len,nz/len);
-        return double.IsFinite(normal.X)&&double.IsFinite(normal.Y)&&double.IsFinite(normal.Z);
+        // Quotient-rule derivatives; using W rather than W² prevents an
+        // artificial weight-scale threshold in the normal cross product.
+        double px = ax / w, py = ay / w, pz = az / w;
+        double ux = (aux - px * wu) / w;
+        double uy = (auy - py * wu) / w;
+        double uz = (auz - pz * wu) / w;
+        double vx = (avx - px * wv) / w;
+        double vy = (avy - py * wv) / w;
+        double vz = (avz - pz * wv) / w;
+        return RegularSurfaceNormal.TryCreate(ux, uy, uz, vx, vy, vz, out normal);
     }
 
     private static double[] Expand(IReadOnlyList<double> knots,IReadOnlyList<int> mult)
