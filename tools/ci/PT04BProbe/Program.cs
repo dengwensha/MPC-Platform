@@ -39,6 +39,7 @@ if (!mapped.IsSuccessful || mapped.Value is null)
 var faces = mapped.Value.OuterShell.Faces;
 var samples = new List<object>();
 int opposite=0,same=0,indeterminate=0,angleValid=0,angleRejected=0;
+int reverseAgreement=0, rightAngle=0, otherAngle=0;
 for(int i=0;i<faces.Count;i++)
 {
     var adjacency=FaceAdjacencyQuery.Analyze(faces,faces[i]);
@@ -57,6 +58,13 @@ for(int i=0;i<faces.Count;i++)
         {
             if(!double.IsFinite(angle)||Math.Abs(angle)>180)
                 throw new InvalidOperationException("Invalid signed dihedral witness.");
+            // A signed witness must be invariant under swapping the face order.
+            if (!SignedLocalDihedralQuery.TryCalculate(faces,faces[j],faces[i],out double reverse) ||
+                !double.IsFinite(reverse) || Math.Abs(angle-reverse)>1e-8)
+                throw new InvalidOperationException("Signed dihedral face-order oracle mismatch.");
+            reverseAgreement++;
+            if (Math.Abs(Math.Abs(angle)-90.0)<=1e-8) rightAngle++;
+            else otherAngle++;
             angleValid++;
         }
         else angleRejected++;
@@ -67,10 +75,14 @@ for(int i=0;i<faces.Count;i++)
 if(samples.Count==0 || opposite+same+indeterminate!=samples.Count ||
    angleValid+angleRejected!=samples.Count)
     throw new InvalidOperationException("Incomplete adjacency evidence.");
+if (reverseAgreement != angleValid || rightAngle + otherAngle != angleValid)
+    throw new InvalidOperationException("Incomplete signed-angle oracle evidence.");
 File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     SourceSHA256=hash, Faces=faces.Count, AdjacentPairs=samples.Count,
     Opposite=opposite, SameDirection=same, Indeterminate=indeterminate,
     AngleValid=angleValid, AngleRejected=angleRejected,
+    ReverseAgreement=reverseAgreement, RightAngleWitnesses=rightAngle,
+    OtherAngleWitnesses=otherAngle,
     MaterialOrientationVerified=false, Samples=samples
 },new JsonSerializerOptions{WriteIndented=true}));
 Console.WriteLine($"PASS - actual STEP adjacency evidence: {faces.Count} faces, {samples.Count} pairs; F2 opposite {opposite}, same {same}, indeterminate {indeterminate}; F3 valid {angleValid}, rejected {angleRejected}. F4 material proof NOT supplied.");
