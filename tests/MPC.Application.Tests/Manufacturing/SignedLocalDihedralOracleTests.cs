@@ -41,7 +41,26 @@ public sealed class SignedLocalDihedralOracleTests
             first, second, out _));
     }
 
-    private static (Face, Face) Pair(double degrees, bool reversed, bool sameDirection)
+    [Fact]
+    public void NegativeQuarterTurn_HasNegativeSign()
+    {
+        var (first, second) = Pair(-90, false, false);
+        Assert.True(SignedLocalDihedralQuery.TryCalculate(
+            [first, second], first, second, out double angle));
+        Assert.Equal(-90, angle, 8);
+    }
+
+    [Fact]
+    public void ReversingCanonicalSharedEdgePreservesAngleWhenUsesFollow()
+    {
+        // Reverse the canonical edge together with both edge-use directions.
+        var (first, second) = Pair(60, false, false, reverseEdge: true);
+        Assert.True(SignedLocalDihedralQuery.TryCalculate(
+            [first, second], first, second, out double angle));
+        Assert.Equal(60, angle, 8);
+    }
+
+    private static (Face, Face) Pair(double degrees, bool reversed, bool sameDirection, bool reverseEdge = false)
     {
         double radians=degrees*Math.PI/180;
         var a=new Vertex(0,0,0);
@@ -49,11 +68,11 @@ public sealed class SignedLocalDihedralOracleTests
         var c=new Vertex(0,1,0);
         var d=new Vertex(0,0,1);
         var tangent=new Line3D(new Point3D(0,0,0),new Vector3D(1,0,0));
-        var shared=new Edge(a,b,tangent);
+        var shared=reverseEdge ? new Edge(b,a,tangent) : new Edge(a,b,tangent);
         var first=new Face(new Plane3D(new Point3D(0,0,0),
             new Vector3D(0,0,1)),
             new Loop([
-                new EdgeUse(shared),
+                new EdgeUse(shared, reverseEdge ? EdgeUseDirection.Reversed : EdgeUseDirection.Forward),
                 new EdgeUse(new Edge(b,c,tangent)),
                 new EdgeUse(new Edge(c,a,tangent))
             ]));
@@ -61,12 +80,12 @@ public sealed class SignedLocalDihedralOracleTests
         var second=new Face(new Plane3D(new Point3D(0,0,0),normal),
             sameDirection
               ? new Loop([
-                  new EdgeUse(shared),
+                  new EdgeUse(shared, reverseEdge ? EdgeUseDirection.Reversed : EdgeUseDirection.Forward),
                   new EdgeUse(new Edge(b,d,tangent)),
                   new EdgeUse(new Edge(d,a,tangent))
                 ])
               : new Loop([
-                  new EdgeUse(shared,EdgeUseDirection.Reversed),
+                  new EdgeUse(shared, reverseEdge ? EdgeUseDirection.Forward : EdgeUseDirection.Reversed),
                   new EdgeUse(new Edge(a,d,tangent)),
                   new EdgeUse(new Edge(d,b,tangent))
                 ]),
