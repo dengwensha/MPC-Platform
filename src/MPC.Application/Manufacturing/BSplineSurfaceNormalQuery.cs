@@ -13,6 +13,7 @@ public static class BSplineSurfaceNormalQuery
         normal = default;
         if (!double.IsFinite(u) || !double.IsFinite(v)) return false;
         var uk = Expand(surface.UKnots, surface.UMultiplicities);
+        if (RegularSurfaceNormal.IsCollapsedBoundary(surface, u, v)) return false;
         var vk = Expand(surface.VKnots, surface.VMultiplicities);
         int pu = surface.UDegree, pv = surface.VDegree;
         int nu = surface.ControlPointGrid.Count, nv = surface.ControlPointGrid[0].Count;
