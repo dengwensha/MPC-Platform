@@ -42,4 +42,36 @@ public sealed class CommonEdgeSampleQueryTests
             new Circle3D(new Point3D(0, 0, 0), new Vector3D(0, 0, 1), 2));
         Assert.False(CommonEdgeSampleQuery.TrySample(edge, out _));
     }
+
+    [Fact]
+    public void ExplicitToleranceControlsNearLineMembership()
+    {
+        var edge = new Edge(new Vertex(new Point3D(0, 0.0000001, 0)),
+            new Vertex(new Point3D(1, 0.0000001, 0)),
+            new Line3D(new Point3D(0,0,0), new Vector3D(1,0,0)));
+        Assert.False(CommonEdgeSampleQuery.TrySample(edge, out _));
+        Assert.False(CommonEdgeSampleQuery.TrySample(edge, 1e-8, out _));
+        Assert.True(CommonEdgeSampleQuery.TrySample(edge, 1e-6, out _));
+    }
+
+    [Fact]
+    public void ExplicitToleranceControlsNearCircleMembership()
+    {
+        var edge = new Edge(new Vertex(new Point3D(2,0,0.0000001)),
+            new Vertex(new Point3D(0,2,0.0000001)),
+            new Circle3D(new Point3D(0,0,0), new Vector3D(0,0,1), 2));
+        Assert.False(CommonEdgeSampleQuery.TrySample(edge, out _));
+        Assert.True(CommonEdgeSampleQuery.TrySample(edge, 1e-6, out _));
+    }
+
+    [Fact]
+    public void InvalidExplicitToleranceThrows()
+    {
+        var edge = new Edge(new Vertex(0,0,0), new Vertex(1,0,0),
+            new Line3D(new Point3D(0,0,0), new Vector3D(1,0,0)));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            CommonEdgeSampleQuery.TrySample(edge, -1, out _));
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            CommonEdgeSampleQuery.TrySample(edge, double.NaN, out _));
+    }
 }

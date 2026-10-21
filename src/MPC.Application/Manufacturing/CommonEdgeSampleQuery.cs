@@ -9,8 +9,15 @@ namespace MPC.Application.Manufacturing;
 public static class CommonEdgeSampleQuery
 {
     public static bool TrySample(Edge edge, out Point3D point)
+        => TrySample(edge, 1e-8, out point);
+
+    /// <summary>Explicit linear tolerance for canonical curve membership.
+    /// The legacy overload retains its existing validation tolerance.</summary>
+    public static bool TrySample(Edge edge, double linearTolerance, out Point3D point)
     {
         ArgumentNullException.ThrowIfNull(edge);
+        if (!double.IsFinite(linearTolerance) || linearTolerance < 0)
+            throw new ArgumentOutOfRangeException(nameof(linearTolerance));
         point = default;
         Point3D a = edge.StartVertex.Position;
         Point3D b = edge.EndVertex.Position;
@@ -18,7 +25,7 @@ public static class CommonEdgeSampleQuery
 
         if (edge.Curve is Line3D line)
         {
-            if (!OnLine(line, a) || !OnLine(line, b)) return false;
+            if (!OnLine(line, a, linearTolerance) || !OnLine(line, b, linearTolerance)) return false;
             point = new Point3D(
                 a.X + (b.X - a.X) / 2,
                 a.Y + (b.Y - a.Y) / 2,
@@ -28,7 +35,7 @@ public static class CommonEdgeSampleQuery
 
         if (edge.Curve is Circle3D circle)
         {
-            if (!OnCircle(circle, a) || !OnCircle(circle, b)) return false;
+            if (!OnCircle(circle, a, linearTolerance) || !OnCircle(circle, b, linearTolerance)) return false;
             point = a; // Endpoint belongs to the trimmed arc; midpoint may not.
             return true;
         }
@@ -39,7 +46,7 @@ public static class CommonEdgeSampleQuery
     private static bool Finite(Point3D p) =>
         double.IsFinite(p.X) && double.IsFinite(p.Y) && double.IsFinite(p.Z);
 
-    private static bool OnLine(Line3D line, Point3D p)
+    private static bool OnLine(Line3D line, Point3D p, double tolerance)
     {
         double x = p.X - line.Origin.X, y = p.Y - line.Origin.Y,
             z = p.Z - line.Origin.Z;
@@ -48,17 +55,17 @@ public static class CommonEdgeSampleQuery
         double rx = x - t * dx, ry = y - t * dy, rz = z - t * dz;
         double distance = Math.Sqrt(rx * rx + ry * ry + rz * rz);
         return double.IsFinite(distance) &&
-            distance <= 1e-8 * Math.Max(1, Math.Sqrt(x*x+y*y+z*z));
+            distance <= tolerance * Math.Max(1, Math.Sqrt(x*x+y*y+z*z));
     }
 
-    private static bool OnCircle(Circle3D circle, Point3D p)
+    private static bool OnCircle(Circle3D circle, Point3D p, double linearTolerance)
     {
         double x = p.X - circle.Center.X, y = p.Y - circle.Center.Y,
             z = p.Z - circle.Center.Z;
         double plane = x * circle.Normal.X + y * circle.Normal.Y +
             z * circle.Normal.Z;
         double radius = Math.Sqrt(x*x + y*y + z*z);
-        double tolerance = 1e-8 * Math.Max(1, circle.Radius);
+        double tolerance = linearTolerance * Math.Max(1, circle.Radius);
         return double.IsFinite(radius) && Math.Abs(plane) <= tolerance &&
             Math.Abs(radius - circle.Radius) <= tolerance;
     }

@@ -29,7 +29,7 @@ public static class LocalG0PointMembershipQuery
             .Where(b => b.HasExactlyTwoFaceOwners &&
                 b.Neighbors.Any(n => ReferenceEquals(n, second))).ToArray();
         if (boundaries.Length != 1 ||
-            !CommonEdgeSampleQuery.TrySample(boundaries[0].Edge, out var witness))
+            !CommonEdgeSampleQuery.TrySample(boundaries[0].Edge, linearTolerance, out var witness))
             return LocalG0Status.Indeterminate;
         if (!TryResidual(first, witness, out double a) ||
             !TryResidual(second, witness, out double b))
