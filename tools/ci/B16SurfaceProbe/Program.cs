@@ -31,6 +31,9 @@ int normalSuccess = 0;
 int normalRejected = 0;
 int noEligibleSpan = 0;
 int invalidAtSample = 0;
+int oracleCompared = 0;
+int oracleUnavailable = 0;
+double worstOracleErrorDegrees = 0;
 foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
 {
     if (!rational.TryGetValue(face.SurfaceReferenceId, out var source)) continue;
@@ -75,6 +78,18 @@ foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
         double length = Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
         if (!double.IsFinite(length) || Math.Abs(length - 1.0) > 1e-8)
             throw new InvalidOperationException($"Surface {source.SourceEntityId}: invalid unit normal.");
+        // Independently compare an analytic normal against central differences
+        // of rational surface positions on the actual R03 STEP control net.
+        if (RationalPositionFiniteDifferenceOracle.TryCompare(surface,
+                uSample!.Value, vSample!.Value, normal, out double error))
+        {
+            oracleCompared++;
+            worstOracleErrorDegrees = Math.Max(worstOracleErrorDegrees, error);
+            if (error > 0.1)
+                throw new InvalidOperationException(
+                    $"Surface {source.SourceEntityId}: finite-difference normal disagreement {error} degrees.");
+        }
+        else oracleUnavailable++;
         normalSuccess++;
     }
     else
@@ -94,15 +109,20 @@ if (mapped.Count != 276 || context.Diagnostics.Count != 0)
     throw new InvalidOperationException("Not all rational surfaces mapped cleanly through advanced-face dispatch.");
 if (normalSuccess == 0 || normalSuccess + normalRejected != mapped.Count)
     throw new InvalidOperationException("No valid real STEP B-spline normal evidence was produced.");
+if (oracleCompared == 0 || oracleCompared + oracleUnavailable != normalSuccess)
+    throw new InvalidOperationException("Insufficient real R03 finite-difference oracle evidence.");
 if (noEligibleSpan + invalidAtSample != normalRejected)
     throw new InvalidOperationException("R03 rejection histogram inconsistent.");
 File.WriteAllText(args[1], JsonSerializer.Serialize(new { SourceSHA256 = hash, Mapped = mapped.Count,
     NormalSuccess = normalSuccess, NormalRejected = normalRejected,
     NoEligibleSpan = noEligibleSpan, InvalidAtSample = invalidAtSample,
+    OracleCompared = oracleCompared, OracleUnavailable = oracleUnavailable,
+    WorstOracleErrorDegrees = worstOracleErrorDegrees,
     Surfaces = evidence },
     new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine($"PASS - {mapped.Count}/276 real rational surfaces mapped; " +
-    $"E5 regular unit normals: {normalSuccess}, controlled rejections: {normalRejected}.");
+    $"E5 regular unit normals: {normalSuccess}, controlled rejections: {normalRejected}; " +
+    $"independent oracle: {oracleCompared} comparisons, worst {worstOracleErrorDegrees:F6} deg.");
 
 static double? InteriorSpanSample(IReadOnlyList<double> knots)
 {
