@@ -8,7 +8,14 @@ public static class PlanarCurvedFaceAngleQuery
 {
     public static bool TryCalculate(
         IReadOnlyList<Face> faces, Face first, Face second, out double angleDegrees)
+        => TryCalculate(faces, first, second, 1e-8, out angleDegrees);
+
+    /// <summary>Uses the supplied linear tolerance for edge and curved-surface membership.</summary>
+    public static bool TryCalculate(IReadOnlyList<Face> faces, Face first,
+        Face second, double linearTolerance, out double angleDegrees)
     {
+        if (!double.IsFinite(linearTolerance) || linearTolerance < 0)
+            throw new ArgumentOutOfRangeException(nameof(linearTolerance));
         ArgumentNullException.ThrowIfNull(faces);
         ArgumentNullException.ThrowIfNull(first);
         ArgumentNullException.ThrowIfNull(second);
@@ -28,15 +35,15 @@ public static class PlanarCurvedFaceAngleQuery
             .Where(b => b.HasExactlyTwoFaceOwners &&
                 b.Neighbors.Any(n => ReferenceEquals(n, curvedFace))).ToArray();
         if (boundaries.Length != 1 ||
-            !CommonEdgeSampleQuery.TrySample(boundaries[0].Edge, out var sample))
+            !CommonEdgeSampleQuery.TrySample(boundaries[0].Edge, linearTolerance, out var sample))
             return false;
 
         Vector3D normal = default;
         bool valid = curvedFace.Surface switch
         {
             Cylinder3D cylinder => CylinderLocalNormalQuery.TryEvaluate(
-                cylinder, sample, out normal),
-            Cone3D cone => ConeLocalNormalQuery.TryEvaluate(cone, sample, out normal),
+                cylinder, sample, linearTolerance, out normal),
+            Cone3D cone => ConeLocalNormalQuery.TryEvaluate(cone, sample, linearTolerance, out normal),
             _ => false
         };
         if (!valid) return false;

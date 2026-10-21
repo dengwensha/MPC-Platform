@@ -56,7 +56,7 @@ public static class LocalSurfaceContinuityQuery
             return new(LocalSurfaceContinuityKind.GeometricMismatchAtSample, g0, tangent, availableSamples);
 
         tangent = LocalTangentPlaneQuery.Evaluate(
-            faces, first, second, angularToleranceDegrees, out _);
+            faces, first, second, linearTolerance, angularToleranceDegrees, out _);
         LocalSurfaceContinuityKind kind = tangent switch
         {
             LocalTangentStatus.TangentPlaneCoincidentAtSample => LocalSurfaceContinuityKind.TangentPlaneCoincidentAtSample,
