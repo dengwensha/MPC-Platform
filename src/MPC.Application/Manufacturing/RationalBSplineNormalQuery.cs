@@ -62,17 +62,6 @@ public static class RationalBSplineNormalQuery
         return list.ToArray();
     }
 
-    private static bool Coordinate(double value,double[] knots,int degree,int count,
-        IReadOnlyList<double> unique,out double sample)
-    {
-        sample=value;
-        double min=knots[degree],max=knots[count];
-        if(value<min||value>max||min>=max) return false;
-        if(unique.Skip(1).SkipLast(1).Contains(value)) return false;
-        if(value==max) sample=Math.BitDecrement(max);
-        return sample>=min&&sample<max;
-    }
-
     private static double Basis(int i,int degree,double t,double[] knots)
     {
         if(degree==0) return knots[i]<=t&&t<knots[i+1]?1:0;

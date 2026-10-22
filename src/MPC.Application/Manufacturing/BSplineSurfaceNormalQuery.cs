@@ -54,18 +54,6 @@ public static class BSplineSurfaceNormalQuery
         return result.ToArray();
     }
 
-    private static bool Coordinate(double value, double[] knots, int degree, int count,
-        IReadOnlyList<double> uniqueKnots, out double evaluated)
-    {
-        evaluated = value;
-        double min = knots[degree], max = knots[count];
-        if (value < min || value > max || min >= max) return false;
-        // At an interior knot a one-sided normal can conceal a tangent discontinuity.
-        if (uniqueKnots.Skip(1).SkipLast(1).Contains(value)) return false;
-        if (value == max) evaluated = Math.BitDecrement(max);
-        return evaluated >= min && evaluated < max;
-    }
-
     private static double Basis(int i, int degree, double t, double[] knots)
     {
         if (degree == 0) return knots[i] <= t && t < knots[i + 1] ? 1 : 0;
