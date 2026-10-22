@@ -18,7 +18,17 @@ public static class LocalTangentPlaneQuery
     public static LocalTangentStatus Evaluate(
         IReadOnlyList<Face> faces, Face first, Face second,
         double angularToleranceDegrees, out double differenceDegrees)
+        => Evaluate(faces, first, second, 1e-8, angularToleranceDegrees,
+            out differenceDegrees);
+
+    /// <summary>Explicit linear tolerance applies to curved-face witness membership.</summary>
+    public static LocalTangentStatus Evaluate(
+        IReadOnlyList<Face> faces, Face first, Face second,
+        double linearTolerance, double angularToleranceDegrees,
+        out double differenceDegrees)
     {
+        if (!double.IsFinite(linearTolerance) || linearTolerance < 0)
+            throw new ArgumentOutOfRangeException(nameof(linearTolerance));
         ArgumentNullException.ThrowIfNull(faces);
         ArgumentNullException.ThrowIfNull(first);
         ArgumentNullException.ThrowIfNull(second);
@@ -42,7 +52,7 @@ public static class LocalTangentPlaneQuery
             // Existing curved-face query validates a unique shared edge,
             // a supported sample and on-surface membership for curved face.
             if (!PlanarCurvedFaceAngleQuery.TryCalculate(
-                faces, first, second, out double curvedAngle))
+                faces, first, second, linearTolerance, out double curvedAngle))
                 return LocalTangentStatus.Indeterminate;
             differenceDegrees = Math.Min(curvedAngle, 180 - curvedAngle);
         }

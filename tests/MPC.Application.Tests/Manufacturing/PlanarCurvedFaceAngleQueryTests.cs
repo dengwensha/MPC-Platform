@@ -40,5 +40,11 @@ public sealed class PlanarCurvedFaceAngleQueryTests
         Assert.True(PlanarCurvedFaceAngleQuery.TryCalculate(
             [plane, curved], plane, curved, out var angle));
         Assert.InRange(angle, 90 - 1e-8, 90 + 1e-8);
+        Assert.True(PlanarCurvedFaceAngleQuery.TryCalculate(
+            [plane, curved], plane, curved, 1e-6, out var explicitAngle));
+        Assert.InRange(explicitAngle, 90 - 1e-8, 90 + 1e-8);
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            PlanarCurvedFaceAngleQuery.TryCalculate(
+                [plane, curved], plane, curved, double.NaN, out _));
     }
 }
