@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\src\MPC.Mapping\MPC.Mapping.csproj" />
     <ProjectReference Include="..\..\src\MPC.Mapping.Step\MPC.Mapping.Step.csproj" />
     <ProjectReference Include="..\..\src\MPC.Topology\MPC.Topology.csproj" />
+    <ProjectReference Include="..\..\src\MPC.Application\MPC.Application.csproj" />
   </ItemGroup>
 
 </Project>
