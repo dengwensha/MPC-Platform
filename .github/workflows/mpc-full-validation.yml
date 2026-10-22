@@ -1,5 +1,7 @@
 name: MPC full validation and real corpus
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
