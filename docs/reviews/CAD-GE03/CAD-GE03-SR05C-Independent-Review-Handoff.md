@@ -1,7 +1,7 @@
 # CAD-GE03 — SR05C Independent Senior Review handoff
 
-**Candidate freeze:** `main` `156c1b60b27376d31a30a80c0e30ba1b7956198c` (verified unchanged at preparation).  
-**Decision:** REVIEW READY WITH OPEN GATES — **NOT production accepted**.  
+**Candidate freeze:** `main` `156c1b60b27376d31a30a80c0e30ba1b7956198c` (verified unchanged at preparation).
+**Decision:** REVIEW READY WITH OPEN GATES — **NOT production accepted**.
 **Scope:** read-only evidence reconciliation and reviewer instructions; no implementation edits.
 
 ## Delivered change sets and evidence
