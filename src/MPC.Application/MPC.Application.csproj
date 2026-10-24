@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MPC.Connectors\MPC.Connectors.csproj" />
     <ProjectReference Include="..\MPC.Connectors.Step\MPC.Connectors.Step.csproj" />
+    <ProjectReference Include="..\MPC.Geometry\MPC.Geometry.csproj" />
     <ProjectReference Include="..\MPC.Mapping\MPC.Mapping.csproj" />
     <ProjectReference Include="..\MPC.Mapping.Step\MPC.Mapping.Step.csproj" />
     <ProjectReference Include="..\MPC.Topology\MPC.Topology.csproj" />
