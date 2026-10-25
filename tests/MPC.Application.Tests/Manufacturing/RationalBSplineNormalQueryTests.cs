@@ -221,6 +221,71 @@ public sealed class RationalBSplineNormalQueryTests
         if (distance == 1e-4) Assert.Equal(3, accepted);
     }
 
+    // GE03B-02: exact rational cone has an independent analytic normal even
+    // at representable parameter samples extremely close to the apex.
+    // Retain fail-closed semantics: no inaccurate accepted normal.
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(10)]
+    [InlineData(100)]
+    public void QuarterConeApex_OneToHundredUlps_AcceptedNormalsRemainAccurate(int ulps)
+    {
+        double w = Math.Sqrt(0.5);
+        var basis = new BSplineSurface3D(2, 1,
+            new[]
+            {
+                new[] { new Point3D(1,0,0), new Point3D(0,0,1) },
+                new[] { new Point3D(1,1,0), new Point3D(0,0,1) },
+                new[] { new Point3D(0,1,0), new Point3D(0,0,1) }
+            },
+            new[] {3,3}, new[] {2,2},
+            new[] {0.0,1.0}, new[] {0.0,1.0});
+        var surface = new RationalBSplineSurface3D(basis,
+            new[] { new[] {1.0,1.0}, new[] {w,w}, new[] {1.0,1.0} });
+        double v = 1.0;
+        for (int i = 0; i < ulps; i++) v = Math.BitDecrement(v);
+        foreach (double u in new[] {0.17, 0.5, 0.83})
+        {
+            if (!RationalBSplineNormalQuery.TryEvaluate(surface,u,v,out var n))
+                continue;
+            double a=(1-u)*(1-u), b=2*w*u*(1-u), c=u*u;
+            double cx=(a+b)/(a+b+c), cy=(b+c)/(a+b+c);
+            double radius=Math.Sqrt(cx*cx+cy*cy);
+            double ex=cx/(radius*Math.Sqrt(2)), ey=cy/(radius*Math.Sqrt(2));
+            double dot=Math.Clamp(n.X*ex+n.Y*ey+n.Z*Math.Sqrt(0.5),-1.0,1.0);
+            Assert.True(dot >= 1.0-1e-7,
+                $"Unstable accepted pole-adjacent normal: u={u}, ulps={ulps}, dot={dot}.");
+        }
+    }
+
+    // Noisy control points are not an independent analytic cone oracle.
+    // Verify only the conservative endpoint rejection, not a fabricated
+    // near-apex expected direction for a perturbed patch.
+    [Theory]
+    [InlineData(1e-16)]
+    [InlineData(1e-12)]
+    [InlineData(1e-9)]
+    [InlineData(1e-8)]
+    [InlineData(1e-7)]
+    [InlineData(1e-6)]
+    public void QuarterConeApex_NoisyBoundary_FailsClosed(double noise)
+    {
+        double w=Math.Sqrt(0.5);
+        var basis=new BSplineSurface3D(2,1,
+            new[]
+            {
+                new[] {new Point3D(1,0,0),new Point3D(0,0,1)},
+                new[] {new Point3D(1,1,0),new Point3D(noise,0,1)},
+                new[] {new Point3D(0,1,0),new Point3D(0,noise,1)}
+            },
+            new[] {3,3},new[] {2,2},new[] {0.0,1.0},new[] {0.0,1.0});
+        var surface=new RationalBSplineSurface3D(basis,
+            new[] {new[] {1.0,1.0},new[] {w,w},new[] {1.0,1.0}});
+        foreach (double u in new[] {0.17,0.5,0.83})
+            Assert.False(RationalBSplineNormalQuery.TryEvaluate(surface,u,1.0,out _));
+    }
+
     // GE03B-01: exact quarter-cone from a rational quadratic quarter-circle
     // and a linear interpolation to its apex. The midpoint reference normal
     // is analytic and does not use the implementation's derivative evaluator.
