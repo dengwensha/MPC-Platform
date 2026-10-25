@@ -24,6 +24,28 @@ public sealed class SignedLocalDihedralOracleTests
         Assert.InRange(reverse, degrees - 1e-8, degrees + 1e-8);
     }
 
+    // GE03B-03: test negative signed rotations with independent plane
+    // rotation angles, reversed canonical edge and swapped face order.
+    // These checks establish sign consistency, NOT material-side orientation.
+    [Theory]
+    [InlineData(-30.0)]
+    [InlineData(-60.0)]
+    [InlineData(-120.0)]
+    [InlineData(-150.0)]
+    public void NegativePlaneRotation_PreservesSignedAngleAcrossEdgeReversal(double degrees)
+    {
+        foreach (bool reverseEdge in new[] {false, true})
+        {
+            var (first, second) = Pair(degrees, false, false, reverseEdge);
+            Assert.True(SignedLocalDihedralQuery.TryCalculate(
+                [first, second], first, second, out double forward));
+            Assert.InRange(forward, degrees - 1e-8, degrees + 1e-8);
+            Assert.True(SignedLocalDihedralQuery.TryCalculate(
+                [first, second], second, first, out double swapped));
+            Assert.InRange(swapped, degrees - 1e-8, degrees + 1e-8);
+        }
+    }
+
     [Fact]
     public void ReversedSecondFaceOrientation_ChangesSignedRotation()
     {
