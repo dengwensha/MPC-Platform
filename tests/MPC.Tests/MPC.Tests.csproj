@@ -32,4 +32,8 @@
     <ProjectReference Include="..\..\src\MPC.Mapping.Step\MPC.Mapping.Step.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="TestData/Step/GE03B01-QuarterConePole.step" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
