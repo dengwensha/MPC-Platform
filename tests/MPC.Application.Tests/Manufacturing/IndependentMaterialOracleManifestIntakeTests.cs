@@ -1,3 +1,6 @@
+using System.Security.Cryptography;
+using System.Text;
+
 namespace MPC.Application.Tests.Manufacturing;
 
 // GE03B-04B-06: test-only manifest intake, never material certification.
@@ -54,6 +57,23 @@ public sealed class IndependentMaterialOracleManifestIntakeTests
         return true;
     }
 
+    // GE03B-04B-07B: independently re-hash the supplied reference bytes.
+    // A matching hash establishes file integrity only, not CAD independence.
+    private static bool ReferenceBytesMatch(Manifest? manifest, string? referencePath)
+    {
+        if (manifest is null || !IsHash(manifest.ReferenceSha256) ||
+            string.IsNullOrWhiteSpace(referencePath)) return false;
+        try
+        {
+            using var stream = File.OpenRead(referencePath);
+            string actual = Convert.ToHexString(SHA256.HashData(stream));
+            return actual.Equals(manifest.ReferenceSha256,
+                StringComparison.OrdinalIgnoreCase);
+        }
+        catch (IOException) { return false; }
+        catch (UnauthorizedAccessException) { return false; }
+    }
+
     private static readonly IReadOnlySet<string> KnownIds =
         new HashSet<string>(StringComparer.Ordinal) { "#8", "#30" };
     private static Manifest Candidate() => new(R01, Reference,
@@ -95,6 +115,34 @@ public sealed class IndependentMaterialOracleManifestIntakeTests
         Assert.False(StructurallyEligible(c with { Samples=[s with {Nx=double.NaN}] },KnownIds));
         Assert.False(StructurallyEligible(c with { Samples=[s with {Clearance=0.05}] },KnownIds));
         Assert.False(StructurallyEligible(c with { Samples=[s with {PlusOccupancy="Material",MinusOccupancy="Void"}] },KnownIds));
+    }
+
+    [Fact]
+    public void ReferenceBytes_PinnedHashMatchesOnlyExactContent()
+    {
+        string path = Path.Combine(Path.GetTempPath(),
+            $"mpc-reference-{Guid.NewGuid():N}.bin");
+        byte[] original = Encoding.UTF8.GetBytes("synthetic reference fixture, not real CAD");
+        byte[] changed = Encoding.UTF8.GetBytes("synthetic reference fixture, not real CAD!");
+        try
+        {
+            File.WriteAllBytes(path, original);
+            string expected = Convert.ToHexString(SHA256.HashData(original));
+            var candidate = Candidate() with { ReferenceSha256 = expected };
+            Assert.True(StructurallyEligible(candidate, KnownIds));
+            Assert.True(ReferenceBytesMatch(candidate,path));
+            File.WriteAllBytes(path,changed);
+            Assert.False(ReferenceBytesMatch(candidate,path));
+            Assert.False(ReferenceBytesMatch(candidate,path + ".missing"));
+            Assert.False(ReferenceBytesMatch(candidate with {
+                ReferenceSha256 = R02 },path));
+            Assert.False(ReferenceBytesMatch(candidate,null));
+        }
+        finally
+        {
+            if (File.Exists(path)) File.Delete(path);
+        }
+        // Fixture-byte integrity never constitutes independent material proof.
     }
 
     [Fact]
