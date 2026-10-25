@@ -156,13 +156,31 @@ if (faces.Count!=expectedFaces || samples.Count!=expectedPairs ||
     indeterminate!=expectedIndeterminate ||
     angleValid!=expectedValid || angleRejected!=expectedRejected)
     throw new InvalidOperationException("Real STEP golden orientation/angle histogram drift.");
+// GE03B-04B-01: explicit per-source-face qualification ledger. STEP face
+// orientation is not an independently verified material-side oracle.
+// Keep every face Unverified until external, geometry-specific proof exists.
+var materialFaceQualifications = canonicalSourceIds
+    .OrderBy(entry => entry.Key)
+    .Select(entry => new {
+        CanonicalFaceIndex = entry.Key,
+        StepFaceId = entry.Value,
+        MaterialSideStatus = "Unverified",
+        IndependentMaterialReference = (string?)null,
+        Reason = "No independent outward-material-side reference supplied"
+    }).ToArray();
+if (materialFaceQualifications.Length != expectedFaces ||
+    materialFaceQualifications.Select(x => x.StepFaceId).Distinct().Count() != expectedFaces ||
+    materialFaceQualifications.Any(x => x.MaterialSideStatus != "Unverified" ||
+        x.IndependentMaterialReference is not null))
+    throw new InvalidOperationException("Material-side qualification ledger coverage failure.");
 File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     SourceSHA256=hash, Faces=faces.Count, AdjacentPairs=samples.Count,
     Opposite=opposite, SameDirection=same, Indeterminate=indeterminate,
     AngleValid=angleValid, AngleRejected=angleRejected,
     ReverseAgreement=reverseAgreement, RightAngleWitnesses=rightAngle,
     OtherAngleWitnesses=otherAngle,
-    MaterialOrientationVerified=false, SourceOrientationTrace=orientationTrace,
+    MaterialOrientationVerified=false, MaterialFaceQualifications=materialFaceQualifications,
+    MaterialVerifiedFaceCount=0, MaterialUnverifiedFaceCount=materialFaceQualifications.Length, SourceOrientationTrace=orientationTrace,
     SourceToCanonicalFaceIdentityProven=true, CanonicalFaceSourceIds=canonicalSourceIds,
     Samples=samples
 },new JsonSerializerOptions{WriteIndented=true}));
