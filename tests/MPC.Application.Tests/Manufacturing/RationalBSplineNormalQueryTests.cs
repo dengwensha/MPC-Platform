@@ -174,4 +174,36 @@ public sealed class RationalBSplineNormalQueryTests
         Assert.Equal(1.0,interior.Z,10);
         Assert.False(RationalBSplineNormalQuery.TryEvaluate(surface,0.37,1.0,out _));
     }
+
+    // GE03B-01: exact quarter-cone from a rational quadratic quarter-circle
+    // and a linear interpolation to its apex. The midpoint reference normal
+    // is analytic and does not use the implementation's derivative evaluator.
+    [Theory]
+    [InlineData(0.0)]
+    [InlineData(1e-12)]
+    [InlineData(1e-8)]
+    [InlineData(1e-6)]
+    public void ExactQuarterConeApex_WithExportNoise_IsRejected(double noise)
+    {
+        double w = Math.Sqrt(0.5);
+        var basis = new BSplineSurface3D(2,1,
+            new[]
+            {
+                new[] {new Point3D(1,0,0), new Point3D(0,0,1)},
+                new[] {new Point3D(1,1,0), new Point3D(noise,0,1)},
+                new[] {new Point3D(0,1,0), new Point3D(0,noise,1)}
+            },
+            new[] {3,3}, new[] {2,2},
+            new[] {0.0,1.0}, new[] {0.0,1.0});
+        var surface = new RationalBSplineSurface3D(basis,
+            new[] {new[] {1.0,1.0}, new[] {w,w}, new[] {1.0,1.0}});
+        foreach (double u in new[] {0.17,0.5,0.83})
+            Assert.False(RationalBSplineNormalQuery.TryEvaluate(surface,u,1.0,out _));
+        // Only the exact cone (no export perturbation) has a known normal.
+        if (noise != 0.0) return;
+        Assert.True(RationalBSplineNormalQuery.TryEvaluate(surface,0.5,0.5,out var normal));
+        Assert.Equal(0.5,normal.X,7);
+        Assert.Equal(0.5,normal.Y,7);
+        Assert.Equal(Math.Sqrt(0.5),normal.Z,7);
+    }
 }
