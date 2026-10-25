@@ -173,6 +173,32 @@ if (materialFaceQualifications.Length != expectedFaces ||
     materialFaceQualifications.Any(x => x.MaterialSideStatus != "Unverified" ||
         x.IndependentMaterialReference is not null))
     throw new InvalidOperationException("Material-side qualification ledger coverage failure.");
+// GE03B-04B-09A: preparation-only handoff for the other workstation.
+// Canonical surface origins need not be inside trimmed faces. A real face-local
+// interior sample and clearance must be selected and checked physically.
+// Do not fabricate sample coordinates or infer independent material sides.
+var physicalReviewPreparation = canonicalSourceIds
+    .OrderBy(entry => entry.Key)
+    .Select(entry => new {
+        CanonicalFaceIndex = entry.Key,
+        StepFaceId = entry.Value,
+        SurfaceType = faces[entry.Key].Surface.GetType().Name,
+        FaceLocalSampleStatus = "PendingIndependentSelection",
+        SampleX = (double?)null,
+        SampleY = (double?)null,
+        SampleZ = (double?)null,
+        EdgeClearance = (double?)null,
+        MaterialPlus = (string?)null,
+        MaterialMinus = (string?)null,
+        IndependentReferenceSha256 = (string?)null,
+        MaterialSideStatus = "Unverified",
+        Reason = "No independently validated trimmed-face interior sample or occupancy reference"
+    }).ToArray();
+if (physicalReviewPreparation.Length != expectedFaces ||
+    physicalReviewPreparation.Select(x => x.StepFaceId).Distinct().Count() != expectedFaces ||
+    physicalReviewPreparation.Any(x => x.MaterialSideStatus != "Unverified" ||
+        x.SampleX is not null || x.SampleY is not null || x.SampleZ is not null))
+    throw new InvalidOperationException("Physical review preparation coverage failure.");
 File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     SourceSHA256=hash, Faces=faces.Count, AdjacentPairs=samples.Count,
     Opposite=opposite, SameDirection=same, Indeterminate=indeterminate,
@@ -180,7 +206,8 @@ File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     ReverseAgreement=reverseAgreement, RightAngleWitnesses=rightAngle,
     OtherAngleWitnesses=otherAngle,
     MaterialOrientationVerified=false, MaterialFaceQualifications=materialFaceQualifications,
-    MaterialVerifiedFaceCount=0, MaterialUnverifiedFaceCount=materialFaceQualifications.Length, SourceOrientationTrace=orientationTrace,
+    MaterialVerifiedFaceCount=0, MaterialUnverifiedFaceCount=materialFaceQualifications.Length,
+    PhysicalReviewPreparation=physicalReviewPreparation, SourceOrientationTrace=orientationTrace,
     SourceToCanonicalFaceIdentityProven=true, CanonicalFaceSourceIds=canonicalSourceIds,
     Samples=samples
 },new JsonSerializerOptions{WriteIndented=true}));
