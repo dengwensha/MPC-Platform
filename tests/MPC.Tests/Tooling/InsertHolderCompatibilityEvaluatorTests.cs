@@ -52,6 +52,53 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
             () => new ToolInterface("C", "19", 0, 6.35, 80, 0, 2));
     }
 
+    // TOOL-01A: pin all remaining mismatch codes without changing the
+    // production matcher or claiming real-world machine compatibility.
+    [Theory]
+    [InlineData("D", "19", 19.05, 6.35, 80, 0, 2, CompatibilityCode.InsertShapeMismatch)]
+    [InlineData("C", "16", 19.05, 6.35, 80, 0, 2, CompatibilityCode.SeatSizeMismatch)]
+    [InlineData("C", "19", 18.00, 6.35, 80, 0, 2, CompatibilityCode.InscribedCircleDiameterMismatch)]
+    [InlineData("C", "19", 19.05, 7.35, 80, 0, 2, CompatibilityCode.ThicknessMismatch)]
+    [InlineData("C", "19", 19.05, 6.35, 55, 0, 2, CompatibilityCode.IncludedAngleMismatch)]
+    [InlineData("C", "19", 19.05, 6.35, 80, 7, 2, CompatibilityCode.ClearanceAngleMismatch)]
+    [InlineData("C", "19", 19.05, 6.35, 80, 0, 3, CompatibilityCode.MountingStyleMismatch)]
+    public void Evaluate_EachInterfaceMismatch_ReportsSpecificCode(
+        string shape, string seat, double diameter, double thickness,
+        double includedAngle, double clearanceAngle, int mount,
+        CompatibilityCode expected)
+    {
+        var insert = CreateSandvikInsert(new ToolInterface(shape,seat,diameter,
+            thickness,includedAngle,clearanceAngle,mount));
+        var result = _evaluator.Evaluate(CreateSandvikHolder(),insert);
+        Assert.False(result.IsCompatible);
+        Assert.Equal(expected,result.Code);
+    }
+
+    [Fact]
+    public void Evaluate_OpposingHands_RejectsButNeutralInsertIsPermitted()
+    {
+        var rightHolder = CreateSandvikHolder();
+        var neutralInsert = CreateSandvikInsert();
+        Assert.True(_evaluator.Evaluate(rightHolder,neutralInsert).IsCompatible);
+        var leftInsert = new CuttingInsert(neutralInsert.Identity,
+            neutralInsert.Interface,neutralInsert.Grade,
+            neutralInsert.ChipBreakerDesignation,ToolHand.Left);
+        Assert.Equal(CompatibilityCode.HandMismatch,
+            _evaluator.Evaluate(rightHolder,leftInsert).Code);
+    }
+
+    [Fact]
+    public void Evaluate_LinearTolerance_HasStrictBoundary()
+    {
+        var within = CreateSandvikInsert(new ToolInterface("C","19",19.0505,
+            6.35,80,0,2));
+        var beyond = CreateSandvikInsert(new ToolInterface("C","19",19.052,
+            6.35,80,0,2));
+        Assert.True(_evaluator.Evaluate(CreateSandvikHolder(),within).IsCompatible);
+        Assert.Equal(CompatibilityCode.InscribedCircleDiameterMismatch,
+            _evaluator.Evaluate(CreateSandvikHolder(),beyond).Code);
+    }
+
     private static ToolHolder CreateSandvikHolder() =>
         new(
             new ToolProductIdentity(
