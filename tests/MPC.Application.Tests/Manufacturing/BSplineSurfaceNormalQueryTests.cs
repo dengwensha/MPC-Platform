@@ -147,4 +147,22 @@ public sealed class BSplineSurfaceNormalQueryTests
         foreach (double u in new[] { 0.17, 0.37, 0.61, 0.83 })
             Assert.False(BSplineSurfaceNormalQuery.TryEvaluate(surface, u, 1.0, out _));
     }
+
+    // GE03B-01 evidence: this nondegenerate, narrow end edge is indistinguishable
+    // from an export-noisy collapsed pole using only endpoint control-net spread.
+    // Record the current conservative false rejection; do not imply correctness.
+    [Fact]
+    public void ThinButRegularBoundary_IsConservativelyRejected_InteriorRemainsValid()
+    {
+        var surface = new BSplineSurface3D(1, 1,
+            new[]
+            {
+                new[] { new Point3D(0,0,0), new Point3D(0,1,0) },
+                new[] { new Point3D(1,0,0), new Point3D(5e-7,1,0) }
+            }, new[] {2,2}, new[] {2,2},
+            new[] {0.0,1.0}, new[] {0.0,1.0});
+        Assert.True(BSplineSurfaceNormalQuery.TryEvaluate(surface,0.37,0.5,out var interior));
+        Assert.Equal(1.0,interior.Z,10);
+        Assert.False(BSplineSurfaceNormalQuery.TryEvaluate(surface,0.37,1.0,out _));
+    }
 }
