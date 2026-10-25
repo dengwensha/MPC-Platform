@@ -55,4 +55,19 @@ public sealed class BSplineSurfaceNormalQueryTests
         Assert.False(BSplineSurfaceNormalQuery.TryEvaluate(surface,.5,.5,out _));
         Assert.True(BSplineSurfaceNormalQuery.TryEvaluate(surface,.25,.5,out _));
     }
+
+    [Theory]
+    [InlineData(1e-12)]
+    [InlineData(1e-11)]
+    public void RoundedPoleBoundary_IsRejected(double noise)
+    {
+        var basis = new BSplineSurface3D(1, 1,
+            new[]
+            {
+                new[] { new Point3D(0,0,0), new Point3D(0,1,0) },
+                new[] { new Point3D(1,0,0), new Point3D(noise,1,0) }
+            }, new[] {2,2}, new[] {2,2},
+            new[] {0.0,1.0}, new[] {0.0,1.0});
+        Assert.False(BSplineSurfaceNormalQuery.TryEvaluate(basis, 0.37, 1.0, out _));
+    }
 }
