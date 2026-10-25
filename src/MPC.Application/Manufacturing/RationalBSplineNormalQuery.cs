@@ -51,6 +51,7 @@ public static class RationalBSplineNormalQuery
         double vx = (avx - px * wv) / w;
         double vy = (avy - py * wv) / w;
         double vz = (avz - pz * wv) / w;
+        if (RegularSurfaceNormal.HasUnreliableBoundaryDerivative(s, u, v, ux, uy, uz, vx, vy, vz)) return false;
         return RegularSurfaceNormal.TryCreate(ux, uy, uz, vx, vy, vz, out normal);
     }
 

@@ -26,6 +26,31 @@ internal static class RegularSurfaceNormal
         return double.IsFinite(normal.X) && double.IsFinite(normal.Y) &&
                double.IsFinite(normal.Z);
     }
+    // In a very narrow parameter-boundary band, a vanishing derivative can
+    // retain a seemingly regular direction after independent normalization.
+    // This guard only rejects; it never manufactures a normal.
+    internal static bool HasUnreliableBoundaryDerivative(
+        BSplineSurface3D surface, double u, double v,
+        double ux, double uy, double uz, double vx, double vy, double vz)
+    {
+        const double boundaryBand = 1e-10;
+        const double derivativeRatioFloor = 1e-10;
+        double uSpan = surface.UKnots[^1] - surface.UKnots[0];
+        double vSpan = surface.VKnots[^1] - surface.VKnots[0];
+        if (!(uSpan > 0) || !(vSpan > 0) ||
+            !double.IsFinite(uSpan) || !double.IsFinite(vSpan)) return true;
+        bool nearU = (u - surface.UKnots[0]) / uSpan <= boundaryBand ||
+                     (surface.UKnots[^1] - u) / uSpan <= boundaryBand;
+        bool nearV = (v - surface.VKnots[0]) / vSpan <= boundaryBand ||
+                     (surface.VKnots[^1] - v) / vSpan <= boundaryBand;
+        if (!nearU && !nearV) return false;
+        double uMagnitude = Math.Max(Math.Abs(ux), Math.Max(Math.Abs(uy), Math.Abs(uz))) * uSpan;
+        double vMagnitude = Math.Max(Math.Abs(vx), Math.Max(Math.Abs(vy), Math.Abs(vz))) * vSpan;
+        if (!double.IsFinite(uMagnitude) || !double.IsFinite(vMagnitude)) return true;
+        double largest = Math.Max(uMagnitude, vMagnitude);
+        return !(largest > 0) || Math.Min(uMagnitude, vMagnitude) / largest <= derivativeRatioFloor;
+    }
+
     // Explicitly refuse clamped control-net poles at a parameter endpoint.
     internal static bool IsCollapsedBoundary(BSplineSurface3D surface, double u, double v)
     {
