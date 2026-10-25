@@ -36,6 +36,37 @@ var mapped = op.Map(root);
 if (!mapped.IsSuccessful || mapped.Value is null)
     throw new InvalidOperationException("Canonical real STEP mapping failed: " +
         string.Join("; ",mapped.Diagnostics.Select(x=>x.Message)));
+// Preserve the exact source STEP orientation claims alongside canonical
+// adjacency outcomes. IDs remain source identities; no positional mapping
+// from semantic source entities to canonical Face objects is assumed.
+var sourceFaces = entities.OfType<StepAdvancedFaceEntity>().ToArray();
+var sourceBounds = entities.OfType<StepFaceBoundEntity>().ToDictionary(x => x.SourceEntityId!);
+var sourceLoops = entities.OfType<StepEdgeLoopEntity>().ToDictionary(x => x.SourceEntityId!);
+var sourceOrientedEdges = entities.OfType<StepOrientedEdgeEntity>().ToDictionary(x => x.SourceEntityId!);
+var sourceEdgeCurves = entities.OfType<StepEdgeCurveEntity>().ToDictionary(x => x.SourceEntityId!);
+var orientationTrace = new List<object>();
+foreach (var face in sourceFaces)
+{
+    var bounds = new List<object>();
+    foreach (string boundId in face.BoundReferenceIds)
+    {
+        if (!sourceBounds.TryGetValue(boundId, out var bound) ||
+            !sourceLoops.TryGetValue(bound.LoopReferenceId, out var loop))
+            throw new InvalidOperationException("Missing STEP orientation source chain.");
+        var edges = new List<object>();
+        foreach (string useId in loop.OrientedEdgeReferenceIds)
+        {
+            if (!sourceOrientedEdges.TryGetValue(useId, out var use) ||
+                !sourceEdgeCurves.TryGetValue(use.EdgeElementReferenceId, out var edge))
+                throw new InvalidOperationException("Missing STEP oriented-edge source chain.");
+            edges.Add(new { OrientedEdge = useId, use.Orientation,
+                EdgeCurve = use.EdgeElementReferenceId, EdgeCurveSameSense = edge.SameSense });
+        }
+        bounds.Add(new { Bound = boundId, bound.Orientation,
+            Loop = bound.LoopReferenceId, Edges = edges });
+    }
+    orientationTrace.Add(new { Face = face.SourceEntityId, face.SameSense, Bounds = bounds });
+}
 var faces = mapped.Value.OuterShell.Faces;
 var samples = new List<object>();
 int opposite=0,same=0,indeterminate=0,angleValid=0,angleRejected=0;
@@ -106,6 +137,7 @@ File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     AngleValid=angleValid, AngleRejected=angleRejected,
     ReverseAgreement=reverseAgreement, RightAngleWitnesses=rightAngle,
     OtherAngleWitnesses=otherAngle,
-    MaterialOrientationVerified=false, Samples=samples
+    MaterialOrientationVerified=false, SourceOrientationTrace=orientationTrace,
+    SourceToCanonicalFaceIdentityProven=false, Samples=samples
 },new JsonSerializerOptions{WriteIndented=true}));
 Console.WriteLine($"PASS - actual STEP adjacency evidence: {faces.Count} faces, {samples.Count} pairs; F2 opposite {opposite}, same {same}, indeterminate {indeterminate}; F3 valid {angleValid}, rejected {angleRejected}. F4 material proof NOT supplied.");
