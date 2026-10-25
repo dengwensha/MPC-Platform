@@ -36,6 +36,8 @@ int oracleUnavailable = 0;
 int boundarySamples = 0;
 int boundaryAccepted = 0;
 int boundaryRejected = 0;
+int geometricPoleCandidates = 0;
+int candidateNormalsAccepted = 0;
 double worstOracleErrorDegrees = 0;
 foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
 {
@@ -118,8 +120,19 @@ foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
                 surface, candidate.U, candidate.V, out _);
             boundarySamples++;
             if (accepted) boundaryAccepted++; else boundaryRejected++;
+            // Candidate is control-net proximity only, never an independently
+            // established topological or geometric pole classification.
+            double spreadRatio = BoundarySpreadRatio(surface.Basis, candidate.Name);
+            bool nearCollapsedControlBoundary =
+                double.IsFinite(spreadRatio) && spreadRatio <= 1e-6;
+            if (nearCollapsedControlBoundary)
+            {
+                geometricPoleCandidates++;
+                if (accepted) candidateNormalsAccepted++;
+            }
             boundary.Add(new { candidate.Name, candidate.U, candidate.V,
-                NormalAccepted = accepted });
+                NormalAccepted = accepted, ControlNetBoundarySpreadRatio = spreadRatio,
+                NearCollapsedControlBoundaryCandidate = nearCollapsedControlBoundary });
         }
     }
     mapped.Add(source.SourceEntityId!);
@@ -144,12 +157,15 @@ File.WriteAllText(args[1], JsonSerializer.Serialize(new { SourceSHA256 = hash, M
     WorstOracleErrorDegrees = worstOracleErrorDegrees,
     BoundarySamples = boundarySamples, BoundaryAccepted = boundaryAccepted,
     BoundaryRejected = boundaryRejected, BoundaryIsIndependentPoleProof = false,
+    NearCollapsedControlBoundaryCandidates = geometricPoleCandidates,
+    CandidateNormalsAccepted = candidateNormalsAccepted,
     Surfaces = evidence },
     new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine($"PASS - {mapped.Count}/276 real rational surfaces mapped; " +
     $"E5 regular unit normals: {normalSuccess}, controlled rejections: {normalRejected}; " +
     $"independent oracle: {oracleCompared} comparisons, worst {worstOracleErrorDegrees:F6} deg; " +
     $"boundary audit: {boundaryAccepted} accepted, {boundaryRejected} rejected " +
+    $"control-net candidates: {geometricPoleCandidates}, accepted: {candidateNormalsAccepted} " +
     $"(not independent pole proof).");
 
 static double? InteriorSpanSample(IReadOnlyList<double> knots)
@@ -164,4 +180,32 @@ static double? InteriorSpanSample(IReadOnlyList<double> knots)
         }
     }
     return null;
+}
+
+static double BoundarySpreadRatio(BSplineSurface3D basis, string boundary)
+{
+    var grid = basis.ControlPointGrid;
+    double minX=double.PositiveInfinity, minY=double.PositiveInfinity, minZ=double.PositiveInfinity;
+    double maxX=double.NegativeInfinity, maxY=double.NegativeInfinity, maxZ=double.NegativeInfinity;
+    foreach (var row in grid)
+        foreach (var p in row)
+        {
+            minX=Math.Min(minX,p.X); minY=Math.Min(minY,p.Y); minZ=Math.Min(minZ,p.Z);
+            maxX=Math.Max(maxX,p.X); maxY=Math.Max(maxY,p.Y); maxZ=Math.Max(maxZ,p.Z);
+        }
+    double extent=Math.Max(maxX-minX,Math.Max(maxY-minY,maxZ-minZ));
+    if (!(extent > 0) || !double.IsFinite(extent)) return double.NaN;
+    IEnumerable<Point3D> edge = boundary switch
+    {
+        "U-Min" => grid[0],
+        "U-Max" => grid[^1],
+        "V-Min" => grid.Select(row => row[0]),
+        "V-Max" => grid.Select(row => row[^1]),
+        _ => throw new ArgumentOutOfRangeException(nameof(boundary))
+    };
+    var points=edge.ToArray();
+    var first=points[0];
+    double spread=points.Max(p=>Math.Max(Math.Abs(p.X-first.X),
+        Math.Max(Math.Abs(p.Y-first.Y),Math.Abs(p.Z-first.Z))));
+    return spread / extent;
 }
