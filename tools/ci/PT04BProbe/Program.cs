@@ -86,7 +86,7 @@ foreach (var source in sourceFaces)
         }
     if (index<0 || !canonicalSourceIds.TryAdd(index,source.SourceEntityId!))
         throw new InvalidOperationException("Source-to-canonical face identity is not bijective.");
-    if (canonical.Orientation == MPC.Topology.Primitives.FaceOrientation.Forward != source.SameSense)
+    if ((canonical.Orientation == MPC.Topology.Primitives.FaceOrientation.Forward) != source.SameSense)
         throw new InvalidOperationException(
             $"STEP same_sense / canonical face orientation mismatch for {source.SourceEntityId}.");
 }
