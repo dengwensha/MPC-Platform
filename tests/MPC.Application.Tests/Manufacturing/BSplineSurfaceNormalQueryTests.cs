@@ -70,4 +70,19 @@ public sealed class BSplineSurfaceNormalQueryTests
             new[] {0.0,1.0}, new[] {0.0,1.0});
         Assert.False(BSplineSurfaceNormalQuery.TryEvaluate(basis, 0.37, 1.0, out _));
     }
+
+    [Fact]
+    public void NearPoleOneUlpInsideBoundary_RejectsTinyDerivative()
+    {
+        var basis = new BSplineSurface3D(1, 1,
+            new[]
+            {
+                new[] { new Point3D(0,0,0), new Point3D(0,1,0) },
+                new[] { new Point3D(1,0,0), new Point3D(1e-8,1,0) }
+            }, new[] {2,2}, new[] {2,2},
+            new[] {0.0,1.0}, new[] {0.0,1.0});
+        var surface = basis;
+        Assert.False(BSplineSurfaceNormalQuery.TryEvaluate(
+            surface, 0.37, Math.BitDecrement(1.0), out _));
+    }
 }
