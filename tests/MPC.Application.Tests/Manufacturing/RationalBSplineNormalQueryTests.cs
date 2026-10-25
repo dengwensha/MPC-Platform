@@ -87,7 +87,7 @@ public sealed class RationalBSplineNormalQueryTests
             new[]
             {
                 new[] { new Point3D(0,0,0), new Point3D(0,1,0) },
-                new[] { new Point3D(1,0,0), new Point3D(1e-8,1,0) }
+                new[] { new Point3D(1,0,0), new Point3D(1e-12,1,0) }
             }, new[] {2,2}, new[] {2,2},
             new[] {0.0,1.0}, new[] {0.0,1.0});
         var surface = new RationalBSplineSurface3D(basis,
