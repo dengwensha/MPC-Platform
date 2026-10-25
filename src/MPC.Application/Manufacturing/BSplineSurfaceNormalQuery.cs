@@ -43,6 +43,7 @@ public static class BSplineSurfaceNormalQuery
                 ux += wu * p.X; uy += wu * p.Y; uz += wu * p.Z;
                 vx += wv * p.X; vy += wv * p.Y; vz += wv * p.Z;
             }
+        if (RegularSurfaceNormal.HasUnreliableBoundaryDerivative(surface, u, v, ux, uy, uz, vx, vy, vz)) return false;
         return RegularSurfaceNormal.TryCreate(ux, uy, uz, vx, vy, vz, out normal);
     }
 
