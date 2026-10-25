@@ -68,6 +68,30 @@ foreach (var face in sourceFaces)
     orientationTrace.Add(new { Face = face.SourceEntityId, face.SameSense, Bounds = bounds });
 }
 var faces = mapped.Value.OuterShell.Faces;
+// GE03B-03: obtain identity from the mapping-time source-to-Face index,
+// never infer identity from source or shell enumeration order.
+var canonicalSourceIds = new Dictionary<int,string>();
+foreach (var source in sourceFaces)
+{
+    if (!op.FaceIdentities.TryGetFace(source.SourceEntityId!,out var canonical) ||
+        canonical is null)
+        throw new InvalidOperationException(
+            $"Missing canonical face for STEP source {source.SourceEntityId}.");
+    int index = -1;
+    for (int k=0;k<faces.Count;k++)
+        if (ReferenceEquals(faces[k],canonical))
+        {
+            if (index!=-1) throw new InvalidOperationException("Duplicate canonical face reference.");
+            index=k;
+        }
+    if (index<0 || !canonicalSourceIds.TryAdd(index,source.SourceEntityId!))
+        throw new InvalidOperationException("Source-to-canonical face identity is not bijective.");
+    if (canonical.Orientation == MPC.Topology.Primitives.FaceOrientation.Forward != source.SameSense)
+        throw new InvalidOperationException(
+            $"STEP same_sense / canonical face orientation mismatch for {source.SourceEntityId}.");
+}
+if (canonicalSourceIds.Count!=faces.Count)
+    throw new InvalidOperationException("Incomplete source-to-canonical face identity coverage.");
 var samples = new List<object>();
 int opposite=0,same=0,indeterminate=0,angleValid=0,angleRejected=0;
 int reverseAgreement=0, rightAngle=0, otherAngle=0;
@@ -99,7 +123,8 @@ for(int i=0;i<faces.Count;i++)
             angleValid++;
         }
         else angleRejected++;
-        samples.Add(new {First=i,Second=j,Orientation=direction.ToString(),
+        samples.Add(new {First=i,Second=j,FirstStepFace=canonicalSourceIds[i],
+            SecondStepFace=canonicalSourceIds[j],Orientation=direction.ToString(),
             AngleValid=valid,AngleDegrees=valid?(double?)angle:null});
     }
 }
@@ -138,6 +163,7 @@ File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     ReverseAgreement=reverseAgreement, RightAngleWitnesses=rightAngle,
     OtherAngleWitnesses=otherAngle,
     MaterialOrientationVerified=false, SourceOrientationTrace=orientationTrace,
-    SourceToCanonicalFaceIdentityProven=false, Samples=samples
+    SourceToCanonicalFaceIdentityProven=true, CanonicalFaceSourceIds=canonicalSourceIds,
+    Samples=samples
 },new JsonSerializerOptions{WriteIndented=true}));
 Console.WriteLine($"PASS - actual STEP adjacency evidence: {faces.Count} faces, {samples.Count} pairs; F2 opposite {opposite}, same {same}, indeterminate {indeterminate}; F3 valid {angleValid}, rejected {angleRejected}. F4 material proof NOT supplied.");
