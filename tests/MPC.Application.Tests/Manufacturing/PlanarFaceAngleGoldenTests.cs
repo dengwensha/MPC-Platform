@@ -88,5 +88,32 @@ public sealed class PlanarFaceAngleGoldenTests
             }
         }
         Assert.Equal(24, signedWitnesses); // 12 undirected prism edges, each visited twice.
+
+        // GE03B-04A: independent material-side witness for the pinned T001
+        // rectangular solid. Its interior (0,0,10) is known from the STEP
+        // corner coordinates, NOT derived from canonical normals or dihedrals.
+        // For each supporting plane, an outward normal must point away from
+        // this strictly interior reference point.
+        var interior = new MPC.Geometry.Primitives.Point3D(0, 0, 10);
+        int provenOutward = 0;
+        foreach (var face in faces)
+        {
+            var plane = Assert.IsType<MPC.Geometry.Primitives.Plane3D>(face.Surface);
+            double nx = plane.Normal.X, ny = plane.Normal.Y, nz = plane.Normal.Z;
+            if (face.Orientation == MPC.Topology.FaceOrientation.Reversed)
+            {
+                nx = -nx; ny = -ny; nz = -nz;
+            }
+            double signedDistance = nx * (plane.Origin.X - interior.X)
+                + ny * (plane.Origin.Y - interior.Y)
+                + nz * (plane.Origin.Z - interior.Z);
+            // An inward-facing inversion must fail the same independent oracle.
+            Assert.True(signedDistance > 1e-8,
+                "Canonical plane normal does not point out of T001 material.");
+            Assert.True(-signedDistance < -1e-8);
+            provenOutward++;
+        }
+        Assert.Equal(6, provenOutward);
+        // This proves T001 only, not R01/R02 or arbitrary open/curved shells.
     }
 }
