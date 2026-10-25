@@ -1,6 +1,6 @@
 # CAD-GE03B-01 — Independent STEP pole reference acceptance contract
 
-**Frozen starting point:** `main` `4886c5acfaf0371d359fbc3be63d1d80aae02e7a`.  
+**Frozen starting point:** `main` `4886c5acfaf0371d359fbc3be63d1d80aae02e7a`.
 **Disposition:** GE03B-01 remains OPEN; this document is an evidence specification, not a geometry result or release approval.
 
 ## Verify-First findings
