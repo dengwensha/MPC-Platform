@@ -121,5 +121,47 @@ public sealed class PlanarFaceAngleGoldenTests
         }
         Assert.Equal(6, provenOutward);
         // This proves T001 only, not R01/R02 or arbitrary open/curved shells.
+
+        // GE03B-04B-04: link each actual source ADVANCED_FACE to the sealed
+        // mapping-time canonical Face, then test independent box occupancy.
+        // Reference box dimensions are pinned from T001 fixture coordinates:
+        // X [-50,50], Y [-40,40], Z [0,20]. Not inferred from face normals.
+        var sourceFaces = entities.OfType<StepAdvancedFaceEntity>().ToArray();
+        Assert.Equal(6, sourceFaces.Length);
+        var seen = new HashSet<MPC.Topology.Primitives.Face>(
+            System.Collections.Generic.ReferenceEqualityComparer.Instance);
+        foreach (var source in sourceFaces)
+        {
+            Assert.True(operation.FaceIdentities.TryGetFace(
+                source.SourceEntityId!, out var face));
+            Assert.NotNull(face);
+            Assert.Contains(faces, candidate => ReferenceEquals(candidate, face));
+            Assert.True(seen.Add(face!));
+            var plane = Assert.IsType<MPC.Geometry.Primitives.Plane3D>(face!.Surface);
+            double nx = plane.Normal.X, ny = plane.Normal.Y, nz = plane.Normal.Z;
+            if (face.Orientation == MPC.Topology.FaceOrientation.Reversed)
+            { nx = -nx; ny = -ny; nz = -nz; }
+
+            // Select face-center sample on one of the six known box planes.
+            double x=0, y=0, z=10;
+            if (Math.Abs(plane.Normal.X) > 0.9) x = plane.Origin.X;
+            else if (Math.Abs(plane.Normal.Y) > 0.9) y = plane.Origin.Y;
+            else if (Math.Abs(plane.Normal.Z) > 0.9) z = plane.Origin.Z;
+            else throw new InvalidOperationException("Unexpected T001 surface normal.");
+
+            bool Material(double px,double py,double pz) =>
+                px > -50 + 1e-8 && px < 50 - 1e-8 &&
+                py > -40 + 1e-8 && py < 40 - 1e-8 &&
+                pz > 1e-8 && pz < 20 - 1e-8;
+            bool Outward(double dx,double dy,double dz) =>
+                !Material(x + 0.1*dx, y + 0.1*dy, z + 0.1*dz) &&
+                 Material(x - 0.1*dx, y - 0.1*dy, z - 0.1*dz);
+            Assert.True(Outward(nx,ny,nz),
+                $"Source {source.SourceEntityId} material-side mismatch.");
+            Assert.False(Outward(-nx,-ny,-nz));
+        }
+        Assert.Equal(faces.Count,seen.Count);
+        // Independent synthetic fixture only: no R01/R02 material proof.
+
     }
 }
