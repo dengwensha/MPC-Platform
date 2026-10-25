@@ -104,13 +104,19 @@ public sealed class PlanarFaceAngleGoldenTests
             {
                 nx = -nx; ny = -ny; nz = -nz;
             }
-            double signedDistance = nx * (plane.Origin.X - interior.X)
-                + ny * (plane.Origin.Y - interior.Y)
-                + nz * (plane.Origin.Z - interior.Z);
-            // An inward-facing inversion must fail the same independent oracle.
-            Assert.True(signedDistance > 1e-8,
+            bool IsOutward(double x, double y, double z)
+            {
+                double distance = x * (plane.Origin.X - interior.X)
+                    + y * (plane.Origin.Y - interior.Y)
+                    + z * (plane.Origin.Z - interior.Z);
+                return double.IsFinite(distance) && distance > 1e-8;
+            }
+            Assert.True(IsOutward(nx, ny, nz),
                 "Canonical plane normal does not point out of T001 material.");
-            Assert.True(-signedDistance < -1e-8);
+            // Exercise the SAME oracle with deliberately inverted input.
+            // It must reject the inward normal rather than merely restating
+            // the positive signed-distance inequality.
+            Assert.False(IsOutward(-nx, -ny, -nz));
             provenOutward++;
         }
         Assert.Equal(6, provenOutward);
