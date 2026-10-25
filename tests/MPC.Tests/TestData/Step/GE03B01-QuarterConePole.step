@@ -1,0 +1,22 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('Analytic quarter cone rational B-spline surface; validation fixture, not a closed solid'),'2;1');
+FILE_NAME('GE03B01-QuarterConePole.step','2026-10-25T00:00:00',('MPC validation'),('MPC validation'),'','','');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));
+ENDSEC;
+DATA;
+#1=CARTESIAN_POINT('',(1.,0.,0.));
+#2=CARTESIAN_POINT('',(0.,0.,1.));
+#3=CARTESIAN_POINT('',(1.,1.,0.));
+#4=CARTESIAN_POINT('',(0.,0.,1.));
+#5=CARTESIAN_POINT('',(0.,1.,0.));
+#6=CARTESIAN_POINT('',(0.,0.,1.));
+#75=(BOUNDED_SURFACE()
+B_SPLINE_SURFACE(2,1,((#1,#2),(#3,#4),(#5,#6)),.UNSPECIFIED.,.F.,.F.,.U.)
+B_SPLINE_SURFACE_WITH_KNOTS((3,3),(2,2),(0.,1.),(0.,1.),.UNSPECIFIED.)
+GEOMETRIC_REPRESENTATION_ITEM()
+RATIONAL_B_SPLINE_SURFACE(((1.,1.),(0.7071067811865475244,0.7071067811865475244),(1.,1.)))
+REPRESENTATION_ITEM('Analytic quarter cone, apex v=1')
+SURFACE());
+ENDSEC;
+END-ISO-10303-21;
