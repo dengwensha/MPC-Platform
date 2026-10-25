@@ -179,7 +179,8 @@ File.WriteAllText(args[2],JsonSerializer.Serialize(new {
     AngleValid=angleValid, AngleRejected=angleRejected,
     ReverseAgreement=reverseAgreement, RightAngleWitnesses=rightAngle,
     OtherAngleWitnesses=otherAngle,
-    MaterialOrientationVerified=false, MaterialFaceQualifications=materialFaceQualifications,\n    MaterialVerifiedFaceCount=0, MaterialUnverifiedFaceCount=materialFaceQualifications.Length, SourceOrientationTrace=orientationTrace,
+    MaterialOrientationVerified=false, MaterialFaceQualifications=materialFaceQualifications,
+    MaterialVerifiedFaceCount=0, MaterialUnverifiedFaceCount=materialFaceQualifications.Length, SourceOrientationTrace=orientationTrace,
     SourceToCanonicalFaceIdentityProven=true, CanonicalFaceSourceIds=canonicalSourceIds,
     Samples=samples
 },new JsonSerializerOptions{WriteIndented=true}));
