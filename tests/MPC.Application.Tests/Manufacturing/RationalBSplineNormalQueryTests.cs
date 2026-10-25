@@ -199,10 +199,12 @@ public sealed class RationalBSplineNormalQueryTests
             new[] {0.0,1.0}, new[] {0.0,1.0});
         var surface = new RationalBSplineSurface3D(basis,
             new[] {new[] {1.0,1.0}, new[] {w,w}, new[] {1.0,1.0}});
+        int accepted = 0;
         foreach (double u in new[] { 0.17, 0.5, 0.83 })
         {
             if (!RationalBSplineNormalQuery.TryEvaluate(surface,u,1.0-distance,out var n))
                 continue;
+            accepted++;
             // Analytic cone: n=(cos(theta),sin(theta),1)/sqrt(2).
             // Independent rational quadratic circle position at u:
             double a = (1-u)*(1-u), b = 2*w*u*(1-u), c = u*u;
@@ -216,6 +218,7 @@ public sealed class RationalBSplineNormalQueryTests
             Assert.True(dot >= 1.0-1e-7,
                 $"Near-apex accepted normal disagreed with analytic cone at u={u}, distance={distance}; dot={dot}.");
         }
+        if (distance == 1e-4) Assert.Equal(3, accepted);
     }
 
     // GE03B-01: exact quarter-cone from a rational quadratic quarter-circle
