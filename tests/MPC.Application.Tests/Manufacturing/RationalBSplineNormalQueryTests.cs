@@ -135,4 +135,26 @@ public sealed class RationalBSplineNormalQueryTests
             Assert.False(RationalBSplineNormalQuery.TryEvaluate(surface,0.37,v,out _));
         }
     }
+
+    [Theory]
+    [InlineData(1e-16)]
+    [InlineData(1e-12)]
+    [InlineData(1e-9)]
+    [InlineData(1e-8)]
+    [InlineData(1e-7)]
+    [InlineData(1e-6)]
+    public void Ge03B01_ExpandedNoisyPoleSweep_IsRejected(double noise)
+    {
+        var basis = new BSplineSurface3D(1, 1,
+            new[]
+            {
+                new[] { new Point3D(0,0,0), new Point3D(0,1,0) },
+                new[] { new Point3D(1,0,0), new Point3D(noise,1,0) }
+            }, new[] {2,2}, new[] {2,2},
+            new[] {0.0,1.0}, new[] {0.0,1.0});
+        var surface = new RationalBSplineSurface3D(basis,
+            new[] { new[] {1.0,2.0}, new[] {3.0,4.0} });
+        foreach (double u in new[] { 0.17, 0.37, 0.61, 0.83 })
+            Assert.False(RationalBSplineNormalQuery.TryEvaluate(surface, u, 1.0, out _));
+    }
 }
