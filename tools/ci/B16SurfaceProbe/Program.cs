@@ -33,6 +33,9 @@ int noEligibleSpan = 0;
 int invalidAtSample = 0;
 int oracleCompared = 0;
 int oracleUnavailable = 0;
+int boundarySamples = 0;
+int boundaryAccepted = 0;
+int boundaryRejected = 0;
 double worstOracleErrorDegrees = 0;
 foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
 {
@@ -98,12 +101,33 @@ foreach (var face in entities.OfType<StepAdvancedFaceEntity>())
         if (!eligible) noEligibleSpan++;
         else invalidAtSample++;
     }
+    // Audit all four untrimmed parametric boundary lines at interior spans.
+    // A rejected boundary normal is not, by itself, proof of a CAD pole.
+    var boundary = new List<object>();
+    if (eligible)
+    {
+        foreach (var candidate in new (string Name, double U, double V)[]
+        {
+            ("U-Min", u0, vSample!.Value),
+            ("U-Max", u1, vSample!.Value),
+            ("V-Min", uSample!.Value, v0),
+            ("V-Max", uSample!.Value, v1)
+        })
+        {
+            bool accepted = RationalBSplineNormalQuery.TryEvaluate(
+                surface, candidate.U, candidate.V, out _);
+            boundarySamples++;
+            if (accepted) boundaryAccepted++; else boundaryRejected++;
+            boundary.Add(new { candidate.Name, candidate.U, candidate.V,
+                NormalAccepted = accepted });
+        }
+    }
     mapped.Add(source.SourceEntityId!);
     evidence.Add(new { Surface = source.SourceEntityId, Face = face.SourceEntityId,
         surface.Basis.UDegree, surface.Basis.VDegree,
         Rows = surface.Weights.Count, Columns = surface.Weights[0].Count,
         U = uSample, V = vSample, NormalValid = normalValid,
-        RejectionReason = normalValid ? null : eligible ? "NormalUndefinedAtInteriorSample" : "NoPositiveInteriorKnotSpan" });
+        RejectionReason = normalValid ? null : eligible ? "NormalUndefinedAtInteriorSample" : "NoPositiveInteriorKnotSpan", Boundary = boundary });
 }
 if (mapped.Count != 276 || context.Diagnostics.Count != 0)
     throw new InvalidOperationException("Not all rational surfaces mapped cleanly through advanced-face dispatch.");
@@ -118,11 +142,15 @@ File.WriteAllText(args[1], JsonSerializer.Serialize(new { SourceSHA256 = hash, M
     NoEligibleSpan = noEligibleSpan, InvalidAtSample = invalidAtSample,
     OracleCompared = oracleCompared, OracleUnavailable = oracleUnavailable,
     WorstOracleErrorDegrees = worstOracleErrorDegrees,
+    BoundarySamples = boundarySamples, BoundaryAccepted = boundaryAccepted,
+    BoundaryRejected = boundaryRejected, BoundaryIsIndependentPoleProof = false,
     Surfaces = evidence },
     new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine($"PASS - {mapped.Count}/276 real rational surfaces mapped; " +
     $"E5 regular unit normals: {normalSuccess}, controlled rejections: {normalRejected}; " +
-    $"independent oracle: {oracleCompared} comparisons, worst {worstOracleErrorDegrees:F6} deg.");
+    $"independent oracle: {oracleCompared} comparisons, worst {worstOracleErrorDegrees:F6} deg; " +
+    $"boundary audit: {boundaryAccepted} accepted, {boundaryRejected} rejected " +
+    $"(not independent pole proof).");
 
 static double? InteriorSpanSample(IReadOnlyList<double> knots)
 {
