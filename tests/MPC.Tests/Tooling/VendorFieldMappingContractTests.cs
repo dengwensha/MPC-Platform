@@ -4,7 +4,7 @@ namespace MPC.Tests.Tooling;
 // No runtime importer, no claim that mounting-style codes are established.
 public sealed class VendorFieldMappingContractTests
 {
-    private enum MappingStatus { AcceptedForReview, NeedsMapping, Rejected }
+    public enum MappingStatus { AcceptedForReview, NeedsMapping, Rejected }
     private sealed record VendorField(string ProductId, string Name, string? RawValue,
         string? RawUnit, string? SourceRevision);
 
