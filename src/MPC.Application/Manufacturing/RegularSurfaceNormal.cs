@@ -68,7 +68,10 @@ internal static class RegularSurfaceNormal
             }
         double scale = Math.Max(maxX - minX, Math.Max(maxY - minY, maxZ - minZ));
         if (!(scale > 0) || !double.IsFinite(scale)) return true;
-        const double relativePoleTolerance = 1e-10;
+        // Senior GE03B-01: reject near-collapsed control-net boundaries across
+        // the reviewed relative perturbation sweep (up to 1e-6).
+        // This remains a conservative rejection policy, not an accuracy oracle.
+        const double relativePoleTolerance = 1e-6;
         bool NearSame(Point3D a, Point3D b) =>
             Math.Max(Math.Abs(a.X - b.X),
                 Math.Max(Math.Abs(a.Y - b.Y), Math.Abs(a.Z - b.Z))) <=
