@@ -14,11 +14,18 @@ public sealed class IndependentMaterialOracleManifestIntakeTests
 
     private const string R01 = "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD";
     private const string R02 = "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F";
-    private const string Reference = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    private const string Reference = "D7E3C91A2B4F6085D1C7E9A3206B4F8D5C1E7A3902B6D4F8C5E1A7B3902D6F4C";
 
     private static bool IsHash(string? hash) => hash is { Length: 64 } &&
         hash.All(Uri.IsHexDigit);
     private static bool Finite(params double[] numbers) => numbers.All(double.IsFinite);
+    private static bool LooksPlaceholder(string? text) =>
+        string.IsNullOrWhiteSpace(text) ||
+        new[] { "placeholder", "dummy", "example", "synthetic", "to be determined", "tbd" }
+            .Any(word => text.Contains(word, StringComparison.OrdinalIgnoreCase));
+    private static bool RepeatedHex(string hash) => hash.All(c => c == hash[0]);
+    // Provenance is never verified by this string check: independent source
+    // acquisition and reference-byte hash verification require another gate.
 
     private static bool StructurallyEligible(Manifest? manifest, IReadOnlySet<string> sourceFaceIds, string expectedStepSha256 = R01)
     {
@@ -26,8 +33,9 @@ public sealed class IndependentMaterialOracleManifestIntakeTests
             !IsHash(manifest.StepSha256) || !IsHash(manifest.ReferenceSha256) ||
             !manifest.StepSha256.Equals(expectedStepSha256, StringComparison.OrdinalIgnoreCase) ||
             manifest.StepSha256.Equals(manifest.ReferenceSha256, StringComparison.OrdinalIgnoreCase) ||
-            string.IsNullOrWhiteSpace(manifest.Provenance) ||
-            string.IsNullOrWhiteSpace(manifest.ReferenceMethod) ||
+            RepeatedHex(manifest.ReferenceSha256) ||
+            LooksPlaceholder(manifest.Provenance) ||
+            LooksPlaceholder(manifest.ReferenceMethod) ||
             manifest.Units != "mm" || manifest.Samples is null ||
             manifest.Samples.Count == 0) return false;
         var seen = new HashSet<string>(StringComparer.Ordinal);
@@ -49,7 +57,7 @@ public sealed class IndependentMaterialOracleManifestIntakeTests
     private static readonly IReadOnlySet<string> KnownIds =
         new HashSet<string>(StringComparer.Ordinal) { "#8", "#30" };
     private static Manifest Candidate() => new(R01, Reference,
-        "Independently reviewed CAD fixture, placeholder only",
+        "Externally supplied test-manifest metadata, NOT independently attested",
         "External occupancy probe", "mm",
         [new Sample("#8", 0,0,10, 0,0,1, 0.1,1,"Void","Material")]);
 
@@ -60,6 +68,14 @@ public sealed class IndependentMaterialOracleManifestIntakeTests
         Assert.False(StructurallyEligible(Candidate() with {ReferenceSha256 = ""},KnownIds));
         Assert.False(StructurallyEligible(Candidate() with {Provenance = ""},KnownIds));
         Assert.False(StructurallyEligible(Candidate(),new HashSet<string>()));
+        Assert.False(StructurallyEligible(Candidate() with {
+            ReferenceSha256 = new string('A', 64) },KnownIds));
+        Assert.False(StructurallyEligible(Candidate() with {
+            Provenance = "placeholder only" },KnownIds));
+        Assert.False(StructurallyEligible(Candidate() with {
+            ReferenceMethod = "dummy fixture" },KnownIds));
+        Assert.False(StructurallyEligible(Candidate() with {
+            ReferenceSha256 = "NOT_A_HASH" },KnownIds));
     }
 
     [Fact]
@@ -82,7 +98,7 @@ public sealed class IndependentMaterialOracleManifestIntakeTests
     }
 
     [Fact]
-    public void SyntheticRecordCanPassStructureButCertifiesNoRealFaces()
+    public void PlausibleMetadataCanPassStructureButCertifiesNoRealFaces()
     {
         var c=Candidate();
         Assert.True(StructurallyEligible(c,KnownIds));
