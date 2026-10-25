@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\MPC.Application\MPC.Application.csproj" />
     <ProjectReference Include="..\..\src\MPC.Geometry\MPC.Geometry.csproj" />
     <ProjectReference Include="..\..\src\MPC.Topology\MPC.Topology.csproj" />
     <ProjectReference Include="..\..\src\MPC.Tooling\MPC.Tooling.csproj" />
@@ -29,6 +30,10 @@
     <ProjectReference Include="..\..\src\MPC.Connectors.Step\MPC.Connectors.Step.csproj" />
     <ProjectReference Include="..\..\src\MPC.Mapping\MPC.Mapping.csproj" />
     <ProjectReference Include="..\..\src\MPC.Mapping.Step\MPC.Mapping.Step.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="TestData/Step/GE03B01-QuarterConePole.step" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
