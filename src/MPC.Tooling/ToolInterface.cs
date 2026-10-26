@@ -14,7 +14,8 @@ public sealed record ToolInterface
 
     public double ClearanceAngleDegrees { get; }
 
-    public int MountingStyleCode { get; }
+    // null means unmapped. An integer is an interface token, not vendor certification.
+    public int? MountingStyleCode { get; }
 
     public ToolInterface(
         string insertShapeCode,
@@ -23,7 +24,7 @@ public sealed record ToolInterface
         double thicknessMillimeters,
         double includedAngleDegrees,
         double clearanceAngleDegrees,
-        int mountingStyleCode)
+        int? mountingStyleCode)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(insertShapeCode);
         ArgumentException.ThrowIfNullOrWhiteSpace(seatSizeCode);

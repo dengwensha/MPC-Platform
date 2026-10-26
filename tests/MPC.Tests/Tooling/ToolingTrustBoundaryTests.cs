@@ -8,8 +8,7 @@ namespace MPC.Tests.Tooling;
 public sealed class ToolingTrustBoundaryTests
 {
     private static ToolInterface Interface(int? mount = 2) =>
-        (ToolInterface)Activator.CreateInstance(typeof(ToolInterface),
-            new object?[] { "C", "19", 19.05, 6.35, 80d, 0d, mount })!;
+        new("C", "19", 19.05, 6.35, 80, 0, mount);
 
     private static ToolHolder Holder(ToolHand hand, ToolInterface? face = null) =>
         new(new ToolProductIdentity("Synthetic", "holder", "H"), face ?? Interface(), "family", hand);
@@ -55,9 +54,7 @@ public sealed class ToolingTrustBoundaryTests
     {
         var result = new InsertHolderCompatibilityEvaluator().Evaluate(
             Holder(ToolHand.Right), Insert(ToolHand.Right));
-        var scope = result.GetType().GetProperty("Scope");
-        Assert.NotNull(scope);
-        Assert.Equal("InterfaceOnly", scope.GetValue(result)?.ToString());
+        Assert.Equal(CompatibilityScope.InterfaceOnly, result.Scope);
     }
 
     [Theory]
@@ -71,12 +68,8 @@ public sealed class ToolingTrustBoundaryTests
     {
         var identity = new ToolProductIdentity("Synthetic", "id", "code", raw);
         Assert.Equal(raw, identity.Ean);
-        var status = identity.GetType().GetProperty("GtinStatus");
-        var value = identity.GetType().GetProperty("FormatValidatedGtin");
-        Assert.NotNull(status);
-        Assert.NotNull(value);
-        Assert.Equal("NeedsReview", status.GetValue(identity)?.ToString());
-        Assert.Null(value.GetValue(identity));
+        Assert.Equal(GtinValidationStatus.NeedsReview, identity.GtinStatus);
+        Assert.Null(identity.FormatValidatedGtin);
     }
 
     [Theory]
@@ -89,21 +82,16 @@ public sealed class ToolingTrustBoundaryTests
     {
         var identity = new ToolProductIdentity("Synthetic", "id", "code", raw);
         Assert.Equal(raw, identity.Ean);
-        var status = identity.GetType().GetProperty("GtinStatus");
-        var value = identity.GetType().GetProperty("FormatValidatedGtin");
-        Assert.NotNull(status);
-        Assert.NotNull(value);
-        Assert.Equal("ValidFormat", status.GetValue(identity)?.ToString());
-        Assert.Equal(raw.Trim(), value.GetValue(identity));
+        Assert.Equal(GtinValidationStatus.ValidFormat, identity.GtinStatus);
+        Assert.Equal(raw.Trim(), identity.FormatValidatedGtin);
     }
 
     [Fact]
     public void AbsentGtin_IsNotValidated()
     {
         var identity = new ToolProductIdentity("Synthetic", "id", "code");
-        var status = identity.GetType().GetProperty("GtinStatus");
-        Assert.NotNull(status);
-        Assert.Equal("NotProvided", status.GetValue(identity)?.ToString());
+        Assert.Equal(GtinValidationStatus.NotProvided, identity.GtinStatus);
+        Assert.Null(identity.FormatValidatedGtin);
     }
 
     [Theory]
