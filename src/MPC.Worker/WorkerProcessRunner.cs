@@ -60,6 +60,13 @@ public sealed class WorkerProcessRunner
                     requestPath,
                     cancellationToken);
 
+            using var document = JsonDocument.Parse(requestJson);
+            if (IsRegionSourceRequest(document.RootElement))
+            {
+                return await RunRegionSourceAsync(document.RootElement,
+                    resultPath, error, cancellationToken);
+            }
+
             request =
                 JsonSerializer.Deserialize<WorkerOperationRequest>(
                     requestJson,
@@ -117,6 +124,39 @@ public sealed class WorkerProcessRunner
         };
     }
 
+    // Route by operation/version or region-specific fields; never downgrade an
+    // incomplete/misversioned region request into the legacy import operation.
+    private static bool IsRegionSourceRequest(JsonElement root)
+    {
+        if (root.ValueKind != JsonValueKind.Object) return false;
+        return (root.TryGetProperty("ContractVersion", out var version) &&
+                version.ValueKind == JsonValueKind.String &&
+                version.GetString() == ContractVersion.RegionSourceValidation) ||
+            (root.TryGetProperty("Operation", out var operation) &&
+                operation.ValueKind == JsonValueKind.Number &&
+                operation.TryGetInt32(out int value) &&
+                value == (int)WorkerOperationKind.ValidateRegionSource) ||
+            root.TryGetProperty("SourceFaceId", out _) ||
+            root.TryGetProperty("ExpectedDocumentSha256", out _) ||
+            root.TryGetProperty("Requirement", out _);
+    }
+
+    private static async Task<int> RunRegionSourceAsync(
+        JsonElement root, string resultPath, TextWriter error,
+        CancellationToken cancellationToken)
+    {
+        var request = root.Deserialize<RegionSourceValidationRequest>(JsonOptions);
+        var result = new RegionSourceValidationProcessor().Process(request);
+        if (!await TryWriteResultAsync(resultPath, result, error, cancellationToken))
+            return WorkerExitCodes.ResultWriteFailed;
+        return result.Outcome switch
+        {
+            RegionSourceValidationOutcome.SourceLinkMatched => WorkerExitCodes.Succeeded,
+            RegionSourceValidationOutcome.ImportFailed => WorkerExitCodes.OperationFailed,
+            _ => WorkerExitCodes.RequestRejected
+        };
+    }
+
     private static WorkerOperationResult CreateRequestReadFailure(
         Exception exception)
     {
@@ -135,9 +175,9 @@ public sealed class WorkerProcessRunner
             });
     }
 
-    private static async Task<bool> TryWriteResultAsync(
+    private static async Task<bool> TryWriteResultAsync<T>(
         string resultPath,
-        WorkerOperationResult result,
+        T result,
         TextWriter error,
         CancellationToken cancellationToken)
     {

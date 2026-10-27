@@ -156,6 +156,7 @@ public sealed class RegionSourceValidationContractTests
     [InlineData(5)]
     [InlineData(6)]
     [InlineData(7)]
+    [InlineData(8)]
     public void DefinedResult_RoundTripsAndCorrelates(int outcome)
     {
         var result = new RegionSourceValidationResult("1.1", Id,
