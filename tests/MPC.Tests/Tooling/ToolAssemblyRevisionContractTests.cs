@@ -82,4 +82,56 @@ public sealed class ToolAssemblyRevisionContractTests
         Assert.True(Eligible(explicitlyRevised,newCatalog));
         Assert.Equal("insert-r1",historical.Components[1].ProductRevisionId);
     }
+
+    // TOOL-01C-06: specification-only; source hashes and Reviewed are fixture tokens.
+    [Fact]
+    public void RetainedOldAndNewRevisions_ResolveBothAssemblyVersions()
+    {
+        var oldInsert = Insert();
+        var newInsert = oldInsert with { RevisionId = "insert-r2", SourceHash = "source-b-v2" };
+        ProductRevision[] catalog = [Holder(), oldInsert, newInsert];
+        var historical = Sample();
+        var revised = new Assembly(historical.AssemblyId, 2,
+            [new("Holder", "holder-r1"), new("Insert", "insert-r2")]);
+
+        Assert.True(Eligible(historical, catalog));
+        Assert.True(Eligible(revised, catalog));
+        var oldResolved = Assert.Single(catalog,
+            p => p.RevisionId == historical.Components[1].ProductRevisionId);
+        var newResolved = Assert.Single(catalog,
+            p => p.RevisionId == revised.Components[1].ProductRevisionId);
+        Assert.Same(oldInsert, oldResolved);
+        Assert.Same(newInsert, newResolved);
+        Assert.Equal(oldResolved.ProductId, newResolved.ProductId);
+        Assert.Equal("source-b", oldResolved.SourceHash);
+        Assert.Equal("source-b-v2", newResolved.SourceHash);
+        Assert.Equal(1, historical.Revision);
+        Assert.Equal(2, revised.Revision);
+    }
+
+    [Fact]
+    public void CatalogOrder_DoesNotSelectLatestRevisionForHistoricalReference()
+    {
+        var historical = Sample();
+        var oldInsert = Insert();
+        var newer = oldInsert with { RevisionId = "insert-r2", SourceHash = "source-b-v2" };
+        ProductRevision[] catalog = [newer, Holder(), oldInsert];
+        Assert.True(Eligible(historical, catalog));
+        var resolved = Assert.Single(catalog,
+            p => p.RevisionId == historical.Components[1].ProductRevisionId);
+        Assert.Same(oldInsert, resolved);
+        Assert.Equal("source-b", resolved.SourceHash);
+        Assert.Equal("insert-r1", historical.Components[1].ProductRevisionId);
+    }
+
+    [Fact]
+    public void ConflictingHistoricalRevision_IsRejectedRatherThanLastWriteWins()
+    {
+        var original = Insert();
+        var conflicting = original with { SourceHash = "conflicting-source" };
+        ProductRevision[] catalog = [Holder(), original, conflicting];
+        Assert.False(Eligible(Sample(), catalog));
+        Assert.False(Eligible(Sample(), catalog.Reverse().ToArray()));
+        Assert.Equal("source-b", original.SourceHash);
+    }
 }
