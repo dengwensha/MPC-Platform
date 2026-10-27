@@ -68,7 +68,7 @@ These rows define expected behavior for later verification. They are not execute
 
 | Scenario | Input / control | Required outcome | Evidence gap |
 | --- | --- | --- | --- |
-| Face list reordered | Same exact source bytes and source face ID; different enumeration | Same source linkage; no list-index identity | Verify whether CanonicalFaceId GUID generation is repeatable for identical bytes; until proven, use only (DocumentFingerprint, SourceFaceId) as the source identity pair. CanonicalFaceId is a run-local reference, not a proven stable key. Do not infer continuity across a new STEP export |
+| Face list reordered | Same exact source bytes and source face ID; different enumeration | Same source linkage; no list-index identity | ManufacturingRegionContractTests.ContentChange_ChangesFingerprint_AndSessionFaceIdIsTransient explicitly asserts different CanonicalFaceId values on repeat imports of identical bytes. Use (DocumentFingerprint, SourceFaceId) as the source identity pair; CanonicalFaceId is session-local. List-order invariance itself is not independently tested here. No continuity across a new STEP export is inferred |
 | Material side unverified | Operation requires inside/outside or concavity; evidence unverified | Block dependent choice with explicit reason | CAD physical evidence and future composition gate |
 | Catalog revision refreshed | Old selection pins revision r1; r2 introduced | Old selection still resolves unchanged r1; new choice is explicit | PR #87 now supplies positive test-local coexistence proof; production history remains unimplemented |
 | Unsupported units | Required dimension has unknown unit | No guessed conversion or dependent match | Production validation path not proven by test-local rules |
@@ -105,8 +105,33 @@ Accepted below records the prior planning instructions supplied in this conversa
 | Detailed tolerance and rounding policy | Deferred | Separate tolerance micro-sprint; no new policy adopted here |
 | Assembly revision: catalog candidate versus assembly-dependent evaluation | Open proposal | TOOL-01C-03; explicit disposition required |
 | Unknown units block dependent evaluation | Proposed, not accepted | TOOL-01C-05; unit policy and production validation |
-| Bridge inside Application versus separate composition project | Open | Dedicated actual dependency/DTO discovery; neither reference change authorized |
+| First bounded bridge inside Application | Accepted planning direction in the continuation instruction | Dependency discovery below supports this location; separate project deferred. No reference or runtime implementation added |
 | EAN/GTIN validity and master-insert text policy | Open in this discovery record | TOOL-01C-04; explicit policy disposition remains required; do not infer acceptance from TL-10 linkage |
+
+## Actual dependency discovery and minimum gate (2026-10-27)
+
+Inspected at main `53e87d33dbd4fdcbeacee45d886d7994266352e9`:
+- `src/MPC.Application/MPC.Application.csproj`: net8.0; references Connectors, STEP, Geometry, Mapping and Topology, but not Tooling.
+- `src/MPC.Tooling/MPC.Tooling.csproj`: net8.0 with no project references.
+- Worker references Application and Contracts; net48 SOLIDWORKS Host references Contracts, not Application or Tooling.
+- `ManufacturingRegionImportService` reads STEP bytes once and hashes the snapshot used for mapping. `ManufacturingRegion` exposes source hash/face ID and planar geometry, without a complete evidence/unit/transform contract.
+- `tests/MPC.Application.Tests/Manufacturing/ManufacturingRegionContractTests.cs`, test `ContentChange_ChangesFingerprint_AndSessionFaceIdIsTransient`, asserts equal fingerprints and unequal canonical GUIDs for repeated imports. This is an existing executable test assertion, covered by the successful main full suite; no new dedicated test was run during discovery.
+
+Planning choice: place the first bounded eligibility composition inside Application; defer a separate bridge project. Preserve Tooling's CAD/COM independence and the Host/Contracts process boundary. This is a location decision, not approval to implement a complete catalog or spatial contract.
+
+The first proposed outcome means evidence sufficiency for a named evaluation only. It never means tool selection, interface compatibility, physical fit, machining safety or NC authorization. No new API names or DTO are established by this document.
+
+| Required evidence | Minimum rule | Evidence owner / remaining gap |
+| --- | --- | --- |
+| Exact STEP and face linkage | Require the document fingerprint and resolvable source face together; reject a mismatched source | CAD import/Application; do not use canonical GUID as persistent identity |
+| Units | Dimensional evaluation requires explicit supported units and conversion lineage where applicable | Source intake; no production catalog unit boundary yet |
+| Transform | Require verified transform lineage only when the evaluation compares spatial frames; irrelevant checks are explicitly not applicable | CAD/Application; missing representation is not an identity transform |
+| Geometry verification | Each requested claim requires evidence with matching face and spatial scope; Unknown blocks dependent evaluation | CAD verification; point evidence does not qualify a whole face |
+| Catalog lineage | Require uniquely identified product revision, source linkage and reviewed mappings relevant to the requested evaluation | Catalog intake; snapshot digest alone does not supply this lineage |
+| Assembly revision | Required only for assembly-dependent evaluation; candidate listing does not imply an assembly | Proposal still pending TOOL-01C policy disposition |
+| Result scope | Preserve InterfaceOnly; return reasons for missing evidence, without issuing physical approval | Future Application composition; trusted evidence producers must be defined |
+
+Before production implementation, define the smallest trusted evidence input and validation path, its owner, and the permitted named evaluation. Do not replace absent producers with caller-supplied “verified=true” flags or synthetic revision strings. Positive tests must use the actual production evidence path; test-local approvals cannot establish a production GO. Unknown, missing, conflicting and not-applicable states must remain distinct.
 
 ## Independent discovery review response (2026-10-26)
 
@@ -115,7 +140,7 @@ Review revision: MPC_TOOL-01D-00_Discovery_Inceleme_Raporu.docx, dated 2026-10-2
 | Condition | Draft response | Closure state |
 | --- | --- | --- |
 | K1 / D1 | Accepted/Open decision table added, including alternative bridge location | Closed at document-text level by independent review section 7 |
-| K2 / D2 | CanonicalFaceId determinism gap and source-identity pair added to scenario 1 | Closed at document-text level by review section 7; no determinism test executed |
+| K2 / D2 | CanonicalFaceId determinism gap and source-identity pair added to scenario 1 | Historical text accepted by review section 7; later source inspection found an existing repeat-import test proving session-local IDs (see dependency discovery below) |
 | K3 / D3 | TL-10 added to disposition table | Closed at document-text level by review section 7; no production fix claimed |
 | K4 / D4 | Original SR01 DOCX version and byte hash pinned; trace clarified below | Source trace accepted by review section 7; final commit and full CI remain pending |
 
