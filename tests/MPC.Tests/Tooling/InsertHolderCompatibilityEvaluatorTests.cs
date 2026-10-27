@@ -8,10 +8,10 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
     private readonly InsertHolderCompatibilityEvaluator _evaluator = new();
 
     [Fact]
-    public void Evaluate_SandvikReferencePair_ReturnsCompatible()
+    public void Evaluate_SyntheticReferencePair_ReturnsCompatible()
     {
-        ToolHolder holder = CreateSandvikHolder();
-        CuttingInsert insert = CreateSandvikInsert();
+        ToolHolder holder = CreateSyntheticHolder();
+        CuttingInsert insert = CreateSyntheticInsert();
 
         CompatibilityResult result = _evaluator.Evaluate(holder, insert);
 
@@ -22,8 +22,8 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
     [Fact]
     public void Evaluate_DifferentInsertShape_ReturnsDeterministicMismatch()
     {
-        ToolHolder holder = CreateSandvikHolder();
-        CuttingInsert insert = CreateSandvikInsert(
+        ToolHolder holder = CreateSyntheticHolder();
+        CuttingInsert insert = CreateSyntheticInsert(
             new ToolInterface("D", "19", 19.05, 6.35, 80, 0, 2));
 
         CompatibilityResult result = _evaluator.Evaluate(holder, insert);
@@ -35,8 +35,8 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
     [Fact]
     public void Evaluate_DifferentThickness_ReturnsDeterministicMismatch()
     {
-        ToolHolder holder = CreateSandvikHolder();
-        CuttingInsert insert = CreateSandvikInsert(
+        ToolHolder holder = CreateSyntheticHolder();
+        CuttingInsert insert = CreateSyntheticInsert(
             new ToolInterface("C", "19", 19.05, 7.35, 80, 0, 2));
 
         CompatibilityResult result = _evaluator.Evaluate(holder, insert);
@@ -67,9 +67,9 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
         double includedAngle, double clearanceAngle, int mount,
         CompatibilityCode expected)
     {
-        var insert = CreateSandvikInsert(new ToolInterface(shape,seat,diameter,
+        var insert = CreateSyntheticInsert(new ToolInterface(shape,seat,diameter,
             thickness,includedAngle,clearanceAngle,mount));
-        var result = _evaluator.Evaluate(CreateSandvikHolder(),insert);
+        var result = _evaluator.Evaluate(CreateSyntheticHolder(),insert);
         Assert.False(result.IsCompatible);
         Assert.Equal(expected,result.Code);
     }
@@ -77,8 +77,8 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
     [Fact]
     public void Evaluate_OpposingHands_RejectsButNeutralInsertIsPermitted()
     {
-        var rightHolder = CreateSandvikHolder();
-        var neutralInsert = CreateSandvikInsert();
+        var rightHolder = CreateSyntheticHolder();
+        var neutralInsert = CreateSyntheticInsert();
         Assert.True(_evaluator.Evaluate(rightHolder,neutralInsert).IsCompatible);
         var leftInsert = new CuttingInsert(neutralInsert.Identity,
             neutralInsert.Interface,neutralInsert.Grade,
@@ -90,16 +90,16 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
     [Fact]
     public void Evaluate_LinearTolerance_HasStrictBoundary()
     {
-        var within = CreateSandvikInsert(new ToolInterface("C","19",19.0505,
+        var within = CreateSyntheticInsert(new ToolInterface("C","19",19.0505,
             6.35,80,0,2));
-        var beyond = CreateSandvikInsert(new ToolInterface("C","19",19.052,
+        var beyond = CreateSyntheticInsert(new ToolInterface("C","19",19.052,
             6.35,80,0,2));
-        Assert.True(_evaluator.Evaluate(CreateSandvikHolder(),within).IsCompatible);
+        Assert.True(_evaluator.Evaluate(CreateSyntheticHolder(),within).IsCompatible);
         Assert.Equal(CompatibilityCode.InscribedCircleDiameterMismatch,
-            _evaluator.Evaluate(CreateSandvikHolder(),beyond).Code);
+            _evaluator.Evaluate(CreateSyntheticHolder(),beyond).Code);
     }
 
-    private static ToolHolder CreateSandvikHolder() =>
+    private static ToolHolder CreateSyntheticHolder() =>
         new(
             new ToolProductIdentity(
                 "Sandvik Coromant",
@@ -110,7 +110,7 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
             "CNMG 19 06 12",
             ToolHand.Right);
 
-    private static CuttingInsert CreateSandvikInsert(ToolInterface? @interface = null) =>
+    private static CuttingInsert CreateSyntheticInsert(ToolInterface? @interface = null) =>
         new(
             new ToolProductIdentity(
                 "Sandvik Coromant",

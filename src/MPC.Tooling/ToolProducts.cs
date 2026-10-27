@@ -2,9 +2,12 @@ namespace MPC.Tooling;
 
 public enum ToolHand
 {
-    Neutral = 0,
+    // TOOL-01C-04: keep Left/Right numeric values; default must be unknown.
+    // No serialized consumers at the reviewed baseline. Neutral behavior is unchanged.
+    Unknown = 0,
     Left = 1,
-    Right = 2
+    Right = 2,
+    Neutral = 3
 }
 
 public sealed record CuttingGrade
