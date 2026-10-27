@@ -142,4 +142,3 @@ Reviewed PR head: 717449ec7b16e59c1802ef00c168ff805f9c5f71.
 This deliverable: replacement documentation proposed on PR #84, including 2026-10-27 reconciliation.
 Closing commit: pending final documentation commit and CI. Discovery acceptance does not close production findings.
 Target PR branch: docs/TOOL-01D-00-interface-discovery. The PR delivery record must identify the actual final commit and its full CI; baseline CI does not validate this revised text.
-
