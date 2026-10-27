@@ -51,9 +51,9 @@ public static class WorkerOperationRequestValidator
                     "Request identifier must be a valid GUID."));
         }
 
-        if (!Enum.IsDefined(
-                typeof(WorkerOperationKind),
-                request.Operation))
+        // This validator protects the existing import-only Worker dispatch.
+        // New operations require their dedicated validator and explicit routing.
+        if (request.Operation != WorkerOperationKind.AnalyzeModel)
         {
             diagnostics.Add(
                 Error(
