@@ -27,9 +27,9 @@ internal sealed class SolidWorksRegionSourceInteraction : IRegionSourceValidatio
     public string? ChooseSourceFace(string filePath, string fingerprint)
     {
         string value = Interaction.InputBox(
-            "Dosya: " + Path.GetFileName(filePath) + Environment.NewLine +
-            "STEP yüz kimliğini girin (örnek: #8)." + Environment.NewLine +
-            "SOLIDWORKS'te seçili yüz kullanılmaz." + Environment.NewLine +
+            "Dosya: " + Path.GetFileName(filePath) + System.Environment.NewLine +
+            "STEP yüz kimliğini girin (örnek: #8)." + System.Environment.NewLine +
+            "SOLIDWORKS'te seçili yüz kullanılmaz." + System.Environment.NewLine +
             "SHA-256: " + fingerprint,
             "MPC kaynak yüz kontrolü", string.Empty);
         return string.IsNullOrEmpty(value) ? null : value;

@@ -31,7 +31,7 @@ internal sealed class RegionSourceValidationWorkflow
         try
         {
             string? path = _interaction.ChooseStepFile();
-            if (string.IsNullOrWhiteSpace(path)) return;
+            if (path is null || string.IsNullOrWhiteSpace(path)) return;
             string fingerprint;
             using (var stream = File.OpenRead(path))
             using (var sha = SHA256.Create())
