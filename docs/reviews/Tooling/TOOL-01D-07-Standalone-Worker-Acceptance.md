@@ -29,3 +29,11 @@ This is additional process acceptance, not a substitute for full regression.
 The SOLIDWORKS menu/callback acceptance in TOOL-01D-06 remains PENDING.
 No live workstation execution, merge, deployment or physical qualification is
 claimed by this document.
+
+## Outcome interpretation
+
+The absent-face case demonstrates one cause of MissingRegion, not its only
+cause. MissingRegion aggregates failed region construction and does not prove
+that hash comparison was reached. FaceMismatch is defined but not emitted by
+the current v1.1 Worker input. See [SR02 M2/M3 outcome limits](SR02-M2-M3-V11-Outcome-Limits.md)
+for verified producer boundaries, precedence and pending review/diagnostic disposition.
