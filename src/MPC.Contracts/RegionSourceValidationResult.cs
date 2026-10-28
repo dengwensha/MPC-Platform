@@ -10,7 +10,8 @@ public enum RegionSourceValidationOutcome
     DocumentMismatch = 4,
     FaceMismatch = 5,
     MaterialSideUnverified = 6,
-    ImportFailed = 7
+    ImportFailed = 7,
+    RequestRejected = 8
 }
 
 // Validate after deserialization before consuming any outcome.
