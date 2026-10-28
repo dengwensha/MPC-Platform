@@ -145,8 +145,25 @@ public sealed class WorkerProcessRunner
         JsonElement root, string resultPath, TextWriter error,
         CancellationToken cancellationToken)
     {
-        var request = root.Deserialize<RegionSourceValidationRequest>(JsonOptions);
-        var result = new RegionSourceValidationProcessor().Process(request);
+        RegionSourceValidationRequest? request = null;
+        RegionSourceValidationResult? rejection = null;
+        try
+        {
+            request = root.Deserialize<RegionSourceValidationRequest>(JsonOptions);
+        }
+        catch (Exception exception) when (exception is JsonException or NotSupportedException)
+        {
+            // Routing already established the region boundary. Never downgrade
+            // a typed-field failure to the legacy envelope or invent correlation.
+            string? requestId = root.TryGetProperty("RequestId", out var id) &&
+                id.ValueKind == JsonValueKind.String ? id.GetString() : null;
+            rejection = new RegionSourceValidationResult(
+                ContractVersion.RegionSourceValidation, requestId,
+                WorkerOperationKind.ValidateRegionSource,
+                RegionSourceValidationOutcome.RequestRejected);
+        }
+
+        var result = rejection ?? new RegionSourceValidationProcessor().Process(request);
         if (!await TryWriteResultAsync(resultPath, result, error, cancellationToken))
             return WorkerExitCodes.ResultWriteFailed;
         return result.Outcome switch
