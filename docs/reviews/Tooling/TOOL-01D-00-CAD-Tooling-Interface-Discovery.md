@@ -4,7 +4,24 @@ Status: VERIFY-FIRST / DOCUMENTATION ONLY — review draft, not implementation a
 Prepared: 2026-10-26; reconciled: 2026-10-27 (Europe/Istanbul).
 Reviewed PR baseline: #84, head 717449ec7b16e59c1802ef00c168ff805f9c5f71.
 Base: f0281cc241b76019b2846677f98fdcc932e768d8.
-No production code, DTO, database, merge or deployment is authorized by this document.
+No production code, DTO, database, merge or deployment is authorized by this document alone. The later bounded source-link work and remaining restrictions are reconciled in [the 01D-01..07 scope record](TOOL-01D-01-07-Scope-and-SR02-Disposition.md); that record does not backdate missing approval evidence.
+
+## Current reconciliation after SR02 (2026-10-28)
+
+Baseline main: `3ba5f9c034305e3427b3aaa54aab836f57f34a6e`.
+PRs #89..#93 and #95 delivered a bounded source-link gate/import/Contracts/Worker/Host
+path and standalone acceptance. This is not a Tooling composition bridge.
+PR #94 is OPEN and NOT MERGED; its menu UI and physical acceptance are separate.
+See [scope and SR02 disposition](TOOL-01D-01-07-Scope-and-SR02-Disposition.md)
+for exact PR evidence, user-instruction provenance limits, CI and open findings.
+See [TOOL-01C-03 policy record](TOOL-01C-03-Policy-Decision-Record.md)
+for implemented P3/P6 behavior versus unratified proposals and historical trace gaps.
+The older sections below describe their dated baselines; they are not current
+claims that no DTO or source-link runtime path exists.
+The original broad NO-GO is narrowed only for that already delivered slice and
+the separate unmerged #94 scope; importer, persistence, Tooling integration,
+material/machine qualification and NC remain unopened.
+[Written risk triggers](../Risk-Based-Senior-Review.md) govern future PR review.
 
 ## Reconciliation after TOOL-01C-04..07 (2026-10-27)
 
@@ -82,9 +99,9 @@ Assignments are planned work boundaries, not verified closure or authorization t
 | Finding | Related work | Requirement at this boundary | Closure evidence |
 | --- | --- | --- | --- |
 | TL-01 / TL-02 | TOOL-01C-04 | Unknown hand/unmapped mounting cannot approve match | Negative tests against actual production types |
-| TL-03 / TL-07 | TOOL-01C-05 | Accepted envelope must actually construct validated domain objects | Production-path mapping tests; specification/production results separated |
+| TL-03 / TL-07 | TOOL-01C-05 | Accepted envelope must actually construct validated domain objects | OPEN at production level; #86 domain construction with controlled data is not a production source-intake mapper |
 | TL-04 | TOOL-01C-03 policy; TOOL-01C-05 validation | Explicit field-wise identity policy and conflict detection | Normalization decision and source/interface conflict tests |
-| TL-05 | TOOL-01C-06 | Historical assembly remains resolvable at its pinned revision | Positive old/new revision coexistence and immutable-reference tests |
+| TL-05 | TOOL-01C-06 | Historical assembly remains resolvable at its pinned revision | OPEN at production level; #87 supplies test-local coexistence only, not durable history |
 | TL-08 | TOOL-01C-04 | Result visibly scoped to interface matching | Delivered by PR #85; physical qualification remains separate |
 | TL-09 | TOOL-01C-04 minimum policy preparation; separate tolerance sprint | Preserve current behavior; do not redefine rounding here | Dedicated later tolerance/rounding verification |
 | TL-10 | TOOL-01C-04 | EAN/GTIN validity and master-insert text rules require explicit disposition; no inferred SKU resolution | Invalid identifier tests against production types and documented raw/normalized text rules |
@@ -103,10 +120,10 @@ Accepted below records the prior planning instructions supplied in this conversa
 | Interface match distinct from physical suitability | Accepted planning direction | TOOL-01C-04: InterfaceOnly delivered by #85; no physical suitability claim |
 | Preserve existing tolerance behavior; minimum policy preparation only | Accepted planning direction | TOOL-01C-04 |
 | Detailed tolerance and rounding policy | Deferred | Separate tolerance micro-sprint; no new policy adopted here |
-| Assembly revision: catalog candidate versus assembly-dependent evaluation | Open proposal | TOOL-01C-03; explicit disposition required |
-| Unknown units block dependent evaluation | Proposed, not accepted | TOOL-01C-05; unit policy and production validation |
-| First bounded bridge inside Application | Accepted planning direction in the continuation instruction | Dependency discovery below supports this location; separate project deferred. No reference or runtime implementation added |
-| EAN/GTIN validity and master-insert text policy | Open in this discovery record | TOOL-01C-04; explicit policy disposition remains required; do not infer acceptance from TL-10 linkage |
+| Assembly revision: catalog candidate versus assembly-dependent evaluation | Proposal; ratification not evidenced | [P1 record](TOOL-01C-03-Policy-Decision-Record.md); durable history OPEN |
+| Unknown units block dependent evaluation | Proposal; ratification not evidenced | [P2 record](TOOL-01C-03-Policy-Decision-Record.md); production intake/unit path OPEN |
+| First bounded composition inside Application | Reported location direction, limited to source linkage | [P7 and scope record](TOOL-01D-01-07-Scope-and-SR02-Disposition.md); source gate/import now implemented, no Tooling reference or complete bridge |
+| EAN/GTIN validity | P3 bounded behavior IMPLEMENTED by #85; historical explicit approval trace OPEN | [Policy record](TOOL-01C-03-Policy-Decision-Record.md); raw value plus format status, not product identity |\n| Master-insert text policy | P4 raw/versioned-normalization proposal remains OPEN | Current field is trimmed, raw-plus-normalized storage not implemented; no SKU resolution |\n| Unknown hand / unmapped mounting | P6 narrow correction IMPLEMENTED; historical explicit approval trace OPEN | Unknown/null block; Neutral semantics and numeric vendor mappings uncertified |
 
 ## Actual dependency discovery and minimum gate (2026-10-27)
 
@@ -155,12 +172,11 @@ Discovery acceptance requires:
 6. Final documentation diff stays within this one file. Changed final commit requires full CI; existing baseline CI is reusable only for unchanged baseline.
 7. Accepted decisions and unresolved decisions are separately recorded before declaring the discovery CLOSED.
 
-GO: documentation review and finding disposition only.
-NO-GO: production contracts/DTO, runtime bridge, persistence/importer, selection algorithm, UI, machine qualification, toolpath and NC output.
+Historical discovery GO: documentation review and finding disposition only.\nHistorical discovery NO-GO: production contracts/DTO, runtime bridge, persistence/importer, selection algorithm, UI, machine qualification, toolpath and NC output.\n\nCurrent disposition: this historical list is narrowed only for the bounded\n01D-01..05 source-link delivery and 01D-07 acceptance, with 01D-06 UI separately\nOPEN / NOT MERGED, as recorded in [the scope reconciliation](TOOL-01D-01-07-Scope-and-SR02-Disposition.md).\nThis is not authorization for new general integration scope, merge or deploy.\nHistorical decision evidence gaps remain explicit in the policy record.
 
 Implementation requires relevant TOOL-01C findings dispositioned and verified, required CAD evidence accepted at the scope of the requested operation, and dedicated actual dependency/DTO discovery. No provider or independent-review recommendation is automatically adopted here.
 
-## Review trace
+## Historical review trace
 
 Start/base: f0281cc241b76019b2846677f98fdcc932e768d8.
 Reviewed PR head: 717449ec7b16e59c1802ef00c168ff805f9c5f71.
