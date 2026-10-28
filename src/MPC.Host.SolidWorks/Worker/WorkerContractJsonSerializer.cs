@@ -26,6 +26,20 @@ internal sealed class WorkerContractJsonSerializer
             JsonOptions);
     }
 
+    internal string SerializeRegionSourceRequest(RegionSourceValidationRequest request)
+    {
+        if (request is null) throw new ArgumentNullException(nameof(request));
+        return JsonSerializer.Serialize(request, JsonOptions);
+    }
+
+    internal RegionSourceValidationResult DeserializeRegionSourceResult(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            throw new ArgumentException("Region source result JSON is required.", nameof(json));
+        return JsonSerializer.Deserialize<RegionSourceValidationResult>(json, JsonOptions)
+            ?? throw new InvalidDataException("Region source result was null.");
+    }
+
     internal WorkerOperationResult DeserializeResult(
         string json)
     {
