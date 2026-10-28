@@ -32,6 +32,8 @@ jobs:
         run: ./tools/ci/Invoke-MpcFullValidation.ps1 -Stage Prepare
       - name: Full Release build and regression including Host
         run: ./tools/ci/Invoke-MpcFullValidation.ps1 -Stage Regression
+      - name: Standalone source-face Worker acceptance without SOLIDWORKS
+        run: ./tools/acceptance/Invoke-RegionSourceAcceptance.ps1 -EvidenceDirectory (Join-Path $env:RUNNER_TEMP "mpc-full-validation/evidence/source-face-acceptance")
       - name: Targeted rational curve GREEN
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests
