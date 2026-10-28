@@ -8,7 +8,10 @@ validators, exit handling, UI or runtime classification.
 
 Independent Senior review is REQUIRED before merge because this is a wire
 meaning clarification, including trust-boundary and process-result interpretation.
-No independent sign-off or v1.1 freeze approval is claimed by this document.
+Senior review section 7 conditionally approved the original a48f0be8 diff, with
+one table correction and CI required. The reviewed commit and subsequent delta
+are recorded below; this is not an unconditional sign-off on a changed head
+or v1.1 freeze approval.
 
 ## M2 MissingRegion is not an absent-face diagnosis
 
@@ -61,16 +64,36 @@ this limitation before release; main has no menu entry for this operation.
 
 ### Diagnostic separation decision
 
-Proposal: retain the existing v1.1 enum values for this bounded correction and
+Retain the existing v1.1 enum values for this bounded correction and
 document the aggregate result; do NOT add SourceUnreadable based only on a
 boolean failure. A future diagnostic separation needs a production reason
 producer below TryCreate, explicit error precedence, backwards-compatibility/
-version assessment and tests for each emitted cause. That future work is not
-authorized here. Owner/Senior disposition of this proposal remains pending.
+version assessment and tests for each emitted cause. That future implementation
+is not authorized by this document.
 
-M2 remains OPEN for production diagnosis separation unless the owner explicitly
-accepts a bounded deferral. This explanatory document does not silently turn
-that deferral into approval or mark the production diagnostic gap CLOSED.
+### Bounded deferral register
+
+The user directed continuation after receiving the updated Senior conditions
+on 2026-10-28. The following records the bounded tracking decision for this
+correction work, not a backdated approval, release waiver or production closure.
+
+| Field | Recorded decision |
+| --- | --- |
+| Finding | SR-M2 detailed cause separation; linked SR-L4 unexpected parser exceptions |
+| Accountable owner | Repository owner Mehmet İlkay Kınacı; implementation assistant maintains the technical evidence/disposition in the working session |
+| Recorded date | 2026-10-28 Europe/Istanbul |
+| State | BOUNDED DEFERRAL for diagnostic separation; production gap remains OPEN |
+| Reason | Current aggregate failures do not grant approval; boolean TryCreate supplies no reliable detailed cause. Senior section 7 assesses this as diagnosis risk, not a present fail-open finding |
+| Reopen deadline | BEFORE catalog intake/importer work starts OR BEFORE an end-user release, whichever happens first |
+| Additional release condition | #94 UI must use neutral aggregate wording; no absent-face-only diagnosis. Independent #94 review and physical acceptance remain required |
+| Linked SR-L4 risk | Unexpected parser exceptions may escape and leave no result; Host remains fail-closed. Track exception/diagnostic design with M2; no broad catch or guaranteed ImportFailed claim |
+| Required follow-up evidence | Reviewed production cause producer, exception/precedence policy including SR-L4, compatibility assessment and meaningful per-cause tests; or a separately explicit owner-approved revised disposition before crossing a trigger |
+
+The deadline is a work/release gate, not a calendar reminder or an automation.
+At either trigger this record must be revisited before proceeding; it cannot
+be carried forward silently as an indefinite waiver.
+#94 wording is a pending dependency, not completed UI work in this documentation PR.
+No end-user release, catalog importer or material/machine approval is authorized.
 
 ## M3 FaceMismatch is defined but not currently emitted by the Worker
 
@@ -114,7 +137,7 @@ producer reachability. It is not a guarantee of every row being Worker-emitted.
 | 0 | Unknown | Invalid result; validator rejects it |
 | 1 | SourceLinkMatched | Exact source link only; exit 0; Host accepts only for SourceLinkOnly |
 | 2 | MissingRegion | Aggregate region construction failure; exit 2; not an absent-face-only diagnosis |
-| 3 | InvalidSourceIdentity | Application-gate reason; invalid wire identity is structurally rejected first |
+| 3 | InvalidSourceIdentity | Defined but not emitted by current v1.1 Worker; structural validation checks the same 64-hex digest rule and a stricter positive STEP face ID before import |
 | 4 | DocumentMismatch | Expected digest differs after successful region construction; exit 2 |
 | 5 | FaceMismatch | Defined but not emitted by current v1.1 Worker; Application can produce it |
 | 6 | MaterialSideUnverified | After import/source checks, material-dependent evaluation remains blocked; exit 2 |
@@ -147,7 +170,30 @@ proves a new full malformed-file/root/unsupported-surface diagnostic matrix.
 
 Baseline CI #188 is successful at the pinned main; the documentation PR must
 have its own full CI. No new tests mirror prose; no runtime change is made.
-M3 is prepared for documentation-based disposition after independent review.
-M2 diagnostic separation/deferral, M1 code review, #94 UI physical acceptance
-and H1/H2 records remain separately tracked. No overall SR02 closure, merge,
-deployment or v1.1 freeze is asserted.
+M3 is prepared for documentation-based disposition under the conditional
+Senior decision below. M2 production diagnostic separation remains OPEN under
+the bounded register, not CLOSED. M1 code review, #94 UI wording/review/physical
+acceptance and H1/H2 records remain separately tracked. No overall SR02 closure,
+merge, deployment or v1.1 freeze is asserted.
+
+## Updated Senior review and changed-head limits
+
+Source: user-supplied updated SR02 DOCX, dated 2026-10-28, section 7.
+SHA-256: `592AB490CEDD452BED642BBC08337928343A9FE2174478BC5BB0FA71FAA37C97`.
+The report is external conversation evidence, not a repository-resolvable file.
+It reviews `a48f0be8698d370c87c0704acb5bbc40b6a0cc39` and conditionally approves
+#99 for merge after the InvalidSourceIdentity table clarification and its own
+CI. The reviewer statically verified behavior against main 3ba5f9c but did not
+independently verify CI or run tests.
+
+This follow-up implements that explicit table correction and records the
+recommended M2 owner/date/triggers with linked SR-L4 and pending #94 neutral UI
+condition. No enum/runtime change or early-hash comparison is introduced.
+The suggested hash-before-parse redesign is outside scope and needs its own
+decision and tests.
+
+The original reviewed SHA must not be relabelled as this follow-up's SHA.
+The PR records the changed-head diff and new CI; review of the additional
+deferral/disposition delta remains pending before merge.
+The updated Senior report explicitly did not review #94, #96, #97 or #98;
+this record does not extend section 7 approval to those PRs.
