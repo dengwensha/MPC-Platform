@@ -62,7 +62,8 @@ internal sealed class RegionSourceValidationHostCommand
             }
             catch (Exception exception) when (exception is IOException ||
                 exception is UnauthorizedAccessException || exception is ArgumentException ||
-                exception is NotSupportedException || exception is JsonException)
+                exception is NotSupportedException || exception is JsonException ||
+                exception is InvalidDataException)
             {
                 return new RegionSourceValidationHostCommandResult(
                     RegionSourceHostStatus.ResultReadFailed, exception.GetType().Name);
