@@ -123,7 +123,9 @@ Accepted below records the prior planning instructions supplied in this conversa
 | Assembly revision: catalog candidate versus assembly-dependent evaluation | Proposal; ratification not evidenced | [P1 record](TOOL-01C-03-Policy-Decision-Record.md); durable history OPEN |
 | Unknown units block dependent evaluation | Proposal; ratification not evidenced | [P2 record](TOOL-01C-03-Policy-Decision-Record.md); production intake/unit path OPEN |
 | First bounded composition inside Application | Reported location direction, limited to source linkage | [P7 and scope record](TOOL-01D-01-07-Scope-and-SR02-Disposition.md); source gate/import now implemented, no Tooling reference or complete bridge |
-| EAN/GTIN validity | P3 bounded behavior IMPLEMENTED by #85; historical explicit approval trace OPEN | [Policy record](TOOL-01C-03-Policy-Decision-Record.md); raw value plus format status, not product identity |\n| Master-insert text policy | P4 raw/versioned-normalization proposal remains OPEN | Current field is trimmed, raw-plus-normalized storage not implemented; no SKU resolution |\n| Unknown hand / unmapped mounting | P6 narrow correction IMPLEMENTED; historical explicit approval trace OPEN | Unknown/null block; Neutral semantics and numeric vendor mappings uncertified |
+| EAN/GTIN validity | P3 bounded behavior IMPLEMENTED by #85; historical explicit approval trace OPEN | [Policy record](TOOL-01C-03-Policy-Decision-Record.md); raw value plus format status, not product identity |
+| Master-insert text policy | P4 raw/versioned-normalization proposal remains OPEN | Current field is trimmed, raw-plus-normalized storage not implemented; no SKU resolution |
+| Unknown hand / unmapped mounting | P6 narrow correction IMPLEMENTED; historical explicit approval trace OPEN | Unknown/null block; Neutral semantics and numeric vendor mappings uncertified |
 
 ## Actual dependency discovery and minimum gate (2026-10-27)
 
@@ -172,7 +174,14 @@ Discovery acceptance requires:
 6. Final documentation diff stays within this one file. Changed final commit requires full CI; existing baseline CI is reusable only for unchanged baseline.
 7. Accepted decisions and unresolved decisions are separately recorded before declaring the discovery CLOSED.
 
-Historical discovery GO: documentation review and finding disposition only.\nHistorical discovery NO-GO: production contracts/DTO, runtime bridge, persistence/importer, selection algorithm, UI, machine qualification, toolpath and NC output.\n\nCurrent disposition: this historical list is narrowed only for the bounded\n01D-01..05 source-link delivery and 01D-07 acceptance, with 01D-06 UI separately\nOPEN / NOT MERGED, as recorded in [the scope reconciliation](TOOL-01D-01-07-Scope-and-SR02-Disposition.md).\nThis is not authorization for new general integration scope, merge or deploy.\nHistorical decision evidence gaps remain explicit in the policy record.
+Historical discovery GO: documentation review and finding disposition only.
+Historical discovery NO-GO: production contracts/DTO, runtime bridge, persistence/importer, selection algorithm, UI, machine qualification, toolpath and NC output.
+
+Current disposition: this historical list is narrowed only for the bounded
+01D-01..05 source-link delivery and 01D-07 acceptance, with 01D-06 UI separately
+OPEN / NOT MERGED, as recorded in [the scope reconciliation](TOOL-01D-01-07-Scope-and-SR02-Disposition.md).
+This is not authorization for new general integration scope, merge or deploy.
+Historical decision evidence gaps remain explicit in the policy record.
 
 Implementation requires relevant TOOL-01C findings dispositioned and verified, required CAD evidence accepted at the scope of the requested operation, and dedicated actual dependency/DTO discovery. No provider or independent-review recommendation is automatically adopted here.
 
