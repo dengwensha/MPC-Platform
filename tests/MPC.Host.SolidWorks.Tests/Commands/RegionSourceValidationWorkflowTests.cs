@@ -84,7 +84,12 @@ public sealed class RegionSourceValidationWorkflowTests
             Assert.Equal(expected, interaction.PromptHash);
             Assert.Equal(RegionSourceValidationRequirement.SourceLinkOnly, captured.Requirement);
             Assert.False(Assert.Single(interaction.Errors));
-            Assert.Contains("fiziksel uygunluk onayı değildir", Assert.Single(interaction.Messages));
+            string message = Assert.Single(interaction.Messages);
+            Assert.Contains("fiziksel uygunluk onayı değildir", message);
+            Assert.Contains("içerik özeti eşleşti", message);
+            Assert.Contains("Desteklenen düzlemsel STEP yüzü oluşturuldu: #8", message);
+            Assert.Contains("süreklilik doğrulanmadı", message);
+            Assert.DoesNotContain("Dosya/yüz bağlantısı eşleşti", message);
         }
     }
 
@@ -123,10 +128,13 @@ public sealed class RegionSourceValidationWorkflowTests
     }
 
     [Theory]
-    [InlineData(4)]
-    [InlineData(2)]
-    [InlineData(8)]
-    public void BlockedResult_ShowsReasonWithoutGrantingApproval(int outcome)
+    [InlineData(4, "içerik özeti")]
+    [InlineData(2, "hangi koşulun başarısız olduğunu ayırmaz")]
+    [InlineData(8, "isteği kabul edilmedi")]
+    [InlineData(3, "kimliği doğrulanamadı")]
+    [InlineData(5, "beklenen kimlikle eşleşmedi")]
+    [InlineData(6, "bağımsız doğrulama bulunmuyor")]
+    public void BlockedResult_ShowsReasonWithoutGrantingApproval(int outcome, string expected)
     {
         using (var file = new TempFile())
         {
@@ -136,8 +144,10 @@ public sealed class RegionSourceValidationWorkflowTests
                     workerResult: new RegionSourceValidationResult("1.1", r.RequestId,
                         WorkerOperationKind.ValidateRegionSource, (RegionSourceValidationOutcome)outcome))).Run();
             Assert.True(Assert.Single(interaction.Errors));
-            Assert.Contains(((RegionSourceValidationOutcome)outcome).ToString(),
-                Assert.Single(interaction.Messages));
+            string message = Assert.Single(interaction.Messages);
+            Assert.Contains(expected, message);
+            Assert.DoesNotContain(((RegionSourceValidationOutcome)outcome).ToString(), message);
+            Assert.DoesNotContain("Dosyanın değişmediğini ve STEP yüz kimliğini kontrol edin.", message);
         }
     }
 
@@ -170,10 +180,57 @@ public sealed class RegionSourceValidationWorkflowTests
             new RegionSourceValidationWorkflow(interaction,
                 r => command.Execute(Worker(), r, 30000)).Run();
             Assert.Equal(changeDuringPrompt, Assert.Single(interaction.Errors));
-            Assert.Contains(changeDuringPrompt ? "DocumentMismatch" : "Dosya/yüz bağlantısı eşleşti",
+            Assert.Contains(changeDuringPrompt ? "içerik özeti istem öncesi alınan özetle eşleşmedi" : "Desteklenen düzlemsel STEP yüzü oluşturuldu",
                 Assert.Single(interaction.Messages));
         }
         finally { File.Delete(copy); }
+    }
+
+
+    [Theory]
+    [InlineData(0, "isteği geçersiz")]
+    [InlineData(3, "başlatılamadı")]
+    [InlineData(4, "zaman aşımına")]
+    [InlineData(5, "tamamlandığı doğrulanamadı")]
+    [InlineData(6, "Yanıt doğrulanamadı")]
+    [InlineData(7, "içe aktarma işlemi tamamlanamadı")]
+    [InlineData(8, "aktarılırken hata")]
+    public void HostFailure_TakesPrecedenceOverAttachedWorkerReason(int status, string expected)
+    {
+        using (var file = new TempFile())
+        {
+            var interaction = new FakeInteraction { FilePath = file.Path };
+            new RegionSourceValidationWorkflow(interaction, r =>
+                new RegionSourceValidationHostCommandResult((RegionSourceHostStatus)status,
+                    workerResult: new RegionSourceValidationResult("1.1", r.RequestId,
+                        WorkerOperationKind.ValidateRegionSource,
+                        RegionSourceValidationOutcome.MissingRegion))).Run();
+            Assert.True(Assert.Single(interaction.Errors));
+            string message = Assert.Single(interaction.Messages);
+            Assert.Contains(expected, message);
+            Assert.DoesNotContain("hangi koşulun başarısız olduğunu ayırmaz", message);
+            Assert.DoesNotContain(((RegionSourceHostStatus)status).ToString(), message);
+        }
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void UntrustedOrContradictoryBlockedReply_ShowsUnverifiedResponse(bool wrongId)
+    {
+        using (var file = new TempFile())
+        {
+            var interaction = new FakeInteraction { FilePath = file.Path };
+            new RegionSourceValidationWorkflow(interaction, r =>
+                new RegionSourceValidationHostCommandResult(RegionSourceHostStatus.Blocked,
+                    workerResult: new RegionSourceValidationResult("1.1",
+                        wrongId ? Guid.NewGuid().ToString("D") : r.RequestId,
+                        WorkerOperationKind.ValidateRegionSource,
+                        wrongId ? RegionSourceValidationOutcome.MissingRegion :
+                            RegionSourceValidationOutcome.SourceLinkMatched))).Run();
+            Assert.True(Assert.Single(interaction.Errors));
+            Assert.Contains("Yanıt doğrulanamadı", Assert.Single(interaction.Messages));
+        }
     }
 
     private static string Worker()

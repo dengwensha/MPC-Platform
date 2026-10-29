@@ -56,17 +56,16 @@ internal sealed class RegionSourceValidationWorkflow
                 RegionSourceValidationResultValidator.Validate(result.WorkerResult, request.RequestId).IsValid)
             {
                 _interaction.ShowResult(
-                    "Dosya/yüz bağlantısı eşleşti: " + sourceFace + Environment.NewLine +
+                    "Seçilen dosyanın istem öncesi ve kontrol anındaki içerik özeti eşleşti." + Environment.NewLine +
+                    "Desteklenen düzlemsel STEP yüzü oluşturuldu: " + sourceFace + Environment.NewLine +
+                    "Önceki bir içe aktarma kaydıyla süreklilik doğrulanmadı." + Environment.NewLine +
                     "Bu sonuç malzeme yönü, takım veya fiziksel uygunluk onayı değildir.", false);
             }
             else
             {
-                string reason = result.Status == RegionSourceHostStatus.SourceLinkMatched ?
-                    "Yanıt doğrulanamadı" : result.WorkerResult is null ? result.Status.ToString() :
-                    result.WorkerResult.Outcome.ToString();
                 _interaction.ShowResult(
-                    "Kaynak yüz kontrolü onay üretmedi: " + reason + Environment.NewLine +
-                    "Dosyanın değişmediğini ve STEP yüz kimliğini kontrol edin.", true);
+                    "Kaynak yüz kontrolü onay üretmedi." + Environment.NewLine +
+                    FailureReason(result, request.RequestId), true);
             }
         }
         catch (Exception exception) when (exception is IOException ||
@@ -74,7 +73,44 @@ internal sealed class RegionSourceValidationWorkflow
             exception is ArgumentException || exception is NotSupportedException)
         {
             _interaction.ShowResult(
-                "Kaynak dosyası kontrol edilemedi: " + exception.GetType().Name, true);
+                "Kaynak dosyası okunamadı veya özeti hesaplanamadı. Dosyanın erişilebilir olduğunu ve okuma iznini kontrol edin.", true);
         }
+    }
+    private static string FailureReason(RegionSourceValidationHostCommandResult result, string? requestId)
+    {
+        // Report only a validated blocked outcome. Transport/result failures must
+        // not be disguised by an attached, untrusted Worker outcome.
+        if (result.Status == RegionSourceHostStatus.Blocked)
+        {
+            if (!RegionSourceValidationResultValidator.Validate(result.WorkerResult, requestId).IsValid)
+                return "Yanıt doğrulanamadı.";
+            return result.WorkerResult!.Outcome switch
+            {
+                RegionSourceValidationOutcome.MissingRegion =>
+                    "İstenen desteklenen bölge oluşturulamadı. STEP dosyasını, desteklenen katı/düzlemsel geometriyi ve kaynak yüz kimliğini kontrol edin. Bu sonuç hangi koşulun başarısız olduğunu ayırmaz.",
+                RegionSourceValidationOutcome.DocumentMismatch =>
+                    "Dosyanın içerik özeti istem öncesi alınan özetle eşleşmedi. Dosyayı yeniden seçerek kontrolü başlatın.",
+                RegionSourceValidationOutcome.FaceMismatch =>
+                    "Kaynak yüz kimliği beklenen kimlikle eşleşmedi.",
+                RegionSourceValidationOutcome.InvalidSourceIdentity =>
+                    "Kaynak dosya veya yüz kimliği doğrulanamadı.",
+                RegionSourceValidationOutcome.MaterialSideUnverified =>
+                    "Malzeme yönü için gerekli bağımsız doğrulama bulunmuyor.",
+                RegionSourceValidationOutcome.RequestRejected =>
+                    "Kontrol isteği kabul edilmedi. Dosya ve kaynak yüz bilgilerini yeniden girin.",
+                _ => "Yanıt doğrulanamadı."
+            };
+        }
+        return result.Status switch
+        {
+            RegionSourceHostStatus.InvalidRequest => "Kontrol isteği geçersiz.",
+            RegionSourceHostStatus.LaunchFailed => "Kontrol işlemi başlatılamadı. Eklentiyle birlikte gelen kontrol programının bulunduğunu kontrol edin.",
+            RegionSourceHostStatus.TimedOut => "Kontrol işlemi zaman aşımına uğradı.",
+            RegionSourceHostStatus.ObservationFailed => "Kontrol işleminin tamamlandığı doğrulanamadı.",
+            RegionSourceHostStatus.ResultReadFailed => "Yanıt doğrulanamadı.",
+            RegionSourceHostStatus.WorkerFailed => "STEP içe aktarma işlemi tamamlanamadı. Dosya erişimini ve desteklenen girdi biçimini kontrol edin.",
+            RegionSourceHostStatus.TransportFailed => "Kontrol isteği veya sonucu aktarılırken hata oluştu.",
+            _ => "Yanıt doğrulanamadı."
+        };
     }
 }

@@ -236,12 +236,12 @@ public sealed class SolidWorksAddin :
                 new SolidWorksRegionSourceInteraction(application),
                 request => command.Execute(worker, request, DefaultTimeoutMilliseconds)).Run();
         }
-        catch (Exception exception)
+        catch (Exception)
         {
             try
             {
                 application.SendMsgToUser2(
-                    "MPC kaynak yüz kontrolü tamamlanamadı: " + exception.GetType().Name,
+                    "MPC kaynak yüz kontrolü tamamlanamadı. İşlemi yeniden başlatın.",
                     (int)swMessageBoxIcon_e.swMbStop, (int)swMessageBoxBtn_e.swMbOk);
             }
             catch { }

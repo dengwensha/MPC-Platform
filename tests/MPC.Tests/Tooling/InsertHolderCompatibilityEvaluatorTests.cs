@@ -99,26 +99,26 @@ public sealed class InsertHolderCompatibilityEvaluatorTests
             _evaluator.Evaluate(CreateSyntheticHolder(),beyond).Code);
     }
 
+    // Fabricated labels only: no supplier identity, GTIN or catalog mapping evidence.
+    // Interface dimensions, mounting tokens and hand cases below are controlled fixtures.
     private static ToolHolder CreateSyntheticHolder() =>
         new(
             new ToolProductIdentity(
-                "Sandvik Coromant",
-                "5729638",
-                "C8-DCLNR-55080-19",
-                "11412575"),
+                "Synthetic Test Manufacturer",
+                "SYNTH-HOLDER-001",
+                "TEST-HOLDER-ORDER"),
             new ToolInterface("C", "19", 19.05, 6.35, 80, 0, 2),
-            "CNMG 19 06 12",
+            "SYNTH-INSERT-FAMILY",
             ToolHand.Right);
 
     private static CuttingInsert CreateSyntheticInsert(ToolInterface? @interface = null) =>
         new(
             new ToolProductIdentity(
-                "Sandvik Coromant",
-                "7860702",
-                "CNMG 19 06 12-PM 4425",
-                "7323225046701"),
+                "Synthetic Test Manufacturer",
+                "SYNTH-INSERT-001",
+                "TEST-INSERT-ORDER"),
             @interface ?? new ToolInterface("C", "19", 19.05, 6.35, 80, 0, 2),
-            new CuttingGrade("4425", "HC", "CVD", "TiCN+Al2O3+TiN"),
-            "PM",
+            new CuttingGrade("SYNTH-GRADE", "TEST-SUBSTRATE", "TEST-PROCESS", "TEST-COATING"),
+            "TEST-CHIPBREAKER",
             ToolHand.Neutral);
 }
