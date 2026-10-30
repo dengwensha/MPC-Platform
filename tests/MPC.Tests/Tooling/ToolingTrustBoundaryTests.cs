@@ -18,8 +18,8 @@ public sealed class ToolingTrustBoundaryTests
             new CuttingGrade("test", "test"), null, hand);
 
     [Theory]
-    [InlineData(ToolHand.Unknown, ToolHand.Right)]
-    [InlineData(ToolHand.Right, ToolHand.Unknown)]
+    [InlineData(default(ToolHand), ToolHand.Right)]
+    [InlineData(ToolHand.Right, default(ToolHand))]
     [InlineData(ToolHand.Unknown, ToolHand.Unknown)]
     [InlineData(ToolHand.Unknown, ToolHand.Neutral)]
     [InlineData(ToolHand.Neutral, ToolHand.Unknown)]
