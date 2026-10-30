@@ -18,15 +18,17 @@ public sealed class ToolingTrustBoundaryTests
             new CuttingGrade("test", "test"), null, hand);
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void DefaultHand_NeverApprovesInterface(bool unknownHolder)
+    [InlineData(default(ToolHand), ToolHand.Right)]
+    [InlineData(ToolHand.Right, default(ToolHand))]
+    [InlineData(ToolHand.Unknown, ToolHand.Unknown)]
+    [InlineData(ToolHand.Unknown, ToolHand.Neutral)]
+    [InlineData(ToolHand.Neutral, ToolHand.Unknown)]
+    public void DefaultHand_NeverApprovesInterface(ToolHand holder, ToolHand insert)
     {
         var result = new InsertHolderCompatibilityEvaluator().Evaluate(
-            Holder(unknownHolder ? default : ToolHand.Right),
-            Insert(unknownHolder ? ToolHand.Right : default));
+            Holder(holder), Insert(insert));
         Assert.False(result.IsCompatible);
-        Assert.Equal("UnknownHand", result.Code.ToString());
+        Assert.Equal(CompatibilityCode.UnknownHand, result.Code);
     }
 
     [Theory]
