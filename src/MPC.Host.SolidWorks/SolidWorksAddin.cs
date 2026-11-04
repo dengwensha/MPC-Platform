@@ -220,6 +220,34 @@ public sealed class SolidWorksAddin :
         }
     }
 
+    public int CanValidateStepSource() => CanImportStep();
+
+    public void OnValidateStepSource()
+    {
+        var application = _solidWorks;
+        if (application is null) return;
+        try
+        {
+            string directory = Path.GetDirectoryName(typeof(SolidWorksAddin).Assembly.Location)
+                ?? string.Empty;
+            string worker = Path.Combine(directory, "MPC.Worker.exe");
+            var command = new RegionSourceValidationHostCommand();
+            new RegionSourceValidationWorkflow(
+                new SolidWorksRegionSourceInteraction(application),
+                request => command.Execute(worker, request, DefaultTimeoutMilliseconds)).Run();
+        }
+        catch (Exception)
+        {
+            try
+            {
+                application.SendMsgToUser2(
+                    "MPC kaynak yüz kontrolü tamamlanamadı. İşlemi yeniden başlatın.",
+                    (int)swMessageBoxIcon_e.swMbStop, (int)swMessageBoxBtn_e.swMbOk);
+            }
+            catch { }
+        }
+    }
+
     private static string CreateSuccessMessage(
         WorkerOperationSummary summary)
     {
