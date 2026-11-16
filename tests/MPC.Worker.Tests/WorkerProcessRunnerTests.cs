@@ -281,6 +281,19 @@ public sealed class WorkerProcessRunnerTests
             error.ToString());
     }
 
+    [Fact]
+    public void ProcessExitCodes_KeepPublishedNumericAssignments()
+    {
+        // Host and acceptance tools consume these numbers across a process boundary.
+        // Exercise semantics with existing runner/process tests; this pins the ABI.
+        Assert.Equal(0, WorkerExitCodes.Succeeded);
+        Assert.Equal(2, WorkerExitCodes.RequestRejected);
+        Assert.Equal(3, WorkerExitCodes.OperationFailed);
+        Assert.Equal(10, WorkerExitCodes.InvalidInvocation);
+        Assert.Equal(11, WorkerExitCodes.RequestReadFailed);
+        Assert.Equal(12, WorkerExitCodes.ResultWriteFailed);
+    }
+
     private static Task WriteRequestAsync(
         string path,
         WorkerOperationRequest request)

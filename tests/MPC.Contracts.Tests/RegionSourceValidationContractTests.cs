@@ -199,4 +199,37 @@ public sealed class RegionSourceValidationContractTests
             new RegionSourceValidationResult("1.1", null, WorkerOperationKind.ValidateRegionSource,
                 RegionSourceValidationOutcome.SourceLinkMatched), null).IsValid);
     }
+    // These are the existing wire assignments, not a policy allowing new values.
+    // Pin semantic names to JSON numbers, rather than round-tripping an int cast.
+    [Theory]
+    [InlineData(RegionSourceValidationOutcome.Unknown, 0)]
+    [InlineData(RegionSourceValidationOutcome.SourceLinkMatched, 1)]
+    [InlineData(RegionSourceValidationOutcome.MissingRegion, 2)]
+    [InlineData(RegionSourceValidationOutcome.InvalidSourceIdentity, 3)]
+    [InlineData(RegionSourceValidationOutcome.DocumentMismatch, 4)]
+    [InlineData(RegionSourceValidationOutcome.FaceMismatch, 5)]
+    [InlineData(RegionSourceValidationOutcome.MaterialSideUnverified, 6)]
+    [InlineData(RegionSourceValidationOutcome.ImportFailed, 7)]
+    [InlineData(RegionSourceValidationOutcome.RequestRejected, 8)]
+    public void OutcomeSemanticName_KeepsItsPublishedJsonNumber(
+        RegionSourceValidationOutcome outcome, int expected)
+    {
+        var result = new RegionSourceValidationResult("1.1", Id,
+            WorkerOperationKind.ValidateRegionSource, outcome);
+        using var json = JsonDocument.Parse(JsonSerializer.Serialize(result));
+        Assert.Equal(expected, json.RootElement.GetProperty("Outcome").GetInt32());
+    }
+
+    [Theory]
+    [InlineData(RegionSourceValidationRequirement.Unknown, 0)]
+    [InlineData(RegionSourceValidationRequirement.SourceLinkOnly, 1)]
+    [InlineData(RegionSourceValidationRequirement.MaterialSideDependent, 2)]
+    public void RequirementSemanticName_KeepsItsPublishedJsonNumber(
+        RegionSourceValidationRequirement requirement, int expected)
+    {
+        using var json = JsonDocument.Parse(JsonSerializer.Serialize(
+            Request(requirement: requirement)));
+        Assert.Equal(expected, json.RootElement.GetProperty("Requirement").GetInt32());
+    }
+
 }

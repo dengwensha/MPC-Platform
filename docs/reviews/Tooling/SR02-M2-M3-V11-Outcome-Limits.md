@@ -2,16 +2,17 @@
 
 Date: 2026-10-28 Europe/Istanbul.
 Class: HARDEN / documentation only.
+Current delivery status reconciled at main `857808225aa9a27e98c51e9a4839d8227a5fddee`.
+The code inspection baseline and historical review sequence below are retained.
 Verified code baseline: `3ba5f9c034305e3427b3aaa54aab836f57f34a6e`.
 This records existing behavior; it does not change DTOs, enum numbers,
 validators, exit handling, UI or runtime classification.
 
-Independent Senior review is REQUIRED before merge because this is a wire
-meaning clarification, including trust-boundary and process-result interpretation.
-Senior review section 7 conditionally approved the original a48f0be8 diff, with
-one table correction and CI required. The reviewed commit and subsequent delta
-are recorded below; this is not an unconditional sign-off on a changed head
-or v1.1 freeze approval.
+The wire meaning clarification required independent Senior review. Section 7
+conditionally approved a48f0be8; section 9 explicitly approved the corrected
+head 5c8926b4. Its own CI and post-merge main CI succeeded; #99 is merged.
+The historical sequence below is retained. No v1.1 freeze or release approval
+is inferred from documentation acceptance.
 
 ## M2 MissingRegion is not an absent-face diagnosis
 
@@ -142,7 +143,7 @@ producer reachability. It is not a guarantee of every row being Worker-emitted.
 | 5 | FaceMismatch | Defined but not emitted by current v1.1 Worker; Application can produce it |
 | 6 | MaterialSideUnverified | After import/source checks, material-dependent evaluation remains blocked; exit 2 |
 | 7 | ImportFailed | Caught processing/import exceptions; exit 3; not every parser failure is caught |
-| 8 | RequestRejected | Invalid structural request; exit 2; malformed DTO type envelope correction is separate #97 |
+| 8 | RequestRejected | Invalid structural request; exit 2; malformed DTO type envelope correction merged in #97 |
 
 Host still validates version, operation and exact request correlation, and
 cross-checks result/exit consistency before consuming outcomes. Known non-success
@@ -168,13 +169,16 @@ ValidatedRegionImportServiceTests. Standalone acceptance's absent-face case
 demonstrates one MissingRegion cause only. Neither existing CI nor this document
 proves a new full malformed-file/root/unsupported-surface diagnostic matrix.
 
-Baseline CI #188 is successful at the pinned main; the documentation PR must
-have its own full CI. No new tests mirror prose; no runtime change is made.
-M3 is prepared for documentation-based disposition under the conditional
-Senior decision below. M2 production diagnostic separation remains OPEN under
-the bounded register, not CLOSED. M1 code review, #94 UI wording/review/physical
-acceptance and H1/H2 records remain separately tracked. No overall SR02 closure,
-merge, deployment or v1.1 freeze is asserted.
+Historical baseline CI #188 succeeded at the pinned code-inspection main.
+#99's final head CI #194 succeeded, followed by merged main CI #199 at
+857808225aa9a27e98c51e9a4839d8227a5fddee: 1815/1815 full tests, 5/5 standalone
+and 3/3 targeted cases; Release 0 warnings/errors and corpus checks PASS.
+M3 documentation/review/merge/CI conditions are satisfied. #96 H1/H2 record
+reconciliation, #97 M1 and #98 M5 are also merged; their retained historical
+limits and residual issues are in the [current disposition](TOOL-01D-01-07-Scope-and-SR02-Disposition.md).
+M2 production diagnostic separation remains OPEN under the bounded register.
+#94 UI wording/review/physical acceptance remains pending. No overall SR02
+closure, deployment or v1.1 freeze is asserted.
 
 ## Updated Senior review and changed-head limits
 
@@ -193,7 +197,14 @@ The suggested hash-before-parse redesign is outside scope and needs its own
 decision and tests.
 
 The original reviewed SHA must not be relabelled as this follow-up's SHA.
-The PR records the changed-head diff and new CI; review of the additional
-deferral/disposition delta remains pending before merge.
-The updated Senior report explicitly did not review #94, #96, #97 or #98;
-this record does not extend section 7 approval to those PRs.
+At that historical revision, the additional deferral/disposition delta needed
+review. Subsequent SR02 revision 3 section 9 explicitly approved
+5c8926b417312725bdd908622217556049bff3fe, subject to its own green CI.
+Source SHA-256: `4F92343132574FC80905A768A7DA6BF1F6A63538DB5B48364D03BEA02E1745CD`.
+This is the completed changed-head review, not an unperformed pending gate.
+#99 merged as 857808225aa9a27e98c51e9a4839d8227a5fddee after exact-head CI;
+main CI #199 also succeeded. No further review is requested for that same delta.
+Section 7 did not cover #94/#96/#97/#98; revision 2 section 8 later reviewed
+those separately. It requested changes on #94 and approved the other scopes
+as recorded in the current disposition. Earlier section 7 approval is not
+retrospectively extended to different PRs.
