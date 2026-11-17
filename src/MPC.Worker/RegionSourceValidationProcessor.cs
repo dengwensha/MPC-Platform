@@ -37,7 +37,7 @@ public sealed class RegionSourceValidationProcessor
             return Result(request, outcome);
         }
         catch (Exception exception) when (exception is IOException or
-            UnauthorizedAccessException or ArgumentException or NotSupportedException)
+            UnauthorizedAccessException or ArgumentException or NotSupportedException or InvalidDataException)
         {
             return Result(request, RegionSourceValidationOutcome.ImportFailed);
         }

@@ -58,6 +58,11 @@ public static class ManufacturingRegionImportService
             return ManufacturingRegion.TryCreate(
                 operation, fingerprint, sourceFaceId, out region);
         }
+        catch (StepSemanticValueException exception)
+        {
+            // Expose a framework input-data failure across the Application boundary.
+            throw new InvalidDataException("A STEP semantic entity value was rejected.", exception);
+        }
         finally
         {
             File.Delete(snapshotPath);

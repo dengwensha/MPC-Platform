@@ -50,6 +50,32 @@ public sealed class RegionSourceValidationWorkerTests
         Assert.Equal(RegionSourceValidationOutcome.SourceLinkMatched, result.Outcome);
     }
 
+    [Theory]
+    [InlineData("-178.5", RegionSourceValidationOutcome.ImportFailed, 3)]
+    [InlineData("178.5", RegionSourceValidationOutcome.SourceLinkMatched, 0)]
+    public async Task ToroidalSemanticValue_ProducesCorrelatedResult(
+        string majorRadius, RegionSourceValidationOutcome expectedOutcome, int expectedExit)
+    {
+        string copy = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".step");
+        try
+        {
+            string source = await File.ReadAllTextAsync(Golden);
+            int dataEnd = source.LastIndexOf("ENDSEC;", StringComparison.Ordinal);
+            Assert.True(dataEnd >= 0);
+            // The importer reads all semantic entities, including this unreferenced
+            // torus with a valid placement. The negative value reproduces the R03 failure.
+            string torus = "#999999 = TOROIDAL_SURFACE ('test', #175, " +
+                majorRadius + ", 10.);\n";
+            await File.WriteAllTextAsync(copy, source.Insert(dataEnd, torus));
+            var (exit, result) = await Run(Request(copy));
+            Assert.Equal(expectedExit, exit);
+            Assert.Equal(expectedOutcome, result.Outcome);
+            Assert.Equal("1.1", result.ContractVersion);
+            Assert.Equal(Id, result.RequestId);
+        }
+        finally { File.Delete(copy); }
+    }
+
     [Fact]
     public async Task MaterialSideRequest_CannotReturnSuccessfulExit()
     {
