@@ -20,6 +20,11 @@ InputBox uses the Microsoft.VisualBasic framework assembly supplied with
 .NET Framework; no NuGet package or new CAD/Application reference is introduced.
 The existing v1.0 import command is untouched.
 
+The source-face command uses a .NET Framework Windows Forms OpenFileDialog,
+owned by the SOLIDWORKS process main window. It returns the selected path on OK
+or null on cancellation. RestoreDirectory preserves the process working directory.
+Both file-list selection and a pasted full path must reach the face prompt.
+
 ## Automated evidence to require
 
 - Input cancellation does not launch Worker or report approval.
@@ -39,6 +44,8 @@ from CI alone.
    the new source-face entry both appear. Restart/reconnect once to check callbacks.
 2. Select T001_PRISM.step and enter #8. Expect that the pre-prompt and analysis
    content digests match and a supported planar STEP face was constructed.
+   Repeat by pasting the same full file path in the File name field. Both
+   selection methods must reach the face prompt without opening a CAD document.
    The message must not claim continuous file monitoring or continuity with an
    earlier import; physical/tool/material qualification is explicitly excluded.
 3. Cancel file selection and then face input in separate runs. Expect no Worker
@@ -81,3 +88,16 @@ the exact final head is tested on SOLIDWORKS 2024 SP1.
 The user supplied a screenshot confirming SOLIDWORKS Premium 2024 SP1.0 on
 2026-10-29. This establishes workstation version only, not add-in installation,
 physical results, dialog focus or performance acceptance.
+
+## Physical finding and corrective delivery (2026-11-18)
+
+On head 25e6e088a789276f7906cf5aaea75ee18a267662, the user supplied a
+screenshot of the successful #8 message, then reported that pasting the full
+file path opens the model directly. Full-path acceptance FAILED. The internal
+SOLIDWORKS dialog cause has not been proved. Replace GetOpenFileName2 only in
+this source-face command with a framework OpenFileDialog to remove that dialog
+from this path. The new picker requires live acceptance for list/full-path input,
+cancellation and owner/focus. Existing controlled workflow tests do not exercise
+this native dialog. Review section 10 approved the earlier code and documents
+at 144d2b65; the picker delta requires the short changed-diff review requested
+there, plus full CI and physical acceptance. No overall physical PASS is claimed.
