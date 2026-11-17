@@ -36,7 +36,10 @@ The verified production path is:
 
 ImportFailed (7, exit 3) is different: the Worker catches IOException,
 UnauthorizedAccessException, ArgumentException and NotSupportedException
-around processing/import and returns ImportFailed. Source-file absence can
+around processing/import and returns ImportFailed. In #94 code head 1bf56d2c,
+InvalidDataException is also caught: the Application importer translates the
+specific StepSemanticValueException to that framework type with its inner
+exception retained. Source-file absence can
 therefore be ImportFailed, while a reader returning failed inventory can be
 MissingRegion. The transport result is not a detailed diagnostic taxonomy.
 
@@ -208,3 +211,28 @@ Section 7 did not cover #94/#96/#97/#98; revision 2 section 8 later reviewed
 those separately. It requested changes on #94 and approved the other scopes
 as recorded in the current disposition. Earlier section 7 approval is not
 retrospectively extended to different PRs.
+
+
+## SR-L4 follow-up from physical R03 acceptance (2026-11-18)
+
+Code head `1bf56d2c2e4b8b2cd5e1bbb53f33fb5a94f8721f` addresses the reproduced
+StepSemanticValueException slice through existing ImportFailed (7) / exit 3.
+CI #209 passed 1866/1866 tests, including negative torus majorRadius -178.5 and
+positive 178.5 control through the importer/runner. The user confirmed a controlled
+Turkish error and usable menus for the real 14,003,088-byte R03, followed by
+T001_PRISM #8 success. See the [physical acceptance record](TOOL-01D-06-Menu-Physical-Acceptance.md).
+
+User-supplied Senior section 11 reports 175 FormatException and 76
+InvalidOperationException throw sites in the STEP libraries. These are the
+reviewer's static counts, not an independently executed reachability census by
+the implementation assistant. Other such exceptions may still escape and leave
+no result JSON. Host remains fail-closed, with a generic result-validation error.
+SR-L4 remains OPEN under the existing M2 owner and work/release deadline.
+
+Follow-up candidate: characterize malformed STEP inputs and decide bounded
+FormatException translation at the importer boundary, with correlated failure
+and valid-input regressions. InvalidOperationException requires evidence that
+distinguishes rejected input from programming faults. No broad catch or automatic
+conversion of all parser exceptions is approved. Local diagnostic logging and
+MainWindowHandle == 0 owner fallback remain low-priority follow-ups reported by
+the Senior. Section 11 treats them as non-blocking for #94.

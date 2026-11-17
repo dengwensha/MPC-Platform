@@ -25,6 +25,16 @@ public sealed class SolidWorksAddinCallbackProxy
         _addin.OnImportStep();
     }
 
+    public void OnValidateStepSource()
+    {
+        _addin.OnValidateStepSource();
+    }
+
+    public int CanValidateStepSource()
+    {
+        return _addin.CanValidateStepSource();
+    }
+
     public int CanImportStep()
     {
         return _addin.CanImportStep();

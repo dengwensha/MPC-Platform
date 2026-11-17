@@ -9,6 +9,7 @@ internal sealed class SolidWorksStepImportCommandRegistration
 {
     internal const int CommandGroupId = 1001;
     internal const int ImportStepCommandId = 10001;
+    internal const int ValidateStepSourceCommandId = 10002;
 
     private CommandManager? _commandManager;
     private CommandGroup? _commandGroup;
@@ -99,19 +100,31 @@ internal sealed class SolidWorksStepImportCommandRegistration
                     (int)swCommandItemType_e.swMenuItem |
                     (int)swCommandItemType_e.swToolbarItem);
 
+            int sourceCommandIndex = commandGroup.AddCommandItem2(
+                "STEP kaynak yüzünü doğrula",
+                -1,
+                "Seçilen STEP dosyası ve açık yüz kimliğinin bağlantısını kontrol eder",
+                "MPC kaynak yüz kontrolü",
+                -1,
+                nameof(SolidWorksAddin.OnValidateStepSource),
+                nameof(SolidWorksAddin.CanValidateStepSource),
+                ValidateStepSourceCommandId,
+                (int)swCommandItemType_e.swMenuItem |
+                (int)swCommandItemType_e.swToolbarItem);
+
             commandGroup.HasMenu = true;
             commandGroup.HasToolbar = true;
 
             bool activated =
                 commandGroup.Activate();
 
-            if (commandIndex < 0 ||
+            if (commandIndex < 0 || sourceCommandIndex < 0 ||
                 !activated)
             {
                 LastFailureMessage =
                     $"MPC command group activation failed. " +
                     $"Creation error: {creationErrors}; " +
-                    $"command index: {commandIndex}; " +
+                    $"command index: {commandIndex}; source index: {sourceCommandIndex}; " +
                     $"activated: {activated}.";
 
                 commandManager.RemoveCommandGroup2(
