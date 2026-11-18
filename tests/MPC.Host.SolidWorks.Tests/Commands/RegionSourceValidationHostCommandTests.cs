@@ -387,6 +387,31 @@ public sealed class RegionSourceValidationHostCommandTests
         finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
     }
 
+    [Theory]
+    [InlineData(-532462766)]
+    [InlineData(17)]
+    public void UnexpectedWorkerExitWithoutReply_IsUnverifiedAndRetainsExitEvidence(int exit)
+    {
+        string folder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        try
+        {
+            var request = Request();
+            var launcher = new FakeLauncher { SkipReply = true };
+            var command = new RegionSourceValidationHostCommand(launcher,
+                new FakeObserver(WorkerCompletionResult.Completed(exit)),
+                new WorkerContractJsonSerializer(), new HostFailureLog(folder));
+            var result = command.Execute("worker.exe", request, 30000);
+            Assert.Equal(RegionSourceHostStatus.ResultReadFailed, result.Status);
+            Assert.Null(result.WorkerResult);
+            using var json = JsonDocument.Parse(File.ReadAllText(Path.Combine(folder, "host-last-failure.json")));
+            Assert.Equal(exit, json.RootElement.GetProperty("WorkerExitCode").GetInt32());
+            Assert.Equal(request.RequestId, json.RootElement.GetProperty("RequestId").GetString());
+            Assert.Equal("HostCommand", json.RootElement.GetProperty("Boundary").GetString());
+            AssertCleaned(launcher);
+        }
+        finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
+    }
+
     private static void AssertCleaned(FakeLauncher launcher) =>
         Assert.False(Directory.Exists(Path.GetDirectoryName(launcher.RequestPath!)!));
 

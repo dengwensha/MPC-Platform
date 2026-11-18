@@ -233,6 +233,37 @@ public sealed class RegionSourceValidationWorkflowTests
         }
     }
 
+    [Fact]
+    public void UnexpectedCommandFailure_ReachesCallbackWithOriginalRequestId()
+    {
+        string folder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        try
+        {
+            using (var file = new TempFile())
+            {
+                var interaction = new FakeInteraction { FilePath = file.Path };
+                var callback = new RegionSourceValidationCallback(new HostFailureLog(folder));
+                string? captured = null;
+                int errors = 0;
+                callback.Run(() => new RegionSourceValidationWorkflow(interaction, request =>
+                {
+                    captured = request.RequestId;
+                    callback.RequestId = request.RequestId;
+                    throw new InvalidOperationException("unexpected command failure");
+                }).Run(), () => errors++);
+                Assert.Equal(1, errors);
+                Assert.Empty(interaction.Messages);
+                Assert.False(string.IsNullOrWhiteSpace(captured));
+                using var json = System.Text.Json.JsonDocument.Parse(
+                    File.ReadAllText(System.IO.Path.Combine(folder, "host-last-failure.json")));
+                Assert.Equal(captured, json.RootElement.GetProperty("RequestId").GetString());
+                Assert.Contains("unexpected command failure",
+                    json.RootElement.GetProperty("ExceptionDetails").GetString());
+            }
+        }
+        finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
+    }
+
     private static string Worker()
     {
         DirectoryInfo? directory = new DirectoryInfo(AppContext.BaseDirectory);

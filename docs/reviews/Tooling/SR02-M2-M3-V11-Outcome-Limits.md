@@ -273,3 +273,19 @@ their existing aggregate MissingRegion meaning. No enum/runtime taxonomy or
 early-hash redesign is introduced. CI and independent review gates are recorded
 in the PR. M2 and overall SR-L4 remain OPEN; this is a bounded correction and
 classification record, not a release waiver or universal containment proof.
+
+## SR-L4 unexpected exception policy submitted (2026-11-18)
+
+The [policy and callback evidence](SR-L4-Unexpected-Exception-Policy.md)
+adds local evidence to the existing source-validation add-in general catch.
+RequestId is tracked only after the real request exists; early callback failures
+have null correlation. No synthetic wire/Host outcome is generated.
+Unexpected Worker exceptions retain fail-closed process/result handling rather
+than a blanket ImportFailed conversion. Independent acceptance is requested
+before any bounded overall SR-L4 closure; M2 remains OPEN.
+
+Ordering clarification from Senior section 16: duplicate MANIFOLD_SOLID_BREP
+roots return aggregate MissingRegion before resolver construction. Other
+duplicate semantic IDs reaching the constructor use ImportFailed through #107.
+Both reject approval, but consumers must not infer a uniform duplicate-ID cause
+from either outcome. No early-hash or detailed diagnostic taxonomy is added.
