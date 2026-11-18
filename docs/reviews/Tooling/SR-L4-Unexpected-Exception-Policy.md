@@ -54,7 +54,7 @@ Current local confidentiality, size, staging and stale-record rules still apply.
 
 ## Verification and closure boundary
 
-Nine new cases cover before/after request correlation, logging/display failure
+Ten new cases cover before/after request correlation, logger-initialization/logging/display failure
 containment, original evidence retention, normal return, context reset, actual
 workflow-to-callback unexpected failure, and absent replies at CLR-style/other
 unexpected exit codes. Last two tests are controlled process observations, not

@@ -5,9 +5,14 @@ namespace MPC.Host.SolidWorks.Commands;
 // The existing add-in callback containment boundary, testable without COM.
 internal sealed class RegionSourceValidationCallback
 {
-    private readonly HostFailureLog _failureLog;
+    private readonly Func<HostFailureLog> _failureLog;
+
+    internal RegionSourceValidationCallback() : this(() => new HostFailureLog()) { }
 
     internal RegionSourceValidationCallback(HostFailureLog failureLog)
+        : this(() => failureLog) { }
+
+    internal RegionSourceValidationCallback(Func<HostFailureLog> failureLog)
     {
         _failureLog = failureLog ?? throw new ArgumentNullException(nameof(failureLog));
     }
@@ -22,7 +27,8 @@ internal sealed class RegionSourceValidationCallback
         try { action(); }
         catch (Exception exception)
         {
-            _failureLog.TryWriteUnexpected(RequestId, exception);
+            try { _failureLog().TryWriteUnexpected(RequestId, exception); }
+            catch { /* Logger initialization is optional too. */ }
             try { showFailure(); }
             catch { /* Preserve the existing COM callback containment behavior. */ }
         }

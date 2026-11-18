@@ -226,7 +226,7 @@ public sealed class SolidWorksAddin :
     {
         var application = _solidWorks;
         if (application is null) return;
-        var callback = new RegionSourceValidationCallback(new HostFailureLog());
+        var callback = new RegionSourceValidationCallback();
         callback.Run(() =>
         {
             string directory = Path.GetDirectoryName(typeof(SolidWorksAddin).Assembly.Location)

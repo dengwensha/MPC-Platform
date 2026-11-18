@@ -52,6 +52,17 @@ public sealed class RegionSourceValidationCallbackTests : IDisposable
     }
 
     [Fact]
+    public void LoggerInitializationFailure_StillDisplaysOriginalGenericFailure()
+    {
+        var callback = new RegionSourceValidationCallback(
+            () => throw new InvalidOperationException("logger unavailable"));
+        int errors = 0;
+        callback.Run(() => throw new InvalidOperationException("original"), () => errors++);
+        Assert.Equal(1, errors);
+        Assert.False(Directory.Exists(_folder));
+    }
+
+    [Fact]
     public void ErrorDisplayFailure_DoesNotReplaceOriginalEvidence()
     {
         var callback = new RegionSourceValidationCallback(new HostFailureLog(_folder));
