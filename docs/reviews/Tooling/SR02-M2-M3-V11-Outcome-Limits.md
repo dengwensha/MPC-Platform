@@ -260,3 +260,16 @@ M2 diagnostic separation remain OPEN under the existing owner and work/release
 gate. No broad Exception catch, early hash redesign, new diagnostic logging or
 release approval is introduced. Independent review of this runtime input-error
 classification is required before merge. CI evidence is recorded in the PR.
+
+## SR-L4 duplicate semantic identity correction (2026-11-18)
+
+The [pinned classification](SR-L4-InvalidOperation-Classification.md) reads the
+76 explicit STEP-project InvalidOperationException throw sites and distinguishes
+a real duplicate declaration path from dispatch/result/lifecycle invariants.
+Application translates only the semantic resolver constructor's duplicate-ID
+exception to InvalidDataException, preserving the cause. Existing v1.1
+ImportFailed (7) / exit 3 and RequestId apply; other reference failures retain
+their existing aggregate MissingRegion meaning. No enum/runtime taxonomy or
+early-hash redesign is introduced. CI and independent review gates are recorded
+in the PR. M2 and overall SR-L4 remain OPEN; this is a bounded correction and
+classification record, not a release waiver or universal containment proof.
