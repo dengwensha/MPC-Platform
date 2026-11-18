@@ -2,7 +2,7 @@
 
 Date: 2026-11-18 Europe/Istanbul. Class: VERIFY / proposed policy.
 Baseline: `f7a54ad4b4e0c741220415b479e2f46d91b7658f` (main CI #233 successful).
-State: OWNER-ACCEPTED OPTION A; independent Senior review and implementation pending. M2 remains OPEN.
+State: OPTION A OWNER-ACCEPTED AND SENIOR-APPROVED; implementation pending. M2 remains OPEN.
 Accountable owner: Mehmet İlkay Kınacı; implementation assistant maintains evidence.
 
 ## Single goal and authority
@@ -82,7 +82,7 @@ behavior is introduced by this document.
 
 ## Proposed implementation boundary and acceptance
 
-With A owner-accepted, after independent Senior review the next micro-sprint should
+With A owner-accepted and Senior section 19 approved, the next micro-sprint should
 first define the smallest CAD-independent Application evidence/decision boundary.
 Preserve typed severity/code/source context from the same private snapshot used
 for geometry and fingerprint; do not independently reread a changing original file
@@ -108,7 +108,7 @@ neither that gap nor this policy's implementation/evidence gate.
 ## Gates and next decisions
 
 1. COMPLETED: owner explicitly selected A on 2026-11-18; no renewed owner selection required.
-2. Independent Senior review assesses the proposed boundary meaning and limits.
+2. COMPLETED for policy direction: Senior section 19 approved exact #112 head f4f0d24a; concrete boundary design/implementation still need their own applicable review.
 3. Define and review minimal evidence propagation plus required compatibility tests.
 4. Implement only the approved micro-sprint, with Release/full-test/corpus gates,
    exact commit trace and a clean checkout; do not publish a whole-file evaluator
@@ -124,7 +124,7 @@ evaluation eligibility; independent Senior review is required before policy
 ratification/merge even though the diff is documentation-only. Wire shape No;
 enum values No; IPC mechanics No; persistence No; production UI entry No. No owner
 selection is inferred from continuation or CI; the explicit owner decision is recorded above.
-Independent Senior acceptance remains pending and is not implied by owner acceptance.
+Independent Senior section 19 acceptance is recorded below; owner acceptance and CI alone did not supply it.
 
 ## Exact review scope after owner acceptance
 
@@ -141,3 +141,62 @@ and decision-boundary design, before production integration) appropriate? M2 det
 cause separation and implementation/consumer verification must remain OPEN.
 The prior #110 approval does not cover this new policy meaning. Review the final
 head identified in PR #112; its CI must succeed before any merge.
+
+## Senior section 19 policy acceptance and separate follow-ups
+
+Date: 2026-11-18 Europe/Istanbul. User-supplied independent Senior review of
+`f4f0d24afb03592eeb5577aa904e5549dc024e8f`: APPROVED for policy merge;
+CAD-independent Application evidence/decision-boundary design accepted as the
+next step before production integration. Reviewer independently recomputed the
+golden and both modified-byte hashes and inspected the stated code behavior.
+Reviewer did not repeat Worker process observations or verify CI #235. Report
+bytes/reviewer identity were not independently verified in this session; this
+records the supplied decision, not a fabricated GitHub review submission.
+
+Implementation session separately rechecked exact unchanged head and successful
+[CI #235](https://github.com/dengwensha/MPC-Platform/actions/runs/44366477629):
+Release 0 warnings/errors, 1936/1936 full tests, Worker acceptance 5/5, targeted
+3/3 and corpus/R03 checks. #112 merged as
+`45475d53806c80289fa41f549f6405024169ecdc`.
+[Post-merge main CI #236](https://github.com/dengwensha/MPC-Platform/actions/runs/44372085014)
+requires successful verification; this factual reconciliation has its own CI gate.
+Earlier requests for policy approval above are historical; the approval applies
+only to the policy direction at that exact reviewed head, not a future runtime diff.
+
+Accountable owner for the following OPEN work: repository owner Mehmet İlkay Kınacı;
+implementation assistant maintains technical evidence/design in the working session.
+
+| Follow-up | State | Trigger / required evidence |
+| --- | --- | --- |
+| Real-file inventory-error incidence | OPEN; rate not yet measured | BEFORE implementation: measure R01, R02, R03 plus workshop calibration files as collected, with pinned input hashes/reader version, total attempted files, files with Error/Fatal, diagnostic-code distribution and separate read failures. Report sample size and origin; do not call observed error incidence a false-positive rate without suitability ground truth. Missing workshop samples remain explicit. |
+| High observed rejection incidence | Conditional OPEN design dependency | If real-file incidence is high, do not silently weaken A or downgrade diagnostics. Separately design/review an evaluated-solid-reachable partial-scope rule and its limitations if needed. No such partial-scope policy is accepted or implemented here. |
+| Diagnostic code-to-severity stability | OPEN | Pin reader/validator code-to-severity mapping in acceptance tests before implementing/connecting the gate. Any change, including Error to Warning, is a trust/fail-closed risk trigger requiring applicable independent review; it changes eligibility. |
+| Complementary supported-geometry/completeness gate | OPEN | Define and review before releasing the first whole-file-dependent consumer. No-error inventory cannot substitute for this gate; A alone gives no full-file evaluation approval. |
+| CAD-independent evidence and decision boundary | OPEN design | Resolve the checklist below before submitting concrete design for review; production integration remains out of this accepted policy PR. |
+
+## Section 19 next-design checklist
+
+- Evidence must be immutable and contain at least source-byte hash, inventory
+  status, each diagnostic's code/severity/source entity ID and reader version.
+  Only the importer may create evidence from its own private snapshot; external
+  callers must not manufacture a clean evidence instance. Concrete accessibility,
+  ownership and creation API must be reviewed, not inferred from a hash string.
+- Decision belongs in Application, must be pure and deterministic, and distinguish
+  inventory-gate eligible, blocked with reasons, and no evidence. These are design
+  concepts, not new wire enums. Eligible never means overall manufacturing approval.
+  Unknown severity or hash mismatch must never become eligible; exact reason/status
+  precedence and missing-versus-invalid evidence must be specified during design.
+- First implementation slice stays inside Application: no v1.1 reply/wire/enum/UI
+  changes and no Host/Worker inference from success flags. Define producer-to-gate
+  evidence ownership before any consumer integration or new project dependency.
+- Acceptance includes the six policy-document cases above, code/severity pinning,
+  and the real-file error-incidence measurement. They are required work, not tests
+  or corpus measurements claimed complete by policy merge or existing green CI.
+
+M2 remains OPEN: detailed cause separation, concrete evidence-boundary design,
+implementation, consumer verification and complementary completeness gate are not
+closed. Existing catalog/importer/end-user-release and earlier whole-file-use gates
+remain. This is factual reconciliation of supplied review requirements; no new
+runtime behavior, wire meaning, severity mapping, measurement result or release
+permission is introduced. All new-diff risk-review triggers No; the already
+accepted policy/required future design retain their own applicable review gates.

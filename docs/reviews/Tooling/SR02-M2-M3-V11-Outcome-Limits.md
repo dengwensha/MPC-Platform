@@ -323,7 +323,7 @@ historical and superseded only within that four-guard scope after its CI gates.
 | Field | Required disposition |
 | --- | --- |
 | Item | M2 inventory-error policy for UNKNOWN/Partial unreferenced malformed records |
-| State | OPEN; option A (block on Error/Fatal or unavailable/unrelated evidence for future whole-file evaluation) owner-accepted 2026-11-18; independent Senior review, design and implementation pending |
+| State | OPEN; option A (block on Error/Fatal or unavailable/unrelated evidence for future whole-file evaluation) owner-accepted and Senior section 19 approved 2026-11-18; concrete design, implementation and consumer verification pending |
 | Observed behavior | Empty complex record alone returns MissingRegion; beside a valid region, unreferenced UNKNOWN/Partial can coexist with SourceLinkMatched. Source matching is not whole-file validity certification. |
 | Accepted present scope | Senior section 18 accepts this for current source-link-only checking, without expanding evaluation approval |
 | Accountable owner | Repository owner Mehmet İlkay Kınacı; implementation assistant maintains technical evidence/disposition |
@@ -345,7 +345,25 @@ confirmed the existing v1.0/v1.1 contrast and the unsupported-simple control.
 The recommendation is to block future whole-file-dependent evaluation on inventory
 Error/Fatal or unavailable/unrelated evidence, while retaining current source-link
 semantics. The user explicitly accepted A after presentation of the concrete
-policy on 2026-11-18 ("kabul ediyorum"). Independent Senior review, design and
-implementation remain pending; this is not runtime enforcement or M2 closure. No runtime, wire or completeness gate is implemented; M2 remains OPEN
+policy on 2026-11-18 ("kabul ediyorum"). Independent Senior section 19 approved policy merge and the next design step;
+concrete design, implementation and consumer verification remain pending; this is not runtime enforcement or M2 closure. No runtime, wire or completeness gate is implemented; M2 remains OPEN
 with the same accountable owner and work/release gates. This does not authorize
 catalog/importer work or change the closed four-guard follow-up.
+
+## Senior section 19 M2 disposition
+
+#112 exact head f4f0d24a was independently approved for policy merge and merged
+as `45475d53806c80289fa41f549f6405024169ecdc` after CI #235 success was checked.
+[Policy acceptance, follow-up register and next-design checklist](M2-Inventory-Error-Policy-Proposal.md#senior-section-19-policy-acceptance-and-separate-follow-ups)
+record the supplied review and main CI #236 gate. M2 remains OPEN.
+
+Before implementation, measure inventory Error/Fatal incidence on real R01/R02/R03
+and workshop calibration inputs; absent workshop data must remain explicit. A high
+rate must not silently weaken policy A. Pin code-to-severity mapping; every change
+to that mapping is a trust-boundary review trigger. Define the separate supported
+geometry/completeness gate before first whole-file consumer release. Importer-only
+immutable same-snapshot evidence and a pure three-result Application decision
+boundary remain concrete design/verification work, not delivered runtime features.
+Owner, required evidence and work/release triggers are in the linked register.
+The original detailed-cause separation remains separately OPEN; no M2 closure,
+physical acceptance, catalog importer implementation or end-user release is claimed.
