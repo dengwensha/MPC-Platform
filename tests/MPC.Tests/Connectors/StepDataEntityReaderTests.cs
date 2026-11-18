@@ -944,6 +944,63 @@ public sealed class StepDataEntityReaderTests
                         null!));
     }
 
+    [Theory]
+    [InlineData("COMPLEX_ENTITY()")]
+    [InlineData("complex_entity ('raw input')")]
+    public void Read_WithReservedSimpleType_RejectsInputBeforeRecordInvariant(string declaration)
+    {
+        string path = CreateTemporaryStepFile(
+            "ISO-10303-21; DATA; #999999 = " + declaration + "; ENDSEC; END-ISO-10303-21;");
+        try
+        {
+            var error = Assert.Throws<FormatException>(() => CreateReader().Read(path));
+            Assert.Contains("#999999", error.Message, StringComparison.Ordinal);
+            Assert.Contains("COMPLEX_ENTITY", error.Message, StringComparison.Ordinal);
+        }
+        finally { File.Delete(path); }
+    }
+
+    [Theory]
+    [InlineData("( )", "UNKNOWN", CadReadStatus.Partial, 0,
+        "STEP_COMPLEX_ENTITY_COMPONENTS_NOT_FOUND")]
+    [InlineData("???", "UNKNOWN", CadReadStatus.Partial, 0,
+        "STEP_DATA_ENTITY_HEADER_UNRECOGNIZED")]
+    [InlineData("UNSUPPORTED_ENTITY()", "UNSUPPORTED_ENTITY", CadReadStatus.Complete, 0, null)]
+    [InlineData("( REPRESENTATION_ITEM('COMPLEX_ENTITY') )", "COMPLEX_ENTITY",
+        CadReadStatus.Complete, 1, null)]
+    public void Read_RawRecordBranches_KeepCoherentMetadata(string declaration,
+        string expectedType, CadReadStatus expectedStatus, int componentCount, string? diagnosticCode)
+    {
+        string statement = "#999999 = " + declaration + ";";
+        string path = CreateTemporaryStepFile(
+            "ISO-10303-21; DATA; " + statement + " ENDSEC; END-ISO-10303-21;");
+        try
+        {
+            var result = CreateReader().Read(path);
+            Assert.NotNull(result.Value);
+            var record = Assert.Single(result.Value.Entities);
+            Assert.Equal("#999999", record.SourceEntityId);
+            Assert.Equal(statement, record.RawStatement);
+            Assert.Equal(expectedType, record.SourceEntityType);
+            Assert.Equal(expectedStatus, record.ReadStatus);
+            Assert.Equal(componentCount, record.ComponentTypes.Count);
+            if (diagnosticCode is null)
+            {
+                Assert.Equal(CadConnectorResultStatus.Succeeded, result.Status);
+                Assert.Empty(record.Diagnostics);
+            }
+            else
+            {
+                Assert.Equal(CadConnectorResultStatus.SucceededWithDiagnostics, result.Status);
+                var diagnostic = Assert.Single(record.Diagnostics);
+                Assert.Equal(diagnosticCode, diagnostic.Code);
+                Assert.Equal(CadDiagnosticSeverity.Error, diagnostic.Severity);
+                Assert.Contains(result.Diagnostics, item => item.Code == diagnosticCode);
+            }
+        }
+        finally { File.Delete(path); }
+    }
+
     private static StepDataEntityReader
         CreateReader()
     {
