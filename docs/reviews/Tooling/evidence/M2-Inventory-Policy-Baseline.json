@@ -1,0 +1,98 @@
+{
+  "baseline_commit": "f7a54ad4b4e0c741220415b479e2f46d91b7658f",
+  "date": "2026-11-18",
+  "environment": "Linux x64, .NET SDK 8.0.422, freshly built Release Worker",
+  "golden_path": "tests/MPC.Tests/TestData/Step/Golden/T001_PRISM.step",
+  "golden_sha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+  "worker_dll_sha256": "D98F2393D362598D39D7EC863330521ED157B4321F87AE2F5009617B753DE55D",
+  "method": "Preserve golden bytes; insert ASCII statement plus LF immediately before last ENDSEC; compute hash from resulting bytes; invoke Worker DLL in an actual dotnet child process for each v1.0/v1.1 request. No source files modified. Missing DTO fields are null in this observation file, not synthetic Worker results.",
+  "observations": [
+    {
+      "case": "golden",
+      "inserted_statement": null,
+      "source_sha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "contract_version": "1.0",
+      "exit_code": 0,
+      "request_correlation_verified": true,
+      "status": 0,
+      "outcome": null,
+      "diagnostics_present_in_dto": true,
+      "diagnostics": [],
+      "summary_present": true
+    },
+    {
+      "case": "golden",
+      "inserted_statement": null,
+      "source_sha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "contract_version": "1.1",
+      "exit_code": 0,
+      "request_correlation_verified": true,
+      "status": null,
+      "outcome": 1,
+      "diagnostics_present_in_dto": false,
+      "diagnostics": null,
+      "summary_present": false
+    },
+    {
+      "case": "empty-complex",
+      "inserted_statement": "#999999 = ( );",
+      "source_sha256": "09D7A1A029779A75A1265AEC4860C74E96FF473447FCDA08476394C68A3D241B",
+      "contract_version": "1.0",
+      "exit_code": 0,
+      "request_correlation_verified": true,
+      "status": 0,
+      "outcome": null,
+      "diagnostics_present_in_dto": true,
+      "diagnostics": [
+        {
+          "Code": "STEP_COMPLEX_ENTITY_COMPONENTS_NOT_FOUND",
+          "Severity": 2,
+          "Message": "STEP complex entity was preserved, but no component types could be identified."
+        }
+      ],
+      "summary_present": true
+    },
+    {
+      "case": "empty-complex",
+      "inserted_statement": "#999999 = ( );",
+      "source_sha256": "09D7A1A029779A75A1265AEC4860C74E96FF473447FCDA08476394C68A3D241B",
+      "contract_version": "1.1",
+      "exit_code": 0,
+      "request_correlation_verified": true,
+      "status": null,
+      "outcome": 1,
+      "diagnostics_present_in_dto": false,
+      "diagnostics": null,
+      "summary_present": false
+    },
+    {
+      "case": "unsupported-simple",
+      "inserted_statement": "#999999 = UNSUPPORTED_ENTITY();",
+      "source_sha256": "42DAF45B1C9E135E24836C9A7AD482A427EAE3B2E94EFB56DAFABCB76C6BBEC1",
+      "contract_version": "1.0",
+      "exit_code": 0,
+      "request_correlation_verified": true,
+      "status": 0,
+      "outcome": null,
+      "diagnostics_present_in_dto": true,
+      "diagnostics": [],
+      "summary_present": true
+    },
+    {
+      "case": "unsupported-simple",
+      "inserted_statement": "#999999 = UNSUPPORTED_ENTITY();",
+      "source_sha256": "42DAF45B1C9E135E24836C9A7AD482A427EAE3B2E94EFB56DAFABCB76C6BBEC1",
+      "contract_version": "1.1",
+      "exit_code": 0,
+      "request_correlation_verified": true,
+      "status": null,
+      "outcome": 1,
+      "diagnostics_present_in_dto": false,
+      "diagnostics": null,
+      "summary_present": false
+    }
+  ],
+  "passed_expected_observations": 6,
+  "physical_solidworks_test": false,
+  "scope": "Current behavior characterization only; not policy approval, whole-file completeness or universal parser coverage."
+}
