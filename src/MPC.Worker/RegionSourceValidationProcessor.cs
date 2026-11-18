@@ -6,6 +6,15 @@ namespace MPC.Worker;
 
 public sealed class RegionSourceValidationProcessor
 {
+    private readonly WorkerFailureLog _failureLog;
+
+    public RegionSourceValidationProcessor() : this(new WorkerFailureLog()) { }
+
+    internal RegionSourceValidationProcessor(WorkerFailureLog failureLog)
+    {
+        _failureLog = failureLog ?? throw new ArgumentNullException(nameof(failureLog));
+    }
+
     public RegionSourceValidationResult Process(RegionSourceValidationRequest? request)
     {
         // No file access before structural contract validation.
@@ -39,6 +48,7 @@ public sealed class RegionSourceValidationProcessor
         catch (Exception exception) when (exception is IOException or
             UnauthorizedAccessException or ArgumentException or NotSupportedException or InvalidDataException)
         {
+            _failureLog.TryWrite(request!.RequestId!, exception);
             return Result(request, RegionSourceValidationOutcome.ImportFailed);
         }
     }
