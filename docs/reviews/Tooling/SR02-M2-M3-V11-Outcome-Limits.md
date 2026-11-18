@@ -336,3 +336,15 @@ historical and superseded only within that four-guard scope after its CI gates.
 The existing M2 detailed-cause separation item remains OPEN with its original
 owner and gates. This is an additional explicit policy dependency, not a renaming
 or closure of that item. These are work/release gates, not scheduled reminders.
+
+## Inventory-policy discovery proposal (2026-11-18)
+
+[Evidence, alternatives and proposed acceptance boundary](M2-Inventory-Error-Policy-Proposal.md)
+are prepared against main f7a54ad4. A local fresh-Release child-process probe
+confirmed the existing v1.0/v1.1 contrast and the unsupported-simple control.
+The recommendation is to block future whole-file-dependent evaluation on inventory
+Error/Fatal or unavailable/unrelated evidence, while retaining current source-link
+semantics. This remains PROPOSED: owner selection and independent Senior review
+are pending. No runtime, wire or completeness gate is implemented; M2 remains OPEN
+with the same accountable owner and work/release gates. This does not authorize
+catalog/importer work or change the closed four-guard follow-up.
