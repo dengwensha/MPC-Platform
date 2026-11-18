@@ -13,6 +13,7 @@ internal sealed class RegionSourceValidationHostCommand
     private readonly IWorkerProcessLauncher _launcher;
     private readonly IWorkerProcessCompletionObserver _observer;
     private readonly WorkerContractJsonSerializer _serializer;
+    private readonly HostFailureLog _failureLog;
 
     internal RegionSourceValidationHostCommand()
         : this(new WorkerProcessLauncher(), new WorkerProcessCompletionObserver(),
@@ -20,14 +21,34 @@ internal sealed class RegionSourceValidationHostCommand
 
     internal RegionSourceValidationHostCommand(IWorkerProcessLauncher launcher,
         IWorkerProcessCompletionObserver observer, WorkerContractJsonSerializer serializer)
+        : this(launcher, observer, serializer, new HostFailureLog()) { }
+
+    internal RegionSourceValidationHostCommand(IWorkerProcessLauncher launcher,
+        IWorkerProcessCompletionObserver observer, WorkerContractJsonSerializer serializer,
+        HostFailureLog failureLog)
     {
         _launcher = launcher ?? throw new ArgumentNullException(nameof(launcher));
         _observer = observer ?? throw new ArgumentNullException(nameof(observer));
         _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+        _failureLog = failureLog ?? throw new ArgumentNullException(nameof(failureLog));
     }
 
     internal RegionSourceValidationHostCommandResult Execute(string? workerExecutablePath,
         RegionSourceValidationRequest? request, int timeoutMilliseconds)
+    {
+        var evidence = new HostFailureEvidence();
+        var result = ExecuteCore(workerExecutablePath, request, timeoutMilliseconds, evidence);
+        if (result.Status == RegionSourceHostStatus.LaunchFailed ||
+            result.Status == RegionSourceHostStatus.TimedOut ||
+            result.Status == RegionSourceHostStatus.ObservationFailed ||
+            result.Status == RegionSourceHostStatus.ResultReadFailed ||
+            result.Status == RegionSourceHostStatus.TransportFailed)
+            _failureLog.TryWrite(request!.RequestId!, result, evidence);
+        return result;
+    }
+
+    private RegionSourceValidationHostCommandResult ExecuteCore(string? workerExecutablePath,
+        RegionSourceValidationRequest? request, int timeoutMilliseconds, HostFailureEvidence evidence)
     {
         if (string.IsNullOrWhiteSpace(workerExecutablePath) || timeoutMilliseconds <= 0 ||
             !RegionSourceValidationRequestValidator.Validate(request).IsValid)
@@ -43,11 +64,14 @@ internal sealed class RegionSourceValidationHostCommand
             File.WriteAllText(requestPath, _serializer.SerializeRegionSourceRequest(request!));
             var launch = _launcher.Launch(new WorkerLaunchRequest(
                 workerExecutablePath, requestPath, resultPath));
+            evidence.FailureType = launch.FailureType;
             if (!launch.IsStarted || launch.Handle is null)
                 return new RegionSourceValidationHostCommandResult(
                     RegionSourceHostStatus.LaunchFailed, launch.FailureMessage);
 
             var completion = _observer.Observe(launch.Handle, timeoutMilliseconds);
+            evidence.FailureType = completion.FailureType;
+            evidence.ExitCode = completion.ExitCode;
             if (completion.Status == WorkerCompletionStatus.TimedOut)
                 return new RegionSourceValidationHostCommandResult(
                     RegionSourceHostStatus.TimedOut, completion.FailureMessage);
@@ -65,6 +89,7 @@ internal sealed class RegionSourceValidationHostCommand
                 exception is NotSupportedException || exception is JsonException ||
                 exception is InvalidDataException)
             {
+                evidence.Exception = exception;
                 return new RegionSourceValidationHostCommandResult(
                     RegionSourceHostStatus.ResultReadFailed, exception.GetType().Name);
             }
@@ -97,6 +122,7 @@ internal sealed class RegionSourceValidationHostCommand
             exception is UnauthorizedAccessException || exception is ArgumentException ||
             exception is NotSupportedException)
         {
+            evidence.Exception = exception;
             return new RegionSourceValidationHostCommandResult(
                 RegionSourceHostStatus.TransportFailed, exception.GetType().Name);
         }
