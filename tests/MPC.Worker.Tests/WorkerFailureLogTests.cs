@@ -156,7 +156,7 @@ public sealed class WorkerFailureLogTests : IDisposable
             using var json = JsonDocument.Parse(raw);
             string details = json.RootElement.GetProperty("ExceptionDetails").GetString()!;
             Assert.True(json.RootElement.GetProperty("DetailsTruncated").GetBoolean());
-            Assert.DoesNotContain("\uFFFD", details);
+            Assert.Equal(-1, details.IndexOf('\uFFFD'));
             Assert.False(char.IsHighSurrogate(details[details.Length - 1]));
             Assert.Equal(leading == 8190 ? text.Substring(0, 8192) : text.Substring(0, 8191), details);
             Assert.True(new FileInfo(path).Length < 64 * 1024);
