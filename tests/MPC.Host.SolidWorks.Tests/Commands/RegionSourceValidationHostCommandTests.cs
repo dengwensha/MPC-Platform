@@ -290,6 +290,103 @@ public sealed class RegionSourceValidationHostCommandTests
         finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
     }
 
+    [Fact]
+    public void Cleanup_RemovesOnlyOldUnlockedOwnedStaging()
+    {
+        string folder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(folder);
+        string old = Path.Combine(folder, "host-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string busy = Path.Combine(folder, "host-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string recent = Path.Combine(folder, "host-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string other = Path.Combine(folder, "worker-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string unrelated = Path.Combine(folder, "host-notes.tmp");
+        foreach (string path in new[] { old, busy, other, unrelated })
+        {
+            File.WriteAllText(path, "keep unless eligible");
+            File.SetLastWriteTimeUtc(path, DateTime.UtcNow.AddDays(-2));
+        }
+        File.WriteAllText(recent, "recent");
+        try
+        {
+            using (var active = new FileStream(busy, FileMode.Open, FileAccess.Write, FileShare.None))
+            {
+                new HostFailureLog(folder).TryWrite("request",
+                    new RegionSourceValidationHostCommandResult(RegionSourceHostStatus.LaunchFailed, "failure"),
+                    new HostFailureEvidence());
+                Assert.True(File.Exists(busy));
+            }
+            Assert.False(File.Exists(old));
+            Assert.True(File.Exists(recent));
+            Assert.True(File.Exists(other));
+            Assert.True(File.Exists(unrelated));
+            Assert.True(File.Exists(Path.Combine(folder, "host-last-failure.json")));
+        }
+        finally { Directory.Delete(folder, true); }
+    }
+
+    [Theory]
+    [InlineData(8190)]
+    [InlineData(8191)]
+    public void UnicodeBoundary_RetainsReadableTurkishWithoutBrokenPair(int leading)
+    {
+        string folder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        string text = new string('İ', leading) + "\U0001F600" + "son";
+        try
+        {
+            new HostFailureLog(folder).TryWrite("request",
+                new RegionSourceValidationHostCommandResult(RegionSourceHostStatus.TransportFailed, "İşler"),
+                new HostFailureEvidence { Exception = new ExactTextException(text) });
+            string path = Path.Combine(folder, "host-last-failure.json");
+            string raw = File.ReadAllText(path);
+            Assert.Contains("İ", raw);
+            using var json = JsonDocument.Parse(raw);
+            string details = json.RootElement.GetProperty("ExceptionDetails").GetString()!;
+            Assert.True(json.RootElement.GetProperty("DetailsTruncated").GetBoolean());
+            Assert.Equal(-1, details.IndexOf('\uFFFD'));
+            Assert.False(char.IsHighSurrogate(details[details.Length - 1]));
+            Assert.Equal(leading == 8190 ? text.Substring(0, 8192) : text.Substring(0, 8191), details);
+            Assert.True(new FileInfo(path).Length < 64 * 1024);
+        }
+        finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
+    }
+
+    private sealed class ExactTextException : Exception
+    {
+        private readonly string _text;
+        internal ExactTextException(string text) { _text = text; }
+        public override string ToString() => _text;
+    }
+
+    [Theory]
+    [InlineData("id")]
+    [InlineData("version")]
+    [InlineData("outcome")]
+    public void RejectedReply_LogsReceivedFieldsWithoutChangingRequestCorrelation(string scenario)
+    {
+        string folder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        try
+        {
+            var request = Request();
+            string receivedId = scenario == "id" ? Guid.NewGuid().ToString("D") : request.RequestId!;
+            string version = scenario == "version" ? "9.9" : "1.1";
+            var outcome = scenario == "outcome" ? (RegionSourceValidationOutcome)99 : RegionSourceValidationOutcome.SourceLinkMatched;
+            var launcher = new FakeLauncher { Reply = _ => JsonSerializer.Serialize(
+                new RegionSourceValidationResult(version, receivedId, WorkerOperationKind.ValidateRegionSource, outcome)) };
+            var command = new RegionSourceValidationHostCommand(launcher, new FakeObserver(WorkerCompletionResult.Completed(0)),
+                new WorkerContractJsonSerializer(), new HostFailureLog(folder));
+            Assert.Equal(RegionSourceHostStatus.ResultReadFailed, command.Execute("worker.exe", request, 30000).Status);
+            using var json = JsonDocument.Parse(File.ReadAllText(Path.Combine(folder, "host-last-failure.json")));
+            var root = json.RootElement;
+            Assert.Equal(request.RequestId, root.GetProperty("RequestId").GetString());
+            Assert.Equal(receivedId, root.GetProperty("ReceivedRequestId").GetString());
+            Assert.Equal(version, root.GetProperty("ReceivedContractVersion").GetString());
+            Assert.Equal((int)WorkerOperationKind.ValidateRegionSource, root.GetProperty("ReceivedOperation").GetInt32());
+            Assert.Equal((int)outcome, root.GetProperty("ReceivedOutcome").GetInt32());
+            AssertCleaned(launcher);
+        }
+        finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
+    }
+
     private static void AssertCleaned(FakeLauncher launcher) =>
         Assert.False(Directory.Exists(Path.GetDirectoryName(launcher.RequestPath!)!));
 
