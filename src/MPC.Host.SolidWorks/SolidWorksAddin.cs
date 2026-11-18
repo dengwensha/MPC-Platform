@@ -226,7 +226,8 @@ public sealed class SolidWorksAddin :
     {
         var application = _solidWorks;
         if (application is null) return;
-        try
+        var callback = new RegionSourceValidationCallback();
+        callback.Run(() =>
         {
             string directory = Path.GetDirectoryName(typeof(SolidWorksAddin).Assembly.Location)
                 ?? string.Empty;
@@ -234,18 +235,15 @@ public sealed class SolidWorksAddin :
             var command = new RegionSourceValidationHostCommand();
             new RegionSourceValidationWorkflow(
                 new SolidWorksRegionSourceInteraction(application),
-                request => command.Execute(worker, request, DefaultTimeoutMilliseconds)).Run();
-        }
-        catch (Exception)
-        {
-            try
-            {
-                application.SendMsgToUser2(
-                    "MPC kaynak yüz kontrolü tamamlanamadı. İşlemi yeniden başlatın.",
-                    (int)swMessageBoxIcon_e.swMbStop, (int)swMessageBoxBtn_e.swMbOk);
-            }
-            catch { }
-        }
+                request =>
+                {
+                    callback.RequestId = request.RequestId;
+                    return command.Execute(worker, request, DefaultTimeoutMilliseconds);
+                }).Run();
+        },
+        () => application.SendMsgToUser2(
+            "MPC kaynak yüz kontrolü tamamlanamadı. İşlemi yeniden başlatın.",
+            (int)swMessageBoxIcon_e.swMbStop, (int)swMessageBoxBtn_e.swMbOk));
     }
 
     private static string CreateSuccessMessage(

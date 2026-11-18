@@ -36,7 +36,14 @@ internal sealed class HostFailureLog
     private HostFailureLog(Func<string> directory) { _directory = directory; }
 
     internal void TryWrite(string requestId, RegionSourceValidationHostCommandResult result,
-        HostFailureEvidence evidence)
+        HostFailureEvidence evidence) =>
+        Write(requestId, result, evidence, "HostCommand");
+
+    internal void TryWriteUnexpected(string? requestId, Exception exception) =>
+        Write(requestId, null, new HostFailureEvidence { Exception = exception }, "SourceValidationCallback");
+
+    private void Write(string? requestId, RegionSourceValidationHostCommandResult? result,
+        HostFailureEvidence evidence, string boundary)
     {
         string? temporary = null;
         try
@@ -44,20 +51,22 @@ internal sealed class HostFailureLog
             string directory = _directory();
             Directory.CreateDirectory(directory);
             TryCleanStaging(directory);
-            string details = evidence.Exception?.ToString() ?? result.FailureMessage ?? "";
+            string details = evidence.Exception?.ToString() ?? result?.FailureMessage ?? "";
+            var received = result?.WorkerResult;
             string json = JsonSerializer.Serialize(new
             {
                 TimestampUtc = DateTimeOffset.UtcNow,
-                RequestId = Limit(requestId, 64),
-                HostStatus = result.Status.ToString(),
+                RequestId = requestId is null ? null : Limit(requestId, 64),
+                Boundary = boundary,
+                HostStatus = result?.Status.ToString(),
                 WorkerExitCode = evidence.ExitCode,
                 // Received fields are untrusted diagnostic data, never approval inputs.
-                ReceivedRequestId = result.WorkerResult is null ? null : Limit(result.WorkerResult.RequestId ?? "", 64),
-                ReceivedContractVersion = result.WorkerResult is null ? null : Limit(result.WorkerResult.ContractVersion ?? "", 32),
-                ReceivedOperation = result.WorkerResult is null ? (int?)null : (int)result.WorkerResult.Operation,
-                ReceivedOutcome = result.WorkerResult is null ? (int?)null : (int)result.WorkerResult.Outcome,
+                ReceivedRequestId = received is null ? null : Limit(received.RequestId ?? "", 64),
+                ReceivedContractVersion = received is null ? null : Limit(received.ContractVersion ?? "", 32),
+                ReceivedOperation = received is null ? (int?)null : (int)received.Operation,
+                ReceivedOutcome = received is null ? (int?)null : (int)received.Outcome,
                 FailureType = Limit(evidence.Exception?.GetType().FullName ?? evidence.FailureType ?? "", 256),
-                FailureMessage = Limit(result.FailureMessage ?? "", 1024),
+                FailureMessage = Limit(result?.FailureMessage ?? evidence.Exception?.Message ?? "", 1024),
                 DetailsTruncated = details.Length > 8192,
                 ExceptionDetails = Limit(details, 8192)
             }, JsonOptions);
