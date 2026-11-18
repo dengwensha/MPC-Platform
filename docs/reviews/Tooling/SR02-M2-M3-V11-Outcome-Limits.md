@@ -300,3 +300,15 @@ successful main CI #226. M2 remains OPEN. Raw STEP negative-test guard reachabil
 is an explicit M2 gate dependency: BEFORE catalog intake/importer OR end-user release,
 whichever first. No physical diagnostic PASS, universal exception/logging guarantee,
 v1.0 expansion or release waiver is claimed. Owners and other triggers are in the register.
+
+## Raw STEP guard reachability follow-up (2026-11-18)
+
+[Behavioral evidence and correction submitted in #110](M2-Raw-Step-Record-Guard-Validation.md)
+reproduce an input-reachable StepDataEntityRecord line-218 invariant failure:
+a simple COMPLEX_ENTITY declaration collides with the internal discriminator.
+The correction is narrow reader-side FormatException classification; invariant
+guards remain. Empty complex records retain existing UNKNOWN/Partial behavior,
+including possible source-region match when unreferenced beside a valid golden
+region; this is not a complete-file validity guarantee. M2 and the raw-input
+follow-up remain OPEN pending final CI and independent Senior disposition;
+existing catalog/end-user-release gates remain binding.

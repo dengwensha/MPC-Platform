@@ -117,3 +117,14 @@ are independent non-blocking follow-ups, not part of this input-error correction
 | `src/MPC.Connectors.Step/Semantics/StepSemanticEntityReader.cs` | 1 | 56 |
 | `src/MPC.Connectors.Step/Semantics/StepDegenerateToroidalSurfaceEntityHandler.cs` | 1 | 27 |
 | `src/MPC.Connectors.Step/Semantics/StepBSplineSurfaceWithKnotsEntityHandler.cs` | 2 | 26, 363 |
+
+## Subsequent raw-input evidence (2026-11-18)
+
+The baseline inventory and original static assessment above are historical.
+[Raw-record behavioral validation](M2-Raw-Step-Record-Guard-Validation.md)
+found an input path to StepDataEntityRecord line 218: a simple declaration named
+COMPLEX_ENTITY collides with the internal record discriminator. The earlier
+four-guard group assessment was incomplete; do not infer non-reachability of
+all four guards from it. PR #110 supplies reproducing tests followed by a narrow
+reader-side correction; the guards themselves remain unchanged. M2 and the
+raw-input follow-up remain OPEN pending CI and independent review.
