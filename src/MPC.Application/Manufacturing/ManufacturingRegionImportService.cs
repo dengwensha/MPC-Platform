@@ -63,6 +63,11 @@ public static class ManufacturingRegionImportService
             // Expose a framework input-data failure across the Application boundary.
             throw new InvalidDataException("A STEP semantic entity value was rejected.", exception);
         }
+        catch (FormatException exception)
+        {
+            // Malformed STEP parameters are input failures, not Worker protocol failures.
+            throw new InvalidDataException("The STEP input contains malformed parameters.", exception);
+        }
         finally
         {
             File.Delete(snapshotPath);

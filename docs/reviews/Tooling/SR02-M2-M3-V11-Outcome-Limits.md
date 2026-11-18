@@ -236,3 +236,27 @@ distinguishes rejected input from programming faults. No broad catch or automati
 conversion of all parser exceptions is approved. Local diagnostic logging and
 MainWindowHandle == 0 owner fallback remain low-priority follow-ups reported by
 the Senior. Section 11 treats them as non-blocking for #94.
+
+## SR-L4 bounded FormatException correction (2026-11-18)
+
+Start: main `00ec5de99666dd521faacc8149e72b7aeb8e1b76` (merged #94).
+This follow-up translates FormatException only within the existing
+ManufacturingRegionImportService import boundary to InvalidDataException,
+retaining the original exception as InnerException. The existing v1.1 Worker
+handler then emits ImportFailed (7), operation-failed exit 3 and the original
+RequestId. No DTO, enum number, Host UI or legacy v1.0 route changes.
+
+Regressions use actual golden STEP bytes with an added toroidal entity:
+wrong parameter count, nonnumeric radius, an integer outside Int64 range and
+a non-finite real. Each input is exercised through the real importer (retained
+FormatException, no published region) and Worker runner (validated correlated
+result JSON and exit 3). Existing positive-radius and golden source-match
+controls remain required. These examples do not prove all malformed STEP
+inputs are handled or that every reported throw site is reachable.
+
+InvalidOperationException remains outside this correction; it can indicate a
+programming fault and needs separate evidence before classification. SR-L4 and
+M2 diagnostic separation remain OPEN under the existing owner and work/release
+gate. No broad Exception catch, early hash redesign, new diagnostic logging or
+release approval is introduced. Independent review of this runtime input-error
+classification is required before merge. CI evidence is recorded in the PR.
