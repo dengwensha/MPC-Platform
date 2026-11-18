@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text.Json;
+using MPC.Application.Manufacturing;
 using MPC.Contracts;
 using MPC.Contracts.Validation;
 
@@ -74,6 +75,67 @@ public sealed class RegionSourceValidationWorkerTests
             Assert.Equal(Id, result.RequestId);
         }
         finally { File.Delete(copy); }
+    }
+
+    // Exercise both handler validation (arity/type) and parser numeric limits.
+    public static TheoryData<string> MalformedToroidalParameters => new()
+    {
+        "'test', #175, 178.5",
+        "'test', #175, .T., 10.",
+        "'test', #175, 9223372036854775808, 10.",
+        "'test', #175, 1.E999, 10."
+    };
+
+    [Theory]
+    [MemberData(nameof(MalformedToroidalParameters))]
+    public async Task MalformedStepParameters_KeepCauseAtApplicationBoundary(string parameters)
+    {
+        string copy = await WriteToroidalInput(parameters);
+        try
+        {
+            ManufacturingRegion? region = null;
+            var error = Assert.Throws<InvalidDataException>(() =>
+                ManufacturingRegionImportService.TryCreate(copy, "#8", out region));
+            Assert.IsType<FormatException>(error.InnerException);
+            Assert.Null(region);
+        }
+        finally { File.Delete(copy); }
+    }
+
+    [Theory]
+    [MemberData(nameof(MalformedToroidalParameters))]
+    public async Task MalformedStepParameters_ProduceCorrelatedImportFailure(string parameters)
+    {
+        string copy = await WriteToroidalInput(parameters);
+        try
+        {
+            var (exit, result) = await Run(Request(copy));
+            Assert.Equal(WorkerExitCodes.OperationFailed, exit);
+            Assert.Equal(RegionSourceValidationOutcome.ImportFailed, result.Outcome);
+            Assert.Equal("1.1", result.ContractVersion);
+            Assert.Equal(Id, result.RequestId);
+            Assert.Equal(WorkerOperationKind.ValidateRegionSource, result.Operation);
+        }
+        finally { File.Delete(copy); }
+    }
+
+    private static async Task<string> WriteToroidalInput(string parameters)
+    {
+        string copy = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".step");
+        try
+        {
+            string source = await File.ReadAllTextAsync(Golden);
+            int dataEnd = source.LastIndexOf("ENDSEC;", StringComparison.Ordinal);
+            Assert.True(dataEnd >= 0);
+            await File.WriteAllTextAsync(copy, source.Insert(dataEnd,
+                "#999999 = TOROIDAL_SURFACE (" + parameters + ");\n"));
+            return copy;
+        }
+        catch
+        {
+            File.Delete(copy);
+            throw;
+        }
     }
 
     [Fact]
