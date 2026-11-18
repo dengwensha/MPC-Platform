@@ -312,3 +312,27 @@ including possible source-region match when unreferenced beside a valid golden
 region; this is not a complete-file validity guarantee. M2 and the raw-input
 follow-up remain OPEN pending final CI and independent Senior disposition;
 existing catalog/end-user-release gates remain binding.
+
+## M2 inventory-error policy (OPEN, Senior section 18)
+
+The [four-guard raw STEP follow-up](M2-Raw-Step-Record-Guard-Validation.md#senior-section-18-bounded-closure)
+has independent limited-closure acceptance after green #110 merge and written
+closure; this does not close M2. Earlier pending raw-test statements above are
+historical and superseded only within that four-guard scope after its CI gates.
+
+| Field | Required disposition |
+| --- | --- |
+| Item | M2 inventory-error policy for UNKNOWN/Partial unreferenced malformed records |
+| State | OPEN; no blocking-versus-display-only policy selected or implemented |
+| Observed behavior | Empty complex record alone returns MissingRegion; beside a valid region, unreferenced UNKNOWN/Partial can coexist with SourceLinkMatched. Source matching is not whole-file validity certification. |
+| Accepted present scope | Senior section 18 accepts this for current source-link-only checking, without expanding evaluation approval |
+| Accountable owner | Repository owner Mehmet İlkay Kınacı; implementation assistant maintains technical evidence/disposition |
+| Decision needed | Will inventory errors block whole-file dependent evaluation, or be shown to the user? Define diagnostic severity/propagation, affected consumers and regression acceptance before implementation. Neither choice is authorized implicitly here. |
+| Work trigger | BEFORE feature recognition or machining-time/cost evaluation starts consuming the whole file |
+| M2 gate / deadline | Revisit BEFORE catalog intake/importer work OR BEFORE an end-user release, whichever first; the work trigger also applies if earlier |
+| Evidence to close | Explicit owner policy decision, reviewed relevant boundary/compatibility design and meaningful tests for malformed unreferenced records versus valid referenced geometry, including propagation to each affected consumer |
+| Restrictions | No silent promotion of partial inventory to whole-file approval; no blanket fatal-diagnostic behavior, new wire outcome, fallback or release waiver introduced by this record |
+
+The existing M2 detailed-cause separation item remains OPEN with its original
+owner and gates. This is an additional explicit policy dependency, not a renaming
+or closure of that item. These are work/release gates, not scheduled reminders.

@@ -84,3 +84,50 @@ intake/importer starts OR end-user release, whichever first. Accountable owner:
 repository owner Mehmet İlkay Kınacı; implementation assistant maintains evidence.
 SR-L4 remains bounded as previously recorded; new defect evidence is tracked here,
 not represented as a universal containment guarantee or a release waiver.
+
+## Senior section 18 bounded closure
+
+The user supplied the independent Senior section 18 decision in the working
+conversation: exact #110 head `c5c2ca228dd9f239f3fc2a252a8fb9f434484455`
+approved for merge, no blocking finding, no physical acceptance required.
+The reviewer read code/tests but did not execute build/tests or verify CI.
+This records the supplied review, not a fabricated GitHub review submission;
+reviewer identity/report bytes were not independently verified in this session.
+
+Implementation-session verification separately confirmed the unchanged reviewed
+head and successful [CI #230](https://github.com/dengwensha/MPC-Platform/actions/runs/44358126197):
+Release 0 warnings/errors, 1936/1936 full tests (1366 core, 94 Contracts,
+219 Application, 86 Worker, 171 net48 Host), Worker acceptance 5/5, targeted
+3/3 and real-corpus compatibility/reconciliation. #110 merged as
+`bc51815ad76584d2996db9c41ad5994f496e67d8`.
+[Post-merge main CI #231](https://github.com/dengwensha/MPC-Platform/actions/runs/44362559076)
+must succeed before this closure record is merged/effective. The documentation
+PR must also pass its own CI.
+
+Disposition after those gates: CLOSED WITH DOCUMENTED LIMITS for the raw STEP
+negative-test follow-up concerning ONLY StepDataEntityRecord's four baseline
+guards at 218/226/254/263. Line 218 was reproduced and corrected; the other
+three were independently checked by static reader-branch inspection and
+representative control tests. No claim that all malformed STEP inputs, parser
+exceptions or inventory errors are covered. The earlier pending statements
+above are historical and superseded for this four-guard follow-up only.
+
+M2 remains OPEN. The newly explicit UNKNOWN/Partial inventory-error policy
+item is recorded in the [M2 outcome register](SR02-M2-M3-V11-Outcome-Limits.md#m2-inventory-error-policy-open-senior-section-18).
+Current source-link matching may retain an unreferenced malformed record.
+Before whole-file feature recognition, time or cost evaluation, decide whether
+inventory errors block evaluation or are shown to the user, and define evidence,
+propagation and tests for the chosen policy. Do not infer a policy choice from
+this closure. The M2 catalog/importer/end-user-release gate still applies.
+
+The Senior's non-blocking contract note is implemented as XML documentation on
+both IStepDataEntityReader.Read and StepDataEntityReader.Read: a simple reserved
+COMPLEX_ENTITY declaration can throw FormatException and abort this read, while
+other malformed statements can remain diagnostic-bearing partial records.
+This documents #110 behavior; no new runtime or public signature change.
+
+This factual acceptance/closure and XML-comment update adds no wire, enum,
+trust/fail-closed, IPC, persistence or UI behavior. All six new-diff risk-review
+triggers are No; it records the supplied independently accepted scope and
+creates no additional independent-review ceremony. No physical PASS or end-user
+release is claimed. All other SR-L4 follow-ups retain their separate owners/gates.

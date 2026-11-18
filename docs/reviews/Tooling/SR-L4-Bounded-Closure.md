@@ -45,7 +45,8 @@ These are work/release gates, not scheduled reminders.
 
 | Follow-up | Priority / state | Trigger and required evidence |
 | --- | --- | --- |
-| Raw STEP negative-test gap (#107 finding 3), StepDataEntityRecord guards 218/226/254/263 | Medium / OPEN | Same gate as M2: BEFORE catalog intake/importer starts OR BEFORE end-user release, whichever first. Exercise raw malformed text, including empty complex entity; determine whether guards are input-reachable. If reachable, reproduce and fix the escaping failure through scoped classification/regression before crossing gate. |
+| Raw STEP negative-test gap (#107 finding 3), StepDataEntityRecord guards 218/226/254/263 | CLOSED WITH DOCUMENTED LIMITS after section 18 CI gates | #110 exact head c5c2ca22 approved and merged as bc51815a. Only these four guards are covered; [closure evidence](M2-Raw-Step-Record-Guard-Validation.md#senior-section-18-bounded-closure). No universal malformed-input guarantee. |
+| UNKNOWN/Partial unreferenced inventory-error policy | Medium / OPEN under M2 | [Explicit owner/decision/gates](SR02-M2-M3-V11-Outcome-Limits.md#m2-inventory-error-policy-open-senior-section-18). Decide before whole-file feature/time/cost use; also before catalog/importer or end-user release, whichever first. |
 | Resolver constructor classification assumption (#107 finding 1) | Low / OPEN | Next change touching StepSemanticEntityResolver constructor: protect/comment the narrow catch dependency or use a dedicated exception type, with appropriate regression. |
 | Duplicate MANIFOLD_SOLID_BREP root versus other duplicate identity (#107 finding 2) | Documentation CLOSED; behavior tied to OPEN M2 | Existing M2 outcome record explains MissingRegion before constructor versus ImportFailed at constructor. No uniform cause taxonomy claimed. |
 | .tmp exact extension, reparse-point and 64-file cap tests (#106) | Low / OPEN | Next diagnostic-log change; add meaningful cleanup/boundary coverage. |
