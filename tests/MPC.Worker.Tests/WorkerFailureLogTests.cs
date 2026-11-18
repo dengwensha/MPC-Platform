@@ -108,6 +108,69 @@ public sealed class WorkerFailureLogTests : IDisposable
         Assert.False(Directory.Exists(_folder));
     }
 
+    [Fact]
+    public void Cleanup_RemovesOnlyOldUnlockedOwnedStaging()
+    {
+        string folder = _folder;
+        Directory.CreateDirectory(folder);
+        string old = Path.Combine(folder, "worker-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string busy = Path.Combine(folder, "worker-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string recent = Path.Combine(folder, "worker-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string other = Path.Combine(folder, "host-" + Guid.NewGuid().ToString("N") + ".tmp");
+        string unrelated = Path.Combine(folder, "worker-notes.tmp");
+        foreach (string path in new[] { old, busy, other, unrelated })
+        {
+            File.WriteAllText(path, "keep unless eligible");
+            File.SetLastWriteTimeUtc(path, DateTime.UtcNow.AddDays(-2));
+        }
+        File.WriteAllText(recent, "recent");
+        try
+        {
+            using (var active = new FileStream(busy, FileMode.Open, FileAccess.Write, FileShare.None))
+            {
+                new WorkerFailureLog(folder).TryWrite(Id, new IOException("failure"));
+                Assert.True(File.Exists(busy));
+            }
+            Assert.False(File.Exists(old));
+            Assert.True(File.Exists(recent));
+            Assert.True(File.Exists(other));
+            Assert.True(File.Exists(unrelated));
+            Assert.True(File.Exists(Path.Combine(folder, "worker-last-failure.json")));
+        }
+        finally { /* Fixture cleanup follows. */ }
+    }
+
+    [Theory]
+    [InlineData(8190)]
+    [InlineData(8191)]
+    public void UnicodeBoundary_RetainsReadableTurkishWithoutBrokenPair(int leading)
+    {
+        string folder = _folder;
+        string text = new string('İ', leading) + "\U0001F600" + "son";
+        try
+        {
+            new WorkerFailureLog(folder).TryWrite(Id, new ExactTextException(text));
+            string path = Path.Combine(folder, "worker-last-failure.json");
+            string raw = File.ReadAllText(path);
+            Assert.Contains("İ", raw);
+            using var json = JsonDocument.Parse(raw);
+            string details = json.RootElement.GetProperty("ExceptionDetails").GetString()!;
+            Assert.True(json.RootElement.GetProperty("DetailsTruncated").GetBoolean());
+            Assert.DoesNotContain("\uFFFD", details);
+            Assert.False(char.IsHighSurrogate(details[details.Length - 1]));
+            Assert.Equal(leading == 8190 ? text.Substring(0, 8192) : text.Substring(0, 8191), details);
+            Assert.True(new FileInfo(path).Length < 64 * 1024);
+        }
+        finally { /* Fixture cleanup follows. */ }
+    }
+
+    private sealed class ExactTextException : Exception
+    {
+        private readonly string _text;
+        internal ExactTextException(string text) { _text = text; }
+        public override string ToString() => _text;
+    }
+
     private RegionSourceValidationRequest Request() => new("1.1", Id,
         WorkerOperationKind.ValidateRegionSource,
         Path.Combine(_folder, "missing.step"), "#8", new string('A', 64),

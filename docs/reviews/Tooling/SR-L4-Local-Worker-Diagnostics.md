@@ -1,5 +1,7 @@
 # SR-L4 local Worker diagnostics
 
+Historical delivery record. Current encoding, truncation, staging retention and received-reply fields are described in [diagnostic hardening](SR-L4-Diagnostic-Hardening.md).
+
 Date: 2026-11-18 Europe/Istanbul. Class: HARDEN.
 Start: main `15aaac60e38a483c380e86171ce4f6451f38da7a`.
 Goal: retain the technical cause of a caught v1.1 region import exception

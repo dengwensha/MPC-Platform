@@ -1,5 +1,7 @@
 # SR-L4 local Host diagnostics
 
+Historical delivery record. Current encoding, truncation, staging retention and received-reply fields are described in [diagnostic hardening](SR-L4-Diagnostic-Hardening.md).
+
 Date: 2026-11-18 Europe/Istanbul. Class: HARDEN.
 Start: main `6799ab06b1a89d42ae687f532577e937593970dd`.
 Goal: retain v1.1 source-face Host launch, timeout, observation, result-read/
