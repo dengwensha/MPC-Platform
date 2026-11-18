@@ -211,6 +211,76 @@ public sealed class RegionSourceValidationWorkerTests
         finally { File.Delete(copy); }
     }
 
+    [Theory]
+    [InlineData("COMPLEX_ENTITY()")]
+    [InlineData("complex_entity ('raw input')")]
+    public async Task ReservedSimpleType_IsInputFailureWithoutPublishedRegion(string declaration)
+    {
+        string copy = await WriteRawRecordInput(declaration);
+        try
+        {
+            ManufacturingRegion? region = null;
+            var error = Assert.Throws<InvalidDataException>(() =>
+                ManufacturingRegionImportService.TryCreate(copy, "#8", out region));
+            Assert.IsType<FormatException>(error.InnerException);
+            Assert.Null(region);
+        }
+        finally { File.Delete(copy); }
+    }
+
+    [Theory]
+    [InlineData("COMPLEX_ENTITY()")]
+    [InlineData("complex_entity ('raw input')")]
+    public async Task ReservedSimpleType_ProducesCorrelatedImportFailure(string declaration)
+    {
+        string copy = await WriteRawRecordInput(declaration);
+        try
+        {
+            var (exit, result) = await Run(Request(copy));
+            Assert.Equal(WorkerExitCodes.OperationFailed, exit);
+            Assert.Equal(RegionSourceValidationOutcome.ImportFailed, result.Outcome);
+            Assert.Equal("1.1", result.ContractVersion);
+            Assert.Equal(Id, result.RequestId);
+            Assert.Equal(WorkerOperationKind.ValidateRegionSource, result.Operation);
+        }
+        finally { File.Delete(copy); }
+    }
+
+    [Theory]
+    [InlineData(false, RegionSourceValidationOutcome.MissingRegion, 2)]
+    [InlineData(true, RegionSourceValidationOutcome.SourceLinkMatched, 0)]
+    public async Task EmptyComplexRecord_PreservesExistingAggregateBehavior(bool includeGolden,
+        RegionSourceValidationOutcome expectedOutcome, int expectedExit)
+    {
+        string copy = await WriteRawRecordInput("( )", includeGolden);
+        try
+        {
+            // An unreferenced UNKNOWN record does not establish complete-file validity.
+            // Preserve M2's existing region-based result rather than invent a new taxonomy.
+            var (exit, result) = await Run(Request(copy));
+            Assert.Equal(expectedExit, exit);
+            Assert.Equal(expectedOutcome, result.Outcome);
+            Assert.Equal(Id, result.RequestId);
+        }
+        finally { File.Delete(copy); }
+    }
+
+    private static async Task<string> WriteRawRecordInput(string declaration, bool includeGolden = true)
+    {
+        string copy = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".step");
+        try
+        {
+            string source = includeGolden ? await File.ReadAllTextAsync(Golden)
+                : "ISO-10303-21; DATA; ENDSEC; END-ISO-10303-21;";
+            int dataEnd = source.LastIndexOf("ENDSEC;", StringComparison.Ordinal);
+            Assert.True(dataEnd >= 0);
+            await File.WriteAllTextAsync(copy, source.Insert(dataEnd,
+                "#999999 = " + declaration + ";\n"));
+            return copy;
+        }
+        catch { File.Delete(copy); throw; }
+    }
+
     [Fact]
     public async Task MaterialSideRequest_CannotReturnSuccessfulExit()
     {

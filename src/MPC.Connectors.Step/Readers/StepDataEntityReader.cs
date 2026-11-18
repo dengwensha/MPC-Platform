@@ -160,13 +160,20 @@ public sealed class StepDataEntityReader
 
         if (simpleMatch.Success)
         {
+            string entityType = simpleMatch.Groups[2].Value.ToUpperInvariant();
+            // COMPLEX_ENTITY is the record model's internal discriminator, not
+            // a simple STEP declaration. Reject this input before its invariant guard.
+            if (entityType == "COMPLEX_ENTITY")
+            {
+                throw new FormatException(
+                    $"STEP entity '{simpleMatch.Groups[1].Value}' cannot use the internal COMPLEX_ENTITY type as a simple declaration.");
+            }
+
             return new StepDataEntityRecord(
                 sourceEntityId:
                     simpleMatch.Groups[1].Value,
                 sourceEntityType:
-                    simpleMatch.Groups[2]
-                        .Value
-                        .ToUpperInvariant(),
+                    entityType,
                 rawStatement:
                     normalizedStatement,
                 readStatus:
