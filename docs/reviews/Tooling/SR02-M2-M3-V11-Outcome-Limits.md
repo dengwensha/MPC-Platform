@@ -323,11 +323,11 @@ historical and superseded only within that four-guard scope after its CI gates.
 | Field | Required disposition |
 | --- | --- |
 | Item | M2 inventory-error policy for UNKNOWN/Partial unreferenced malformed records |
-| State | OPEN; no blocking-versus-display-only policy selected or implemented |
+| State | OPEN; option A (block on Error/Fatal or unavailable/unrelated evidence for future whole-file evaluation) owner-accepted 2026-11-18; independent Senior review, design and implementation pending |
 | Observed behavior | Empty complex record alone returns MissingRegion; beside a valid region, unreferenced UNKNOWN/Partial can coexist with SourceLinkMatched. Source matching is not whole-file validity certification. |
 | Accepted present scope | Senior section 18 accepts this for current source-link-only checking, without expanding evaluation approval |
 | Accountable owner | Repository owner Mehmet İlkay Kınacı; implementation assistant maintains technical evidence/disposition |
-| Decision needed | Will inventory errors block whole-file dependent evaluation, or be shown to the user? Define diagnostic severity/propagation, affected consumers and regression acceptance before implementation. Neither choice is authorized implicitly here. |
+| Owner decision / remaining work | A explicitly accepted by the user on 2026-11-18. Define/review same-snapshot evidence propagation, affected consumers and regression acceptance before implementation. Existing source-link-only semantics remain; Info/Warning alone does not block; no-error inventory is not sufficient geometry/completeness approval. |
 | Work trigger | BEFORE feature recognition or machining-time/cost evaluation starts consuming the whole file |
 | M2 gate / deadline | Revisit BEFORE catalog intake/importer work OR BEFORE an end-user release, whichever first; the work trigger also applies if earlier |
 | Evidence to close | Explicit owner policy decision, reviewed relevant boundary/compatibility design and meaningful tests for malformed unreferenced records versus valid referenced geometry, including propagation to each affected consumer |
@@ -344,7 +344,8 @@ are prepared against main f7a54ad4. A local fresh-Release child-process probe
 confirmed the existing v1.0/v1.1 contrast and the unsupported-simple control.
 The recommendation is to block future whole-file-dependent evaluation on inventory
 Error/Fatal or unavailable/unrelated evidence, while retaining current source-link
-semantics. This remains PROPOSED: owner selection and independent Senior review
-are pending. No runtime, wire or completeness gate is implemented; M2 remains OPEN
+semantics. The user explicitly accepted A after presentation of the concrete
+policy on 2026-11-18 ("kabul ediyorum"). Independent Senior review, design and
+implementation remain pending; this is not runtime enforcement or M2 closure. No runtime, wire or completeness gate is implemented; M2 remains OPEN
 with the same accountable owner and work/release gates. This does not authorize
 catalog/importer work or change the closed four-guard follow-up.
