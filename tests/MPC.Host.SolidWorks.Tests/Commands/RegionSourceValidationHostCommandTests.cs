@@ -183,6 +183,113 @@ public sealed class RegionSourceValidationHostCommandTests
         AssertCleaned(launcher);
     }
 
+    [Theory]
+    [InlineData("launch", 3)]
+    [InlineData("timeout", 4)]
+    [InlineData("observe", 5)]
+    [InlineData("missing", 6)]
+    [InlineData("malformed", 6)]
+    [InlineData("correlation", 6)]
+    [InlineData("exit", 6)]
+    [InlineData("transport", 8)]
+    public void HostFailures_RecordCorrelationAndPreserveStatus(string scenario, int expectedStatus)
+    {
+        string folder = Path.Combine(Path.GetTempPath(), "MpcHostLog", Guid.NewGuid().ToString("N"));
+        try
+        {
+            var launcher = new FakeLauncher
+            {
+                FailLaunch = scenario == "launch",
+                SkipReply = scenario == "missing",
+                ThrowTransport = scenario == "transport"
+            };
+            if (scenario == "malformed") launcher.Reply = _ => "{ broken";
+            if (scenario == "correlation")
+                launcher.Reply = _ => JsonSerializer.Serialize(new RegionSourceValidationResult(
+                    "1.1", Guid.NewGuid().ToString("D"), WorkerOperationKind.ValidateRegionSource,
+                    RegionSourceValidationOutcome.SourceLinkMatched));
+            var completion = scenario == "timeout" ? WorkerCompletionResult.TimedOut("timeout evidence") :
+                scenario == "observe" ? WorkerCompletionResult.ObservationFailed(new InvalidOperationException("observe evidence")) :
+                WorkerCompletionResult.Completed(scenario == "exit" ? 3 : 0);
+            var request = Request();
+            DateTimeOffset before = DateTimeOffset.UtcNow;
+            var command = new RegionSourceValidationHostCommand(launcher, new FakeObserver(completion),
+                new WorkerContractJsonSerializer(), new HostFailureLog(folder));
+            var result = command.Execute("worker.exe", request, 30000);
+            Assert.Equal((RegionSourceHostStatus)expectedStatus, result.Status);
+            using var json = JsonDocument.Parse(File.ReadAllText(Path.Combine(folder, "host-last-failure.json")));
+            var root = json.RootElement;
+            Assert.Equal(request.RequestId, root.GetProperty("RequestId").GetString());
+            Assert.Equal(result.Status.ToString(), root.GetProperty("HostStatus").GetString());
+            Assert.InRange(root.GetProperty("TimestampUtc").GetDateTimeOffset(), before, DateTimeOffset.UtcNow);
+            if (scenario == "missing" || scenario == "malformed" || scenario == "transport")
+                Assert.False(string.IsNullOrEmpty(root.GetProperty("FailureType").GetString()));
+            if (scenario == "observe") Assert.Equal("InvalidOperationException", root.GetProperty("FailureType").GetString());
+            if (scenario == "exit") Assert.Equal(3, root.GetProperty("WorkerExitCode").GetInt32());
+            AssertCleaned(launcher);
+        }
+        finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
+    }
+
+    [Theory]
+    [InlineData("launch", 3)]
+    [InlineData("timeout", 4)]
+    [InlineData("missing", 6)]
+    public void LogDestinationFailure_DoesNotChangeHostFailure(string scenario, int expectedStatus)
+    {
+        string blocked = Path.GetTempFileName();
+        try
+        {
+            var launcher = new FakeLauncher { FailLaunch = scenario == "launch", SkipReply = scenario == "missing" };
+            var completion = scenario == "timeout" ? WorkerCompletionResult.TimedOut("timeout") : WorkerCompletionResult.Completed(0);
+            var command = new RegionSourceValidationHostCommand(launcher, new FakeObserver(completion),
+                new WorkerContractJsonSerializer(), new HostFailureLog(blocked));
+            Assert.Equal((RegionSourceHostStatus)expectedStatus, command.Execute("worker.exe", Request(), 30000).Status);
+            AssertCleaned(launcher);
+        }
+        finally { File.Delete(blocked); }
+    }
+
+    [Theory]
+    [InlineData("invalid", 0)]
+    [InlineData("success", 1)]
+    [InlineData("blocked", 2)]
+    [InlineData("worker", 7)]
+    public void NonHostFailures_DoNotCreateLogDirectory(string scenario, int expectedStatus)
+    {
+        string folder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        var launcher = new FakeLauncher { Outcome = scenario == "blocked" ?
+            RegionSourceValidationOutcome.MissingRegion : scenario == "worker" ?
+            RegionSourceValidationOutcome.ImportFailed : RegionSourceValidationOutcome.SourceLinkMatched };
+        var completion = WorkerCompletionResult.Completed(scenario == "blocked" ? 2 : scenario == "worker" ? 3 : 0);
+        var command = new RegionSourceValidationHostCommand(launcher, new FakeObserver(completion),
+            new WorkerContractJsonSerializer(), new HostFailureLog(folder));
+        Assert.Equal((RegionSourceHostStatus)expectedStatus,
+            command.Execute("worker.exe", scenario == "invalid" ? null : Request(), 30000).Status);
+        Assert.False(Directory.Exists(folder));
+    }
+
+    [Fact]
+    public void LocalRecord_IsBoundedReplacedAndPreservesUnicode()
+    {
+        string folder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        try
+        {
+            var log = new HostFailureLog(folder);
+            var result = new RegionSourceValidationHostCommandResult(RegionSourceHostStatus.TransportFailed, "İşler");
+            log.TryWrite("first", result, new HostFailureEvidence { Exception = new IOException("old") });
+            log.TryWrite("second", result, new HostFailureEvidence { Exception = new IOException(new string('İ', 100000)) });
+            string path = Path.Combine(folder, "host-last-failure.json");
+            using var json = JsonDocument.Parse(File.ReadAllText(path));
+            Assert.Equal("second", json.RootElement.GetProperty("RequestId").GetString());
+            Assert.Equal("İşler", json.RootElement.GetProperty("FailureMessage").GetString());
+            Assert.True(json.RootElement.GetProperty("DetailsTruncated").GetBoolean());
+            Assert.True(new FileInfo(path).Length < 64 * 1024);
+            Assert.Single(Directory.GetFiles(folder));
+        }
+        finally { if (Directory.Exists(folder)) Directory.Delete(folder, true); }
+    }
+
     private static void AssertCleaned(FakeLauncher launcher) =>
         Assert.False(Directory.Exists(Path.GetDirectoryName(launcher.RequestPath!)!));
 
@@ -191,6 +298,7 @@ public sealed class RegionSourceValidationHostCommandTests
         internal bool Called;
         internal bool FailLaunch;
         internal bool SkipReply;
+        internal bool ThrowTransport;
         internal string? RequestPath;
         internal RegionSourceValidationRequest? Sent;
         internal RegionSourceValidationOutcome Outcome = RegionSourceValidationOutcome.SourceLinkMatched;
@@ -202,6 +310,7 @@ public sealed class RegionSourceValidationHostCommandTests
             Called = true;
             RequestPath = request!.RequestJsonPath;
             Sent = JsonSerializer.Deserialize<RegionSourceValidationRequest>(File.ReadAllText(RequestPath!))!;
+            if (ThrowTransport) throw new IOException("transport evidence");
             if (FailLaunch)
                 return WorkerLaunchResult.Failed(WorkerLaunchStatus.StartFailed, "launch");
             if (!SkipReply)
