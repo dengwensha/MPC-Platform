@@ -289,3 +289,14 @@ roots return aggregate MissingRegion before resolver construction. Other
 duplicate semantic IDs reaching the constructor use ImportFailed through #107.
 Both reject approval, but consumers must not infer a uniform duplicate-ID cause
 from either outcome. No early-hash or detailed diagnostic taxonomy is added.
+
+## Senior section 17 bounded closure reconciliation (2026-11-18)
+
+PR #108 reviewed head `90cdcdd240e680e526740e8ed48ec98ea74b8f52` was approved
+and merged as `09b9b1b51c6e9fba3d98d2cb4a922fa4b7338579`.
+The [bounded SR-L4 closure and separate follow-up register](SR-L4-Bounded-Closure.md)
+is the dated update to earlier OPEN/pending statements above; effectiveness requires
+successful main CI #226. M2 remains OPEN. Raw STEP negative-test guard reachability
+is an explicit M2 gate dependency: BEFORE catalog intake/importer OR end-user release,
+whichever first. No physical diagnostic PASS, universal exception/logging guarantee,
+v1.0 expansion or release waiver is claimed. Owners and other triggers are in the register.
