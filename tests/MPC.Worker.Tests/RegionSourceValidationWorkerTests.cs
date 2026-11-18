@@ -138,6 +138,79 @@ public sealed class RegionSourceValidationWorkerTests
         }
     }
 
+    [Theory]
+    [InlineData("CARTESIAN_POINT ('duplicate', (1., 2., 3.))")]
+    [InlineData("DIRECTION ('duplicate', (0., 0., 1.))")]
+    public async Task DuplicateSemanticId_IsInputFailureWithoutPublishedRegion(string declaration)
+    {
+        string copy = await WriteDuplicateInput(declaration);
+        try
+        {
+            ManufacturingRegion? region = null;
+            var error = Assert.Throws<InvalidDataException>(() =>
+                ManufacturingRegionImportService.TryCreate(copy, "#8", out region));
+            Assert.IsType<InvalidOperationException>(error.InnerException);
+            Assert.Contains("#7", error.InnerException!.Message, StringComparison.Ordinal);
+            Assert.Null(region);
+        }
+        finally { File.Delete(copy); }
+    }
+
+    [Theory]
+    [InlineData("CARTESIAN_POINT ('duplicate', (1., 2., 3.))")]
+    [InlineData("DIRECTION ('duplicate', (0., 0., 1.))")]
+    public async Task DuplicateSemanticId_ProducesCorrelatedImportFailure(string declaration)
+    {
+        string copy = await WriteDuplicateInput(declaration);
+        try
+        {
+            var (exit, result) = await Run(Request(copy));
+            Assert.Equal(WorkerExitCodes.OperationFailed, exit);
+            Assert.Equal(RegionSourceValidationOutcome.ImportFailed, result.Outcome);
+            Assert.Equal(Id, result.RequestId);
+            Assert.Equal("1.1", result.ContractVersion);
+        }
+        finally { File.Delete(copy); }
+    }
+
+    private static async Task<string> WriteDuplicateInput(string declaration)
+    {
+        string copy = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".step");
+        try
+        {
+            string source = await File.ReadAllTextAsync(Golden);
+            int dataEnd = source.LastIndexOf("ENDSEC;", StringComparison.Ordinal);
+            Assert.True(dataEnd >= 0);
+            await File.WriteAllTextAsync(copy, source.Insert(dataEnd, "#7 = " + declaration + ";\n"));
+            return copy;
+        }
+        catch { File.Delete(copy); throw; }
+    }
+
+    [Theory]
+    [InlineData("missing")]
+    [InlineData("type")]
+    [InlineData("repeated-face")]
+    public async Task ReferenceFailures_KeepExistingMissingRegionResult(string scenario)
+    {
+        string copy = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".step");
+        try
+        {
+            string source = await File.ReadAllTextAsync(Golden);
+            string changed = scenario == "missing"
+                ? source.Replace("#79 )", "#999999 )", StringComparison.Ordinal)
+                : scenario == "type"
+                    ? source.Replace("#79 )", "#7 )", StringComparison.Ordinal)
+                    : source.Replace("( #8, #30", "( #8, #8, #30", StringComparison.Ordinal);
+            Assert.NotEqual(source, changed);
+            await File.WriteAllTextAsync(copy, changed);
+            var (exit, result) = await Run(Request(copy));
+            Assert.Equal(WorkerExitCodes.RequestRejected, exit);
+            Assert.Equal(RegionSourceValidationOutcome.MissingRegion, result.Outcome);
+        }
+        finally { File.Delete(copy); }
+    }
+
     [Fact]
     public async Task MaterialSideRequest_CannotReturnSuccessfulExit()
     {

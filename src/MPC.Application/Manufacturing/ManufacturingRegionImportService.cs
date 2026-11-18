@@ -50,8 +50,19 @@ public static class ManufacturingRegionImportService
                 .OfType<StepManifoldSolidBrepEntity>().ToArray();
             if (roots.Length != 1) return false;
 
-            var operation = StepCanonicalMappingOperation.Create(
-                new StepSemanticEntityResolver(entities));
+            StepSemanticEntityResolver semanticResolver;
+            try
+            {
+                semanticResolver = new StepSemanticEntityResolver(entities);
+            }
+            catch (InvalidOperationException exception)
+            {
+                // This constructor's InvalidOperationException rejects duplicate IDs.
+                // Keep this boundary separate from dispatch/mapping invariant failures.
+                throw new InvalidDataException("STEP semantic entity identifiers must be unique.", exception);
+            }
+
+            var operation = StepCanonicalMappingOperation.Create(semanticResolver);
             var mapped = operation.Map(roots[0]);
             if (!mapped.IsSuccessful || mapped.Value is null) return false;
 
