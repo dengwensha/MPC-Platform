@@ -143,5 +143,5 @@ trust/fail-closed review and tests.
 [Captured-inventory stream hardening](M2-Captured-Inventory-Stream-Hardening.md)
 proposes eliminating the extra STEP copy in this isolated capture and measurement
 probe. The register above remains the historical reviewed implementation's findings;
-B1-B5 are not independently closed until the new exact diff is approved and merged.
+Senior section 22 approved the exact new diff at 73aebc89454102aaf135b768e5c4a0dd9914531a; it merged as d6f6a01e29f5de0ddad973dc48a2e8686255f3aa after CI #249 success. B1-B5 are closed only for the isolated capture and measurement probe; see the new record for N1-N3.
 B6 and A4 consumer diagnostics remain OPEN. M2 remains OPEN.
