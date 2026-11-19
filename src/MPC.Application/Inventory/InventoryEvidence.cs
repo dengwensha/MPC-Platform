@@ -90,10 +90,9 @@ internal sealed class InventoryEvidence
         internal bool Owns(InventoryEvidence evidence) => ReferenceEquals(Evidence, evidence);
         internal int RetainedEntityCount => _inventory?.TotalEntityCount ?? 0;
 
-        internal static InventoryCaptureResult CaptureFromFile(string path)
+        internal static InventoryCaptureResult CaptureFromFile(string path, Action? afterSourceCaptured = null)
         {
             byte[] bytes;
-            ReaderRevision revision;
             try
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(path);
@@ -102,44 +101,40 @@ internal sealed class InventoryEvidence
                     && !extension.Equals(".stp", StringComparison.OrdinalIgnoreCase))
                     throw new ArgumentException("A STEP/STP source is required.", nameof(path));
                 bytes = File.ReadAllBytes(path);
-                revision = ReadReaderRevision();
             }
             catch (Exception ex) when (IsExpectedFileFailure(ex) || ex is ArgumentException || ex is NotSupportedException)
             {
-                return new InventoryCaptureResult(null, ex, null);
+                return new InventoryCaptureResult(null, ex, InventoryCaptureFailureStage.SourceCapture);
+            }
+
+            // Payload-free observation/fault checkpoint. No bytes, stream, hash,
+            // reader or result can be supplied by this callback. It runs outside
+            // expected-IO catches so injected unexpected failures propagate through
+            // the actual entry point, never becoming input/provenance failures.
+            afterSourceCaptured?.Invoke();
+
+            ReaderRevision revision;
+            try { revision = ReadReaderRevision(); }
+            catch (Exception ex) when (IsExpectedFileFailure(ex) || ex is NotSupportedException)
+            {
+                return new InventoryCaptureResult(null, ex, InventoryCaptureFailureStage.ReaderProvenance);
             }
 
             string hash = Convert.ToHexString(SHA256.HashData(bytes));
-            string snapshot = Path.Combine(Path.GetTempPath(), $"mpc-inventory-{Guid.NewGuid():N}.step");
-            ImportSession? session = null;
-            Exception? failure = null;
-            bool ownsSnapshot = false;
-            var observation = SnapshotCleanup.Observe(() =>
+            // Private bytes are shared with no caller; a non-writable stream over
+            // exactly this array is read by the concrete producer. No temp STEP,
+            // reopen window, cleanup, source-path diagnostic or success-reader seam.
+            using var capture = new MemoryStream(bytes, writable: false);
+            CadConnectorResult<StepDataInventory> result;
+            try
             {
-                // CreateNew never overwrites a pre-existing snapshot.
-                try
-                {
-                    using var stream = new FileStream(snapshot, FileMode.CreateNew, FileAccess.Write, FileShare.None);
-                    ownsSnapshot = true;
-                    stream.Write(bytes);
-                }
-                catch (Exception ex) when (IsExpectedFileFailure(ex))
-                {
-                    failure = ex;
-                }
-                if (failure is null)
-                {
-                    CadConnectorResult<StepDataInventory>? result = null;
-                    try
-                    {
-                        result = new StepDataEntityReader(new StepDataInventoryValidator()).Read(snapshot);
-                    }
-                    catch (FormatException ex) { failure = ex; }
-                    if (result is not null) session = new ImportSession(hash, result, revision);
-                }
-                return (session, failure);
-            }, () => { if (ownsSnapshot) File.Delete(snapshot); });
-            return new InventoryCaptureResult(observation.Value.session, observation.Value.failure, observation.CleanupFailure);
+                result = new StepDataEntityReader(new StepDataInventoryValidator()).ReadCaptured(capture);
+            }
+            catch (FormatException ex)
+            {
+                return new InventoryCaptureResult(null, ex, InventoryCaptureFailureStage.InventoryParse);
+            }
+            return new InventoryCaptureResult(new ImportSession(hash, result, revision), null, null);
         }
 
         private static ReaderRevision ReadReaderRevision()
@@ -156,14 +151,17 @@ internal sealed class InventoryEvidence
     }
 }
 
+internal enum InventoryCaptureFailureStage { SourceCapture, ReaderProvenance, InventoryParse }
+
 internal sealed class InventoryCaptureResult
 {
     internal InventoryEvidence.ImportSession? Session { get; }
     internal Exception? Failure { get; }
-    internal Exception? CleanupFailure { get; }
-    internal InventoryCaptureResult(InventoryEvidence.ImportSession? session, Exception? failure, Exception? cleanupFailure)
+    internal InventoryCaptureFailureStage? FailureStage { get; }
+    internal InventoryCaptureResult(InventoryEvidence.ImportSession? session, Exception? failure,
+        InventoryCaptureFailureStage? failureStage)
     {
-        Session = session; Failure = failure; CleanupFailure = cleanupFailure;
+        Session = session; Failure = failure; FailureStage = failureStage;
     }
 }
 
@@ -175,33 +173,5 @@ internal static class ReaderProvenance
     {
         if (string.IsNullOrWhiteSpace(location))
             throw new NotSupportedException("Inventory evidence requires a file-backed reader assembly; single-file packaging is unsupported.");
-    }
-}
-
-internal static class SnapshotCleanup
-{
-    // Two immediate attempts, no background service/unbounded retry. On persistent
-    // failure the capture retains secondary evidence; OS temp housekeeping owns
-    // the residual file. The private path is never a session/evidence API field.
-    internal static (T Value, Exception? CleanupFailure) Observe<T>(Func<T> observe, Action delete)
-    {
-        Exception? cleanup = null;
-        T value;
-        try { value = observe(); }
-        finally { cleanup = Attempt(delete); }
-        return (value, cleanup);
-    }
-
-    internal static Exception? Attempt(Action delete)
-    {
-        for (int attempt = 0; attempt < 2; attempt++)
-        {
-            try { delete(); return null; }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
-            {
-                if (attempt == 1) return ex;
-            }
-        }
-        return null;
     }
 }

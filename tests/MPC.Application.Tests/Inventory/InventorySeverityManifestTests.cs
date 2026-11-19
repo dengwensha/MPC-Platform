@@ -27,7 +27,7 @@ public sealed class InventorySeverityManifestTests
     {
         var expectedHashes = new Dictionary<string, string>
         {
-            ["StepDataEntityReader.cs"] = "4BAECFE943084CECBDB8FF4FB561F11ECCCA8A895B33A122081DAAB8D6F68532",
+            ["StepDataEntityReader.cs"] = "22A2E16F54C6D418B288D169C185D0102632BD598237D2A993907E9D230BCC45",
             ["StepDataInventoryValidator.cs"] = "FB5869D3EB0FE8B5507F4041A221CBC2DB88FE16917C5BC7DA7472B6771B7301"
         };
         var codes = new HashSet<string>(StringComparer.Ordinal);

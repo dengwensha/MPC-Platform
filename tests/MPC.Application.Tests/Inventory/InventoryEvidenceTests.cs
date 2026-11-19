@@ -27,7 +27,7 @@ public sealed class InventoryEvidenceTests
         {
             var result = InventoryEvidence.ImportSession.CaptureFromFile(path);
             Assert.Null(result.Failure);
-            Assert.Null(result.CleanupFailure);
+            Assert.Null(result.FailureStage);
             return Assert.IsType<InventoryEvidence.ImportSession>(result.Session);
         }
         finally { File.Delete(path); }
@@ -263,25 +263,15 @@ public sealed class InventoryEvidenceTests
         Assert.Throws<NotSupportedException>(() => ReaderProvenance.RequireAssemblyLocation(""));
 
     [Fact]
-    public void CleanupIsBoundedAndSecondary()
+    public void CaptureCheckpoint_PropagatesUnexpectedExceptionWithoutIssuingEvidence()
     {
-        var readFailure = new InvalidOperationException("unexpected read failure");
-        var cleanupFailure = new IOException("cleanup failure");
-        var validObservation = new object();
-        var completed = SnapshotCleanup.Observe(() => validObservation, () => throw cleanupFailure);
-        Assert.Same(validObservation, completed.Value);
-        Assert.Same(cleanupFailure, completed.CleanupFailure);
-        var unavailable = SnapshotCleanup.Observe(() => (Exception)readFailure, () => throw cleanupFailure);
-        Assert.Same(readFailure, unavailable.Value);
-        Assert.Same(cleanupFailure, unavailable.CleanupFailure);
-        Assert.Same(readFailure, Assert.Throws<InvalidOperationException>(() =>
-            SnapshotCleanup.Observe<object>(() => throw readFailure, () => throw cleanupFailure)));
-        int attempts = 0;
-        var original = new IOException("locked");
-        Assert.Same(original, SnapshotCleanup.Attempt(() => { attempts++; throw original; }));
-        Assert.Equal(2, attempts);
-        attempts = 0;
-        Assert.Null(SnapshotCleanup.Attempt(() => { if (++attempts == 1) throw original; }));
-        Assert.Equal(2, attempts);
+        string path = Write("DATA; #1=UNKNOWN(); ENDSEC;");
+        var original = new InvalidOperationException("unexpected checkpoint failure");
+        try
+        {
+            Assert.Same(original, Assert.Throws<InvalidOperationException>(() =>
+                InventoryEvidence.ImportSession.CaptureFromFile(path, () => throw original)));
+        }
+        finally { File.Delete(path); }
     }
 }

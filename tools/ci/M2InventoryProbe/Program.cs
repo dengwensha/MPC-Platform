@@ -44,7 +44,6 @@ var row = new Dictionary<string, object?>
     ["ExceptionType"] = null
 };
 int exit = 0;
-DirectoryInfo? scratch = null;
 try
 {
     // Capture once and hash exactly the bytes read by the production inventory reader.
@@ -59,10 +58,9 @@ try
     else
     {
         row["InputHashVerified"] = true;
-        scratch = Directory.CreateTempSubdirectory("mpc-m2-inventory-");
-        string snapshot = Path.Combine(scratch.FullName, "snapshot.step");
-        File.WriteAllBytes(snapshot, bytes);
-        var result = new StepDataEntityReader(new StepDataInventoryValidator()).Read(snapshot);
+        // Same private byte array as the verified hash; no temp file/reopen/cleanup.
+        using var capture = new MemoryStream(bytes, writable: false);
+        var result = new StepDataEntityReader(new StepDataInventoryValidator()).ReadCaptured(capture);
         row["ObservationAvailable"] = true;
         row["ReadFailed"] = result.Status == CadConnectorResultStatus.Failed;
         row["InventoryStatus"] = result.Status.ToString();
@@ -91,10 +89,6 @@ catch (Exception exception)
         row[key] = null;
     row["ExceptionType"] = exception.GetType().Name;
     exit = 1;
-}
-finally
-{
-    if (scratch is not null) Directory.Delete(scratch.FullName, true);
 }
 File.WriteAllText(output, JsonSerializer.Serialize(row, new JsonSerializerOptions { WriteIndented = true }) + "\n");
 Console.WriteLine($"Inventory observation {Path.GetFileName(input)}: available={row["ObservationAvailable"]}; entities={row["EntityCount"]}; readFailed={row["ReadFailed"]}; errors={row["ErrorCount"]}; fatals={row["FatalCount"]}");

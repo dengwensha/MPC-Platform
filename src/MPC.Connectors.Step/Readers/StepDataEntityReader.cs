@@ -88,6 +88,27 @@ public sealed class StepDataEntityReader
                     exception.GetType().Name);
         }
 
+        return ReadContent(content);
+    }
+
+    /// <summary>
+    /// Reads the caller-owned capture from its current position without a path or
+    /// reopening a file. Leaves the stream open. Uses the same UTF-8 fallback and
+    /// BOM detection as Read(path). Stream access failures propagate to the owner;
+    /// they are not classified as STEP source diagnostics. This is not evidence
+    /// issuance: Application still owns capture, hash and session binding.
+    /// </summary>
+    /// <exception cref="FormatException">Reserved simple COMPLEX_ENTITY declaration.</exception>
+    public CadConnectorResult<StepDataInventory> ReadCaptured(Stream capture)
+    {
+        ArgumentNullException.ThrowIfNull(capture);
+        using var text = new StreamReader(capture, Encoding.UTF8,
+            detectEncodingFromByteOrderMarks: true, bufferSize: 1024, leaveOpen: true);
+        return ReadContent(text.ReadToEnd());
+    }
+
+    private CadConnectorResult<StepDataInventory> ReadContent(string content)
+    {
         var dataSection =
             ExtractDataSection(
                 content);
