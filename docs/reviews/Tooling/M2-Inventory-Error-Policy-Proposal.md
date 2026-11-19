@@ -234,3 +234,17 @@ validation and complementary completeness/header/unit gates remain OPEN.
 record cleanup-only handling, restricted decision construction, separate header/unit
 gates, empty-location provenance and operation-scoped lifetime/new-code audit.
 The owner explicitly accepted that revised order on 2026-11-19 after its scope was explained: an unconnected Application-only slice may precede workshop sampling; sampling remains mandatory before first consumer/integration. See the [first-slice implementation record](M2-Application-Inventory-First-Slice.md). No product eligibility or M2 closure is claimed.
+
+
+## Senior section 21 implementation disposition (2026-11-19)
+
+#117 at `048604572cffd4c9bd2b78af6fae30f97fa7fb63` approved; A1-A5 accepted for
+the isolated consumer-free slice. CI #245 exact head and 1964/1964 independently
+verified by implementation session before merge `2c77cfc7fc8e8f56def49286bea2cafce1ac4ba9`.
+[Acceptance and B1-B6 owner/trigger register](M2-Application-Inventory-First-Slice.md#senior-section-21-acceptance-and-follow-up-register)
+records the remaining attribution, reopen-window, private-path, residual-data and
+capture-level test gaps. B1 must be fixed before workshop measurement and first
+consumer; B2-B5 are tracked at those capture/data-intake gates. First consumer must
+carry A4 unavailable reasons into diagnostics. No new code or policy is introduced.
+The inventory severity tests now exist in the isolated slice; first-slice implementation
+is delivered, while integration, workshop sampling and other M2 gates remain OPEN.
