@@ -136,3 +136,12 @@ consumer validation and complementary coverage/header/unit gates. This follow-up
 record changes no runtime behavior or accepted policy; all new-diff risk triggers
 are No for factual reconciliation. A future capture-boundary change needs its own
 trust/fail-closed review and tests.
+
+
+## B1-B5 hardening proposal
+
+[Captured-inventory stream hardening](M2-Captured-Inventory-Stream-Hardening.md)
+proposes eliminating the extra STEP copy in this isolated capture and measurement
+probe. The register above remains the historical reviewed implementation's findings;
+B1-B5 are not independently closed until the new exact diff is approved and merged.
+B6 and A4 consumer diagnostics remain OPEN. M2 remains OPEN.
