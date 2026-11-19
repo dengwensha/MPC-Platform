@@ -168,7 +168,7 @@ implementation assistant maintains technical evidence/design in the working sess
 
 | Follow-up | State | Trigger / required evidence |
 | --- | --- | --- |
-| Real-file inventory-error incidence | OPEN; rate not yet measured | BEFORE implementation: measure R01, R02, R03 plus workshop calibration files as collected, with pinned input hashes/reader version, total attempted files, files with Error/Fatal, diagnostic-code distribution and separate read failures. Report sample size and origin; do not call observed error incidence a false-positive rate without suitability ground truth. Missing workshop samples remain explicit. |
+| Real-file inventory-error incidence | PARTIAL: R01/R02/R03 measured, 0/3 files with Error/Fatal, 0 read failures; workshop sample still OPEN | BEFORE implementation: measure R01, R02, R03 plus workshop calibration files as collected, with pinned input hashes/reader version, total attempted files, files with Error/Fatal, diagnostic-code distribution and separate read failures. Report sample size and origin; do not call observed error incidence a false-positive rate without suitability ground truth. Missing workshop samples remain explicit. |
 | High observed rejection incidence | Conditional OPEN design dependency | If real-file incidence is high, do not silently weaken A or downgrade diagnostics. Separately design/review an evaluated-solid-reachable partial-scope rule and its limitations if needed. No such partial-scope policy is accepted or implemented here. |
 | Diagnostic code-to-severity stability | OPEN | Pin reader/validator code-to-severity mapping in acceptance tests before implementing/connecting the gate. Any change, including Error to Warning, is a trust/fail-closed risk trigger requiring applicable independent review; it changes eligibility. |
 | Complementary supported-geometry/completeness gate | OPEN | Define and review before releasing the first whole-file-dependent consumer. No-error inventory cannot substitute for this gate; A alone gives no full-file evaluation approval. |
@@ -200,3 +200,14 @@ remain. This is factual reconciliation of supplied review requirements; no new
 runtime behavior, wire meaning, severity mapping, measurement result or release
 permission is introduced. All new-diff risk-review triggers No; the already
 accepted policy/required future design retain their own applicable review gates.
+
+## R01 R02 R03 inventory measurement (2026-11-19)
+
+[Direct raw-inventory measurement](M2-Real-Inventory-Profile.md) observed 0 Error,
+0 Fatal and 0 read failures on the three hash-pinned real inputs (329, 649 and
+135828 inventory records). The production reader baseline is de1ba770; each JSON
+records its assembly version/hash and input hash. This partially completes the
+measurement item only. Workshop files measured: 0; real-world rejection and
+false-blocking rates remain unknown. No semantic-completeness or eligibility
+claim follows from zero diagnostics. M2 and all design/implementation/coverage
+gates remain OPEN. No policy relaxation or production integration is introduced.
