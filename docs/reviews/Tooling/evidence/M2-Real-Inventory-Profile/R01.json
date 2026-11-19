@@ -1,0 +1,27 @@
+{
+  "SchemaVersion": 1,
+  "Scope": "InventoryObservationOnly",
+  "InputName": "P01-R01-Prismatic.STEP",
+  "ExpectedSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+  "ActualSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+  "SuppliedSourceCommit": "de1ba770b26c3b04e7913bc9b37a807dacb9a6f7",
+  "ReaderAssemblyVersion": "1.0.0.0",
+  "ReaderInformationalVersion": "1.0.0\u002Bde1ba770b26c3b04e7913bc9b37a807dacb9a6f7",
+  "ReaderAssemblySha256": "63F9517D934AD4CCE81AF6C0B49876787D799C14D8534D2B8AA906413A96002B",
+  "InputHashVerified": true,
+  "ObservationAvailable": true,
+  "ReadFailed": false,
+  "InventoryStatus": "Succeeded",
+  "EntityCount": 329,
+  "RecordStatusCounts": [
+    {
+      "Status": "Complete",
+      "Count": 329
+    }
+  ],
+  "DiagnosticCount": 0,
+  "ErrorCount": 0,
+  "FatalCount": 0,
+  "DiagnosticGroups": [],
+  "ExceptionType": null
+}

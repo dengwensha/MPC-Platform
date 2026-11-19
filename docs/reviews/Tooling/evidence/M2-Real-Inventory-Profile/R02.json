@@ -1,0 +1,27 @@
+{
+  "SchemaVersion": 1,
+  "Scope": "InventoryObservationOnly",
+  "InputName": "P01-R02-InternalBoundaries.STEP",
+  "ExpectedSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+  "ActualSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+  "SuppliedSourceCommit": "de1ba770b26c3b04e7913bc9b37a807dacb9a6f7",
+  "ReaderAssemblyVersion": "1.0.0.0",
+  "ReaderInformationalVersion": "1.0.0\u002Bde1ba770b26c3b04e7913bc9b37a807dacb9a6f7",
+  "ReaderAssemblySha256": "63F9517D934AD4CCE81AF6C0B49876787D799C14D8534D2B8AA906413A96002B",
+  "InputHashVerified": true,
+  "ObservationAvailable": true,
+  "ReadFailed": false,
+  "InventoryStatus": "Succeeded",
+  "EntityCount": 649,
+  "RecordStatusCounts": [
+    {
+      "Status": "Complete",
+      "Count": 649
+    }
+  ],
+  "DiagnosticCount": 0,
+  "ErrorCount": 0,
+  "FatalCount": 0,
+  "DiagnosticGroups": [],
+  "ExceptionType": null
+}

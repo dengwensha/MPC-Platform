@@ -51,6 +51,24 @@ jobs:
             dotnet run --project tools/ci/PT04BProbe/PT04BProbe.csproj -c Release -- $files[0].FullName $part.Hash (Join-Path $root "evidence/PT04B-$($part.Id).json")
             if ($LASTEXITCODE -ne 0) { throw "PT-04B $($part.Id) evidence failed." }
           }
+      - name: Measure raw inventory diagnostics on R01 R02 R03
+        run: |
+          dotnet build tools/ci/M2InventoryProbe/M2InventoryProbe.csproj -c Release --warnaserror
+          if ($LASTEXITCODE -ne 0) { throw "M2 inventory probe build failed." }
+          python tools/ci/check_m2_inventory_probe.py tools/ci/M2InventoryProbe/bin/Release/net8.0/M2InventoryProbe.dll
+          if ($LASTEXITCODE -ne 0) { throw "M2 inventory measurement controls failed." }
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          $parts = @(
+            @{Id="R01"; Name="P01-R01-Prismatic.STEP"; Hash="E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD"},
+            @{Id="R02"; Name="P01-R02-InternalBoundaries.STEP"; Hash="0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F"},
+            @{Id="R03"; Name="P01-R03-CurvedSurfaces.STEP"; Hash="319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12"}
+          )
+          foreach ($part in $parts) {
+            $files = @(Get-ChildItem (Join-Path $root "corpus") -Recurse -File -Filter $part.Name)
+            if ($files.Count -ne 1) { throw "Expected one M2 source for $($part.Id)." }
+            dotnet tools/ci/M2InventoryProbe/bin/Release/net8.0/M2InventoryProbe.dll $files[0].FullName $part.Hash $env:GITHUB_SHA (Join-Path $root "evidence/M2-inventory-$($part.Id).json")
+            if ($LASTEXITCODE -ne 0) { throw "M2 inventory observation unavailable: $($part.Id)." }
+          }
       - name: Verify all 276 real rational surface mappings
         run: |
           $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
