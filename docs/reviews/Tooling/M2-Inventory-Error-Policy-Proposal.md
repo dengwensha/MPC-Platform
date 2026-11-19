@@ -168,7 +168,7 @@ implementation assistant maintains technical evidence/design in the working sess
 
 | Follow-up | State | Trigger / required evidence |
 | --- | --- | --- |
-| Real-file inventory-error incidence | PARTIAL: R01/R02/R03 measured, 0/3 files with Error/Fatal, 0 read failures; workshop sample still OPEN | BEFORE implementation: measure R01, R02, R03 plus workshop calibration files as collected, with pinned input hashes/reader version, total attempted files, files with Error/Fatal, diagnostic-code distribution and separate read failures. Report sample size and origin; do not call observed error incidence a false-positive rate without suitability ground truth. Missing workshop samples remain explicit. |
+| Real-file inventory-error incidence | PARTIAL: R01/R02/R03 measured, 0/3 files with Error/Fatal, 0 read failures; workshop sample still OPEN | BEFORE the first evaluator/integration consumes the boundary (owner-accepted sequencing revision, 2026-11-19): measure R01, R02, R03 plus workshop calibration files as collected, with pinned input hashes/reader version, total attempted files, files with Error/Fatal, diagnostic-code distribution and separate read failures. Report sample size and origin; do not call observed error incidence a false-positive rate without suitability ground truth. Missing workshop samples remain explicit. |
 | High observed rejection incidence | Conditional OPEN design dependency | If real-file incidence is high, do not silently weaken A or downgrade diagnostics. Separately design/review an evaluated-solid-reachable partial-scope rule and its limitations if needed. No such partial-scope policy is accepted or implemented here. |
 | Diagnostic code-to-severity stability | OPEN | Pin reader/validator code-to-severity mapping in acceptance tests before implementing/connecting the gate. Any change, including Error to Warning, is a trust/fail-closed risk trigger requiring applicable independent review; it changes eligibility. |
 | Complementary supported-geometry/completeness gate | OPEN | Define and review before releasing the first whole-file-dependent consumer. No-error inventory cannot substitute for this gate; A alone gives no full-file evaluation approval. |
@@ -233,7 +233,4 @@ validation and complementary completeness/header/unit gates remain OPEN.
 [Required A1-A5 implementation conditions and sequencing proposal](M2-Inventory-Evidence-Boundary-Design.md#senior-section-20-acceptance-and-implementation-conditions)
 record cleanup-only handling, restricted decision construction, separate header/unit
 gates, empty-location provenance and operation-scoped lifetime/new-code audit.
-The reviewer proposed allowing an unconnected Application-only slice before workshop
-sampling, with sampling required before first consumer/integration. That revision
-is PENDING EXPLICIT OWNER ACCEPTANCE; the existing stricter prerequisite remains
-until then. No implementation, eligibility result or M2 closure is claimed.
+The owner explicitly accepted that revised order on 2026-11-19 after its scope was explained: an unconnected Application-only slice may precede workshop sampling; sampling remains mandatory before first consumer/integration. See the [first-slice implementation record](M2-Application-Inventory-First-Slice.md). No product eligibility or M2 closure is claimed.

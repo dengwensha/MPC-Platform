@@ -31,4 +31,11 @@
         CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Full producer source audit: any producer change requires manifest review. -->
+    <None Include="..\..\src\MPC.Connectors.Step\Readers\StepDataEntityReader.cs"
+          Link="InventoryAudit\StepDataEntityReader.cs.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\MPC.Connectors.Step\Validation\StepDataInventoryValidator.cs"
+          Link="InventoryAudit\StepDataInventoryValidator.cs.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
