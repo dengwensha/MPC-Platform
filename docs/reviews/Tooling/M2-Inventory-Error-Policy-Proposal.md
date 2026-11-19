@@ -211,3 +211,16 @@ measurement item only. Workshop files measured: 0; real-world rejection and
 false-blocking rates remain unknown. No semantic-completeness or eligibility
 claim follows from zero diagnostics. M2 and all design/implementation/coverage
 gates remain OPEN. No policy relaxation or production integration is introduced.
+
+## Concrete Application boundary design submitted (2026-11-19)
+
+[Evidence/session ownership, immutable schema, ordered pure decision and acceptance
+manifest](M2-Inventory-Evidence-Boundary-Design.md) are proposed against main
+5ad02dc7. A private nested producer can create opaque evidence; caller-provided
+hash/diagnostic DTOs cannot mint it. Same-session ownership is separate from hash
+equality. The three-result decision means inventory-only clear, blocked, or no
+evidence; it does not grant geometry/manufacturing approval. Eight current reader/
+validator code-severity pairs are identified for pinning in the future tests.
+This is DESIGN PENDING INDEPENDENT REVIEW, not implementation or M2 closure.
+Workshop sampling, concrete design approval, implementation, consumer validation
+and the complementary completeness gate remain OPEN with their existing owner/gates.
