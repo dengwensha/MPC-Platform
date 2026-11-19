@@ -221,6 +221,19 @@ hash/diagnostic DTOs cannot mint it. Same-session ownership is separate from has
 equality. The three-result decision means inventory-only clear, blocked, or no
 evidence; it does not grant geometry/manufacturing approval. Eight current reader/
 validator code-severity pairs are identified for pinning in the future tests.
-This is DESIGN PENDING INDEPENDENT REVIEW, not implementation or M2 closure.
-Workshop sampling, concrete design approval, implementation, consumer validation
-and the complementary completeness gate remain OPEN with their existing owner/gates.
+Senior section 20 approved the exact #115 design, subject to the implementation
+conditions recorded below. This is not implementation or M2 closure.
+Workshop sampling, A1-A5 implementation decisions/tests, implementation, consumer
+validation and complementary completeness/header/unit gates remain OPEN.
+
+## Senior section 20 design acceptance (2026-11-19)
+
+#115 exact head 0984fe67 approved; CI #241 verified and merged as
+`a848ebdc231e58df9377557f4c0b34211179bc54`.
+[Required A1-A5 implementation conditions and sequencing proposal](M2-Inventory-Evidence-Boundary-Design.md#senior-section-20-acceptance-and-implementation-conditions)
+record cleanup-only handling, restricted decision construction, separate header/unit
+gates, empty-location provenance and operation-scoped lifetime/new-code audit.
+The reviewer proposed allowing an unconnected Application-only slice before workshop
+sampling, with sampling required before first consumer/integration. That revision
+is PENDING EXPLICIT OWNER ACCEPTANCE; the existing stricter prerequisite remains
+until then. No implementation, eligibility result or M2 closure is claimed.

@@ -2,7 +2,7 @@
 
 Date: 2026-11-19 Europe/Istanbul. Class: VERIFY / design for independent review.
 Baseline: `5ad02dc79bff9d8b1a744432d78bb1dd22d42813`, main CI #240 successful.
-State: PROPOSED DESIGN, NOT IMPLEMENTED OR MERGED. M2 remains OPEN.
+State: SENIOR-APPROVED DESIGN WITH SECTION 20 IMPLEMENTATION CONDITIONS; not implemented. M2 remains OPEN.
 Owner: Mehmet İlkay Kınacı; implementation assistant maintains design/evidence.
 Authority: owner-accepted policy A and Senior section 19 acceptance of the bounded
 next DESIGN step. Neither approval is sign-off on this new concrete design.
@@ -54,7 +54,7 @@ use Application-owned primitives/enums, not connector interfaces or mutable reco
 | ImportSession.Owns(evidence) | Side-effect-free identity check using reference identity of the evidence minted by this session. It cannot be overridden. Equal hashes from different sessions do not satisfy ownership. |
 | InventoryCaptureResult | Readonly captured-session or unavailable result. Unavailable has no session/evidence and retains original failure evidence. It never substitutes an empty diagnostic collection for a failed observation. |
 | InventoryEvidenceGate.Evaluate(evidence, expectedSession) | Pure deterministic function; no file/process/clock/configuration access. Returns the inventory-only decision described below. Neither argument is reconstructed from JSON, a Worker success flag or the non-production probe. |
-| InventoryDecision | Immutable reference result with three statuses, ordered typed blocking reasons and a fixed local policy revision. No public construction or writable approval flag. It is not a reusable authorization token or manufacturing approval. |
+| InventoryDecision | Immutable reference result with three statuses, ordered typed blocking reasons and a fixed local policy revision. Under section 20 A2 only the authentic Evaluate(evidence, session) boundary may construct it; the testable core cannot return/mint it. No writable approval flag; not manufacturing approval. |
 
 The accessibility pattern was checked outside the repository with .NET 8.0.422:
 a nested producer can instantiate its containing sealed type's private constructor;
@@ -97,7 +97,8 @@ map to Unknown, never default to Warning or disappear.
 3. Project the result and all diagnostics; retain the resulting inventory privately.
    A normal Failed reader result with Fatal diagnostics is still an observed failed
    inventory: create a session/evidence with Failed and no inventory, not clean data.
-4. Complete snapshot cleanup and issue the immutable session/evidence. No caller can
+4. Attempt bounded snapshot cleanup and issue the immutable session/evidence;
+   section 20 A1 requires cleanup-only failures to remain secondary after an observation. No caller can
    choose its identity or combine a hash from one capture with diagnostics from another.
    The future geometry composition must use this session's private inventory, not
    reopen the original file or accept an unrelated caller-built ManufacturingRegion.
@@ -108,8 +109,10 @@ there is no observed inventory to manufacture. Keep such catches confined to the
 specific path/file/read calls. Do not blanket-catch InvalidOperationException or
 reinterpret programming/configuration invariants as input failures. Unexpected
 exceptions escaping the existing reader propagate under the bounded exception policy; no session is
-published. Snapshot cleanup must not mask the original exception. A cleanup-only
-failure leaves capture unavailable; secondary cleanup evidence stays secondary.
+published. Snapshot cleanup must not mask the original exception. Under section 20
+A1, a cleanup-only failure after a valid observation must not turn it into NoEvidence.
+Record cleanup separately; its bounded cleanup/retry/ownership strategy must be
+resolved and tested in the implementation PR. No inventory severity is rewritten.
 
 Changing the original path after capture cannot alter this session's observation.
 This does NOT certify that a later original file still matches. Existing document/
@@ -185,7 +188,10 @@ Defensive states impossible through the normal factory may be tested through an
 internal neutral input projection for the pure policy core, using only the narrowly
 scoped MPC.Application.Tests friend assembly. Such a projection must not construct
 an InventoryEvidence, be publicly callable, deserialize probe JSON, or serve as
-consumer authorization. Do not add a public CreateClean or metadata constructor
+consumer authorization. Under section 20 A2 the core returns ONLY neutral status
+and reason data, not InventoryDecision; only Evaluate(evidence, session) constructs
+the decision through a restricted type-system creation path. Test this restriction
+in the implementation PR, not merely by a comment. Do not add a public CreateClean or metadata constructor
 just to make tests convenient. Access/immutability tests cover the real wrapper.
 
 ## Pin the current raw-reader diagnostic severity map
@@ -237,3 +243,55 @@ and decision semantics), independent review of final head required BEFORE merge.
 Wire shape No; existing/shared enum numeric values No; IPC mechanics No;
 persistence No; production UI entry No. #112's policy approval and #114's measurement
 validation are not approval of this new concrete design. No physical PASS claimed.
+
+## Senior section 20 acceptance and implementation conditions
+
+Date: 2026-11-19 Europe/Istanbul. The attached user-supplied review explicitly
+approved #115 at `0984fe67c7dc8e92089e134fcfba059a3d3d9ca3`; no blocking
+finding. Reviewer checked all eight codes/severities and status invariants against
+baseline 5ad02dc7, but did not verify CI #241. Implementation session separately
+rechecked the exact unchanged head and successful CI #241 before merge
+`a848ebdc231e58df9377557f4c0b34211179bc54`.
+[Main CI #242](https://github.com/dengwensha/MPC-Platform/actions/runs/44491582133)
+requires its own successful verification; this reconciliation also has its own CI.
+
+Source: user-uploaded text containing the earlier section 19 review, review brief,
+and final #115 section 20 review. SHA256 of the full supplied bytes:
+`035682049E69EF4747D85C9BD2E223139E9D9BC56ABA9D413787BB46521BBDD5`.
+The hash identifies those bytes, not reviewer identity; no GitHub review submission
+or independent execution is fabricated. Earlier pending-review wording above is
+historical; acceptance covers that reviewed design plus these supplied conditions,
+not a future implementation diff. The reviewer explicitly allowed short notes;
+these notes record the requested implementation decisions, not new implementation.
+
+Owner of all OPEN implementation follow-ups: Mehmet İlkay Kınacı; implementation
+assistant maintains technical evidence in the working session.
+
+| Item | Required implementation disposition and acceptance |
+| --- | --- |
+| A1 — cleanup after successful read (Medium) | Do not reject a valid observation solely because the temporary copy cannot be deleted, including a short Windows antivirus lock. Cleanup failure is secondary operational evidence, not an invented inventory Error or NoEvidence. Resolve bounded cleanup/retry or DeleteOnClose strategy and residual-file handling in the implementation PR; no unbounded retry/background service. Tests must distinguish successful read + cleanup-only failure from read failure + secondary cleanup failure, preserving the original cause. This corrects the initial cleanup-only-unavailable sentence above. |
+| A2 — neutral test core cannot mint decisions (Medium) | Core output is neutral status/reason data only. InventoryDecision construction belongs exclusively to Evaluate(evidence, session) after authentic ownership checks, with a restricted constructor/issuer arrangement verified by type/API tests. Neither a neutral projection nor core function may return InventoryDecision; no internal arbitrary-data shortcut to InventoryClear decision objects. No public test factory or metadata proof constructor. Concrete accessibility placement is fixed/reviewed in the implementation PR. |
+| A3 — header and units are separate gates (Medium) | The eight-code inventory manifest does not include header/unit diagnostics. InventoryClear must not approve dependent calculations with unknown units merely because the unit diagnostic is Warning. Header and unit evidence must be produced from the same session and their separate gates defined before the first whole-file-dependent evaluator. First Application inventory slice need not implement these gates. Existing TOOL-01C-03 P2 records unknown-unit blocking as a proposal with historical ratification not evidenced; this note does not retroactively ratify it or authorize a unit-dependent consumer. The separate gate needs its own explicit policy/design/verification. |
+| A4 — empty Assembly.Location (Low) | Define and test the single-file/empty-location case in the implementation PR. Do not guess an assembly path/hash or silently skip reader provenance. Either provide a reviewed trustworthy revision source compatible with packaging, or a controlled unavailable/unsupported result under the evidence rules; the exact supported-packaging/provider decision must be stated before shipping. No single-file support is claimed now. |
+| A5 — lifetime and new codes (Low) | Sessions are operation-scoped managed owners; release references to the roughly 135k-record R03 inventory after the owning evaluation/composition finishes. Evidence must not retain the full inventory/session by a back-reference; no global cache, forced GC or finalizer-based lifecycle guarantee. Define/test ownership and retained-reference behavior in implementation. Compare the complete current producer code inventory with the pinned manifest so a newly emitted code fails the audit even when its severity is known. Handpicked passing fixtures alone do not establish inventory completeness. Unknown/unhandled audit construction must not silently pass; every new/changed code needs eligibility-impact review. No production code allowlist or severity change is introduced here. |
+
+## Proposed workshop sequencing revision - pending owner acceptance
+
+Senior section 20 recommends allowing the first Application implementation BEFORE
+workshop calibration sampling, because that slice has no consumers and publishes
+no calculation results. Under that proposed order, workshop sampling must finish
+BEFORE the first evaluator or integration consumes the boundary. Other M2 gates,
+consumer verification and complementary coverage/header/unit requirements remain.
+
+State: PROPOSAL ONLY; explicit project-owner acceptance has NOT been supplied.
+The uploaded review is not that acceptance. Until the user accepts this concrete
+revised order, the earlier workshop-before-implementation prerequisite remains
+binding. No implementation has started and no waiver or policy relaxation is
+recorded. A later explicit acceptance should be recorded here with its exact
+bounded scope, not inferred from CI, design merge or a historical continuation.
+
+M2 remains OPEN. This reconciliation records the supplied approved design conditions
+and the still-unaccepted sequencing proposal; it adds no production behavior,
+wire interpretation, severity mapping or implementation API choice. All new-diff
+review triggers No for factual disposition; the actual implementation and any
+new boundary choices still require their own applicable independent review.
