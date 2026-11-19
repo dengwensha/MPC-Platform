@@ -3,8 +3,9 @@
 Date: 2026-11-19 Europe/Istanbul. Class: HARDEN.
 Start: `62a22a3ddc50a914d49eeed6d6276328d8d77b81`.
 Branch: `fix/M2-captured-inventory-stream`.
-Reviewed/Closing: pending exact implementation commit, CI and independent Senior.
-State: PROPOSED FIX; M2 OPEN; no production consumer.
+Reviewed: `73aebc89454102aaf135b768e5c4a0dd9914531a` (Senior section 22).
+Closing (implementation merge): `d6f6a01e29f5de0ddad973dc48a2e8686255f3aa`.
+State: SENIOR-APPROVED AND MERGED bounded B1-B5 fix; M2 OPEN; no production consumer.
 Owner: Mehmet İlkay Kınacı; implementation assistant maintains evidence.
 
 ## One goal and smallest boundary change
@@ -74,3 +75,44 @@ only); IPC NO; persistence YES for removal of the private on-disk STEP lifecycle
 UI entry NO. These triggers require independent review of the final diff, even
 though the change removes disk persistence. #117 approval does not cover this diff.
 M2, workshop sampling, coverage/header/unit gates and consumer validation remain OPEN.
+
+
+## Senior section 22 acceptance and remaining follow-ups
+
+Date: 2026-11-19 Europe/Istanbul. Source: independent review supplied by project
+owner in the working conversation; no GitHub review submission is fabricated.
+Reviewer approved both decisions: B1-B5 addressed for the isolated capture and
+measurement probe, evidence trust boundary preserved, merge allowed, no physical
+acceptance required. Reviewer recomputed the new reader source pin, confirmed the
+unchanged validator pin, eight diagnostic codes/severities, 21-line reader diff
+and net +15 tests. No independent CI execution/verification by reviewer is claimed.
+Implementation session separately verified Actions #249 run 44533217724 head_sha
+exactly equals Reviewed above, conclusion success, and job 135591731675 logs:
+Release 0 warnings/errors, 94+1366+262+171+86 = 1979/1979; Worker acceptance 5/5,
+targeted 3/3, measurement controls 6/6, real-corpus steps success. Merge used an
+expected-head lease. Main merge CI is separately verified in the delivery PR.
+
+B1-B5 are CLOSED within these two capture paths after approved implementation
+merge; no closure of temp behavior in other importers, general data erasure or
+M2 is implied. Former proposed-fix wording above describes the reviewed change.
+The prior A1 cleanup mechanism is superseded by removal of its extra file.
+
+Owner of all remaining items: Mehmet İlkay Kınacı; implementation assistant
+maintains technical evidence. Follow-ups are OPEN, not measured results:
+
+| Item | Required evidence / trigger |
+| --- | --- |
+| N1 — real-input path/capture parity | At the NEXT measurement, compare Read(path) and ReadCaptured for R01/R02/R03; record new reader assembly/source hashes, source SHA256 and inventory/diagnostic comparison. Existing golden parity and CI probe observations are not this explicit comparison. |
+| N2 — checkpoint usage | In the FIRST consumer PR, verify production calls omit afterSourceCaptured and preserve genuine same-session ownership. No consumer exists now. |
+| N3 / B6 — assembly hash cost | Still hashes on each capture. Address only at the next measured performance work; no unmeasured cache or global session/inventory retention. |
+| A4 consumer diagnostics | First consumer must carry Failure/FailureStage provenance or source/parse cause to diagnostics; NoEvidence alone does not explain the cause. |
+
+Workshop sample remains 0. Measurement must preserve unavailable observations
+and separate causes, never report unavailable counts as zero Error/Fatal or treat
+SourceLinkMatched as overall eligibility. Header/unit, coverage, detailed-cause
+separation and consumer verification remain OPEN. No physical test performed;
+Senior explicitly waived an additional physical acceptance for this exact scope,
+not for the separate existing SOLIDWORKS diagnostic follow-up.
+This reconciliation changes no runtime behavior or policy; all new-diff review
+triggers No for this factual record. Future consumer/capture boundary changes
+still need applicable independent review. M2 remains OPEN.
