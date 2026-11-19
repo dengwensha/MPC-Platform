@@ -2,10 +2,9 @@
 
 Date: 2026-11-19 Europe/Istanbul. Class: VERIFY / design for independent review.
 Baseline: `5ad02dc79bff9d8b1a744432d78bb1dd22d42813`, main CI #240 successful.
-State: SENIOR-APPROVED DESIGN WITH SECTION 20 IMPLEMENTATION CONDITIONS; not implemented. M2 remains OPEN.
+State: SENIOR-APPROVED DESIGN WITH SECTION 20 IMPLEMENTATION CONDITIONS; first isolated implementation proposed for separate review. M2 remains OPEN.
 Owner: Mehmet İlkay Kınacı; implementation assistant maintains design/evidence.
-Authority: owner-accepted policy A and Senior section 19 acceptance of the bounded
-next DESIGN step. Neither approval is sign-off on this new concrete design.
+Authority: owner-accepted policy A; Senior section 20 approved design; owner explicitly accepted the bounded workshop sequencing revision on 2026-11-19. Implementation requires separate final-diff review.
 
 ## One technical goal and exclusions
 
@@ -275,23 +274,17 @@ assistant maintains technical evidence in the working session.
 | A4 — empty Assembly.Location (Low) | Define and test the single-file/empty-location case in the implementation PR. Do not guess an assembly path/hash or silently skip reader provenance. Either provide a reviewed trustworthy revision source compatible with packaging, or a controlled unavailable/unsupported result under the evidence rules; the exact supported-packaging/provider decision must be stated before shipping. No single-file support is claimed now. |
 | A5 — lifetime and new codes (Low) | Sessions are operation-scoped managed owners; release references to the roughly 135k-record R03 inventory after the owning evaluation/composition finishes. Evidence must not retain the full inventory/session by a back-reference; no global cache, forced GC or finalizer-based lifecycle guarantee. Define/test ownership and retained-reference behavior in implementation. Compare the complete current producer code inventory with the pinned manifest so a newly emitted code fails the audit even when its severity is known. Handpicked passing fixtures alone do not establish inventory completeness. Unknown/unhandled audit construction must not silently pass; every new/changed code needs eligibility-impact review. No production code allowlist or severity change is introduced here. |
 
-## Proposed workshop sequencing revision - pending owner acceptance
+## Owner-accepted workshop sequencing revision
 
-Senior section 20 recommends allowing the first Application implementation BEFORE
-workshop calibration sampling, because that slice has no consumers and publishes
-no calculation results. Under that proposed order, workshop sampling must finish
-BEFORE the first evaluator or integration consumes the boundary. Other M2 gates,
-consumer verification and complementary coverage/header/unit requirements remain.
+Date: 2026-11-19 Europe/Istanbul. After explanation of the precise revised order,
+the project owner explicitly replied “evet onaylıyorum”. This accepts the Senior
+section 20 proposal: the first isolated Application inventory evidence/decision
+implementation may precede workshop calibration sampling. It must have no product
+consumers and must publish no feature, time or cost results. Workshop sampling is
+mandatory BEFORE the first evaluator/integration consumes this boundary. This
+changes sequencing only, not policy A or the remaining M2 gates.
 
-State: PROPOSAL ONLY; explicit project-owner acceptance has NOT been supplied.
-The uploaded review is not that acceptance. Until the user accepts this concrete
-revised order, the earlier workshop-before-implementation prerequisite remains
-binding. No implementation has started and no waiver or policy relaxation is
-recorded. A later explicit acceptance should be recorded here with its exact
-bounded scope, not inferred from CI, design merge or a historical continuation.
-
-M2 remains OPEN. This reconciliation records the supplied approved design conditions
-and the still-unaccepted sequencing proposal; it adds no production behavior,
-wire interpretation, severity mapping or implementation API choice. All new-diff
-review triggers No for factual disposition; the actual implementation and any
-new boundary choices still require their own applicable independent review.
+The implementation is tracked in [the first-slice record](M2-Application-Inventory-First-Slice.md).
+M2 remains OPEN. Header/unit gates, complementary coverage, consumer verification,
+workshop measurement and detailed cause separation remain pending. The implementation
+has its own trust/fail-closed review trigger and cannot inherit the design approval.
