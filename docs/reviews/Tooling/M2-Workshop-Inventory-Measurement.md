@@ -133,3 +133,12 @@ Two S26352 inputs have equal type totals; they are not independent jobs and
 matching counts do not prove identical geometry. A binomial independent-sample
 95% upper bound is not justified for this correlated two-family sample.
 No population rejection-rate confidence claim is made.
+
+## Same-build control follow-up
+
+See [review follow-up](M2-Workshop-Measurement-Review-Followup.md): six controls
+passed against the original DLL; 14 inputs repeated with new readers and separate
+processes; explicit record-level counts and archive/session provenance added.
+N1 remains MEASURED, ACCEPTANCE PENDING. Owner confirmed the BACK PLATE
+multi-body result was not intentional; original is baseline, corrected version
+is a suspected editing issue pending CAD inspection. M2 remains OPEN.

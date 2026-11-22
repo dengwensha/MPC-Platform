@@ -1,0 +1,89 @@
+from pathlib import Path
+import hashlib,json,subprocess,uuid,datetime,platform,sys
+sys.path.insert(0,'/tmp/mpc-rar-inspect')
+import libarchive,zipfile
+workspace=Path('/workspace/scratch/b84ade11baa1')
+out=workspace/'outputs/workshop-measurement-v2'
+out.mkdir(parents=True,exist_ok=True)
+session=str(uuid.uuid4())
+sha=lambda b:hashlib.sha256(b).hexdigest().upper()
+manifest=[]
+archive=workspace/'upload/KESTSTEP(1).rar'
+with libarchive.file_reader(str(archive)) as entries:
+ for entry in entries:
+  if entry.isfile:
+   content=b''.join(entry.get_blocks())
+   source=Path('/tmp/mpc-workshop')/Path(entry.pathname).name
+   assert source.read_bytes()==content
+   manifest.append(dict(ArchiveName=archive.name,ArchiveSha256=sha(archive.read_bytes()),Entry=entry.pathname,InputName=source.name,InputSha256=sha(content),Bytes=len(content),LocalPath=str(source),Kind='Workshop'))
+archive=Path('/tmp/mpc-real.zip')
+assert sha(archive.read_bytes())=='497D4FC9B7DF2D2B5FF93B89FA7AD2B78FD53BA5DDD26DDB85898EF2DBC516DA'
+with zipfile.ZipFile(archive) as z:
+ for name in z.namelist():
+  content=z.read(name); source=Path('/tmp/mpc-reference')/name
+  assert source.read_bytes()==content
+  manifest.append(dict(ArchiveName='p01-real-parts.zip',ArchiveSha256=sha(archive.read_bytes()),Entry=name,InputName=source.name,InputSha256=sha(content),Bytes=len(content),LocalPath=str(source),Kind='Reference'))
+controls=Path('/tmp/mpc-measure-v2/controls');controls.mkdir(exist_ok=True)
+fixtures={
+ 'control-clean.stp':b'ISO-10303-21; DATA; #1 = UNSUPPORTED_ENTITY(); ENDSEC; END-ISO-10303-21;',
+ 'control-error.step':b'ISO-10303-21; DATA; #1 = ( ); ENDSEC; END-ISO-10303-21;',
+ 'control-fatal.step':b'not a STEP DATA section',
+ 'control-exception.step':b'ISO-10303-21; DATA; #1 = COMPLEX_ENTITY(); ENDSEC; END-ISO-10303-21;'
+}
+for name,content in fixtures.items():
+ p=controls/name;p.write_bytes(content)
+ manifest.append(dict(ArchiveName=None,Entry=None,InputName=name,InputSha256=sha(content),Bytes=len(content),LocalPath=str(p),Kind='SyntheticControl'))
+assert len(manifest)==18
+assert len({r['InputName'] for r in manifest})==18
+for r in manifest: assert Path(r['InputName']).suffix.lower() in ('.step','.stp')
+dotnet='/tmp/mpc-dotnet/dotnet'; dll='/tmp/mpc-measure-v2/bin/Release/net8.0/Measure.dll'
+binary=Path('/tmp/mpc-measure-v2/bin/Release/net8.0/MPC.Connectors.Step.dll')
+expectedassembly='F8B9530C0F554FA32CC9315927BD44482D48FC15C583DB650A629F5E15CAAACE'
+assert sha(binary.read_bytes())==expectedassembly
+summary=[]
+for r in manifest:
+ observations=[]
+ for attempt in (1,2):
+  target=out/f"{r['InputName']}.attempt{attempt}.json"
+  subprocess.run([dotnet,dll,session,r['LocalPath'],str(target),r['InputSha256']],check=True,timeout=60)
+  observations.append(json.loads(target.read_text()))
+ a,b=observations
+ assert a['SourceUnchanged'] and b['SourceUnchanged']
+ assert a['Metadata']['ProcessId']!=b['Metadata']['ProcessId']
+ assert all(x['Metadata']['ReaderAssemblySha256']==expectedassembly for x in observations)
+ obs=[a['Path'],a['Captured'],b['Path'],b['Captured']]
+ if r['InputName']=='control-exception.step':
+  assert all(not x['ObservationAvailable'] and x['ExceptionType']=='System.FormatException' and x['AggregateSeverityCounts'] is None for x in obs)
+ else:
+  assert all(x['ObservationAvailable'] for x in obs)
+  assert len({x['ResultDigest'] for x in obs})==1
+  if r['InputName']=='control-error.step':
+   assert all(x['AggregateSeverityCounts']==dict(Info=0,Warning=0,Error=1,Fatal=0) and x['RecordSeverityCounts']==dict(Info=0,Warning=0,Error=1,Fatal=0) and x['AggregateDiagnostics'][0]['Code']=='STEP_COMPLEX_ENTITY_COMPONENTS_NOT_FOUND' for x in obs)
+  elif r['InputName']=='control-fatal.step':
+   assert all(x['Status']=='Failed' and x['AggregateSeverityCounts']['Fatal']==1 and x['RecordSeverityCounts'] is None for x in obs)
+  else:
+   assert all(sum(x['AggregateSeverityCounts'].values())==0 and sum(x['RecordSeverityCounts'].values())==0 for x in obs)
+ summary.append(dict(InputName=r['InputName'],Kind=r['Kind'],IndependentProcesses=True,ObservationAvailable=obs[0]['ObservationAvailable'],Checks='PASS'))
+ print(r['InputName'], 'PASS',flush=True)
+# Capture and expected-hash controls must fail without fake clean counts.
+for name,source,expected in [('missing',controls/'absent.step','A'*64),('hash-mismatch',controls/'control-clean.stp','A'*64)]:
+ target=out/f'control-{name}.json'
+ p=subprocess.run([dotnet,dll,session,str(source),str(target),expected],timeout=60)
+ assert p.returncode==1
+ row=json.loads(target.read_text());assert row['CaptureAvailable'] is False
+ summary.append(dict(InputName=name,Kind='InfrastructureControl',Checks='PASS'))
+# Local-only digest audit; do not include raw R01 serialized geometry in delivery.
+audits=[]
+for p in out.glob('P01-R01*.full-local.json'):
+ data=p.read_bytes(); obj=json.loads(data)
+ row=json.loads(Path(str(p).split('.json.')[0]+'.json').read_text())
+ mode='Path' if '.path.' in p.name else 'Captured'
+ assert sha(data)==row[mode]['ResultDigest']
+ assert set(obj)=={'Status','Value','Diagnostics'}
+ assert set(obj['Value']['Entities'][0])=={'SourceEntityId','SourceEntityType','RawStatement','ReadStatus','IsComplexEntity','ComponentTypes','Diagnostics','ReferencedEntityIds'}
+ audits.append(dict(LocalFile=p.name,Bytes=len(data),Sha256=sha(data),DigestMatches=True,ResultFields=list(obj),RecordFields=list(obj['Value']['Entities'][0])))
+assert len(audits)==4
+manifest=[{k:v for k,v in r.items() if k!='LocalPath'} for r in manifest]
+(out/'Manifest.json').write_text(json.dumps(dict(SessionId=session,Inputs=manifest),indent=2))
+(out/'Validation.json').write_text(json.dumps(dict(SessionId=session,CreatedUtc=datetime.datetime.now(datetime.timezone.utc).isoformat(),OS=platform.platform(),ReaderAssemblySha256=expectedassembly,ControlsAndInputs=summary,LocalOnlyDigestAudit=audits,GitHead=subprocess.check_output(['git','rev-parse','HEAD'],cwd=workspace/'MPC-Platform',text=True).strip(),GitStatus=subprocess.check_output(['git','status','--short'],cwd=workspace/'MPC-Platform',text=True),SourceCommit='098c2ee3323676e3b8245ff5e28c87b6f7a6531b'),indent=2))
+print('PASS: 14 real inputs, 4 parser controls, 2 capture controls; independent processes; pinned original assembly; local R01 digest audits')
