@@ -1,0 +1,38 @@
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Runtime.InteropServices;
+using MPC.Connectors.Diagnostics;
+using MPC.Connectors.Step.Readers;
+using MPC.Connectors.Step.Validation;
+var options = new JsonSerializerOptions();
+options.Converters.Add(new JsonStringEnumConverter());
+string Hash(byte[] bytes) => Convert.ToHexString(SHA256.HashData(bytes));
+var started = DateTimeOffset.UtcNow;
+string session = args[0], input = args[1], output = args[2];
+string expected = args[3];
+var metadata = new { SessionId=session, StartedUtc=started, ProcessId=Environment.ProcessId, OS=RuntimeInformation.OSDescription, Architecture=RuntimeInformation.ProcessArchitecture.ToString(), Runtime=RuntimeInformation.FrameworkDescription, MeasuredSourceCommit="098c2ee3323676e3b8245ff5e28c87b6f7a6531b", ReaderAssemblySha256=Hash(File.ReadAllBytes(typeof(StepDataEntityReader).Assembly.Location)) };
+Dictionary<string,int> Counts(IEnumerable<CadDiagnostic> ds) => Enum.GetValues<CadDiagnosticSeverity>().ToDictionary(s=>s.ToString(),s=>ds.Count(d=>d.Severity==s));
+object Observe(string mode, byte[] bytes) {
+ try {
+  // A new concrete reader and validator for every call.
+  var reader = new StepDataEntityReader(new StepDataInventoryValidator());
+  using var stream = new MemoryStream(bytes,false);
+  var result = mode=="path" ? reader.Read(input) : reader.ReadCaptured(stream);
+  var serialized = JsonSerializer.SerializeToUtf8Bytes(result,options);
+  var recordDiagnostics = result.Value?.Entities.SelectMany(e=>e.Diagnostics).ToArray();
+  var observation = new { Mode=mode, ObservationAvailable=true, Status=result.Status.ToString(), EntityCount=result.Value?.TotalEntityCount, RecordStatusCounts=result.Value?.Entities.GroupBy(e=>e.ReadStatus).ToDictionary(g=>g.Key.ToString(),g=>g.Count()), AggregateSeverityCounts=Counts(result.Diagnostics), RecordSeverityCounts=recordDiagnostics is null ? null : Counts(recordDiagnostics), AggregateDiagnostics=result.Diagnostics, RecordDiagnostics=result.Value?.Entities.Where(e=>e.Diagnostics.Count>0).Select(e=>new{e.SourceEntityId,e.SourceEntityType,e.Diagnostics}), ResultDigest=Hash(serialized) };
+  // Local-only full-result audit; never automatically publish raw statements.
+  if(Path.GetFileName(input)=="P01-R01-Prismatic.STEP") File.WriteAllBytes(output+"."+mode+".full-local.json",serialized);
+  return observation;
+ } catch(Exception e) { return new { Mode=mode, ObservationAvailable=false, ExceptionType=e.GetType().FullName, ExceptionMessage=e.Message, AggregateSeverityCounts=(object?)null, RecordSeverityCounts=(object?)null }; }
+}
+Directory.CreateDirectory(Path.GetDirectoryName(output)!);
+try {
+ var bytes=File.ReadAllBytes(input); var hash=Hash(bytes);
+ if(hash!=expected) throw new InvalidDataException("InputHashMismatch");
+ var path=Observe("path",bytes); var captured=Observe("captured",bytes);
+ var row=new { Metadata=metadata, InputName=Path.GetFileName(input), ExpectedSha256=expected, ActualSha256=hash, SourceUnchanged=Hash(File.ReadAllBytes(input))==hash, Path=path, Captured=captured, CompletedUtc=DateTimeOffset.UtcNow };
+ File.WriteAllText(output,JsonSerializer.Serialize(row,options));
+} catch(Exception e) { File.WriteAllText(output,JsonSerializer.Serialize(new { Metadata=metadata, InputName=Path.GetFileName(input), ExpectedSha256=expected, CaptureAvailable=false, ExceptionType=e.GetType().FullName, ExceptionMessage=e.Message, CompletedUtc=DateTimeOffset.UtcNow },options)); return 1; }
+return 0;

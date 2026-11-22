@@ -1,0 +1,233 @@
+{
+  "SessionId": "131bdab3-392e-4c32-a299-463025656b70",
+  "CreatedUtc": "2026-11-22T14:12:00.796009+00:00",
+  "OS": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "ReaderAssemblySha256": "F8B9530C0F554FA32CC9315927BD44482D48FC15C583DB650A629F5E15CAAACE",
+  "ControlsAndInputs": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "Kind": "Workshop",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "Kind": "Reference",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "Kind": "Reference",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "Kind": "Reference",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "control-clean.stp",
+      "Kind": "SyntheticControl",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "control-error.step",
+      "Kind": "SyntheticControl",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "control-fatal.step",
+      "Kind": "SyntheticControl",
+      "IndependentProcesses": true,
+      "ObservationAvailable": true,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "control-exception.step",
+      "Kind": "SyntheticControl",
+      "IndependentProcesses": true,
+      "ObservationAvailable": false,
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "missing",
+      "Kind": "InfrastructureControl",
+      "Checks": "PASS"
+    },
+    {
+      "InputName": "hash-mismatch",
+      "Kind": "InfrastructureControl",
+      "Checks": "PASS"
+    }
+  ],
+  "LocalOnlyDigestAudit": [
+    {
+      "LocalFile": "P01-R01-Prismatic.STEP.attempt1.json.captured.full-local.json",
+      "Bytes": 90961,
+      "Sha256": "5C1FBFFCCE8EA1AEC3B5324195490F6D2A7034549596D71D53F37747B951124D",
+      "DigestMatches": true,
+      "ResultFields": [
+        "Status",
+        "Value",
+        "Diagnostics"
+      ],
+      "RecordFields": [
+        "SourceEntityId",
+        "SourceEntityType",
+        "RawStatement",
+        "ReadStatus",
+        "IsComplexEntity",
+        "ComponentTypes",
+        "Diagnostics",
+        "ReferencedEntityIds"
+      ]
+    },
+    {
+      "LocalFile": "P01-R01-Prismatic.STEP.attempt2.json.path.full-local.json",
+      "Bytes": 90961,
+      "Sha256": "5C1FBFFCCE8EA1AEC3B5324195490F6D2A7034549596D71D53F37747B951124D",
+      "DigestMatches": true,
+      "ResultFields": [
+        "Status",
+        "Value",
+        "Diagnostics"
+      ],
+      "RecordFields": [
+        "SourceEntityId",
+        "SourceEntityType",
+        "RawStatement",
+        "ReadStatus",
+        "IsComplexEntity",
+        "ComponentTypes",
+        "Diagnostics",
+        "ReferencedEntityIds"
+      ]
+    },
+    {
+      "LocalFile": "P01-R01-Prismatic.STEP.attempt2.json.captured.full-local.json",
+      "Bytes": 90961,
+      "Sha256": "5C1FBFFCCE8EA1AEC3B5324195490F6D2A7034549596D71D53F37747B951124D",
+      "DigestMatches": true,
+      "ResultFields": [
+        "Status",
+        "Value",
+        "Diagnostics"
+      ],
+      "RecordFields": [
+        "SourceEntityId",
+        "SourceEntityType",
+        "RawStatement",
+        "ReadStatus",
+        "IsComplexEntity",
+        "ComponentTypes",
+        "Diagnostics",
+        "ReferencedEntityIds"
+      ]
+    },
+    {
+      "LocalFile": "P01-R01-Prismatic.STEP.attempt1.json.path.full-local.json",
+      "Bytes": 90961,
+      "Sha256": "5C1FBFFCCE8EA1AEC3B5324195490F6D2A7034549596D71D53F37747B951124D",
+      "DigestMatches": true,
+      "ResultFields": [
+        "Status",
+        "Value",
+        "Diagnostics"
+      ],
+      "RecordFields": [
+        "SourceEntityId",
+        "SourceEntityType",
+        "RawStatement",
+        "ReadStatus",
+        "IsComplexEntity",
+        "ComponentTypes",
+        "Diagnostics",
+        "ReferencedEntityIds"
+      ]
+    }
+  ],
+  "GitHead": "35e5fb9d5ead037bd1081f076d11e50b2a4443e1",
+  "GitStatus": "",
+  "SourceCommit": "098c2ee3323676e3b8245ff5e28c87b6f7a6531b"
+}
