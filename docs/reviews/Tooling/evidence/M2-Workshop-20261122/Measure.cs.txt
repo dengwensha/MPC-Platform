@@ -1,0 +1,23 @@
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using MPC.Connectors.Step.Readers;
+using MPC.Connectors.Step.Validation;
+var options = new JsonSerializerOptions { WriteIndented = false };
+options.Converters.Add(new JsonStringEnumConverter());
+string Hash(byte[] b) => Convert.ToHexString(SHA256.HashData(b));
+Directory.CreateDirectory(args[1]);
+foreach(var path in Directory.GetFiles(args[0], "*", SearchOption.AllDirectories).Where(p=>Path.GetExtension(p).Equals(".step",StringComparison.OrdinalIgnoreCase)).Order())
+{
+ var bytes=File.ReadAllBytes(path); var hash=Hash(bytes);
+ try {
+ var reader=new StepDataEntityReader(new StepDataInventoryValidator());
+ var first=reader.Read(path);
+ using var stream=new MemoryStream(bytes,false); var captured=reader.ReadCaptured(stream);
+ using var repeatStream=new MemoryStream(bytes,false); var repeat=reader.ReadCaptured(repeatStream);
+ string Digest(object x)=>Hash(JsonSerializer.SerializeToUtf8Bytes(x,options));
+ var row=new { InputName=Path.GetFileName(path), InputSha256=hash, SourceUnchanged=hash==Hash(File.ReadAllBytes(path)), SourceCommit="098c2ee3323676e3b8245ff5e28c87b6f7a6531b", ReaderAssemblySha256=Hash(File.ReadAllBytes(typeof(StepDataEntityReader).Assembly.Location)), ObservationAvailable=true, Status=captured.Status.ToString(), EntityCount=captured.Value?.TotalEntityCount, RecordStatusCounts=captured.Value?.Entities.GroupBy(x=>x.ReadStatus).Select(g=>new{Status=g.Key.ToString(),Count=g.Count()}), TypeCounts=captured.Value?.TypeCounts, Diagnostics=captured.Diagnostics, PathDigest=Digest(first), CapturedDigest=Digest(captured), RepeatDigest=Digest(repeat), PathCapturedEqual=Digest(first)==Digest(captured), RepeatEqual=Digest(captured)==Digest(repeat) };
+ File.WriteAllText(Path.Combine(args[1],Path.GetFileName(path)+".json"),JsonSerializer.Serialize(row,options));
+ Console.WriteLine($"{row.InputName}: {row.Status}; entities={row.EntityCount}; diagnostics={captured.Diagnostics.Count}; parity={row.PathCapturedEqual}; repeat={row.RepeatEqual}");
+ } catch(Exception e) {File.WriteAllText(Path.Combine(args[1],Path.GetFileName(path)+".json"),JsonSerializer.Serialize(new{InputName=Path.GetFileName(path),InputSha256=hash,ObservationAvailable=false,ExceptionType=e.GetType().FullName},options)); Console.WriteLine(Path.GetFileName(path)+": UNAVAILABLE "+e.GetType().Name);}
+}

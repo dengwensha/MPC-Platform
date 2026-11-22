@@ -98,16 +98,16 @@ M2 is implied. Former proposed-fix wording above describes the reviewed change.
 The prior A1 cleanup mechanism is superseded by removal of its extra file.
 
 Owner of all remaining items: Mehmet İlkay Kınacı; implementation assistant
-maintains technical evidence. Follow-ups are OPEN, not measured results:
+maintains technical evidence. Follow-ups below include the bounded N1 measurement disposition dated 2026-11-22:
 
 | Item | Required evidence / trigger |
 | --- | --- |
-| N1 — real-input path/capture parity | At the NEXT measurement, compare Read(path) and ReadCaptured for R01/R02/R03; record new reader assembly/source hashes, source SHA256 and inventory/diagnostic comparison. Existing golden parity and CI probe observations are not this explicit comparison. |
+| N1 — real-input path/capture parity | CLOSED for R01/R02/R03 and the measured reader build on 2026-11-22: full-result path/capture and repeat digests equal, input/assembly/source hashes recorded. See [measurement record](M2-Workshop-Inventory-Measurement.md). No general future-reader equivalence is claimed. |
 | N2 — checkpoint usage | In the FIRST consumer PR, verify production calls omit afterSourceCaptured and preserve genuine same-session ownership. No consumer exists now. |
 | N3 / B6 — assembly hash cost | Still hashes on each capture. Address only at the next measured performance work; no unmeasured cache or global session/inventory retention. |
 | A4 consumer diagnostics | First consumer must carry Failure/FailureStage provenance or source/parse cause to diagnostics; NoEvidence alone does not explain the cause. |
 
-Workshop sample remains 0. Measurement must preserve unavailable observations
+Workshop measurement update: 10 parts / 11 versions in two families; see [bounded measurement](M2-Workshop-Inventory-Measurement.md). Measurement must preserve unavailable observations
 and separate causes, never report unavailable counts as zero Error/Fatal or treat
 SourceLinkMatched as overall eligibility. Header/unit, coverage, detailed-cause
 separation and consumer verification remain OPEN. No physical test performed;

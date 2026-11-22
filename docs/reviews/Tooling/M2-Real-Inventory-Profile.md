@@ -94,3 +94,13 @@ records only. Risk triggers for this measurement diff: wire No; enum No;
 trust/fail-closed No (no eligibility output or accepted meaning change); IPC No;
 persistence No; production UI entry No. Standard review and its own full CI apply.
 The future production gate retains its independent review requirement.
+
+## 2026-11-22 factual update
+
+The preceding baseline method/results are historical and retained unchanged.
+See [workshop measurement and N1](M2-Workshop-Inventory-Measurement.md) for the
+current reader: 10 workshop parts / 11 versions / two families, plus explicit
+R01/R02/R03 path/capture parity. Consumer-free Application evidence and decision
+were subsequently delivered in #117/#119; earlier open-design wording is historical.
+M2 remains OPEN for coverage/header/unit gates, cause propagation and first
+consumer validation. No raw CAD or policy change in this reconciliation.
