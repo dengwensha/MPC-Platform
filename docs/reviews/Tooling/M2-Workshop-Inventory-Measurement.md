@@ -4,7 +4,7 @@ Date: 2026-11-22 Europe/Istanbul. Class: VERIFY, factual evidence only.
 Start / measured source: `098c2ee3323676e3b8245ff5e28c87b6f7a6531b`.
 Branch: `docs/M2-workshop-measurement-N1`. Closing: pending delivery.
 Owner: Mehmet İlkay Kınacı; implementation assistant maintains evidence.
-State: N1 CLOSED for the measured R01/R02/R03 and reader build; M2 OPEN.
+State: N1 MEASURED, ACCEPTANCE PENDING after independent measurement review; M2 OPEN.
 
 ## Sample and provenance
 
@@ -74,8 +74,9 @@ R03 raw inventory success does not supersede its historical semantic-layer limit
 
 ## Disposition and next boundary
 
-N1 real-input path/capture comparison is CLOSED only for the three fixed references
-and this exact reader build. Workshop collection/measurement is complete for this
+N1 real-input path/capture comparison is MEASURED, ACCEPTANCE PENDING.
+The supplied independent measurement review requires same-build faulty controls,
+explicit record diagnostic counts and session/archive provenance before acceptance. Workshop collection/measurement is complete for this
 bounded set; broader diversity and any high-incidence interpretation remain future
 measurement work. Original historical profiles are retained unchanged.
 
@@ -102,3 +103,33 @@ All six risk triggers No: no wire/serialization boundary, shared enums, trust or
 fail-closed policy, IPC, runtime persistence lifecycle or production UI changes.
 JSON is historical observation format only. Standard factual review and required
 CI apply; no independent approval of a new boundary is claimed.
+
+## Independent measurement review received 2026-11-22
+
+The owner supplied MPC STEP Atölye Ölçümü — Test Sonuçları İncelemesi.
+The review confirms the 14 JSON summaries but requests stronger measurement
+controls. PR stays draft; CI success alone cannot accept N1. No numerical
+observation is retracted, but no closure or product suitability is inferred.
+
+Verified omitted structural distinction: BACK_PLATE_ORIGINAL has 1
+MANIFOLD_SOLID_BREP / 1 CLOSED_SHELL / 979 ADVANCED_FACE; corrected BACK PLATE
+has 4 / 4 / 760. These are inventory entity counts, not validated bodies.
+Whether the split was intentional is pending owner clarification and CAD check.
+
+Follow-ups before acceptance: same-build known Error/Fatal controls; separate
+record-level severity counts; new reader per read and process-independent repeat;
+a complete R01 serialized result or equivalent reproducible digest audit;
+archive-to-entry hashes and UTC/session/OS/build provenance; expected input
+manifest, .stp support and controlled unavailable output. Do not publish raw
+R01 geometry statements without checking corpus redistribution scope.
+
+Reader source lines 145-146 append record.Diagnostics into result diagnostics,
+so aggregate Diagnostics already includes record-level warnings/errors. Explicit
+record totals improve auditability; they must not be added again to aggregate
+totals. The harness actually reads path, capture, then capture repeat; any earlier
+prose suggesting another order is superseded by this method and harness source.
+
+Two S26352 inputs have equal type totals; they are not independent jobs and
+matching counts do not prove identical geometry. A binomial independent-sample
+95% upper bound is not justified for this correlated two-family sample.
+No population rejection-rate confidence claim is made.
