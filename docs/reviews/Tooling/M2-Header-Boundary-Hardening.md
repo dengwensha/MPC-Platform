@@ -85,3 +85,26 @@ F01-Hardened.json records this producer Application assembly SHA256 separately.
 This is not a refresh of the historical 14-file profiles. No policy widening,
 source modification or new eligibility decision. Festo is now supplied; exact
 final-head CI and independent B1/B3 review remain required before merge.
+
+## Senior section 27 acceptance and dependency refresh
+
+Senior independently accepted B1/B3 and the Festo conditions with no additional
+blocking finding. #125 merged first as adbdf85fa156bee5d8f5a7244950ceef137fc510
+after exact-head CI #268 succeeded. #126 incorporates this main commit without
+conflicts or additional production/test changes. Its final exact-head CI must
+succeed before merge; CI #269 alone does not cover this dependency refresh.
+
+The historical 14-file profile was rerun on reviewed producer commit 74ae703,
+SDK 8.0.422, Linux .NET 8, Release build 0 warnings/errors. All 14 input hashes
+and all 14 complete HeaderUnits observations equal the original profiles.
+R03 remains blocked by UnsupportedSchema; no policy was widened. Evidence and
+assembly/source hashes: [refreshed profile](evidence/M2-HeaderUnit-Refreshed/Validation.json).
+Historical profiles are preserved. This comparison does not establish geometry
+eligibility or Windows acceptance. B1/B3 are accepted within this scope.
+
+Before the first consumer: C1 construction/ownership restriction, U1 cone angle
+evidence enforcement, and an explicit header-policy v2 decision for implementation
+level 2;1 and qualified schema forms. Owner: MPC maintainer (Mehmet İlkay Kınacı).
+B2 remains open (not observed in this single Festo sample); A4, N2, N3/B6 and
+Windows repeat remain tracked. One supplier sample does not establish prevalence.
+M2 OPEN. N1 CLOSED only within section 25's bounded Linux reader scope.
