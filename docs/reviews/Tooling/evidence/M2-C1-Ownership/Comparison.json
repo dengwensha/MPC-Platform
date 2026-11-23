@@ -1,0 +1,125 @@
+{
+  "MeasuredBaseCommit": "998896dc79bab409031b85e75852980fd07b58c3",
+  "MeasuredWithPendingDiff": true,
+  "Scope": "Local supplemental comparison, not exact-delivery CI or eligibility acceptance",
+  "SDK": "8.0.422",
+  "Runtime": "Linux .NET 8",
+  "ApplicationAssemblySha256": "0E50910B5749B2B472563BB0A86FD7572201F90A1D54F079738D76FEF623836D",
+  "SourceHashes": {
+    "src/MPC.Application/Inventory/HeaderUnitObservation.cs": "FE3CFE04AB15D31BC64FB38D42AFDAC52AA3C444CD2309F81E145B35BDB1D1A3",
+    "src/MPC.Application/Inventory/InventoryEvidence.cs": "18536E650A3E3A1C0FC5A64B2D0F3253413FD33C7EAF726450D0EFCDE59E80A3",
+    "src/MPC.Connectors.Step/Parsing/StepParameterParser.cs": "69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97"
+  },
+  "BaselineBoundaryTestsFailed": 3,
+  "FinalOwnershipTestsPassed": 8,
+  "ApplicationTestsPassed": 326,
+  "CoreTestsPassed": 1366,
+  "HeaderUnitObservationsEqual": 15,
+  "Comparisons": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/0_S26352_0700_01_9001.STEP.json",
+      "HeaderUnitObservationSha256": "8FCF4A3208CFE1188E23261BF04C918F5E7037BF9BA758AC661EFA2FAAB827B3",
+      "Equal": true
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/1_S26352_0300_05_2201.STEP.json",
+      "HeaderUnitObservationSha256": "48223566CF5A0DFB6494E81502E42DBECBFE11400B977766BB0C9A5747FD5EA3",
+      "Equal": true
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/2_S26352_0300_05_2210.STEP.json",
+      "HeaderUnitObservationSha256": "5305E8D6B3F43EBE12F317119A45706071C9724080CEAE5553DCD21ADDA6D462",
+      "Equal": true
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/3_S26352_0300_05_2118.STEP.json",
+      "HeaderUnitObservationSha256": "AD56E13F582031580EC12A1AC6A9A6C934E0D469181291838026D6ACF0019ED8",
+      "Equal": true
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/4_S26352_0300_05_2114.STEP.json",
+      "HeaderUnitObservationSha256": "D067C318166C1E5DDBF94B8C4B47740C9994D7BD9D2A13AFA4259B9A0530EDFF",
+      "Equal": true
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/BACK PLATE.STEP.json",
+      "HeaderUnitObservationSha256": "6707637710B52CCB3C1EC3E59F16301E7653A61F064F49BD15A2B5CA4EF0CC05",
+      "Equal": true
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/BACK_PLATE_ORIGINAL.STEP.json",
+      "HeaderUnitObservationSha256": "12E5738727C63FDADFCB62A1EB1B4CCCF50C1F7B34EA64E692E37CB884690F81",
+      "Equal": true
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/CAVITY BASE.STEP.json",
+      "HeaderUnitObservationSha256": "1CD8D6889A6B0122455AC05C8EE8D1828E00F8B6981013A4DBEEE40FC1D1DA04",
+      "Equal": true
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/CAVITY STEEL.STEP.json",
+      "HeaderUnitObservationSha256": "797743C0B3806563BABBC6EC9DFDC39DEE94CB9026B75A94ED220254368B01DB",
+      "Equal": true
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/CORE BAS.STEP.json",
+      "HeaderUnitObservationSha256": "E65B06FC293E7DD5F2B5784B9AEBBFE433D9695E7CCB3889648DA4B5C2FE5C0C",
+      "Equal": true
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/CORE STEEL.STEP.json",
+      "HeaderUnitObservationSha256": "ABC7E59E11EA7F03123E64B379CB5A0857D2DD53EF03528AA65CD799AE1773CC",
+      "Equal": true
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/P01-R01-Prismatic.STEP.json",
+      "HeaderUnitObservationSha256": "7FC5B65E4A52C28CD2F920FE5C29D9045FC3DA08F49B21BAD17345308E60D06A",
+      "Equal": true
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/P01-R02-InternalBoundaries.STEP.json",
+      "HeaderUnitObservationSha256": "CAB02E0F30A87DEAAFDC6F4EBE0EF8A0A5B767C6F96A2A333E1438A175F73624",
+      "Equal": true
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-HeaderUnit-Refreshed/P01-R03-CurvedSurfaces.STEP.json",
+      "HeaderUnitObservationSha256": "14FC545C2B5675F2D9D57FA6C059308F617748E553E8AC17A221860CD3F1515C",
+      "Equal": true
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "PriorProfile": "docs/reviews/Tooling/evidence/M2-Festo-HeaderUnit/F01-Hardened.json",
+      "HeaderUnitObservationSha256": "469047E7E6940832A4FD4950D2A0AD2E33B9F3F11E79E9ECF1F3BEEB8F67BE2C",
+      "Equal": true
+    }
+  ]
+}

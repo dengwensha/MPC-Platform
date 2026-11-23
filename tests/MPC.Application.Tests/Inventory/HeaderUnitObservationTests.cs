@@ -11,7 +11,7 @@ public sealed class HeaderUnitObservationTests
     private const string Units = "#1=(LENGTH_UNIT() NAMED_UNIT(*) SI_UNIT(.MILLI.,.METRE.));#2=(NAMED_UNIT(*) PLANE_ANGLE_UNIT() SI_UNIT($,.RADIAN.));";
     private static string Context(string id, string refs = "#1,#2") => id + "=(GEOMETRIC_REPRESENTATION_CONTEXT(3) GLOBAL_UNIT_ASSIGNED_CONTEXT((" + refs + ")) REPRESENTATION_CONTEXT('',''));";
     private static string File(string data, string? header = null) => (header ?? Header) + "DATA;" + data + "ENDSEC;END-ISO-10303-21;";
-    private static HeaderUnitObservation Observe(string text)
+    private static HeaderUnitData Observe(string text)
     {
         byte[] bytes = Encoding.UTF8.GetBytes(text);
         using var inventoryStream = new MemoryStream(bytes);
@@ -28,7 +28,7 @@ public sealed class HeaderUnitObservationTests
         var capture = InventoryEvidence.ImportSession.CaptureFromFile(path);
         Assert.Null(capture.Failure);
         Assert.True(capture.Session!.Evidence.HeaderUnitProducerRevision.IsPresent);
-        var o = capture.Session!.Evidence.HeaderUnits;
+        var o = capture.Session!.ReadHeaderUnits(capture.Session.Evidence)!;
         var legacyHeader = new StepHeaderReader().Read(path).Value!;
         Assert.Equal(legacyHeader.Schemas.Single(),o.Schema);
         Assert.Equal(legacyHeader.ImplementationLevel,o.ImplementationLevel);
@@ -44,7 +44,8 @@ public sealed class HeaderUnitObservationTests
     public void RepositoryQuarterConeFixtureIsOutsideV1HeaderLevel()
     {
         string path=Path.Combine(AppContext.BaseDirectory,"TestData","Step","GE03B01-QuarterConePole.step");
-        var o=InventoryEvidence.ImportSession.CaptureFromFile(path).Session!.Evidence.HeaderUnits;
+        var session=InventoryEvidence.ImportSession.CaptureFromFile(path).Session!;
+        var o=session.ReadHeaderUnits(session.Evidence)!;
         Assert.Equal("2;1",o.ImplementationLevel);Assert.Contains("UnsupportedImplementationLevel",o.HeaderReasons);
     }
     [Theory]
@@ -143,8 +144,8 @@ public sealed class HeaderUnitObservationTests
         try {
             System.IO.File.WriteAllBytes(path,bytes);
             var session=InventoryEvidence.ImportSession.CaptureFromFile(path).Session!;
-            Assert.Empty(session.Evidence.HeaderUnits.HeaderReasons);
-            Assert.Empty(session.Evidence.HeaderUnits.Contexts[0].Reasons);
+            Assert.Empty(session.ReadHeaderUnits(session.Evidence)!.HeaderReasons);
+            Assert.Empty(session.ReadHeaderUnits(session.Evidence)!.Contexts[0].Reasons);
             Assert.Equal(3,session.RetainedEntityCount);
         } finally {System.IO.File.Delete(path);}
     }
@@ -155,7 +156,7 @@ public sealed class HeaderUnitObservationTests
         try {
             System.IO.File.WriteAllText(path,File(Units+Context("#9"),Header.Replace("AUTOMOTIVE_DESIGN","UNKNOWN")));
             var result=InventoryEvidence.ImportSession.CaptureFromFile(path,()=>System.IO.File.WriteAllText(path,File(Units+Context("#9"))));
-            Assert.Contains("UnsupportedSchema",result.Session!.Evidence.HeaderUnits.HeaderReasons);
+            Assert.Contains("UnsupportedSchema",result.Session!.ReadHeaderUnits(result.Session.Evidence)!.HeaderReasons);
         } finally {System.IO.File.Delete(path);}
     }
     [Fact]

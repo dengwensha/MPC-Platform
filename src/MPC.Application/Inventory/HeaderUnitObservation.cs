@@ -4,22 +4,41 @@ using MPC.Connectors.Step.Parsing;
 
 namespace MPC.Application.Inventory;
 
-// Neutral, immutable observations. Only importer-owned InventoryEvidence can bind
-// these to a session. No observation is a decision, target or normalized geometry.
+// Neutral, immutable parser data. These types may be constructed by callers but
+// cannot issue bound observations, evidence or decisions. No geometry normalization.
 internal sealed record ExactUnitScale(long Numerator, long Denominator);
-internal sealed record UnitDefinitionObservation(string SourceId, string Dimension,
+internal sealed record UnitDefinitionData(string SourceId, string Dimension,
     string Code, ExactUnitScale? Scale);
-internal sealed class ContextUnitObservation
+internal sealed class ContextUnitData
 {
     internal string SourceId { get; }
-    internal IReadOnlyList<UnitDefinitionObservation> Units { get; }
+    internal IReadOnlyList<UnitDefinitionData> Units { get; }
     internal IReadOnlyList<string> Reasons { get; }
-    internal ContextUnitObservation(string id, IEnumerable<UnitDefinitionObservation> units, IEnumerable<string> reasons)
+    internal ContextUnitData(string id, IEnumerable<UnitDefinitionData> units, IEnumerable<string> reasons)
     {
         SourceId = id; Units = Array.AsReadOnly(units.ToArray());
         Reasons = Array.AsReadOnly(reasons.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray());
     }
 }
+internal sealed class HeaderUnitData
+{
+    internal string? Schema { get; }
+    internal string? ImplementationLevel { get; }
+    internal IReadOnlyList<string> HeaderReasons { get; }
+    internal IReadOnlyList<ContextUnitData> Contexts { get; }
+    internal IReadOnlyList<string> ContextSetReasons { get; }
+    internal HeaderUnitData(string? schema, string? level, IEnumerable<string> reasons,
+        IEnumerable<ContextUnitData> contexts, IEnumerable<string> setReasons)
+    {
+        Schema = schema; ImplementationLevel = level;
+        HeaderReasons = Array.AsReadOnly(reasons.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray());
+        Contexts = Array.AsReadOnly(contexts.OrderBy(c => c.SourceId, StringComparer.Ordinal).ToArray());
+        ContextSetReasons = Array.AsReadOnly(setReasons.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray());
+    }
+}
+
+// Bound observation: neutral parser data cannot mint this type. The only binder
+// accepts real immutable importer evidence AND its owner, never caller metadata.
 internal sealed class HeaderUnitObservation
 {
     internal const int HeaderPolicyRevision = 1;
@@ -27,15 +46,24 @@ internal sealed class HeaderUnitObservation
     internal string? Schema { get; }
     internal string? ImplementationLevel { get; }
     internal IReadOnlyList<string> HeaderReasons { get; }
-    internal IReadOnlyList<ContextUnitObservation> Contexts { get; }
+    internal IReadOnlyList<ContextUnitData> Contexts { get; }
     internal IReadOnlyList<string> ContextSetReasons { get; }
-    internal HeaderUnitObservation(string? schema, string? level, IEnumerable<string> reasons,
-        IEnumerable<ContextUnitObservation> contexts, IEnumerable<string> setReasons)
+
+    private HeaderUnitObservation(HeaderUnitData data)
     {
-        Schema = schema; ImplementationLevel = level;
-        HeaderReasons = Array.AsReadOnly(reasons.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray());
-        Contexts = Array.AsReadOnly(contexts.OrderBy(c => c.SourceId, StringComparer.Ordinal).ToArray());
-        ContextSetReasons = Array.AsReadOnly(setReasons.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray());
+        Schema = data.Schema; ImplementationLevel = data.ImplementationLevel;
+        HeaderReasons = data.HeaderReasons; Contexts = data.Contexts;
+        ContextSetReasons = data.ContextSetReasons;
+    }
+
+    internal static class EvidenceBinding
+    {
+        internal static HeaderUnitObservation? Bind(InventoryEvidence? evidence,
+            InventoryEvidence.ImportSession? expectedSession)
+        {
+            HeaderUnitData? data = expectedSession?.ReadHeaderUnitData(evidence);
+            return data is null ? null : new HeaderUnitObservation(data);
+        }
     }
 }
 
@@ -51,7 +79,7 @@ internal static class HeaderUnitProducer
     });
     internal static string ReasonSeverity => "Error";
 
-    internal static HeaderUnitObservation ReadCaptured(Stream stream, StepDataInventory? inventory)
+    internal static HeaderUnitData ReadCaptured(Stream stream, StepDataInventory? inventory)
     {
         ArgumentNullException.ThrowIfNull(stream);
         using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true,
@@ -63,7 +91,7 @@ internal static class HeaderUnitProducer
         // IO failures propagate; never classify as a clean header.
         try { ReadHeader(StepEvidenceSyntax.HeaderStatements(reader), reasons, out schema, out level); }
         catch (FormatException) { reasons.Add("HeaderMalformed"); }
-        var contexts = new List<ContextUnitObservation>();
+        var contexts = new List<ContextUnitData>();
         var setReasons = new List<string>();
         if (inventory is null) setReasons.Add("InventoryUnavailable");
         else
@@ -127,10 +155,10 @@ internal static class HeaderUnitProducer
         else if (schema != "AUTOMOTIVE_DESIGN") reasons.Add("UnsupportedSchema");
     }
 
-    private static ContextUnitObservation ReadContext(StepDataEntityRecord entity,
+    private static ContextUnitData ReadContext(StepDataEntityRecord entity,
         Dictionary<string, StepDataEntityRecord[]> entities)
     {
-        var reasons = new List<string>(); var units = new List<UnitDefinitionObservation>();
+        var reasons = new List<string>(); var units = new List<UnitDefinitionData>();
         try
         {
             var components = StepEvidenceSyntax.Components(entity.RawStatement);
@@ -149,7 +177,7 @@ internal static class HeaderUnitProducer
                 {
                     if (item is not StepEntityReferenceParameter reference || !entities.TryGetValue(reference.EntityId, out var candidates) || candidates.Length != 1)
                     { reasons.Add("UnitReferenceInvalid"); continue; }
-                    UnitDefinitionObservation unit = ReadUnit(candidates[0]); units.Add(unit);
+                    UnitDefinitionData unit = ReadUnit(candidates[0]); units.Add(unit);
                     if (unit.Code != "SupportedUnit" && unit.Code != "OtherDimension") reasons.Add(unit.Code);
                 }
             }
@@ -160,7 +188,7 @@ internal static class HeaderUnitProducer
         if (angle != 1) reasons.Add(angle == 0 ? "MissingAngleUnit" : "AmbiguousAngleUnit");
         return new(entity.SourceEntityId!, units, reasons);
     }
-    private static UnitDefinitionObservation ReadUnit(StepDataEntityRecord entity)
+    private static UnitDefinitionData ReadUnit(StepDataEntityRecord entity)
     {
         string id = entity.SourceEntityId!;
         try
