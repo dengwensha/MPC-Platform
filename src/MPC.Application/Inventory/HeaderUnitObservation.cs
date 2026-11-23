@@ -56,10 +56,12 @@ internal static class HeaderUnitProducer
         ArgumentNullException.ThrowIfNull(stream);
         using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true,
             bufferSize: 1024, leaveOpen: true);
-        string text = reader.ReadToEnd(); // IO failures propagate; never classify as a clean header.
         string? schema = null, level = null;
         var reasons = new List<string>();
-        try { ReadHeader(text, reasons, out schema, out level); }
+        // Decode/scan only through the header boundary. StreamReader may buffer
+        // ahead, but DATA is neither split nor retained as a second string here.
+        // IO failures propagate; never classify as a clean header.
+        try { ReadHeader(StepEvidenceSyntax.HeaderStatements(reader), reasons, out schema, out level); }
         catch (FormatException) { reasons.Add("HeaderMalformed"); }
         var contexts = new List<ContextUnitObservation>();
         var setReasons = new List<string>();
@@ -88,11 +90,10 @@ internal static class HeaderUnitProducer
         if (p.Count != 1 || p[0] is not StepTypedParameter t) throw new FormatException("Expected one named record.");
         return t;
     }
-    private static void ReadHeader(string text, List<string> reasons, out string? schema, out string? level)
+    private static void ReadHeader(List<string> statements, List<string> reasons, out string? schema, out string? level)
     {
         schema = level = null;
         // Scan structural statements, not name matches inside quoted strings/comments.
-        var statements = StepEvidenceSyntax.Statements(text);
         if (statements.Count < 3 || statements[0] != "ISO-10303-21" || statements[1] != "HEADER")
             throw new FormatException("Missing exchange/header section.");
         int end = statements.IndexOf("ENDSEC", 2);
@@ -195,20 +196,26 @@ internal static class HeaderUnitProducer
 // Quotes, doubled quotes, binary literals and comments protect separators.
 internal static class StepEvidenceSyntax
 {
-    internal static List<string> Statements(string text) => Split(text, ';', false);
+    internal static List<string> HeaderStatements(TextReader reader) => Scan(reader, ';', false, stopAtEndsec: true);
     private static List<string> Split(string text, char separator, bool component)
+    {
+        using var reader = new StringReader(text);
+        return Scan(reader, separator, component, stopAtEndsec: false);
+    }
+    private static List<string> Scan(TextReader reader, char separator, bool component, bool stopAtEndsec)
     {
         var output = new List<string>(); var current = new StringBuilder();
         bool quoted = false, binary = false, comment = false; int depth = 0;
-        for (int i = 0; i < text.Length; i++)
+        int next;
+        while ((next = reader.Read()) != -1)
         {
-            char c = text[i];
-            if (comment) { if (c == '*' && i + 1 < text.Length && text[i + 1] == '/') { comment = false; i++; current.Append(' '); } continue; }
-            if (!quoted && !binary && c == '/' && i + 1 < text.Length && text[i + 1] == '*') { comment = true; i++; continue; }
+            char c = (char)next;
+            if (comment) { if (c == '*' && reader.Peek() == '/') { comment = false; reader.Read(); current.Append(' '); } continue; }
+            if (!quoted && !binary && c == '/' && reader.Peek() == '*') { comment = true; reader.Read(); continue; }
             current.Append(c);
             if (!binary && c == '\'')
             {
-                if (quoted && i + 1 < text.Length && text[i + 1] == '\'') { current.Append(text[++i]); continue; }
+                if (quoted && reader.Peek() == '\'') { current.Append((char)reader.Read()); continue; }
                 quoted = !quoted; continue;
             }
             if (!quoted && c == '"') { binary = !binary; continue; }
@@ -222,6 +229,7 @@ internal static class StepEvidenceSyntax
                 if (!component) value = value[..^1].Trim();
                 if (value.Length == 0) throw new FormatException("Empty statement.");
                 output.Add(value); current.Clear();
+                if (stopAtEndsec && value == "ENDSEC") return output;
             }
         }
         if (quoted || binary || comment || depth != 0 || current.ToString().Trim().Length != 0)
@@ -233,6 +241,8 @@ internal static class StepEvidenceSyntax
         int equals = statement.IndexOf('=');
         if (equals < 0) throw new FormatException("Missing assignment.");
         string body = statement[(equals + 1)..].Trim().TrimEnd(';').Trim();
+        if (body.StartsWith('(') && (body.Length < 2 || !body.EndsWith(')')))
+            throw new FormatException("Incomplete complex body.");
         var result = new Dictionary<string, StepTypedParameter>(StringComparer.Ordinal);
         var parser = new StepParameterParser();
         foreach (string part in body.StartsWith('(') ? Split(body[1..^1], '\0', true) : new List<string> { body })
