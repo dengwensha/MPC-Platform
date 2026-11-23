@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using MPC.Connectors.Step.Models;
 using MPC.Connectors.Step.Parsing;
 
@@ -24,13 +25,21 @@ internal sealed class HeaderUnitData
 {
     internal string? Schema { get; }
     internal string? ImplementationLevel { get; }
+    internal string? RawSchema { get; }
+    internal string? RawImplementationLevel { get; }
+    internal string? RecognizedSchema { get; }
+    internal IReadOnlyList<string> SchemaOid { get; }
     internal IReadOnlyList<string> HeaderReasons { get; }
     internal IReadOnlyList<ContextUnitData> Contexts { get; }
     internal IReadOnlyList<string> ContextSetReasons { get; }
     internal HeaderUnitData(string? schema, string? level, IEnumerable<string> reasons,
-        IEnumerable<ContextUnitData> contexts, IEnumerable<string> setReasons)
+        IEnumerable<ContextUnitData> contexts, IEnumerable<string> setReasons,
+        string? rawSchema = null, string? rawImplementationLevel = null,
+        string? recognizedSchema = null, IEnumerable<string>? schemaOid = null)
     {
         Schema = schema; ImplementationLevel = level;
+        RawSchema = rawSchema; RawImplementationLevel = rawImplementationLevel;
+        RecognizedSchema = recognizedSchema; SchemaOid = Array.AsReadOnly((schemaOid ?? []).ToArray());
         HeaderReasons = Array.AsReadOnly(reasons.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray());
         Contexts = Array.AsReadOnly(contexts.OrderBy(c => c.SourceId, StringComparer.Ordinal).ToArray());
         ContextSetReasons = Array.AsReadOnly(setReasons.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray());
@@ -41,10 +50,14 @@ internal sealed class HeaderUnitData
 // accepts real immutable importer evidence AND its owner, never caller metadata.
 internal sealed class HeaderUnitObservation
 {
-    internal const int HeaderPolicyRevision = 1;
+    internal const int HeaderPolicyRevision = 2;
     internal const int UnitPolicyRevision = 1;
     internal string? Schema { get; }
     internal string? ImplementationLevel { get; }
+    internal string? RawSchema { get; }
+    internal string? RawImplementationLevel { get; }
+    internal string? RecognizedSchema { get; }
+    internal IReadOnlyList<string> SchemaOid { get; }
     internal IReadOnlyList<string> HeaderReasons { get; }
     internal IReadOnlyList<ContextUnitData> Contexts { get; }
     internal IReadOnlyList<string> ContextSetReasons { get; }
@@ -52,6 +65,8 @@ internal sealed class HeaderUnitObservation
     private HeaderUnitObservation(HeaderUnitData data)
     {
         Schema = data.Schema; ImplementationLevel = data.ImplementationLevel;
+        RawSchema = data.RawSchema; RawImplementationLevel = data.RawImplementationLevel;
+        RecognizedSchema = data.RecognizedSchema; SchemaOid = data.SchemaOid;
         HeaderReasons = data.HeaderReasons; Contexts = data.Contexts;
         ContextSetReasons = data.ContextSetReasons;
     }
@@ -84,12 +99,14 @@ internal static class HeaderUnitProducer
         ArgumentNullException.ThrowIfNull(stream);
         using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true,
             bufferSize: 1024, leaveOpen: true);
-        string? schema = null, level = null;
+        string? schema = null, level = null, rawSchema = null, rawLevel = null, recognizedSchema = null;
+        IReadOnlyList<string> oid = Array.Empty<string>();
         var reasons = new List<string>();
         // Decode/scan only through the header boundary. StreamReader may buffer
         // ahead, but DATA is neither split nor retained as a second string here.
         // IO failures propagate; never classify as a clean header.
-        try { ReadHeader(StepEvidenceSyntax.HeaderStatements(reader), reasons, out schema, out level); }
+        try { ReadHeader(StepEvidenceSyntax.HeaderStatements(reader), reasons, out schema, out level,
+            out rawSchema, out rawLevel, out recognizedSchema, out oid); }
         catch (FormatException) { reasons.Add("HeaderMalformed"); }
         var contexts = new List<ContextUnitData>();
         var setReasons = new List<string>();
@@ -108,7 +125,7 @@ internal static class HeaderUnitProducer
             }
             if (contexts.Count == 0) setReasons.Add("NoGeometricContext");
         }
-        return new(schema, level, reasons, contexts, setReasons);
+        return new(schema, level, reasons, contexts, setReasons, rawSchema, rawLevel, recognizedSchema, oid);
     }
 
     private static IReadOnlyList<StepParameter> Parameters(string text) => new StepParameterParser().Parse(text);
@@ -118,9 +135,11 @@ internal static class HeaderUnitProducer
         if (p.Count != 1 || p[0] is not StepTypedParameter t) throw new FormatException("Expected one named record.");
         return t;
     }
-    private static void ReadHeader(List<string> statements, List<string> reasons, out string? schema, out string? level)
+    private static void ReadHeader(List<string> statements, List<string> reasons, out string? schema, out string? level,
+        out string? rawSchema, out string? rawLevel, out string? recognizedSchema, out IReadOnlyList<string> oid)
     {
-        schema = level = null;
+        schema = level = rawSchema = rawLevel = recognizedSchema = null;
+        oid = Array.Empty<string>();
         // Scan structural statements, not name matches inside quoted strings/comments.
         if (statements.Count < 3 || statements[0] != "ISO-10303-21" || statements[1] != "HEADER")
             throw new FormatException("Missing exchange/header section.");
@@ -143,17 +162,38 @@ internal static class HeaderUnitProducer
             || schemas.Count != 1 || schemas[0] is not StepAggregateParameter ss || ss.Items.Count == 0
             || ss.Items.Any(p => p is not StepStringParameter s || string.IsNullOrWhiteSpace(s.Value)))
             throw new FormatException("Malformed required header field.");
+        rawLevel = impl.RawText;
         level = impl.Value.Trim();
-        if (level != "1") reasons.Add("UnsupportedImplementationLevel");
+        if (level is not ("1" or "2;1")) reasons.Add("UnsupportedImplementationLevel");
         if (ss.Items.Count != 1) { reasons.Add("UnsupportedSchema"); return; }
         var item = (StepStringParameter)ss.Items[0];
-        string raw = item.RawText;
+        rawSchema = item.RawText;
         schema = item.Value;
-        if (raw.Length < 3 || raw[0] != '\'' || raw[^1] != '\''
-            || raw[1..^1].Any(c => !(c is >= 'A' and <= 'Z' or >= '0' and <= '9' or '_')))
-            reasons.Add("UnsupportedSchemaForm");
-        else if (schema != "AUTOMOTIVE_DESIGN") reasons.Add("UnsupportedSchema");
+        // Match the original literal, not a decoded/trimmed/case-folded alias.
+        if (rawSchema.Length < 3 || rawSchema[0] != '\'' || rawSchema[^1] != '\'')
+        { reasons.Add("UnsupportedSchemaForm"); return; }
+        string declared = rawSchema[1..^1];
+        if (declared.All(c => c is >= 'A' and <= 'Z' or >= '0' and <= '9' or '_'))
+        {
+            if (declared == "AUTOMOTIVE_DESIGN") recognizedSchema = declared;
+            else reasons.Add("UnsupportedSchema");
+            return;
+        }
+        var match = QualifiedSchema.Match(declared);
+        if (!match.Success) { reasons.Add("UnsupportedSchemaForm"); return; }
+        string[] arcs = declared[(declared.IndexOf('{') + 1)..^1].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        oid = Array.AsReadOnly(arcs);
+        if (match.Groups["name"].Value == "AUTOMOTIVE_DESIGN"
+            && arcs.SequenceEqual(new[] { "1", "0", "10303", "214", "3", "1", "1" }, StringComparer.Ordinal))
+            recognizedSchema = "AUTOMOTIVE_DESIGN";
+        else reasons.Add("UnsupportedSchema");
     }
+
+    // Seven canonical decimal tokens, compared as strings: no integer overflow,
+    // ignored suffix, broad whitespace or permissive ASN.1 normalization.
+    private static readonly Regex QualifiedSchema = new(
+        @"\A(?<name>[A-Z0-9_]+)[ ]+\{[ ]*(?<arc>0|[1-9][0-9]*)(?:[ ]+(?<arc>0|[1-9][0-9]*)){6}[ ]*\}\z",
+        RegexOptions.CultureInvariant | RegexOptions.NonBacktracking);
 
     private static ContextUnitData ReadContext(StepDataEntityRecord entity,
         Dictionary<string, StepDataEntityRecord[]> entities)

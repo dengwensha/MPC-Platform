@@ -57,6 +57,9 @@ internal sealed class InventoryEvidence
     internal int SchemaRevision => CurrentSchemaRevision;
     internal int SeverityMappingRevision => CurrentSeverityMappingRevision;
     private HeaderUnitData HeaderUnitData { get; }
+    private EnvelopeData EnvelopeData { get; }
+    // Same producer assembly identity; source/manifest pin for the envelope is independent.
+    internal ReaderRevision EnvelopeProducerRevision => HeaderUnitProducerRevision;
     internal ReaderRevision HeaderUnitProducerRevision { get; }
 
     private InventoryEvidence(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision,
@@ -65,6 +68,8 @@ internal sealed class InventoryEvidence
         HeaderUnitProducerRevision = headerUnitRevision;
         using var headerCapture = new MemoryStream(capturedBytes, writable: false);
         HeaderUnitData = HeaderUnitProducer.ReadCaptured(headerCapture, result.Value);
+        using var envelopeCapture = new MemoryStream(capturedBytes, writable: false);
+        EnvelopeData = EnvelopeProducer.ReadCaptured(envelopeCapture);
         DocumentSha256 = hash;
         ReadStatus = result.Status switch
         {
@@ -86,6 +91,7 @@ internal sealed class InventoryEvidence
     {
         private readonly StepDataInventory? _inventory;
         private HeaderUnitObservation HeaderUnits { get; }
+        private EnvelopeObservation Envelope { get; }
         internal InventoryEvidence Evidence { get; }
         internal string DocumentSha256 { get; }
         private ImportSession(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision,
@@ -95,6 +101,7 @@ internal sealed class InventoryEvidence
             DocumentSha256 = hash;
             Evidence = new InventoryEvidence(hash, result, revision, capturedBytes, headerUnitRevision);
             HeaderUnits = HeaderUnitObservation.EvidenceBinding.Bind(Evidence, this)!;
+            Envelope = EnvelopeObservation.EvidenceBinding.Bind(Evidence, this)!;
         }
         // Bound header/unit evidence is exposed only through this owner check.
         // Equal hashes do not make another operation's evidence interchangeable.
@@ -103,6 +110,12 @@ internal sealed class InventoryEvidence
 
         internal HeaderUnitData? ReadHeaderUnitData(InventoryEvidence? evidence) =>
             evidence is not null && Owns(evidence) ? evidence.HeaderUnitData : null;
+
+        internal EnvelopeObservation? ReadEnvelope(InventoryEvidence? evidence) =>
+            evidence is not null && Owns(evidence) ? Envelope : null;
+
+        internal EnvelopeData? ReadEnvelopeData(InventoryEvidence? evidence) =>
+            evidence is not null && Owns(evidence) ? evidence.EnvelopeData : null;
 
         internal bool Owns(InventoryEvidence evidence) => ReferenceEquals(Evidence, evidence);
         internal int RetainedEntityCount => _inventory?.TotalEntityCount ?? 0;

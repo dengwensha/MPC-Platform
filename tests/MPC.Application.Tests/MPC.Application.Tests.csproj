@@ -41,6 +41,8 @@
           Link="InventoryAudit\StepDataInventoryValidator.cs.txt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\MPC.Application\Inventory\HeaderUnitObservation.cs"
           Link="HeaderUnitAudit\HeaderUnitObservation.cs.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\MPC.Application\Inventory\EnvelopeObservation.cs"
+          Link="HeaderUnitAudit\EnvelopeObservation.cs.txt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\MPC.Application\Inventory\InventoryEvidence.cs"
           Link="HeaderUnitAudit\InventoryEvidence.cs.txt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\MPC.Connectors.Step\Parsing\StepParameterParser.cs"

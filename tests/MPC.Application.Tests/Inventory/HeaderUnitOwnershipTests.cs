@@ -205,6 +205,7 @@ public sealed class HeaderUnitOwnershipTests
 
     private static bool ContainsObservation(Type type) =>
         type == typeof(HeaderUnitObservation) || type == typeof(HeaderUnitData)
+        || type == typeof(EnvelopeObservation) || type == typeof(EnvelopeData)
         || (type.HasElementType && ContainsObservation(type.GetElementType()!))
         || (type.IsGenericType && type.GetGenericArguments().Any(ContainsObservation));
 

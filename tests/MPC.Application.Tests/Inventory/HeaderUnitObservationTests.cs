@@ -37,16 +37,16 @@ public sealed class HeaderUnitObservationTests
         Assert.All(o.Contexts,c => {Assert.Empty(c.Reasons); Assert.Contains(c.Units,u=>u.Dimension=="Length"&&u.Scale==new ExactUnitScale(1,1000));});
     }
     [Theory]
-    [InlineData("2;1")][InlineData("3;1")]
+    [InlineData("3;1")]
     public void UnsupportedImplementationLevelIsDistinct(string level) =>
         Assert.Equal(new[]{"UnsupportedImplementationLevel"},Observe(File(Units+Context("#9"),Header.Replace("'1'","'"+level+"'"))).HeaderReasons);
     [Fact]
-    public void RepositoryQuarterConeFixtureIsOutsideV1HeaderLevel()
+    public void RepositoryQuarterConeHeaderIsRecognizedWithoutGrantingSolidEligibility()
     {
         string path=Path.Combine(AppContext.BaseDirectory,"TestData","Step","GE03B01-QuarterConePole.step");
         var session=InventoryEvidence.ImportSession.CaptureFromFile(path).Session!;
         var o=session.ReadHeaderUnits(session.Evidence)!;
-        Assert.Equal("2;1",o.ImplementationLevel);Assert.Contains("UnsupportedImplementationLevel",o.HeaderReasons);
+        Assert.Equal("2;1",o.ImplementationLevel);Assert.Empty(o.HeaderReasons);
     }
     [Theory]
     [InlineData("FILE_SCHEMA(('AUTOMOTIVE_DESIGN'));FILE_SCHEMA(('AUTOMOTIVE_DESIGN'))", "HeaderMalformed")]
