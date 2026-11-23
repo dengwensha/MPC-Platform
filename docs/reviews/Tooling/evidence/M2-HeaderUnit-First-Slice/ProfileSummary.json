@@ -1,0 +1,39 @@
+{
+  "Scope": "HeaderAndContextUnitObservationsOnly",
+  "MeasuredBaseCommit": "542feb9a5e8f91bf0fa3bd456b8d35a988459fac",
+  "MeasuredDiff": "uncommitted first-slice implementation identified by source hashes; not the unchanged base binary",
+  "BuildCommand": "dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release -m:1 -p:BuildInParallel=false --no-restore --nologo",
+  "SdkVersion": "8.0.422",
+  "Platform": "Linux",
+  "SourceHashes": {
+    "src/MPC.Application/Inventory/HeaderUnitObservation.cs": "8F6FA88AA2C0DC135A226125638343A77565CB502BC642BEADDBFEF92F07E034",
+    "src/MPC.Application/Inventory/InventoryEvidence.cs": "0DD4C78C461BE5ABBBC3A7740848262FD1AB21591690AD725476F7F3F24EFAB2",
+    "src/MPC.Connectors.Step/Parsing/StepParameterParser.cs": "69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97"
+  },
+  "RealFiles": 14,
+  "WorkshopFileVersions": 11,
+  "ReferenceFiles": 3,
+  "HeaderNonReady": {
+    "1_S26352_0300_05_2201.STEP": [],
+    "CAVITY BASE.STEP": [],
+    "BACK PLATE.STEP": [],
+    "3_S26352_0300_05_2118.STEP": [],
+    "P01-R01-Prismatic.STEP": [],
+    "P01-R02-InternalBoundaries.STEP": [],
+    "0_S26352_0700_01_9001.STEP": [],
+    "CORE STEEL.STEP": [],
+    "CAVITY STEEL.STEP": [],
+    "4_S26352_0300_05_2114.STEP": [],
+    "BACK_PLATE_ORIGINAL.STEP": [],
+    "P01-R03-CurvedSurfaces.STEP": [
+      "UnsupportedSchema"
+    ],
+    "2_S26352_0300_05_2210.STEP": [],
+    "CORE BAS.STEP": []
+  },
+  "Festo": {
+    "AvailableFiles": 0,
+    "Status": "Unavailable: actual STEP inputs not supplied; required before merge, never zero blockers"
+  },
+  "NoEligibilityDecision": true
+}
