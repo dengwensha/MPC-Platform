@@ -102,7 +102,7 @@ maintains technical evidence. Follow-ups below include the bounded N1 measuremen
 
 | Item | Required evidence / trigger |
 | --- | --- |
-| N1 — real-input path/capture parity | MEASURED, ACCEPTANCE PENDING after independent measurement review on 2026-11-22. Path/capture and repeat digests equal, but same-build faulty controls, explicit record diagnostic counts and session/archive provenance must be completed before acceptance. See [measurement record](M2-Workshop-Inventory-Measurement.md). No general future-reader equivalence is claimed. |
+| N1 — real-input path/capture parity | ACCEPTED CLOSED by Senior section 25 on 2026-11-23: R01/R02/R03, pinned reader build, .NET 8/Linux only. See [scope and follow-ups](N1-Bounded-Closure.md). Windows repeat at first Windows consumer acceptance. |
 | N2 — checkpoint usage | In the FIRST consumer PR, verify production calls omit afterSourceCaptured and preserve genuine same-session ownership. No consumer exists now. |
 | N3 / B6 — assembly hash cost | Still hashes on each capture. Address only at the next measured performance work; no unmeasured cache or global session/inventory retention. |
 | A4 consumer diagnostics | First consumer must carry Failure/FailureStage provenance or source/parse cause to diagnostics; NoEvidence alone does not explain the cause. |
