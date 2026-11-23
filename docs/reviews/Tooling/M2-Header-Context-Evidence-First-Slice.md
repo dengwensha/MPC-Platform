@@ -113,3 +113,49 @@ Risk triggers: trust/fail-closed YES (new evidence producer/binding); serializat
 wire NO (neutral profile JSON is not protocol); shared enums NO; IPC NO; runtime
 persistence NO; UI entry NO. No merge authorized by implementation self-review.
 Reviewed/Closing: pending final-diff Senior review and delivery. M2 OPEN.
+
+## Senior section 26 — accepted consumer-free implementation, conditional merge
+
+Date: 2026-11-23 Europe/Istanbul. Independent review of
+`6835ff2b9c3c4b748b8066c5b2ca9bc4cdba59df`, supplied by project owner in the
+conversation. Decision 1: implementation/trust boundary ACCEPTED for this
+consumer-free slice; no implementation merge blocker. Reviewer checked same-byte
+capture, immutable observation issuance in the private InventoryEvidence constructor,
+three source pins, 46 tests, H1/H2, per-context units, 17 reasons/severity/revisions
+and unchanged legacy APIs/inventory policy. Reviewer did not verify CI #265.
+Implementation session separately verified that exact-head run 45126890277/job
+137533166082 succeeded: Release 0 warnings/errors, 2025/2025 regression, Worker5/5,
+targeted3/3, controls6/6, corpus checks. No physical acceptance is claimed.
+
+Decision 2: merge permitted only after Festo profile and recorded conditions:
+same reviewed producer source hashes, recorded Application assembly hash, local
+usage permission record, every observed reason reported without policy broadening,
+and verified final-head CI. If Festo exposes 2D/parametric-context classification
+(B2), resolve its policy classification BEFORE merge, not as a silent tolerance.
+Festo inputs/permission/profile remain pending; PR stays draft and unmerged.
+
+Owner of every follow-up below: Mehmet İlkay Kınacı; implementation assistant
+maintains technical evidence. Conditions do not imply delivered fixes:
+
+| Item | Disposition and trigger |
+| --- | --- |
+| B1 header attribution/allocation | OPEN, fix BEFORE first consumer. Stop scan at HEADER ENDSEC; DATA structural faults must not become HeaderMalformed. Include malformed-DATA/valid-header test and retain same-byte/BOM behavior. |
+| B2 2D contexts | OPEN Festo profiling check; current producer accepts geometric dimension 3 only. Other context roles can receive ContextMalformed/missing-unit reasons. Decide classification before merge if observed; no widening accepted by this review. |
+| B3 short component body | OPEN, fix BEFORE first consumer. Guard a body consisting only of '(' before slicing; test actual capture path so malformed source cannot unexpectedly prevent inventory evidence. |
+| B4 other dimensions | Documented conservative limit: beyond length/plane angle, only the existing recognized solid-angle metadata path is retained without a blocking reason. Other forms can be UnsupportedUnit, stricter than the policy's general separate-dimension recording. This is not a claim those files are malformed; no silent relaxation. |
+| C1 neutral observation construction | OPEN, close BEFORE composite gate/first consumer. Restrict observation construction and prove by reflection test that the gate reads header/unit data only from an encompassing InventoryEvidence whose session ownership it has verified. Current neutral producer can accept unrelated inventory; no consumer may trust its standalone return. |
+| U1 cone angle | OPEN, implement in coverage gate BEFORE angle-bearing geometry is used. Evaluator-only angle waiver cannot override cone/context angle requirement. |
+| R03/AP203 | OPEN v2 candidate before expanding schema list; review CONFIG_CONTROL_DESIGN support or select an explicitly compatible additional reference. Current R03 rejection stays visible. |
+| Windows profile repeat | At first Windows consumer acceptance with N1 platform follow-up; no Linux profile is relabeled Windows evidence. |
+
+Evidence clarification: reviewer narrative mentions four BACK PLATE contexts, but
+committed profile JSON contains FIVE IDs: #13379, #14404, #21251, #22408, #3878.
+The separately observed four solid bodies do not establish one-to-one context/body
+mapping. Keep the five-context observation unchanged; no body ownership inference
+or silent rewrite to four. R03 remains CONFIG_CONTROL_DESIGN/UnsupportedSchema.
+
+This addition records received acceptance and conservative limits only. Source
+pins and measured implementation are unchanged; no reviewed behavior is broadened.
+All six review triggers No for this factual reconciliation diff, while the
+implementation's trust trigger and applicable review remain as recorded above.
+N1 is closed only in its existing bounded scope; N2/A4, N3/B6 and M2 stay OPEN.
