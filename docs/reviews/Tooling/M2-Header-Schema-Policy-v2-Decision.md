@@ -4,7 +4,8 @@ Date: 2026-11-23 Europe/Istanbul. Class: VERIFY / semantic policy design.
 Start: b6a80ef5719a670bc501fa0ad7736d83badd330b.
 Branch: docs/M2-header-policy-v2-decision. Owner: Mehmet İlkay Kınacı.
 State: Senior section 30 conditionally accepts the policy at 185155e4, subject
-to D1/D2 below. Amendments prepared; owner acceptance pending. No runtime change.
+to D1/D2 below. Amendments incorporated; owner accepted D1/D2 and envelope-in-v2 grouping
+in the working conversation on 2026-11-23. No runtime change.
 Runtime still emits HeaderSchemaAllowlist=1 and ContextUnitPolicy=1. M2 OPEN.
 N1 bounded CLOSED; C1 accepted within its consumer-free boundary (Senior §29/#127).
 
@@ -140,7 +141,7 @@ remain independent; envelope success cannot override their failures.
 
 Timing: REQUIRED before the combined gate/first consumer. Implementation proposal:
 include this separate producer in the consumer-free v2 slice, while keeping the
-header scan bounded. Owner approval is pending for that delivery grouping. If
+header scan bounded. Owner accepted this delivery grouping on 2026-11-23. If
 split out for implementation reasons, it must arrive in a separately reviewed
 slice BEFORE the combined gate can merge/issue readiness. Owner: Mehmet İlkay
 Kınacı. This timing requirement cannot be deferred beyond the first consumer.
@@ -237,9 +238,12 @@ did not verify CI #276; the implementation session verified that exact-head run
 successful (2048/2048, Worker 5/5, 0 warnings/errors). This is not the amended-head
 CI result. No GitHub review or owner acceptance is fabricated.
 
-D1/D2 are the Senior-required disposition. Owner acceptance of the amended policy
-and including the envelope producer in the v2 implementation remains pending;
-no implementation starts or policy readiness is claimed by this document.
+D1/D2 are the Senior-required disposition. Owner explicitly accepted the amended policy and including the envelope producer
+in the v2 implementation in the working conversation on 2026-11-23 (answer:
+"Kabul; zarf v2 diliminde"). Senior section 30 conditions D1/D2 are incorporated.
+The conditional policy review is satisfied; final-head CI and merge remain required
+before the isolated consumer-free v2/envelope implementation. No runtime readiness
+is claimed by this document.
 
 Deferred v3 candidate: consider explicit AP214 e1/e2 qualified names when concrete
 samples arrive. Bare AUTOMOTIVE_DESIGN remains accepted without an edition, while
