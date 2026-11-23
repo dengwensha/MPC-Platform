@@ -56,7 +56,8 @@ internal sealed class InventoryEvidence
     internal ReaderRevision ReaderRevision { get; }
     internal int SchemaRevision => CurrentSchemaRevision;
     internal int SeverityMappingRevision => CurrentSeverityMappingRevision;
-    internal HeaderUnitObservation HeaderUnits { get; }
+    private HeaderUnitObservation HeaderUnits { get; }
+    internal HeaderUnitData HeaderUnitData { get; }
     internal ReaderRevision HeaderUnitProducerRevision { get; }
 
     private InventoryEvidence(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision,
@@ -64,7 +65,8 @@ internal sealed class InventoryEvidence
     {
         HeaderUnitProducerRevision = headerUnitRevision;
         using var headerCapture = new MemoryStream(capturedBytes, writable: false);
-        HeaderUnits = HeaderUnitProducer.ReadCaptured(headerCapture, result.Value);
+        HeaderUnitData = HeaderUnitProducer.ReadCaptured(headerCapture, result.Value);
+        HeaderUnits = HeaderUnitObservation.EvidenceBinding.Bind(this);
         DocumentSha256 = hash;
         ReadStatus = result.Status switch
         {
@@ -94,6 +96,11 @@ internal sealed class InventoryEvidence
             DocumentSha256 = hash;
             Evidence = new InventoryEvidence(hash, result, revision, capturedBytes, headerUnitRevision);
         }
+        // Bound header/unit evidence is exposed only through this owner check.
+        // Equal hashes do not make another operation's evidence interchangeable.
+        internal HeaderUnitObservation? ReadHeaderUnits(InventoryEvidence? evidence) =>
+            evidence is not null && Owns(evidence) ? evidence.HeaderUnits : null;
+
         internal bool Owns(InventoryEvidence evidence) => ReferenceEquals(Evidence, evidence);
         internal int RetainedEntityCount => _inventory?.TotalEntityCount ?? 0;
 

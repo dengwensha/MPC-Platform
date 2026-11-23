@@ -58,7 +58,7 @@ public sealed class HeaderUnitBoundaryTests
             File.WriteAllText(path,Header+"DATA;#3=(;#9=(GEOMETRIC_REPRESENTATION_CONTEXT(3) GLOBAL_UNIT_ASSIGNED_CONTEXT((#3)) REPRESENTATION_CONTEXT('',''));ENDSEC;END-ISO-10303-21;");
             var result=InventoryEvidence.ImportSession.CaptureFromFile(path);
             Assert.Null(result.Failure);Assert.NotNull(result.Session);
-            Assert.Empty(result.Session.Evidence.HeaderUnits.HeaderReasons);
+            Assert.Empty(result.Session.ReadHeaderUnits(result.Session.Evidence)!.HeaderReasons);
             Assert.NotEmpty(result.Session.Evidence.Diagnostics);
         }
         finally {File.Delete(path);}
