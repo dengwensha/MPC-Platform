@@ -1,0 +1,66 @@
+[
+  {
+    "Archive": "FESTO_5831CAU14 (1).zip",
+    "Sha256": "F5682D78530B81ACE4874E8C31162D829DB71E210A4EA8AAE2DBAE09D4030ACE",
+    "Entries": [
+      {
+        "Name": "readme-and-terms-of-use-3d-cad-models.txt",
+        "Bytes": 2757,
+        "Sha256": "82BAF09B82CF412558E19297EF01CD0BB3B991CA1134ADD9191EB6947FC2E79D"
+      },
+      {
+        "Name": "5831 CAU-1_4.stp",
+        "Bytes": 88220,
+        "Sha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61"
+      }
+    ]
+  },
+  {
+    "Archive": "FESTO_5831CAU14 (2).zip",
+    "Sha256": "F5682D78530B81ACE4874E8C31162D829DB71E210A4EA8AAE2DBAE09D4030ACE",
+    "Entries": [
+      {
+        "Name": "readme-and-terms-of-use-3d-cad-models.txt",
+        "Bytes": 2757,
+        "Sha256": "82BAF09B82CF412558E19297EF01CD0BB3B991CA1134ADD9191EB6947FC2E79D"
+      },
+      {
+        "Name": "5831 CAU-1_4.stp",
+        "Bytes": 88220,
+        "Sha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61"
+      }
+    ]
+  },
+  {
+    "Archive": "FESTO_5831CAU14 (3).zip",
+    "Sha256": "F5682D78530B81ACE4874E8C31162D829DB71E210A4EA8AAE2DBAE09D4030ACE",
+    "Entries": [
+      {
+        "Name": "readme-and-terms-of-use-3d-cad-models.txt",
+        "Bytes": 2757,
+        "Sha256": "82BAF09B82CF412558E19297EF01CD0BB3B991CA1134ADD9191EB6947FC2E79D"
+      },
+      {
+        "Name": "5831 CAU-1_4.stp",
+        "Bytes": 88220,
+        "Sha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61"
+      }
+    ]
+  },
+  {
+    "Archive": "FESTO_5831CAU14.zip",
+    "Sha256": "F5682D78530B81ACE4874E8C31162D829DB71E210A4EA8AAE2DBAE09D4030ACE",
+    "Entries": [
+      {
+        "Name": "readme-and-terms-of-use-3d-cad-models.txt",
+        "Bytes": 2757,
+        "Sha256": "82BAF09B82CF412558E19297EF01CD0BB3B991CA1134ADD9191EB6947FC2E79D"
+      },
+      {
+        "Name": "5831 CAU-1_4.stp",
+        "Bytes": 88220,
+        "Sha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61"
+      }
+    ]
+  }
+]

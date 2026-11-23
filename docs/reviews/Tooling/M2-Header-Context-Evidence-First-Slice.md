@@ -1,3 +1,5 @@
+> 2026-11-23 Festo update: one unique manufacturer STEP profiled unchanged; owner local-test permission confirmed. See [profile](M2-Festo-Header-Unit-Profile.md). Earlier missing-input wording below is historical. No B2 observed; final-head CI still required.
+
 # M2 header/context unit observation implementation — first slice
 
 Date: 2026-11-23 Europe/Istanbul. Class: NEW BUILD, consumer-free Application slice.
