@@ -19,7 +19,7 @@ public sealed class HeaderUnitOwnershipTests
     [Fact]
     public void BoundObservationIsNotDirectlyReadableFromEvidence()
     {
-        var property = typeof(InventoryEvidence).GetProperty("HeaderUnits", Members);
+        var property = typeof(InventoryEvidence.ImportSession).GetProperty("HeaderUnits", Members);
         Assert.NotNull(property);
         Assert.True(property.GetMethod!.IsPrivate);
         Assert.Null(property.SetMethod);
@@ -44,24 +44,24 @@ public sealed class HeaderUnitOwnershipTests
         foreach (var method in type.GetMethods(Members | BindingFlags.Static | BindingFlags.DeclaredOnly))
         {
             if (method.ReturnType != typeof(HeaderUnitObservation)) continue;
-            if (type == typeof(InventoryEvidence))
+            if (type == typeof(InventoryEvidence.ImportSession))
             {
-                Assert.Equal("get_HeaderUnits", method.Name);
-                Assert.True(method.IsPrivate);
-            }
-            else if (type == typeof(InventoryEvidence.ImportSession))
-            {
-                Assert.Equal("ReadHeaderUnits", method.Name);
-                Assert.Equal(new[] { typeof(InventoryEvidence) }, method.GetParameters().Select(p => p.ParameterType));
+                if (method.Name == "get_HeaderUnits") Assert.True(method.IsPrivate);
+                else
+                {
+                    Assert.Equal("ReadHeaderUnits", method.Name);
+                    Assert.Equal(new[] { typeof(InventoryEvidence) }, method.GetParameters().Select(p => p.ParameterType));
+                }
             }
             else
             {
                 Assert.Equal(typeof(HeaderUnitObservation.EvidenceBinding), type);
                 Assert.Equal("Bind", method.Name);
-                Assert.Equal(new[] { typeof(InventoryEvidence) }, method.GetParameters().Select(p => p.ParameterType));
+                Assert.Equal(new[] { typeof(InventoryEvidence), typeof(InventoryEvidence.ImportSession) },
+                    method.GetParameters().Select(p => p.ParameterType));
             }
         }
-        Assert.Throws<ArgumentNullException>(() => HeaderUnitObservation.EvidenceBinding.Bind(null!));
+        Assert.Null(HeaderUnitObservation.EvidenceBinding.Bind(null, null));
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public sealed class HeaderUnitOwnershipTests
             Assert.Null(blocked.ReadHeaderUnits(clean.Evidence));
             Assert.Contains("UnsupportedSchema", blocked.ReadHeaderUnits(blocked.Evidence)!.HeaderReasons);
             Assert.Empty(clean.ReadHeaderUnits(clean.Evidence)!.HeaderReasons);
-            Assert.Contains("UnsupportedSchema", HeaderUnitObservation.EvidenceBinding.Bind(blocked.Evidence).HeaderReasons);
+            Assert.Contains("UnsupportedSchema", HeaderUnitObservation.EvidenceBinding.Bind(blocked.Evidence, blocked)!.HeaderReasons);
         });
     }
 
@@ -135,6 +135,78 @@ public sealed class HeaderUnitOwnershipTests
             Assert.Contains("UnsupportedSchema", replaced.ReadHeaderUnits(replaced.Evidence)!.HeaderReasons);
         });
     }
+
+    [Fact]
+    public void K1_NeutralEvidenceDataIsPrivate()
+    {
+        var property = typeof(InventoryEvidence).GetProperty("HeaderUnitData", Members);
+        Assert.NotNull(property);
+        Assert.True(property.GetMethod!.IsPrivate);
+        Assert.Null(property.SetMethod);
+    }
+
+    [Fact]
+    public void K1_BinderRequiresBothEvidenceAndExpectedSession()
+    {
+        var bind = typeof(HeaderUnitObservation.EvidenceBinding).GetMethod("Bind",
+            BindingFlags.Static | BindingFlags.NonPublic)!;
+        Assert.Equal(new[] { typeof(InventoryEvidence), typeof(InventoryEvidence.ImportSession) },
+            bind.GetParameters().Select(p => p.ParameterType));
+    }
+
+    [Fact]
+    public void K2_NoInventoryMethodAcceptsIndependentHeaderObservations()
+    {
+        foreach (var type in typeof(InventoryEvidence).Assembly.GetTypes()
+            .Where(t => t.Namespace == "MPC.Application.Inventory"))
+        foreach (var method in type.GetMethods(Members | BindingFlags.Static | BindingFlags.DeclaredOnly))
+        foreach (var parameter in method.GetParameters())
+            Assert.False(ContainsObservation(parameter.ParameterType),
+                $"{type.FullName}.{method.Name} accepts independent observation data: {parameter.ParameterType}");
+    }
+
+    [Fact]
+    public void K1_BinderAndNeutralAccessRejectForeignEvidence()
+    {
+        WithSource(path =>
+        {
+            var first = Capture(path); var sameHash = Capture(path);
+            Assert.Equal(first.DocumentSha256, sameHash.DocumentSha256);
+            File.WriteAllText(path, Source("UNKNOWN"));
+            var differentHash = Capture(path);
+            Assert.NotEqual(first.DocumentSha256, differentHash.DocumentSha256);
+            foreach (var foreign in new[] { sameHash, differentHash })
+            {
+                Assert.Null(first.ReadHeaderUnitData(foreign.Evidence));
+                Assert.Null(foreign.ReadHeaderUnitData(first.Evidence));
+                Assert.Null(HeaderUnitObservation.EvidenceBinding.Bind(foreign.Evidence, first));
+                Assert.Null(HeaderUnitObservation.EvidenceBinding.Bind(first.Evidence, foreign));
+            }
+            Assert.NotNull(first.ReadHeaderUnitData(first.Evidence));
+            Assert.Empty(HeaderUnitObservation.EvidenceBinding.Bind(first.Evidence, first)!.HeaderReasons);
+            Assert.Contains("UnsupportedSchema", HeaderUnitObservation.EvidenceBinding.Bind(
+                differentHash.Evidence, differentHash)!.HeaderReasons);
+        });
+    }
+
+    [Fact]
+    public void K1_MissingOwnerOrEvidenceNeverIssuesAnObservation()
+    {
+        WithSource(path =>
+        {
+            var session = Capture(path);
+            Assert.Null(HeaderUnitObservation.EvidenceBinding.Bind(null, null));
+            Assert.Null(HeaderUnitObservation.EvidenceBinding.Bind(session.Evidence, null));
+            Assert.Null(HeaderUnitObservation.EvidenceBinding.Bind(null, session));
+            Assert.Null(session.ReadHeaderUnitData(null));
+            Assert.Null(session.ReadHeaderUnits(null));
+        });
+    }
+
+    private static bool ContainsObservation(Type type) =>
+        type == typeof(HeaderUnitObservation) || type == typeof(HeaderUnitData)
+        || (type.HasElementType && ContainsObservation(type.GetElementType()!))
+        || (type.IsGenericType && type.GetGenericArguments().Any(ContainsObservation));
 
     private static InventoryEvidence.ImportSession Capture(string path)
     {

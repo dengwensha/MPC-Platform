@@ -38,7 +38,7 @@ internal sealed class HeaderUnitData
 }
 
 // Bound observation: neutral parser data cannot mint this type. The only binder
-// accepts real immutable importer evidence, never caller metadata or parser inputs.
+// accepts real immutable importer evidence AND its owner, never caller metadata.
 internal sealed class HeaderUnitObservation
 {
     internal const int HeaderPolicyRevision = 1;
@@ -58,10 +58,11 @@ internal sealed class HeaderUnitObservation
 
     internal static class EvidenceBinding
     {
-        internal static HeaderUnitObservation Bind(InventoryEvidence evidence)
+        internal static HeaderUnitObservation? Bind(InventoryEvidence? evidence,
+            InventoryEvidence.ImportSession? expectedSession)
         {
-            ArgumentNullException.ThrowIfNull(evidence);
-            return new HeaderUnitObservation(evidence.HeaderUnitData);
+            HeaderUnitData? data = expectedSession?.ReadHeaderUnitData(evidence);
+            return data is null ? null : new HeaderUnitObservation(data);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace MPC.Application.Tests.Inventory;
 public sealed class HeaderUnitProducerManifestTests
 {
     [Theory]
-    [InlineData("HeaderUnitObservation.cs", "FE3CFE04AB15D31BC64FB38D42AFDAC52AA3C444CD2309F81E145B35BDB1D1A3")]
-    [InlineData("InventoryEvidence.cs", "18536E650A3E3A1C0FC5A64B2D0F3253413FD33C7EAF726450D0EFCDE59E80A3")]
+    [InlineData("HeaderUnitObservation.cs", "CBC136F2215BF2C5C1D88957C7305C554F511B9A6F512E8BB44625B5577FE1CB")]
+    [InlineData("InventoryEvidence.cs", "27897C8DD22F417D3D7A0DD25A4669C2437AA02CDE6D0454A0DFC121753ECD45")]
     [InlineData("StepParameterParser.cs", "69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97")]
     public void CompleteProducerAndCaptureSourcesArePinned(string name,string expected)
     {

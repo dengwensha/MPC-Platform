@@ -3,81 +3,91 @@
 Date: 2026-11-23 Europe/Istanbul. Class: HARDEN.
 Start: 998896dc79bab409031b85e75852980fd07b58c3.
 Branch: fix/M2-header-unit-evidence-ownership. Owner: Mehmet İlkay Kınacı.
-State: implementation/review pending. M2 OPEN; N1 bounded CLOSED.
+Senior section 28 reviewed bbb2c809b8639685102169797bd5bf0433157c54:
+merge approved; C1 PARTIALLY accepted, with K1/K2 due before combined gate or first consumer.
+This revision addresses K1/K2; final-diff acceptance remains pending. M2 OPEN;
+N1 bounded CLOSED. No merged/closed state is claimed by this document.
 
-## One goal
+## One goal and boundary
 
-Senior sections 26/27 require restricted observation construction and an ownership
-check before the future combined gate reads header/unit evidence. Existing
-HeaderUnitProducer.ReadCaptured accepts an arbitrary stream/inventory pair and
-returns the same observation type as InventoryEvidence. Its neutral parser output
-must not be mistaken for an importer-bound observation.
+Separate neutral parser data from the restricted bound observation, and require
+exact-reference session ownership on every typed path to captured header/unit
+content. Neutral HeaderUnitData/ContextUnitData/UnitDefinitionData and ExactUnitScale
+remain constructible for parser/control tests. They cannot issue importer evidence,
+bound observations or decisions.
 
-Separate neutral parser data from the restricted bound observation. Only a real
-InventoryEvidence instance can be supplied to the observation binder; caller
-metadata, a stream or an inventory cannot issue the bound type. The binder reads
-immutable data already produced in that evidence's private constructor from the
-same captured bytes and inventory. A session exposes its bound observation only
-when it owns the exact evidence instance, including when two sessions have the
-same document hash. No evidence/session back-reference is added to the observation.
+InventoryEvidence's private constructor produces HeaderUnitData from the same
+captured bytes and inventory. That getter is private. Only the nested ImportSession
+can read it, through ReadHeaderUnitData(evidence), after Owns(evidence).
 
-This introduces no combined decision gate or product consumer. The future combined
-gate must use the session's ownership-checked accessor, never a neutral producer
-result. Null/unowned access is unavailable evidence, never a clean observation.
-The current inventory decision/status and its ownership checks remain unchanged.
+HeaderUnitObservation has a private constructor. Its nested EvidenceBinding.Bind
+requires BOTH evidence and expected session, delegates to that ownership-checked
+data access, and returns null for missing/unowned inputs. It accepts no caller
+metadata, stream or inventory. An equal hash does not grant ownership. The session
+creates its stored bound observation only after its Evidence has been assigned;
+ReadHeaderUnits(evidence) also checks Owns before returning that view. The private
+bound getter is on the session, not the evidence. Observations retain no owner,
+inventory, source bytes or stream.
 
-## Scope and acceptance
+No combined decision gate or product consumer is introduced. Future combined-gate
+APIs must accept evidence/session, never a standalone bound or neutral observation.
+Null access is unavailable evidence, never clean evidence or eligibility. The
+existing inventory policy/decision/status remains unchanged.
 
-- Private bound-observation constructor; no metadata-based bound factory.
-- Parser results explicitly named neutral data, independently testable.
-- Bound observation unavailable through InventoryEvidence's ordinary typed API;
-  owning session returns it, other/null evidence returns no observation.
-- Reflection locks constructors, issuer signatures, getter visibility, immutability
-  and absence of a producer method returning bound observations.
-- Actual captures cover same-hash/different-session rejection, blocked-source
-  isolation and source replacement after capture.
-- Same parsing policy, 17 Error reasons, policy revisions, source decoding and
-  existing inventory behavior. Source pins are reviewed and updated explicitly.
-- Release build/full CI, clean diff/git and independent final-diff review required.
+## Senior section 28 findings
 
-No header v2, context/target/coverage decision, cone rule, Windows integration,
-wire/enum/IPC change, normalization, CAD dependency or physical acceptance claim.
-C1 is pending Senior acceptance, not closed by implementation alone. Before first
-consumer: U1 cone angle rule and header-policy v2 decision remain mandatory.
-B2/A4/N2/N3-B6 and Windows repeat remain open.
+K1: the previous one-argument Bind and internal neutral getter allowed a caller to
+read another operation's real content without ownership. This was not fabricated
+content, but could mix sessions. Both paths now require the expected owner. Tests
+exercise every exposed route with owned, null, different-hash and same-hash foreign
+inputs; a valid owner still preserves the blocked observation reasons.
 
-Risk: trust/fail-closed YES; wire/shared enum/IPC/persistence/UI NO. This PR must
-receive independent review before merge. Existing #125/#126 approval does not
-cover this changed evidence boundary.
+K2: reflection now scans parameters as well as issuer return types on all declared
+Inventory methods (public/nonpublic, instance/static). HeaderUnitObservation and
+HeaderUnitData parameters are forbidden, including generic/array/by-ref wrappers.
+Constructors are deliberately checked separately: the bound constructor must be
+private; neutral-data constructors do not issue evidence. This preserves the private
+binding constructor without allowing an independently supplied observation API.
+
+## Acceptance and scope
+
+Private bound issuer, private captured neutral getter, ownership-checked issuance
+and reads, immutable output, no owner back-reference; source replacement after
+capture preserves observed data. Reflection locks typed paths and issuer signatures.
+The future consumer's use of this boundary must still be checked in its own PR.
+No header v2, target/coverage decision, cone rule, normalization, CAD dependency,
+wire/enum/IPC/Host change or physical acceptance claim. U1 cone rule, header-policy
+v2 decision, B2/A4/N2/N3-B6 and Windows repeat remain open.
+
+Risk: trust/fail-closed YES; wire/shared enum/IPC/persistence/UI NO. Section 28's
+review covered bbb2c809; the K1/K2 incremental final diff requires re-verification.
+C1 is not fully accepted/closed by implementation or green CI alone.
 
 ## Verification and trace
 
-Reviewed: pending diff at Start. Closing: none; independent review pending.
-Local SDK 8.0.422/Linux .NET 8: Release Application build 0 warnings/errors;
-Application 326/326 (eight new C1 tests), core 1366/1366. In an isolated worktree
-at Start, the first three structural boundary tests fail 3/3 as expected. No
-runtime reproduction beyond this structural/ownership boundary is claimed.
+The original three boundary tests failed on Start, then eight C1 tests and
+Application 326/326 passed at bbb2c809. Exact-head Windows CI #273 succeeded there:
+2043/2043, Worker 5/5, Release 0 warnings/errors. These are historical results, not
+validation of this incremental revision.
 
-All 14 real-file profiles plus the single unique Festo example were compared
-with the prior pinned profiles: all input hashes and complete HeaderUnits
-observations match, 15/15. Local supplemental assembly/source hashes and the
-explicit pending-diff build identity are in [Comparison.json](evidence/M2-C1-Ownership/Comparison.json).
-The existing reflection-only measurement harness can inspect the private bound
-property; it is not a production consumer or an alternative typed issuance path.
-The exact delivery commit must receive Windows full CI separately.
+The [15-file comparison](evidence/M2-C1-Ownership/Comparison.json) likewise belongs
+to the original pending-diff producer pinned there, reviewed in section 28. It is
+preserved, not relabelled as a rerun of these new source pins. The historical
+reflection-only profiler used the then-private evidence getter; current consumers
+and future measurements must use the owning session accessor.
 
-The neutral graph is explicitly HeaderUnitData/ContextUnitData/UnitDefinitionData
-and ExactUnitScale. Its constructors remain available for parser/control tests;
-it cannot issue a bound HeaderUnitObservation. EvidenceBinding.Bind accepts only
-real InventoryEvidence, reads its getter-only neutral result and retains no owner
-reference. It can make an equivalent view of real evidence, but cannot accept a
-caller-created clean graph. Only ImportSession.ReadHeaderUnits exposes the stored
-bound view through the typed evidence API after exact-reference ownership.
-The future combined gate must take evidence/session, not a supplied observation.
-No combined gate is delivered, so review must assess this as a pre-consumer C1
-boundary, not end-to-end consumer acceptance.
+Current incremental local SDK 8.0.422/Linux .NET 8: Release Application build
+0 warnings/errors; Application 331/331, including 13 C1 tests (five additional
+section 28 tests). Before the fix, the two new K1 structural checks failed and
+the new K2 parameter lock passed: 2 failed/1 passed as expected. The five new
+tests cover the private neutral getter, two-argument binder, independent-observation
+parameter prohibition, cross-session neutral/bound reads and missing-owner inputs.
+The existing tests were adjusted to the owner-required issuer; no bypass is whitelisted.
 
-Source pins were updated only after inspecting the neutral/bound split and
-ownership accessor. Policy revisions, the 17 codes/Error severity, SI scales,
-reader and shared parameter parser are unchanged. Diff --check PASS.
-Windows full CI and independent final-diff Senior acceptance remain pending.
+Current source pins:
+- HeaderUnitObservation.cs: CBC136F2215BF2C5C1D88957C7305C554F511B9A6F512E8BB44625B5577FE1CB
+- InventoryEvidence.cs: 27897C8DD22F417D3D7A0DD25A4669C2437AA02CDE6D0454A0DFC121753ECD45
+- StepParameterParser.cs unchanged: 69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97
+No parsing branch, reason code/severity, schema/unit revision or SI constant changed.
+Diff --check PASS. Exact-head Windows full CI: pending.
+Reviewed: pending diff at bbb2c809. Closing: none; Senior K1/K2 acceptance pending.
