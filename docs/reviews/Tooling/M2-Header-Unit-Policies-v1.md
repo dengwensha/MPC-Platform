@@ -25,11 +25,33 @@ has no target selection: enumerate and record each representation context separa
 | Source | Parse exactly the privately captured bytes; no reopening original source path |
 | Header | Existing required header fields must parse; preserve diagnostics and producer revision |
 | FILE_SCHEMA | Exactly one decoded nonempty identifier, AUTOMOTIVE_DESIGN |
-| Comparison | Ordinal exact comparison after STEP string decoding and trimming surrounding whitespace; no case folding, substring/prefix matching or alias inference |
+| Comparison | Schema raw string content must contain only ASCII [A-Z0-9_], then ordinal exact comparison; no schema escape decoding, case folding, substring/prefix matching or alias inference |
 | Implementation level | Exactly decoded 1 after surrounding whitespace trim |
 | Missing/malformed fields | Block or evidence unavailable with original cause; never synthesize header success |
 | Other schemas / multiple entries | Explicit UnsupportedSchema, including otherwise known AP203/AP242 identifiers, qualified aliases and duplicate schema entries |
 | Other metadata | Preserve description/exporter metadata; description text such as AP214 does not establish schema or content compatibility |
+
+H1: v1 accepts only implementation level '1'. Levels '2;1' and '3;1' are
+explicitly blocked with the separate conceptual reason UnsupportedImplementationLevel,
+not misreported as an unsupported schema. Repository fixture
+GE03B01-QuarterConePole.step declares '2;1' and is intentionally outside this v1
+header scope; its existing mapping tests remain valid and unchanged. This policy
+does not imply that the fixture is malformed or that all repository files pass.
+
+H2: the new captured-header producer must structurally identify HEADER records
+outside quoted strings/comments, not use the first textual name match. Require
+FILE_DESCRIPTION, FILE_NAME and FILE_SCHEMA each exactly once, in valid structure;
+duplicate records are malformed even if identical. A name in a description string
+must not create or substitute a header record. A missing, dollar or empty required
+record/schema entry is malformed and must not be silently filtered from a list.
+Empty optional author/organization strings remain optional metadata: this rule
+does not invent a nonempty-author requirement. Schema strings containing STEP
+escapes are unsupported; qualified schema forms and all other characters outside
+[A-Z0-9_] are unsupported, never normalized into an accepted alias. Preserve
+distinct malformed-record, unsupported-schema-form and unsupported-level reasons.
+These are new producer requirements, not claims about existing StepHeaderReader;
+its path API, first-match parsing, dollar filtering and lack of escape decoding
+must not be silently altered under this isolated evidence slice.
 
 All five repository golden files declare AUTOMOTIVE_DESIGN and 1. This is
 fixture-backed choice of an initial allowlist, not STEP-wide certification or a
@@ -60,8 +82,15 @@ invented dimensional requirements. No inheritance/default unit assumption.
 
 Within a context, require exactly one assigned length unit and one assigned plane
 angle unit for a complete v1 unit observation. A missing angle unit cannot be
-fabricated: retain the missing-angle reason; a later evaluator requirement may
-declare that angle evidence is not needed without making the observation complete.
+fabricated: retain the missing-angle reason. U1: geometry requirements and evaluator
+requirements jointly determine whether angle proof is mandatory. If target geometry
+contains an angle-valued field (at least CONICAL_SURFACE.SemiAngle), validated
+context angle units and normalization are mandatory before mapping/using that
+field; no evaluator-only exemption. Existing cone mapping uses Math.Tan(SemiAngle)
+assuming radians. A later no-angle exemption requires positive coverage proof that
+the target has no angle-valued fields AND an evaluator contract needing no angles.
+Unknown/incomplete coverage cannot establish that exemption. No exemption makes
+the underlying incomplete per-context observation complete.
 Other dimensional units (e.g. solid angle) are recorded separately, never mistaken
 for length/plane angle, and confer no evaluator readiness. Duplicate assignments
 for the same required dimension are ambiguous even when numerically equivalent.
@@ -81,6 +110,16 @@ or ReadyForDeclaredEvaluation. Later mapped geometry must carry separately verif
 normalization using the selected context, with positive finite scales, consistent
 point/vector/radius/angle treatment and dimensional scaling for area/volume.
 CadUnitInfo.InternalLengthUnit=Metre alone is insufficient.
+
+U2 adopted as an implementation requirement: store policy-bound exact scale
+definitions as rational constants (metre 1/1, centimetre 1/100, millimetre 1/1000,
+radian 1/1), not authoritative precomputed double values. Any later floating-point
+conversion is derived at the normalization boundary and tested for finite result
+and expected numerical error; it cannot revise the policy scale or enable inch/degree.
+U3: contexts are emitted in deterministic ordinal SourceEntityId order; preserve
+that order in evidence/tests, independent of dictionary enumeration. Missing or
+duplicate context IDs produce explicit non-ready observations, no unstable tie-break
+or overwrite. Ordering is not target selection or geometric precedence.
 
 ## Acceptance fixtures required before implementation merge
 
@@ -102,6 +141,15 @@ CadUnitInfo.InternalLengthUnit=Metre alone is insufficient.
 | Duplicate or conflicting required dimension assignments | Ambiguous, no arbitrary selection |
 | Foreign equal-hash session proof / policy revision mismatch | Rejected by ownership/revision check |
 | Unit metadata without normalization proof | No geometry-dependent evaluation |
+| Implementation levels '2;1' (including GE03B01) and '3;1' | UnsupportedImplementationLevel, distinct from schema rejection |
+| Duplicate FILE_SCHEMA records, including identical records | Malformed header; never first-match success |
+| FILE_SCHEMA text only inside description / text plus real record | Text is not a record; missing real record fails, one valid real record parses normally |
+| Dollar or empty required schema entry, even alongside valid schema | Malformed; no silent filtering |
+| Escaped schema identifier / qualified schema form | Explicit unsupported form; no decoding into accepted identifier |
+| Cone in degree context with base radian reference | Blocked conversion unit before angle-dependent mapping; never feed degrees to radian formula |
+| Cone with missing angle unit / evaluator says no angles | Non-ready; evaluator cannot waive geometric angle requirement |
+| Positive no-angle coverage and evaluator requiring no angles | May waive angle requirement only; all other gates still apply |
+| Exact scale definitions and shuffled context input order | Rational constants preserved; stable ordinal context evidence order |
 
 Fixture expectations are proposed acceptance criteria, not executed test results.
 Pin complete header/unit producer sources and diagnostic-code/severity mappings;
@@ -129,3 +177,26 @@ conversion support and evaluator coverage manifest remain later reviewed work.
 Trust/fail-closed trigger YES: independent Senior review before merge. Other five
 triggers No for this design-only diff. git diff --check required; PR CI pending.
 Reviewed/Closing: pending final-diff review and delivery; no runtime PASS claimed.
+
+## Senior section 24 — conditional acceptance and implementation gates
+
+Owner supplied independent review of `022941a8a6bed48fa2c54b3b37c7b5bc1556f849`
+on 2026-11-23 in this working conversation. Reviewer accepted both policies
+conditionally on H1/H2/U1; all three are incorporated above. U2/U3 recommendations
+are adopted as explicit requirements. No fabricated GitHub review or reviewer CI
+verification is claimed. 25 acceptance rows now specify future fixtures, not runs.
+
+Before implementation: #122 at b3b18a5 or later must merge green; amended #123 must
+merge. Before implementation merge: N1 must close; new header producer must meet H2
+and path/captured encoding parity without silently changing StepHeaderReader;
+pin sources/codes/severities; no production afterSourceCaptured or consumer.
+Profile header and units of workshop, Festo and R01-R03 inputs, reporting v1
+blocking incidence separately from inventory diagnostics. Inputs not supplied or
+not measurable are unavailable, never zero blocking; obtain missing Festo STEP
+inputs before claiming that required profiling complete. Existing inventory
+measurements do not satisfy this header/unit profile requirement.
+
+Owner of deferred work: Mehmet İlkay Kınacı. Review level '2;1'/AP242 in v2 before
+allowlist expansion; inch/degree validated support before conversion enablement;
+GLOBAL_UNCERTAINTY before precision-dependent evaluation; multi-body design and
+coverage manifest before relevant consumer readiness. M2 OPEN; N1 remains pending.
