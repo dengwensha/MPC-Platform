@@ -1,0 +1,58 @@
+{
+  "InputName": "5831 CAU-1_4.stp",
+  "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+  "InputUnchanged": true,
+  "CapturedSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+  "OwnerSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+  "ApplicationAssemblySha256": "3AA5E052F7F23EC3BCAAE5766A8B8FAC995D0B141CF607B3EB39B798219A1898",
+  "ObservationAvailable": true,
+  "FailureType": null,
+  "ReadStatus": "Succeeded",
+  "InventoryDecisionStatus": "InventoryClear",
+  "RetainedEntityCount": 2122,
+  "InventorySha256": "80F808A3F0944CAFD1251108AB7DE5A0C581DDC35959B6760D1653AFCF513B50",
+  "InventoryDiagnosticCount": 0,
+  "InventoryDiagnosticsSha256": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+  "HeaderUnits": {
+    "Schema": "AUTOMOTIVE_DESIGN {1 0 10303 214 3 1 1}",
+    "ImplementationLevel": "2;1",
+    "HeaderReasons": [
+      "UnsupportedImplementationLevel",
+      "UnsupportedSchemaForm"
+    ],
+    "Contexts": [
+      {
+        "SourceId": "#2117",
+        "Units": [
+          {
+            "SourceId": "#2121",
+            "Dimension": "Length",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1000
+            }
+          },
+          {
+            "SourceId": "#2120",
+            "Dimension": "Angle",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1
+            }
+          },
+          {
+            "SourceId": "#2119",
+            "Dimension": "Other",
+            "Code": "OtherDimension",
+            "Scale": null
+          }
+        ],
+        "Reasons": []
+      }
+    ],
+    "ContextSetReasons": []
+  },
+  "Envelope": null
+}

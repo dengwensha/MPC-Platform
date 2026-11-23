@@ -1,0 +1,26 @@
+{
+  "InputName": "C01-CommentData.step",
+  "InputSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+  "InputUnchanged": true,
+  "CapturedSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+  "OwnerSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+  "ApplicationAssemblySha256": "3AA5E052F7F23EC3BCAAE5766A8B8FAC995D0B141CF607B3EB39B798219A1898",
+  "ObservationAvailable": true,
+  "FailureType": null,
+  "ReadStatus": "Succeeded",
+  "InventoryDecisionStatus": "InventoryClear",
+  "RetainedEntityCount": 1,
+  "InventorySha256": "AAA0F266614853A7FBE22FDE9C1089C81FDA7229ECDEF61D09DE0B660B8411B1",
+  "InventoryDiagnosticCount": 0,
+  "InventoryDiagnosticsSha256": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+  "HeaderUnits": {
+    "Schema": "AUTOMOTIVE_DESIGN",
+    "ImplementationLevel": "1",
+    "HeaderReasons": [],
+    "Contexts": [],
+    "ContextSetReasons": [
+      "NoGeometricContext"
+    ]
+  },
+  "Envelope": null
+}

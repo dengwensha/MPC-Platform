@@ -1,0 +1,54 @@
+using System.Reflection;
+using System.Runtime.Loader;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Collections;
+const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+object? Property(object o, string name) => o.GetType().GetProperty(name, flags)!.GetValue(o);
+object? Snapshot(object? o)
+{
+    if (o is null || o is string || o.GetType().IsPrimitive) return o;
+    if (o.GetType().IsEnum) return o.ToString();
+    if (o is IEnumerable sequence) return sequence.Cast<object?>().Select(Snapshot).ToArray();
+    return o.GetType().GetProperties(flags).Where(p => p.GetIndexParameters().Length == 0 && p.Name != "EqualityContract")
+        .ToDictionary(p => p.Name, p => Snapshot(p.GetValue(o)));
+}
+string Digest(byte[] bytes) => Convert.ToHexString(SHA256.HashData(bytes));
+string appdir = Path.GetFullPath(args[0]);
+AssemblyLoadContext.Default.Resolving += (_, n) => Assembly.LoadFrom(Path.Combine(appdir, n.Name + ".dll"));
+var assembly = Assembly.LoadFrom(Path.Combine(appdir, "MPC.Application.dll"));
+var capture = assembly.GetType("MPC.Application.Inventory.InventoryEvidence+ImportSession")!
+    .GetMethod("CaptureFromFile", BindingFlags.NonPublic | BindingFlags.Static)!;
+Directory.CreateDirectory(args[2]);
+foreach (var path in Directory.GetFiles(args[1]).Where(p => Path.GetExtension(p).Equals(".step", StringComparison.OrdinalIgnoreCase)
+    || Path.GetExtension(p).Equals(".stp", StringComparison.OrdinalIgnoreCase)).Order())
+{
+    string before = Digest(File.ReadAllBytes(path));
+    var result = capture.Invoke(null, [path, null])!;
+    var session = Property(result, "Session");
+    var evidence = session is null ? null : Property(session, "Evidence");
+    object? Owned(string method) => session?.GetType().GetMethod(method, flags)?.Invoke(session, [evidence]);
+    object? inventory = session?.GetType().GetField("_inventory", flags)!.GetValue(session);
+    string? inventoryHash = inventory is null ? null : Digest(JsonSerializer.SerializeToUtf8Bytes(inventory, inventory.GetType()));
+    var diagnostics = evidence is null ? null : Snapshot(Property(evidence, "Diagnostics"));
+    var gate = assembly.GetType("MPC.Application.Inventory.InventoryDecision+InventoryEvidenceGate")!
+        .GetMethod("Evaluate", BindingFlags.Static | BindingFlags.NonPublic)!.Invoke(null, [evidence, session])!;
+    var row = new {
+        InputName = Path.GetFileName(path), InputSha256 = before,
+        InputUnchanged = before == Digest(File.ReadAllBytes(path)),
+        CapturedSha256 = evidence is null ? null : Property(evidence, "DocumentSha256"),
+        OwnerSha256 = session is null ? null : Property(session, "DocumentSha256"),
+        ApplicationAssemblySha256 = Digest(File.ReadAllBytes(assembly.Location)),
+        ObservationAvailable = evidence is not null, FailureType = (Property(result, "Failure") as Exception)?.GetType().FullName,
+        ReadStatus = evidence is null ? null : Property(evidence, "ReadStatus")?.ToString(),
+        InventoryDecisionStatus = Property(gate, "Status")?.ToString(),
+        RetainedEntityCount = session is null ? null : Property(session, "RetainedEntityCount"),
+        InventorySha256 = inventoryHash,
+        InventoryDiagnosticCount = evidence is null ? null : Property(evidence, "Diagnostics")?.GetType().GetProperty("Count")?.GetValue(Property(evidence, "Diagnostics")),
+        InventoryDiagnosticsSha256 = Digest(JsonSerializer.SerializeToUtf8Bytes(diagnostics)),
+        HeaderUnits = Snapshot(Owned("ReadHeaderUnits")), Envelope = Snapshot(Owned("ReadEnvelope"))
+    };
+    File.WriteAllText(Path.Combine(args[2], Path.GetFileName(path) + ".json"), JsonSerializer.Serialize(row, new JsonSerializerOptions { WriteIndented = true }));
+    Console.WriteLine(row.InputName + ": " + row.ObservationAvailable);
+}
