@@ -1,3 +1,5 @@
+> Current disposition (2026-11-23): N1 ACCEPTED CLOSED within [Senior section 25 scope](N1-Bounded-Closure.md). Earlier pending wording below is historical. M2 OPEN.
+
 # M2 measurement review follow-up — same-build controls
 
 Date: 2026-11-22 Europe/Istanbul. VERIFY only; no runtime/policy changes.
