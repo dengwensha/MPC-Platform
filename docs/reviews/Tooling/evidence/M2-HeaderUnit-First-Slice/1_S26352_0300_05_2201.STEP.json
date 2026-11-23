@@ -1,0 +1,75 @@
+{
+  "InputName": "1_S26352_0300_05_2201.STEP",
+  "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+  "ApplicationAssemblySha256": "6ED60B6C6E29FDDC75A038BD3C4081E20D781A0CD41A06ECAD37497551E28700",
+  "ObservationAvailable": true,
+  "FailureType": null,
+  "HeaderUnits": {
+    "Schema": "AUTOMOTIVE_DESIGN",
+    "ImplementationLevel": "1",
+    "HeaderReasons": [],
+    "Contexts": [
+      {
+        "SourceId": "#105",
+        "Units": [
+          {
+            "SourceId": "#860",
+            "Dimension": "Length",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1000
+            }
+          },
+          {
+            "SourceId": "#188",
+            "Dimension": "Angle",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1
+            }
+          },
+          {
+            "SourceId": "#510",
+            "Dimension": "Other",
+            "Code": "OtherDimension",
+            "Scale": null
+          }
+        ],
+        "Reasons": []
+      },
+      {
+        "SourceId": "#179",
+        "Units": [
+          {
+            "SourceId": "#11",
+            "Dimension": "Length",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1000
+            }
+          },
+          {
+            "SourceId": "#373",
+            "Dimension": "Angle",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1
+            }
+          },
+          {
+            "SourceId": "#430",
+            "Dimension": "Other",
+            "Code": "OtherDimension",
+            "Scale": null
+          }
+        ],
+        "Reasons": []
+      }
+    ],
+    "ContextSetReasons": []
+  }
+}

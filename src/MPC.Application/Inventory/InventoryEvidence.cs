@@ -56,9 +56,15 @@ internal sealed class InventoryEvidence
     internal ReaderRevision ReaderRevision { get; }
     internal int SchemaRevision => CurrentSchemaRevision;
     internal int SeverityMappingRevision => CurrentSeverityMappingRevision;
+    internal HeaderUnitObservation HeaderUnits { get; }
+    internal ReaderRevision HeaderUnitProducerRevision { get; }
 
-    private InventoryEvidence(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision)
+    private InventoryEvidence(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision,
+        byte[] capturedBytes, ReaderRevision headerUnitRevision)
     {
+        HeaderUnitProducerRevision = headerUnitRevision;
+        using var headerCapture = new MemoryStream(capturedBytes, writable: false);
+        HeaderUnits = HeaderUnitProducer.ReadCaptured(headerCapture, result.Value);
         DocumentSha256 = hash;
         ReadStatus = result.Status switch
         {
@@ -81,11 +87,12 @@ internal sealed class InventoryEvidence
         private readonly StepDataInventory? _inventory;
         internal InventoryEvidence Evidence { get; }
         internal string DocumentSha256 { get; }
-        private ImportSession(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision)
+        private ImportSession(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision,
+            byte[] capturedBytes, ReaderRevision headerUnitRevision)
         {
             _inventory = result.Value;
             DocumentSha256 = hash;
-            Evidence = new InventoryEvidence(hash, result, revision);
+            Evidence = new InventoryEvidence(hash, result, revision, capturedBytes, headerUnitRevision);
         }
         internal bool Owns(InventoryEvidence evidence) => ReferenceEquals(Evidence, evidence);
         internal int RetainedEntityCount => _inventory?.TotalEntityCount ?? 0;
@@ -114,7 +121,12 @@ internal sealed class InventoryEvidence
             afterSourceCaptured?.Invoke();
 
             ReaderRevision revision;
-            try { revision = ReadReaderRevision(); }
+            ReaderRevision headerUnitRevision;
+            try
+            {
+                revision = ReadRevision(typeof(StepDataEntityReader).Assembly);
+                headerUnitRevision = ReadRevision(typeof(HeaderUnitProducer).Assembly);
+            }
             catch (Exception ex) when (IsExpectedFileFailure(ex) || ex is NotSupportedException)
             {
                 return new InventoryCaptureResult(null, ex, InventoryCaptureFailureStage.ReaderProvenance);
@@ -134,12 +146,11 @@ internal sealed class InventoryEvidence
             {
                 return new InventoryCaptureResult(null, ex, InventoryCaptureFailureStage.InventoryParse);
             }
-            return new InventoryCaptureResult(new ImportSession(hash, result, revision), null, null);
+            return new InventoryCaptureResult(new ImportSession(hash, result, revision, bytes, headerUnitRevision), null, null);
         }
 
-        private static ReaderRevision ReadReaderRevision()
+        private static ReaderRevision ReadRevision(Assembly assembly)
         {
-            Assembly assembly = typeof(StepDataEntityReader).Assembly;
             string location = assembly.Location;
             ReaderProvenance.RequireAssemblyLocation(location);
             return new ReaderRevision(assembly.FullName ?? "", assembly.GetName().Version?.ToString() ?? "",

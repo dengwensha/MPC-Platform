@@ -32,10 +32,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\MPC.Tests\TestData\Step\GE03B01-QuarterConePole.step"
+          Link="TestData\Step\GE03B01-QuarterConePole.step" CopyToOutputDirectory="PreserveNewest" />
     <!-- Full producer source audit: any producer change requires manifest review. -->
     <None Include="..\..\src\MPC.Connectors.Step\Readers\StepDataEntityReader.cs"
           Link="InventoryAudit\StepDataEntityReader.cs.txt" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\MPC.Connectors.Step\Validation\StepDataInventoryValidator.cs"
           Link="InventoryAudit\StepDataInventoryValidator.cs.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\MPC.Application\Inventory\HeaderUnitObservation.cs"
+          Link="HeaderUnitAudit\HeaderUnitObservation.cs.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\MPC.Application\Inventory\InventoryEvidence.cs"
+          Link="HeaderUnitAudit\InventoryEvidence.cs.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\MPC.Connectors.Step\Parsing\StepParameterParser.cs"
+          Link="HeaderUnitAudit\StepParameterParser.cs.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

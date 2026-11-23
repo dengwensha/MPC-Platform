@@ -1,0 +1,25 @@
+using System.Reflection;
+using System.Runtime.Loader;
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Collections;
+const BindingFlags flags=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance;
+object? Property(object o,string n)=>o.GetType().GetProperty(n,flags)!.GetValue(o);
+object? Snapshot(object? o) {
+ if(o is null || o is string || o.GetType().IsPrimitive) return o;
+ if(o is IEnumerable sequence) return sequence.Cast<object?>().Select(Snapshot).ToArray();
+ return o.GetType().GetProperties(flags).Where(p=>p.GetIndexParameters().Length==0 && p.Name!="EqualityContract").ToDictionary(p=>p.Name,p=>Snapshot(p.GetValue(o)));
+}
+string appdir=args[0];
+AssemblyLoadContext.Default.Resolving+=(_,n)=>Assembly.LoadFrom(Path.Combine(appdir,n.Name+".dll"));
+var assembly=Assembly.LoadFrom(Path.Combine(appdir,"MPC.Application.dll"));
+var capture=assembly.GetType("MPC.Application.Inventory.InventoryEvidence+ImportSession")!.GetMethod("CaptureFromFile",BindingFlags.NonPublic|BindingFlags.Static)!;
+Directory.CreateDirectory(args[2]);
+foreach(var path in Directory.GetFiles(args[1],"*",SearchOption.AllDirectories).Where(p=>Path.GetExtension(p).Equals(".step",StringComparison.OrdinalIgnoreCase)||Path.GetExtension(p).Equals(".stp",StringComparison.OrdinalIgnoreCase)).Order()) {
+ var result=capture.Invoke(null,[path,null])!;var session=Property(result,"Session");
+ var evidence=session is null?null:Property(session,"Evidence");
+ var failure=Property(result,"Failure") as Exception;
+ var row=new {InputName=Path.GetFileName(path),InputSha256=Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))),ApplicationAssemblySha256=Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(assembly.Location))),ObservationAvailable=evidence is not null,FailureType=failure?.GetType().FullName,HeaderUnits=evidence is null?null:Snapshot(Property(evidence,"HeaderUnits"))};
+ File.WriteAllText(Path.Combine(args[2],Path.GetFileName(path)+".json"),JsonSerializer.Serialize(row,new JsonSerializerOptions{WriteIndented=true}));
+ Console.WriteLine(row.InputName+": "+row.ObservationAvailable);
+}
