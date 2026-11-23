@@ -3,7 +3,8 @@
 Date: 2026-11-23 Europe/Istanbul. Class: VERIFY / semantic policy design.
 Start: b6a80ef5719a670bc501fa0ad7736d83badd330b.
 Branch: docs/M2-header-policy-v2-decision. Owner: Mehmet İlkay Kınacı.
-State: PROPOSED; owner/Senior policy acceptance pending. No runtime change.
+State: Senior section 30 conditionally accepts the policy at 185155e4, subject
+to D1/D2 below. Amendments prepared; owner acceptance pending. No runtime change.
 Runtime still emits HeaderSchemaAllowlist=1 and ContextUnitPolicy=1. M2 OPEN.
 N1 bounded CLOSED; C1 accepted within its consumer-free boundary (Senior §29/#127).
 
@@ -27,9 +28,11 @@ support is bundled into this change.
 
 Primary implementer documentation checked 2026-11-23:
 
-1. STEP Tools, [GeomView.GetHeaderImplementationLevel](https://www.steptools.com/docs/stview/GeomView.html#GetHeaderImplementationLevel):
-   identifies 2;1 with the corrected Part 21 syntax also used by its second edition;
-   the exchange-syntax version is separate from the schema identifier.
+1. [ISO 10303-21 third-edition final text, clause 8.2.2](https://steptools.com/stds/step/IS_final_p21e3.html):
+   2;1 denotes edition-1 conformance class 1, not edition 2. Its encoding is
+   restricted to a single, unparameterized DATA section and excludes the additional
+   FILE_POPULATION, SECTION_LANGUAGE and SECTION_CONTEXT header records. The
+   exchange-encoding declaration and the AP214 schema edition are separate notions.
 2. STEP Tools, [AP214 usage notes](https://downloads.steptools.com/docs/stp_aim/notes_ap214.html):
    lists {1 0 10303 214 3 1 1} as the AP214 third-edition ASN.1 identifier.
 3. STEP Tools, [schema-name writer](https://www.steptools.com/docs/stp_aim/stplib.html):
@@ -68,8 +71,9 @@ using [A-Z0-9_], one or more U+0020 spaces, opening brace, optional U+0020 space
 exactly seven unsigned canonical decimal arcs separated by one or more U+0020
 spaces, optional U+0020 spaces, closing brace, then end of string. Lexically valid
 NAME/OID pairs are recognized ONLY if NAME is exactly AUTOMOTIVE_DESIGN and the
-arc vector matches 1/0/10303/214/3/1/1. Other lexically valid pairs are unlisted,
-not aliases. No leading/trailing spaces outside this grammar,
+arc vector matches 1/0/10303/214/3/1/1. Compare the canonical decimal arc tokens
+as ordinal strings; do not parse them into bounded numeric types or discard
+qualifiers on overflow. Other lexically valid pairs are unlisted, not aliases. No leading/trailing spaces outside this grammar,
 leading zeroes in multi-digit arcs, signs, dots, commas, symbolic labels, tabs,
 line breaks, non-ASCII whitespace or suffix text. Both observed forms
 AUTOMOTIVE_DESIGN {1 0 10303 214 3 1 1} and
@@ -101,12 +105,53 @@ no wire/shared enum or serialization/persistence contract is proposed here.
 The header scan must still stop at the first real HEADER ENDSEC (B1). It must not
 scan/split/copy DATA to decide a header field or misattribute DATA errors to HeaderMalformed.
 Accepting a declared 2;1 header does not validate the rest of the exchange envelope.
-Multiple DATA sections, external references, ANCHOR/REFERENCE, signatures or other
-unproven structures must not silently become supported by this header expansion.
-Before a first combined gate/consumer can approve a file, define positive envelope
-scope proof or explicitly block unproven envelope shapes in the captured-source
-coverage gate. This document does not claim that check currently exists. Senior
-should confirm where that obligation belongs; do not weaken B1 to hide the gap.
+
+### D1 — separate captured envelope observation (Senior section 30)
+
+The existing StepDataEntityReader.ExtractDataSection finds the first DATA and its
+following ENDSEC and returns only that substring. Later DATA sections are not
+inventoried. Consequently, inventory-clear evidence alone cannot prove whole-file
+coverage. This pre-existing v1 limitation is not created by v2; do not trust the
+file's own declared level as proof of compliance. No general broken-file safety
+or full Part 21 conformance is claimed here.
+
+Require a separate immutable envelope observation from the SAME private captured
+bytes as hash/header/inventory. It belongs to neither the bounded header scanner
+nor the geometry coverage manifest. Bind it to the encompassing importer evidence
+and read it only through the C1 exact-owner session path. Give its policy/producer
+revision independent identity; no caller-created clean envelope metadata may issue
+bound evidence. Envelope failure must remain visible even if inventory is clear.
+
+The accepted narrow envelope shape must establish all of these structurally:
+- Exactly one unparameterized DATA section (DATA; not DATA(...);).
+- Its closing ENDSEC is followed only by END-ISO-10303-21; and end of input,
+  allowing only ordinary lexical separators such as whitespace/comments.
+- No ANCHOR, REFERENCE or SIGNATURE section, no second DATA and no unrecognized
+  section or trailing structural content. Header/section opening/closing order
+  and the exchange terminator must be complete, not inferred from substring hits.
+- Keywords inside quoted strings, binary literals and comments do not count as
+  structural sections or terminators. Reuse tested lexical behavior where sound;
+  do not make header scanning consume or copy DATA (B1 remains mandatory).
+
+This is a narrow envelope-scope observation, not validation of entity semantics or
+all Part 21 encoding constraints. An unavailable/unknown/wrong-owner/revision or
+rejected envelope cannot support a ready combined decision. Unit/geometry gates
+remain independent; envelope success cannot override their failures.
+
+Timing: REQUIRED before the combined gate/first consumer. Implementation proposal:
+include this separate producer in the consumer-free v2 slice, while keeping the
+header scan bounded. Owner approval is pending for that delivery grouping. If
+split out for implementation reasons, it must arrive in a separately reviewed
+slice BEFORE the combined gate can merge/issue readiness. Owner: Mehmet İlkay
+Kınacı. This timing requirement cannot be deferred beyond the first consumer.
+
+### D2 — intentional strict three-record header limit
+
+FILE_POPULATION, SECTION_LANGUAGE and SECTION_CONTEXT deliberately remain rejected
+as HeaderMalformed by the existing exactly-three-required-records rule. Do not
+silently accept, ignore or relabel them under v2. The same strict rule also rejects
+other extra header records. Header recognition and envelope observation are
+separate: a header can be recognized while the file envelope is rejected.
 
 Inventory policy A remains mandatory. A recognized header cannot override an Error,
 Fatal, unknown diagnostic severity, missing evidence, ownership mismatch, wrong
@@ -129,7 +174,11 @@ the angle-dependent geometry boundary. No header observation is ReadyForDeclared
 | Dollar/empty/multiple schema entries | Existing reason rules preserved; no filtering |
 | Escaped allowed-looking name or digit | UnsupportedSchemaForm |
 | Malformed DATA after a valid HEADER | Header cause unaffected; inventory/coverage causes retained independently |
-| Level 2;1 with multiple DATA or reference/anchor structures | Header field recognition alone is not envelope/eligibility approval; positive scope proof required before consumer |
+| Level 2;1 with two DATA sections | Header recognized; separate envelope rejected; combined decision cannot be ready |
+| Level 2;1 with DATA(parameters) | Header recognized; separate envelope rejected; no second-section or first-section shortcut |
+| Additional FILE_POPULATION / SECTION_LANGUAGE / SECTION_CONTEXT record | HeaderMalformed intentionally retained |
+| Real ANCHOR / REFERENCE / SIGNATURE section, trailing statement or missing terminator | Envelope rejected/unavailable; no ready decision |
+| Section keywords only inside strings/comments/binary | Not structural section counts; no spurious extra-section failure |
 | Captured source replaced/deleted | Declared/canonical fields derive only from original captured bytes |
 | Same-hash and different-hash foreign session evidence | No header data or bound observation exposed; C1 remains enforced |
 | Wrong policy/producer revision or missing observation | Non-ready/unavailable; no fallback to v1 or bare-schema inference |
@@ -155,8 +204,10 @@ No raw supplier/workshop CAD is added to GitHub.
 3. Rerun the 14-file profile plus the single unique Festo sample on that pinned
    implementation and record the intentional header-only deltas. Local permission
    and original bytes remain unchanged; unavailable readings are not zero reasons.
-4. Before combined gate/first consumer: settle positive envelope scope, target/root
-   definition, U1 cone enforcement, normalization and evaluator coverage. Apply the
+4. Deliver D1 as a separate same-capture/owner-bound envelope observation, proposed
+   within the consumer-free v2 implementation. It is mandatory before combined-gate
+   merge/readiness if separately scheduled. Target/root definition, U1 cone enforcement,
+   normalization and evaluator coverage remain separate. Apply the
    two §29 reflection expansions (all Application namespaces and constructors with
    only the bound observation's own private constructor excluded). Verify the
    actual consumer reads only owned evidence; C1 acceptance is not consumer approval.
@@ -167,7 +218,7 @@ Senior decisions requested separately:
 - Accept unchanged fail-closed/reason semantics and the envelope-proof obligation
   before eligibility, with no implied AP203/AP242/unit/geometry support?
 - Authorize the isolated v2 implementation after owner/policy acceptance, with the
-  fixture/profile/revision/CI gates above?
+  fixture/profile/revision/CI gates above, including D1 in that slice?
 
 Risk triggers: trust/fail-closed YES (semantic acceptance expansion, despite docs
 only); wire/shared enum/IPC/persistence/UI NO. Independent final-diff Senior review
@@ -175,3 +226,28 @@ required before merge. Start as above; Reviewed: pending diff at Start; Closing:
 none. Validation: source/profile/document cross-check and git diff --check; no new
 runtime tests claimed. Unchanged runtime baseline main CI #275 at Start: Release
 0 warnings/errors, full 2048/2048, Worker 5/5. Exact PR CI pending.
+
+
+## Senior section 30 disposition and deferred item
+
+Review supplied by owner via the attached working-conversation text on 2026-11-23.
+Reviewed: 185155e4d232ceca8ba1a1bc04ebe5a165b44785. Policy/grammar accepted;
+merge conditional on D1/D2 documentation, incorporated above. Independent reviewer
+did not verify CI #276; the implementation session verified that exact-head run
+successful (2048/2048, Worker 5/5, 0 warnings/errors). This is not the amended-head
+CI result. No GitHub review or owner acceptance is fabricated.
+
+D1/D2 are the Senior-required disposition. Owner acceptance of the amended policy
+and including the envelope producer in the v2 implementation remains pending;
+no implementation starts or policy readiness is claimed by this document.
+
+Deferred v3 candidate: consider explicit AP214 e1/e2 qualified names when concrete
+samples arrive. Bare AUTOMOTIVE_DESIGN remains accepted without an edition, while
+v2 intentionally accepts only the sampled explicit e3 qualifier. This is a narrow
+MPC policy limit, not a claim that AP214 editions use different EXPRESS schemas.
+Owner: Mehmet İlkay Kınacı; trigger: first genuine e1/e2 qualified input, followed
+by fixtures and explicit reviewed allowlist revision. No silent expansion.
+
+Current amended delivery: documentation only; source/tests unchanged from Start.
+Diff --check required; exact amended-head CI pending. M2 OPEN. §29 reflection
+expansions remain assigned to the combined-gate PR, not silently closed here.
