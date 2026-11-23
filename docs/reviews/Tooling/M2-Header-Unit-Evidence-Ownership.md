@@ -5,8 +5,12 @@ Start: 998896dc79bab409031b85e75852980fd07b58c3.
 Branch: fix/M2-header-unit-evidence-ownership. Owner: Mehmet İlkay Kınacı.
 Senior section 28 reviewed bbb2c809b8639685102169797bd5bf0433157c54:
 merge approved; C1 PARTIALLY accepted, with K1/K2 due before combined gate or first consumer.
-This revision addresses K1/K2; final-diff acceptance remains pending. M2 OPEN;
-N1 bounded CLOSED. No merged/closed state is claimed by this document.
+Senior section 29 accepted K1/K2 and C1 fully within this consumer-free boundary
+at 7dcbfb96dfb407482bd0b47440f563db5af8db43. #127 merged as
+b6a80ef5719a670bc501fa0ad7736d83badd330b. Exact-head CI #274 and main CI #275
+passed: 2048/2048, Worker 5/5, Release 0 warnings/errors. M2 OPEN; N1 bounded CLOSED.
+This is a factual reconciliation of the acceptance supplied in the working
+conversation; no further runtime or boundary behavior is changed here.
 
 ## One goal and boundary
 
@@ -60,8 +64,11 @@ wire/enum/IPC/Host change or physical acceptance claim. U1 cone rule, header-pol
 v2 decision, B2/A4/N2/N3-B6 and Windows repeat remain open.
 
 Risk: trust/fail-closed YES; wire/shared enum/IPC/persistence/UI NO. Section 28's
-review covered bbb2c809; the K1/K2 incremental final diff requires re-verification.
-C1 is not fully accepted/closed by implementation or green CI alone.
+review covered bbb2c809; the K1/K2 incremental final diff received independent §29 acceptance. C1 acceptance
+is confined to the consumer-free boundary. Before the combined gate merges, extend
+parameter scanning to all MPC.Application types and to constructors (except only
+the bound observation's own private constructor), and verify actual owned access.
+Owner: Mehmet İlkay Kınacı; trigger: combined-gate PR before merge.
 
 ## Verification and trace
 
@@ -89,5 +96,8 @@ Current source pins:
 - InventoryEvidence.cs: 27897C8DD22F417D3D7A0DD25A4669C2437AA02CDE6D0454A0DFC121753ECD45
 - StepParameterParser.cs unchanged: 69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97
 No parsing branch, reason code/severity, schema/unit revision or SI constant changed.
-Diff --check PASS. Exact-head Windows full CI: pending.
-Reviewed: pending diff at bbb2c809. Closing: none; Senior K1/K2 acceptance pending.
+Diff --check PASS. Exact-head Windows CI #274 and merge/main CI #275 passed (2048/2048, Worker 5/5,
+0 warnings/errors). Reviewed: 7dcbfb96dfb407482bd0b47440f563db5af8db43 (Senior §29).
+Closing: b6a80ef5719a670bc501fa0ad7736d83badd330b. Branch at delivery:
+fix/M2-header-unit-evidence-ownership. Date: 2026-11-23 Europe/Istanbul.
+Authoritative delivery and remaining follow-ups: [PR #127](https://github.com/dengwensha/MPC-Platform/pull/127).
