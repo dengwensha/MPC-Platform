@@ -1,0 +1,360 @@
+{
+  "Date": "2026-11-23",
+  "Platform": "Linux .NET 8",
+  "SDK": "8.0.422",
+  "BaselineCommit": "67ce97ec29e3be11bf50018d9f6e643d3b8e89bc",
+  "MeasuredCodeCommit": "cc6dc5ed346f1139a25c20f434dc19c99fd81c6a",
+  "BuildCommand": "/tmp/mpc-dotnet/dotnet build src/MPC.Application/MPC.Application.csproj -c Release --no-restore -m:1 -p:BuildInParallel=false",
+  "RestoreCommand": "/tmp/mpc-dotnet/dotnet restore src/MPC.Application/MPC.Application.csproj -m:1 --disable-parallel --source /tmp/mpc-feed -p:NuGetAudit=false",
+  "ProfilerBuild": "/tmp/mpc-dotnet/dotnet build /tmp/e1-harness/Profile.csproj -c Release --no-restore -m:1",
+  "RunTemplate": "dotnet Profile.dll <baseline-or-current-Application-bin-directory> <private-input-directory> <output-directory>",
+  "CurrentRuns": 2,
+  "BaselineRuns": 1,
+  "FreshReaderAndValidatorPerObservation": true,
+  "PrivateCapturedBytesPerFile": true,
+  "All31InputHashesUnchanged": true,
+  "RealInputCount": 15,
+  "GoldenInputCount": 5,
+  "SyntheticInputCount": 11,
+  "CurrentObservationCount": 124,
+  "CurrentPairCount": 62,
+  "RepeatedFullResultEquality": "31/31; includes result status, every public inventory/record field, raw statements, and diagnostics/messages in the in-memory JSON hash",
+  "RealAndGoldenBaselineUnchanged": "20/20 full result equality",
+  "SourceFileByteSha256": {
+    "src/MPC.Connectors.Step/Readers/StepDataEntityReader.cs": "245F24E8A7A3086EFF7DBA197C2E241F961733ED256A1ECD28642D685580D337",
+    "src/MPC.Connectors.Step/Validation/StepDataInventoryValidator.cs": "9F27402C328BB754246D514B2E3D7372BE09CBE53415624702B8F40113CA1F3D"
+  },
+  "SourceNormalizedSha256": {
+    "src/MPC.Connectors.Step/Readers/StepDataEntityReader.cs": "547008BCB29C5F7AB60262B4EC09341675AA1E5B9997935D772F466C20BAD537",
+    "src/MPC.Connectors.Step/Validation/StepDataInventoryValidator.cs": "FB5869D3EB0FE8B5507F4041A221CBC2DB88FE16917C5BC7DA7472B6771B7301"
+  },
+  "ProfileSourceSha256": "72A281C7FC4340021DEE7BFE55E01B8C5422FB7DD4C9A71E74D474719BDF7B85",
+  "AssemblyHashesRecordedInEveryRow": true,
+  "UnavailableControl": "C06 FormatException has Available=false, no status/count/diagnostic success invented",
+  "Limitations": [
+    "Linux .NET 8 exact measured code commit, not a claim of Windows real-corpus parity",
+    "Final documentation-only descendant has identical measured producer sources, not necessarily identical assembly bytes",
+    "Raw real CAD and full geometry-bearing output are not included",
+    "Hash equality does not prove geometry, support scope or calculation eligibility",
+    "Missing-file Read has a file-specific validation contract; ReadCaptured parity only applies to existing same captured bytes",
+    "Reader fragment support is not full Part 21 envelope validation"
+  ],
+  "LocalTests": {
+    "Application": "430/430",
+    "Core": "1366/1366",
+    "FocusedBeforeFix": "19 failed, 1 passed (20 cases)",
+    "FocusedAfterFix": "20/20; final E1 matrix 30/30"
+  },
+  "Rows": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 9167,
+      "CurrentEntityCount": 9167,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 879,
+      "CurrentEntityCount": 879,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 5519,
+      "CurrentEntityCount": 5519,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 935,
+      "CurrentEntityCount": 935,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 935,
+      "CurrentEntityCount": 935,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 2122,
+      "CurrentEntityCount": 2122,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 26124,
+      "CurrentEntityCount": 26124,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 37844,
+      "CurrentEntityCount": 37844,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C01-CommentData.step",
+      "InputSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": false,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": 2,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C010-BOM.step",
+      "InputSha256": "F3EF8C59E016AC94F05DA35E1D8DC9E11356E021135AA47F5B2C23B4B4D80FCE",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": 1,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C02-QuotedData.step",
+      "InputSha256": "51FD9B5E4723A1C05B5CE6B4F2233B2C007EE77BE20F3D762F19A1663A6A56BF",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": false,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": 1,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C03-MultipleData.step",
+      "InputSha256": "8709D46369971B52D5DF746ED7A10139B9298E232490FCEE711E5EC8FD3A4581",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": false,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": null,
+      "CurrentStatus": "Failed",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C04-ParameterizedData.step",
+      "InputSha256": "038051C0D55ACAEB311F1DA40DAD059A465CB705ED8CA5491E0F86AAFD46266C",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": false,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": null,
+      "CurrentStatus": "Failed",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C05-MissingEndsec.step",
+      "InputSha256": "41C2D1B963948197B297FE5F5AC7433496E64D2819890B1A312AD192CEA21BD1",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": null,
+      "CurrentEntityCount": null,
+      "CurrentStatus": "Failed",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C06-ReservedType.step",
+      "InputSha256": "9D47601D8A57A0344CE0333AA52FC8CE1A83B0532C571B680742AEB1D7193BE8",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": null,
+      "CurrentEntityCount": null,
+      "CurrentStatus": null,
+      "CurrentFailureType": "System.FormatException"
+    },
+    {
+      "InputName": "C07-BOM.step",
+      "InputSha256": "C136EA0A257EBBEA78DFFBF69B6CE2C6600543C13F8C952719AF243CAD8A701C",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": 1,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C08-BOM.step",
+      "InputSha256": "09543E735AC35BB8677486D593EBF377EFB40B7418F26A9101728212060333DD",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": 1,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C09-BOM.step",
+      "InputSha256": "C3009496163FF6B00798A0E31E45CE00EC3F7417A7E39D4D4A0DF006CDCB9DAF",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": 1,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "C11-InvalidUtf8.step",
+      "InputSha256": "03AF579597DEC02C42EC7074385FAC0273458E676C449786E5F18774759DE3AF",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 1,
+      "CurrentEntityCount": 1,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 40333,
+      "CurrentEntityCount": 40333,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 41350,
+      "CurrentEntityCount": 41350,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 58568,
+      "CurrentEntityCount": 58568,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 82444,
+      "CurrentEntityCount": 82444,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 329,
+      "CurrentEntityCount": 329,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 649,
+      "CurrentEntityCount": 649,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 135828,
+      "CurrentEntityCount": 135828,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "T001_PRISM.step",
+      "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 187,
+      "CurrentEntityCount": 187,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "T002_SPHERE.step",
+      "InputSha256": "AB1155D291C0C0284B76F80077471C44DB33DD3A593034DD036041A0525C0193",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 75,
+      "CurrentEntityCount": 75,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "T003_CYLINDER.step",
+      "InputSha256": "A78EBDD2613C4E9D7897B0FAA60061D0B8212BC685CE4480D9963C267E3D4E65",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 125,
+      "CurrentEntityCount": 125,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "T101_BASIC_POCKET.step",
+      "InputSha256": "F1A8A662CCC67DE88A5EF9BAE4A01B5B15FFB5D9CCB6A3E4DE1CC677A6E42049",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 329,
+      "CurrentEntityCount": 329,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    },
+    {
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "InputSha256": "B54769A3969B6FFD9EF582F1C0791C682561300CF79C15F4883095CD2A065CD4",
+      "FourCurrentObservationsEqual": true,
+      "BaselineVsCurrentFullResultEqual": true,
+      "BaselineEntityCount": 755,
+      "CurrentEntityCount": 755,
+      "CurrentStatus": "Succeeded",
+      "CurrentFailureType": null
+    }
+  ]
+}
