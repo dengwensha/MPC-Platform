@@ -1,0 +1,19 @@
+{
+  "MeasuredSourceCommit": "7c8f9952fe85a12b7249c5cf62df6f78bdebb87c",
+  "SourceHashes": {
+    "src/MPC.Application/Inventory/HeaderUnitObservation.cs": "8F6FA88AA2C0DC135A226125638343A77565CB502BC642BEADDBFEF92F07E034",
+    "src/MPC.Application/Inventory/InventoryEvidence.cs": "0DD4C78C461BE5ABBBC3A7740848262FD1AB21591690AD725476F7F3F24EFAB2",
+    "src/MPC.Connectors.Step/Parsing/StepParameterParser.cs": "69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97"
+  },
+  "Sdk": "8.0.422",
+  "OS": "Linux",
+  "BuildCommand": "dotnet build src/MPC.Application/MPC.Application.csproj -c Release -m:1 -p:BuildInParallel=false --nologo",
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "MeasuredUtc": "2026-11-23T12:33:32.622923+00:00",
+  "Permission": "Owner confirmed local MPC development/test use and product/hash/technical reporting on 2026-11-23; no raw CAD redistribution inferred",
+  "UniqueArchiveHashes": 1,
+  "UploadedArchives": 4,
+  "UniqueStepFiles": 1,
+  "B2Observed": false
+}

@@ -73,3 +73,15 @@ Risk triggers: trust/fail-closed YES (producer parsing/cause attribution and sou
 pin); wire NO; shared enum values NO; IPC NO; persistence NO; UI NO. Independent
 final-diff review required; original #125 acceptance does not cover this change.
 Reviewed/Closing: pending final-diff review and delivery. No product consumer.
+
+## Festo unchanged-input comparison, 2026-11-23
+
+One unique unchanged Festo STEP (four byte-identical ZIP uploads) was profiled
+on both #125 source 7c8f995 and this producer source fc6b9a7. The full HeaderUnits
+observations match: UnsupportedImplementationLevel and UnsupportedSchemaForm;
+one 3D context with supported millimetre/radian and no context reasons. B2 not
+observed. See [profile and permission](M2-Festo-Header-Unit-Profile.md);
+F01-Hardened.json records this producer Application assembly SHA256 separately.
+This is not a refresh of the historical 14-file profiles. No policy widening,
+source modification or new eligibility decision. Festo is now supplied; exact
+final-head CI and independent B1/B3 review remain required before merge.
