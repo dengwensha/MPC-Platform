@@ -1,0 +1,85 @@
+{
+  "InputName": "CORE STEEL.STEP",
+  "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+  "InputUnchanged": true,
+  "CapturedSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+  "OwnerSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+  "ApplicationAssemblySha256": "3AA5E052F7F23EC3BCAAE5766A8B8FAC995D0B141CF607B3EB39B798219A1898",
+  "ObservationAvailable": true,
+  "FailureType": null,
+  "ReadStatus": "Succeeded",
+  "InventoryDecisionStatus": "InventoryClear",
+  "RetainedEntityCount": 82444,
+  "InventorySha256": "4FD28C2652AE45BA74EE354A8E8E6D564932D19416D5CF6A16B3DEA6C11B7884",
+  "InventoryDiagnosticCount": 0,
+  "InventoryDiagnosticsSha256": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+  "HeaderUnits": {
+    "Schema": "AUTOMOTIVE_DESIGN",
+    "ImplementationLevel": "1",
+    "HeaderReasons": [],
+    "Contexts": [
+      {
+        "SourceId": "#27652",
+        "Units": [
+          {
+            "SourceId": "#10051",
+            "Dimension": "Length",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1000
+            }
+          },
+          {
+            "SourceId": "#23367",
+            "Dimension": "Angle",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1
+            }
+          },
+          {
+            "SourceId": "#60772",
+            "Dimension": "Other",
+            "Code": "OtherDimension",
+            "Scale": null
+          }
+        ],
+        "Reasons": []
+      },
+      {
+        "SourceId": "#67736",
+        "Units": [
+          {
+            "SourceId": "#36956",
+            "Dimension": "Length",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1000
+            }
+          },
+          {
+            "SourceId": "#5363",
+            "Dimension": "Angle",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1
+            }
+          },
+          {
+            "SourceId": "#42771",
+            "Dimension": "Other",
+            "Code": "OtherDimension",
+            "Scale": null
+          }
+        ],
+        "Reasons": []
+      }
+    ],
+    "ContextSetReasons": []
+  },
+  "Envelope": null
+}

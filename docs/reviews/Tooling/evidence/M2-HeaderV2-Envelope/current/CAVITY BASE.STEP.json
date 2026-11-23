@@ -1,0 +1,93 @@
+{
+  "InputName": "CAVITY BASE.STEP",
+  "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+  "InputUnchanged": true,
+  "CapturedSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+  "OwnerSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+  "ApplicationAssemblySha256": "63FD4E0077A5297A8947487031559BB1C780E960131114D1399436F47B76B89E",
+  "ObservationAvailable": true,
+  "FailureType": null,
+  "ReadStatus": "Succeeded",
+  "InventoryDecisionStatus": "InventoryClear",
+  "RetainedEntityCount": 40333,
+  "InventorySha256": "563C9D184175CE032FB68D484DC843A188352BFA55F7764620F3F961AA34072A",
+  "InventoryDiagnosticCount": 0,
+  "InventoryDiagnosticsSha256": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+  "HeaderUnits": {
+    "Schema": "AUTOMOTIVE_DESIGN",
+    "ImplementationLevel": "1",
+    "RawSchema": "\u0027AUTOMOTIVE_DESIGN\u0027",
+    "RawImplementationLevel": "\u00271\u0027",
+    "RecognizedSchema": "AUTOMOTIVE_DESIGN",
+    "SchemaOid": [],
+    "HeaderReasons": [],
+    "Contexts": [
+      {
+        "SourceId": "#21853",
+        "Units": [
+          {
+            "SourceId": "#37941",
+            "Dimension": "Length",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1000
+            }
+          },
+          {
+            "SourceId": "#27939",
+            "Dimension": "Angle",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1
+            }
+          },
+          {
+            "SourceId": "#34082",
+            "Dimension": "Other",
+            "Code": "OtherDimension",
+            "Scale": null
+          }
+        ],
+        "Reasons": []
+      },
+      {
+        "SourceId": "#38199",
+        "Units": [
+          {
+            "SourceId": "#29002",
+            "Dimension": "Length",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1000
+            }
+          },
+          {
+            "SourceId": "#16933",
+            "Dimension": "Angle",
+            "Code": "SupportedUnit",
+            "Scale": {
+              "Numerator": 1,
+              "Denominator": 1
+            }
+          },
+          {
+            "SourceId": "#37985",
+            "Dimension": "Other",
+            "Code": "OtherDimension",
+            "Scale": null
+          }
+        ],
+        "Reasons": []
+      }
+    ],
+    "ContextSetReasons": []
+  },
+  "Envelope": {
+    "PolicyRevision": 1,
+    "DataSectionCount": 1,
+    "Reasons": []
+  }
+}

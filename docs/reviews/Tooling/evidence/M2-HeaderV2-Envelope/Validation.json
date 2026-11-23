@@ -1,0 +1,184 @@
+{
+  "Date": "2026-11-23 Europe/Istanbul",
+  "BaselineCommit": "2a9385161dbb2a6a20f7d435e425bf102106353a",
+  "MeasuredImplementationCommit": "3e80536939f81dc1a353e07d2060085e8bfbf002",
+  "MeasuredCodeWasCommitted": true,
+  "SDK": "8.0.422",
+  "Platform": "Linux .NET 8 x64",
+  "BuildCommand": "dotnet build src/MPC.Application/MPC.Application.csproj -c Release --no-restore -m:1 -p:BuildInParallel=false",
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "SourceHashes": {
+    "src/MPC.Application/Inventory/HeaderUnitObservation.cs": "D062130ED86A69D3B0C26F3246CFF6EC3B4F72B891C9D4235F9FBD41C7041633",
+    "src/MPC.Application/Inventory/InventoryEvidence.cs": "55BE11A404CD66999F5F1B882EE7FECD67DC4365D241F12498904A055E9932D6",
+    "src/MPC.Application/Inventory/EnvelopeObservation.cs": "1CAD8B6B3C980D63B89612B21B445DBFEEFB113256F11A9D358F5DF78A35E4D6",
+    "src/MPC.Connectors.Step/Parsing/StepParameterParser.cs": "69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97",
+    "src/MPC.Connectors.Step/Readers/StepDataEntityReader.cs": "22A2E16F54C6D418B288D169C185D0102632BD598237D2A993907E9D230BCC45",
+    "src/MPC.Connectors.Step/Validation/StepDataInventoryValidator.cs": "FB5869D3EB0FE8B5507F4041A221CBC2DB88FE16917C5BC7DA7472B6771B7301"
+  },
+  "ProfilerSha256": "DADA2C6FB78C755F098E4DD7444423E9592F7769DC628A1F1AD35333E8C3F04E",
+  "BaselineApplicationAssemblySha256": "3AA5E052F7F23EC3BCAAE5766A8B8FAC995D0B141CF607B3EB39B798219A1898",
+  "CurrentApplicationAssemblySha256": "63FD4E0077A5297A8947487031559BB1C780E960131114D1399436F47B76B89E",
+  "PreFixFocusedFailed": 5,
+  "PreFixFocusedPassed": 1,
+  "LocalApplicationTestsPassed": 400,
+  "IndependentRealFiles": false,
+  "Inputs": "3 references + 11 workshop versions (two correlated families) + one unique Festo download",
+  "UniqueProfileFiles": 15,
+  "EnvelopeClear": 15,
+  "HeaderWithoutReasons": 14,
+  "Comparisons": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [
+        "UnsupportedImplementationLevel",
+        "UnsupportedSchemaForm"
+      ],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [],
+      "HeaderReasonsAfter": [],
+      "EnvelopeReasons": []
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "InventoryAndDiagnosticsIdentical": true,
+      "ContextUnitsIdentical": true,
+      "HeaderReasonsBefore": [
+        "UnsupportedSchema"
+      ],
+      "HeaderReasonsAfter": [
+        "UnsupportedSchema"
+      ],
+      "EnvelopeReasons": []
+    }
+  ],
+  "E1Control": {
+    "InputSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+    "ExpectedActualDataEntityCount": 2,
+    "LegacyRetainedCountBefore": 1,
+    "LegacyRetainedCountAfter": 1,
+    "InventoryDecisionStatus": "InventoryClear",
+    "CurrentEnvelopeReasons": [],
+    "Disposition": "PRE-EXISTING LIMITATION; not a PASS/acceptance case. Must align inventory extraction with structural DATA before combined gate or first consumer. No evaluator/combined decision exists in this slice."
+  },
+  "Scope": "Header/envelope observations only. No geometry/evaluation acceptance; no raw supplier/workshop payload or full inventory JSON published."
+}

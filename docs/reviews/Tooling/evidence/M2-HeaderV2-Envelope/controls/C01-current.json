@@ -1,0 +1,34 @@
+{
+  "InputName": "C01-CommentData.step",
+  "InputSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+  "InputUnchanged": true,
+  "CapturedSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+  "OwnerSha256": "CCB8999CF84B37171D3DBD09746449BF49CF9499ACA9F90DE3B0A1B118D1C924",
+  "ApplicationAssemblySha256": "63FD4E0077A5297A8947487031559BB1C780E960131114D1399436F47B76B89E",
+  "ObservationAvailable": true,
+  "FailureType": null,
+  "ReadStatus": "Succeeded",
+  "InventoryDecisionStatus": "InventoryClear",
+  "RetainedEntityCount": 1,
+  "InventorySha256": "AAA0F266614853A7FBE22FDE9C1089C81FDA7229ECDEF61D09DE0B660B8411B1",
+  "InventoryDiagnosticCount": 0,
+  "InventoryDiagnosticsSha256": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+  "HeaderUnits": {
+    "Schema": "AUTOMOTIVE_DESIGN",
+    "ImplementationLevel": "1",
+    "RawSchema": "\u0027AUTOMOTIVE_DESIGN\u0027",
+    "RawImplementationLevel": "\u00271\u0027",
+    "RecognizedSchema": "AUTOMOTIVE_DESIGN",
+    "SchemaOid": [],
+    "HeaderReasons": [],
+    "Contexts": [],
+    "ContextSetReasons": [
+      "NoGeometricContext"
+    ]
+  },
+  "Envelope": {
+    "PolicyRevision": 1,
+    "DataSectionCount": 1,
+    "Reasons": []
+  }
+}
