@@ -1,0 +1,132 @@
+{
+  "SchemaRevision": 1,
+  "Label": "current",
+  "InputName": "RU-QuarterCone.step",
+  "InputSha256": "810B4EB3147C663837EEEB5135B3360F0AA9F6CF9DA6EE2F04058B3315509086",
+  "InputBytes": 4120,
+  "Unit": "IsolatedProductionTargetDataFromPreparedInventory",
+  "StageAvailable": true,
+  "SetupFailure": null,
+  "Framework": ".NET 8.0.34",
+  "OS": "Microsoft Windows 10.0.20348",
+  "Architecture": "X64",
+  "ApplicationAssemblySha256": "D0B008B35A22CBD615B68E1880923B37AE04BE18FC82A62F5276C6137FE266D0",
+  "ReaderAssemblySha256": "A70002C4724C82652CCC11DE30A8E91944A526392FF875AE9F53C555343CE428",
+  "ApplicationInformationalVersion": "1.0.0\u002Bf678d9a6a945f9ab52eb6baf503ba5d048b577b1",
+  "Measurements": [
+    {
+      "Kind": "ProcessFirstInvocation",
+      "ElapsedMilliseconds": 59.4523,
+      "AllocatedBytes": 1735264,
+      "HeapBeforeBytes": 383376,
+      "LiveHeapAfterCallBytes": 2124448,
+      "RetainedHeapAfterForcedGcBytes": 782328,
+      "RetainedHeapDeltaBytes": 398952,
+      "WorkingSetBeforeBytes": 31526912,
+      "WorkingSetAfterBytes": 34865152,
+      "LifetimePeakBeforeBytes": 31526912,
+      "LifetimePeakAfterCallBytes": 34865152,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "Kind": "WarmAfterExplicitGC",
+      "ElapsedMilliseconds": 3.852,
+      "AllocatedBytes": 577280,
+      "HeapBeforeBytes": 1019232,
+      "LiveHeapAfterCallBytes": 1600800,
+      "RetainedHeapAfterForcedGcBytes": 1004336,
+      "RetainedHeapDeltaBytes": -14896,
+      "WorkingSetBeforeBytes": 36499456,
+      "WorkingSetAfterBytes": 36929536,
+      "LifetimePeakBeforeBytes": 37527552,
+      "LifetimePeakAfterCallBytes": 37527552,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "Kind": "WarmAfterExplicitGC",
+      "ElapsedMilliseconds": 3.8951,
+      "AllocatedBytes": 577280,
+      "HeapBeforeBytes": 1019232,
+      "LiveHeapAfterCallBytes": 1600800,
+      "RetainedHeapAfterForcedGcBytes": 1004336,
+      "RetainedHeapDeltaBytes": -14896,
+      "WorkingSetBeforeBytes": 36499456,
+      "WorkingSetAfterBytes": 36929536,
+      "LifetimePeakBeforeBytes": 37527552,
+      "LifetimePeakAfterCallBytes": 37527552,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "Kind": "WarmAfterExplicitGC",
+      "ElapsedMilliseconds": 3.8767,
+      "AllocatedBytes": 577280,
+      "HeapBeforeBytes": 1019352,
+      "LiveHeapAfterCallBytes": 1600920,
+      "RetainedHeapAfterForcedGcBytes": 1004456,
+      "RetainedHeapDeltaBytes": -14896,
+      "WorkingSetBeforeBytes": 36507648,
+      "WorkingSetAfterBytes": 36937728,
+      "LifetimePeakBeforeBytes": 37527552,
+      "LifetimePeakAfterCallBytes": 37527552,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    }
+  ],
+  "SemanticSummary": {
+    "Common": null,
+    "TargetData": {
+      "RootId": "#1000",
+      "RepresentationId": "#1001",
+      "MainRepresentationId": "#1001",
+      "ContextId": "#1002",
+      "RecordCount": 106,
+      "Binding": "Blocked",
+      "Compatibility": "Observed",
+      "GuardCalled": true,
+      "Reasons": [
+        {
+          "Layer": "Binding",
+          "Code": "DependencyUnavailable",
+          "SourceId": "#1009",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 1,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#1009",
+          "Component": "PRODUCT",
+          "Indices": [
+            3,
+            0
+          ],
+          "RelatedIds": [
+            "#1011"
+          ],
+          "Occurrence": 0,
+          "OriginalMessage": null,
+          "CauseType": null
+        }
+      ]
+    },
+    "TargetStatus": null,
+    "Authority": "Neutral target data only; no bound authority issued"
+  },
+  "SummarySha256": "4BE4FD620329F165E6924A2AA7B4626B6C4B35AC93DF5D9AF99FE655012ED98F",
+  "ReleasedObjects": 6,
+  "AllReleasedObjectsCollected": true,
+  "WarmupCount": 2,
+  "NoIndependentPrecheckOrJsonInsideTimedRegion": true,
+  "Note": "First production invocation after assembly/delegate binding and input preflight; NOT cold OS cache or process startup. Explicit full GC before calls; no forced GC inside timing. Peak/working set include process setup, prepared inventory (target-only), warmups and preceding probes; peak is not attributable incremental stage memory. Retained heap is after forced GC with result kept alive, before summary projection."
+}

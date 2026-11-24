@@ -1,0 +1,810 @@
+{
+  "SchemaRevision": 1,
+  "Label": "baseline",
+  "InputName": "5831 CAU-1_4.stp",
+  "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+  "InputBytes": 88220,
+  "Unit": "ProductionCaptureFromFile",
+  "StageAvailable": true,
+  "SetupFailure": null,
+  "Framework": ".NET 8.0.28",
+  "OS": "Debian GNU/Linux 13 (trixie)",
+  "Architecture": "X64",
+  "ApplicationAssemblySha256": "6B45E15D0B2B1628CD8B731BC0E0F63878806742E637BF816E257874E272ED66",
+  "ReaderAssemblySha256": "9DF316E81EF6A0143D8A14F6C4B7D7169634269B13DD33FA0FAFC156E5F763E0",
+  "ApplicationInformationalVersion": "1.0.0\u002B927bed567cbb223350be37ad88bc0c728a3c4bff",
+  "Measurements": [
+    {
+      "Kind": "ProcessFirstInvocation",
+      "ElapsedMilliseconds": 261.0448,
+      "AllocatedBytes": 25680552,
+      "HeapBeforeBytes": 122776,
+      "LiveHeapAfterCallBytes": 7155360,
+      "RetainedHeapAfterForcedGcBytes": 1510360,
+      "RetainedHeapDeltaBytes": 1387584,
+      "WorkingSetBeforeBytes": 34045952,
+      "WorkingSetAfterBytes": 60903424,
+      "LifetimePeakBeforeBytes": 34045952,
+      "LifetimePeakAfterCallBytes": 60903424,
+      "Gen0Collections": 4,
+      "Gen1Collections": 1,
+      "Gen2Collections": 0
+    },
+    {
+      "Kind": "WarmAfterExplicitGC",
+      "ElapsedMilliseconds": 138.1792,
+      "AllocatedBytes": 24349224,
+      "HeapBeforeBytes": 1044416,
+      "LiveHeapAfterCallBytes": 12261640,
+      "RetainedHeapAfterForcedGcBytes": 1800832,
+      "RetainedHeapDeltaBytes": 756416,
+      "WorkingSetBeforeBytes": 66445312,
+      "WorkingSetAfterBytes": 70066176,
+      "LifetimePeakBeforeBytes": 73633792,
+      "LifetimePeakAfterCallBytes": 73633792,
+      "Gen0Collections": 3,
+      "Gen1Collections": 1,
+      "Gen2Collections": 0
+    },
+    {
+      "Kind": "WarmAfterExplicitGC",
+      "ElapsedMilliseconds": 111.0885,
+      "AllocatedBytes": 24349224,
+      "HeapBeforeBytes": 1044416,
+      "LiveHeapAfterCallBytes": 12261640,
+      "RetainedHeapAfterForcedGcBytes": 1800832,
+      "RetainedHeapDeltaBytes": 756416,
+      "WorkingSetBeforeBytes": 67354624,
+      "WorkingSetAfterBytes": 71036928,
+      "LifetimePeakBeforeBytes": 73633792,
+      "LifetimePeakAfterCallBytes": 73633792,
+      "Gen0Collections": 3,
+      "Gen1Collections": 1,
+      "Gen2Collections": 0
+    },
+    {
+      "Kind": "WarmAfterExplicitGC",
+      "ElapsedMilliseconds": 80.3949,
+      "AllocatedBytes": 24349224,
+      "HeapBeforeBytes": 1044536,
+      "LiveHeapAfterCallBytes": 12261712,
+      "RetainedHeapAfterForcedGcBytes": 1800952,
+      "RetainedHeapDeltaBytes": 756416,
+      "WorkingSetBeforeBytes": 68333568,
+      "WorkingSetAfterBytes": 74031104,
+      "LifetimePeakBeforeBytes": 73633792,
+      "LifetimePeakAfterCallBytes": 74031104,
+      "Gen0Collections": 3,
+      "Gen1Collections": 1,
+      "Gen2Collections": 0
+    }
+  ],
+  "SemanticSummary": {
+    "Common": {
+      "ObservationAvailable": true,
+      "DocumentSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "ReadStatus": "Succeeded",
+      "HasInventory": true,
+      "RecordCount": 2122,
+      "FailureStage": null,
+      "FailureType": null,
+      "Diagnostics": []
+    },
+    "TargetData": {
+      "RootId": "#1214",
+      "RepresentationId": "#19",
+      "MainRepresentationId": "#1216",
+      "ContextId": "#2117",
+      "RecordCount": 2122,
+      "Binding": "Blocked",
+      "Compatibility": "Blocked",
+      "GuardCalled": true,
+      "Reasons": [
+        {
+          "Layer": "Binding",
+          "Code": "ProductBindingInvalid",
+          "SourceId": "#2122",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [
+            "#14"
+          ],
+          "Occurrence": 26,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Binding",
+          "Code": "ProductBindingInvalid",
+          "SourceId": "#2122",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [
+            "#15"
+          ],
+          "Occurrence": 27,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Compatibility",
+          "Code": "CurrentImportIncompatible",
+          "SourceId": "#1214",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 25,
+          "OriginalMessage": "STEP unit/context precheck: UnreviewedIncomingPath; root #1214; source #2122,#14.",
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1220",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 28,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1221",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 29,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1224",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 30,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1225",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 31,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1227",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 32,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1228",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 33,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1231",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 34,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1232",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 35,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1366",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 36,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1367",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 37,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1368",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 38,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1369",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 39,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1374",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 40,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1375",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 41,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1376",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 42,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1377",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 43,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1380",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 44,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1381",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 45,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1382",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 46,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1383",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 47,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1388",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 48,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1389",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 49,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1390",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 50,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1391",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 51,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1722",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 52,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1725",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 53,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1748",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 54,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1751",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 55,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1772",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 56,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1773",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 57,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1796",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 58,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Ownership",
+          "Code": "UnownedGeometry",
+          "SourceId": "#1797",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 59,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#508",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#213"
+          ],
+          "Occurrence": 17,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#509",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#214"
+          ],
+          "Occurrence": 18,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#512",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#215"
+          ],
+          "Occurrence": 19,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#513",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#216"
+          ],
+          "Occurrence": 20,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#515",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#217"
+          ],
+          "Occurrence": 21,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#516",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#218"
+          ],
+          "Occurrence": 22,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#519",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#219"
+          ],
+          "Occurrence": 23,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "ReferenceRoleMismatch",
+          "SourceId": "#520",
+          "Component": "EDGE_CURVE",
+          "Indices": [
+            3
+          ],
+          "RelatedIds": [
+            "#220"
+          ],
+          "Occurrence": 24,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#10",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 0,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#11",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 1,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#12",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 2,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#13",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 3,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#14",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 4,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#15",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 5,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#16",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 6,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#17",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 7,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnclassifiedSignature",
+          "SourceId": "#2128",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 8,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#213",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 9,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#214",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 10,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#215",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 11,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#216",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 12,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#217",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 13,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#218",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 14,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#219",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 15,
+          "OriginalMessage": null,
+          "CauseType": null
+        },
+        {
+          "Layer": "Records",
+          "Code": "UnsupportedScope",
+          "SourceId": "#220",
+          "Component": "",
+          "Indices": [],
+          "RelatedIds": [],
+          "Occurrence": 16,
+          "OriginalMessage": null,
+          "CauseType": null
+        }
+      ]
+    },
+    "TargetStatus": "Blocked",
+    "Authority": "Real owned capture; target gate sampled AFTER timing if present"
+  },
+  "SummarySha256": "AE39D17C877272BFA0E9757ABC049F3D6ADEDD80C2F2349AE2AD6DFDD05C9F8A",
+  "ReleasedObjects": 6,
+  "AllReleasedObjectsCollected": true,
+  "WarmupCount": 2,
+  "NoIndependentPrecheckOrJsonInsideTimedRegion": true,
+  "Note": "First production invocation after assembly/delegate binding and input preflight; NOT cold OS cache or process startup. Explicit full GC before calls; no forced GC inside timing. Peak/working set include process setup, prepared inventory (target-only), warmups and preceding probes; peak is not attributable incremental stage memory. Retained heap is after forced GC with result kept alive, before summary projection."
+}

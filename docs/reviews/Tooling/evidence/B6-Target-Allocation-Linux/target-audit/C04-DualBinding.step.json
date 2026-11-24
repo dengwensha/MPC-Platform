@@ -1,0 +1,82 @@
+{
+  "InputName": "C04-DualBinding.step",
+  "InputSha256": "3E556DDC2B3CE3CCB10CE82A362072F0F41DC159C31F4022C934DE9A3503F515",
+  "CapturedSha256": "3E556DDC2B3CE3CCB10CE82A362072F0F41DC159C31F4022C934DE9A3503F515",
+  "InputUnchanged": true,
+  "IndependentCapturedSha256": "3E556DDC2B3CE3CCB10CE82A362072F0F41DC159C31F4022C934DE9A3503F515",
+  "ApplicationAssemblySha256": "599879FDB9CA813D6C2A451785F040B8A70A78C2D37F2D169F79C7F3E66A100F",
+  "ReaderAssemblySha256": "025BFC3BA76E97AAC9A71B6851650FFAD2E7885108553D131062BF581AA99072",
+  "ManifestRevision": 1,
+  "BindingRevision": 1,
+  "CompatibilityRevision": 1,
+  "RootId": "#63",
+  "RepresentationId": "#47",
+  "MainRepresentationId": "#990001",
+  "ContextId": "#61",
+  "RecordCount": 190,
+  "GuardCalled": true,
+  "Binding": "Blocked",
+  "Compatibility": "Blocked",
+  "TargetStatus": "Blocked",
+  "Reasons": [
+    {
+      "Layer": "Binding",
+      "Code": "ProductBindingInvalid",
+      "Severity": "Error",
+      "SourceId": "#47",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [
+        "#27",
+        "#990003"
+      ],
+      "Occurrence": 1,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Binding",
+      "Code": "RootBindingInvalid",
+      "Severity": "Error",
+      "SourceId": "#47",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [
+        "#27"
+      ],
+      "Occurrence": 2,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Compatibility",
+      "Code": "CurrentImportIncompatible",
+      "Severity": "Error",
+      "SourceId": "#63",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": "STEP unit/context precheck: AmbiguousProductBinding; root #63; source #47,#990001.",
+      "CauseType": null
+    },
+    {
+      "Layer": "Target",
+      "Code": "DependencyUnavailable",
+      "Severity": "Error",
+      "SourceId": "",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    }
+  ],
+  "IndependentPrecheck": "Rejected",
+  "IndependentPrecheckReason": "STEP unit/context precheck: AmbiguousProductBinding; root #63; source #47,#990001.",
+  "PhysicalOccurrenceProofIssued": false,
+  "AngleAbsenceProofIssued": false,
+  "GeometryValidityProofIssued": false,
+  "ReadyIssued": false
+}
