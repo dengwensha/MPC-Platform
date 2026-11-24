@@ -87,6 +87,21 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "M2 target controls failed." }
           python tools/ci/M2TargetProbe/compare_target.py $targetControls (Join-Path $root "evidence/m2-scope-controls.json") (Join-Path $root "evidence/m2-target-control-comparison.json") --count 13
           if ($LASTEXITCODE -ne 0) { throw "M2 target control comparison failed." }
+      - name: Checkout pre-target capture baseline for B6
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 264b16e548d77fcf1d2365670b7f97803fa3450c
+          path: .b6-baseline
+          persist-credentials: false
+      - name: B6 isolated production capture cost (public Windows subset)
+        run: |
+          dotnet build .b6-baseline/src/MPC.Application/MPC.Application.csproj -c Release --warnaserror -m:1
+          if ($LASTEXITCODE -ne 0) { throw "B6 baseline build failed." }
+          dotnet build tools/ci/B6CaptureProbe/B6CaptureProbe.csproj -c Release --warnaserror -m:1
+          if ($LASTEXITCODE -ne 0) { throw "B6 benchmark build failed." }
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          python tools/ci/B6CaptureProbe/run_b6.py --dotnet dotnet --probe tools/ci/B6CaptureProbe/bin/Release/net8.0/B6CaptureProbe.dll --baseline .b6-baseline/src/MPC.Application/bin/Release/net8.0 --current src/MPC.Application/bin/Release/net8.0 --inputs (Join-Path $root "ru-public-inputs") --output (Join-Path $root "evidence/B6-public-Windows") --trials 2
+          if ($LASTEXITCODE -ne 0) { throw "B6 identity/semantics/lifecycle measurement failed." }
       - name: Targeted rational curve GREEN
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests
