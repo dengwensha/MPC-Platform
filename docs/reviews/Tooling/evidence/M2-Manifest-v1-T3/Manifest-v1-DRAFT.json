@@ -1,0 +1,3172 @@
+{
+  "schema_revision": 1,
+  "manifest_revision": "1-DRAFT",
+  "status": "PROPOSED_NOT_RATIFIED",
+  "default_role": "Unclassified",
+  "unknown_blocks": true,
+  "same_capture_proof": false,
+  "evaluator_coverage": false,
+  "production_target_issuer": false,
+  "inherited_RU_rules": "docs/reviews/Tooling/RU-Import-Context-Rules-v1-Proposal.md + Senior sections 35/36; import code remains unchanged",
+  "T2": "One simple nontransforming bridge; both unique 3D contexts mm+radian; no transforms/assembly; direct+bridge dual SDR rejects",
+  "rules": [
+    {
+      "signature": "ADVANCED_BREP_SHAPE_REPRESENTATION:3",
+      "role": "ShapeRepresentation",
+      "components": {
+        "ADVANCED_BREP_SHAPE_REPRESENTATION": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "items",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "context_of_items",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "ADVANCED_FACE:4",
+      "role": "GeometryDependency",
+      "components": {
+        "ADVANCED_FACE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "bounds",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "face_geometry",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "same_sense",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "APPLICATION_CONTEXT:1",
+      "role": "ProductMetadata",
+      "components": {
+        "APPLICATION_CONTEXT": {
+          "fields": [
+            {
+              "name": "application",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "APPLICATION_PROTOCOL_DEFINITION:4",
+      "role": "ProductMetadata",
+      "components": {
+        "APPLICATION_PROTOCOL_DEFINITION": {
+          "fields": [
+            {
+              "name": "status",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "schema_name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "year",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "application_context",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "APPROVAL:2",
+      "role": "Unclassified",
+      "components": {
+        "APPROVAL": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "APPROVAL_DATE_TIME:2",
+      "role": "Unclassified",
+      "components": {
+        "APPROVAL_DATE_TIME": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "APPROVAL_PERSON_ORGANIZATION:3",
+      "role": "Unclassified",
+      "components": {
+        "APPROVAL_PERSON_ORGANIZATION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "APPROVAL_ROLE:1",
+      "role": "Unclassified",
+      "components": {
+        "APPROVAL_ROLE": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "APPROVAL_STATUS:1",
+      "role": "Unclassified",
+      "components": {
+        "APPROVAL_STATUS": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "AXIS2_PLACEMENT_3D:4",
+      "role": "GeometryDependency",
+      "components": {
+        "AXIS2_PLACEMENT_3D": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "location",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "axis",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "ref_direction",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "BOUNDED_CURVE:0|B_SPLINE_CURVE:5|B_SPLINE_CURVE_WITH_KNOTS:3|CURVE:0|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_CURVE:1|REPRESENTATION_ITEM:1",
+      "role": "GeometryDependency",
+      "components": {
+        "BOUNDED_CURVE": {
+          "fields": []
+        },
+        "B_SPLINE_CURVE": {
+          "fields": [
+            {
+              "name": "degree",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "control_points_list",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "curve_form",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "closed_curve",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "self_intersect",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        },
+        "B_SPLINE_CURVE_WITH_KNOTS": {
+          "fields": [
+            {
+              "name": "knot_multiplicities",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "knots",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "knot_spec",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        },
+        "CURVE": {
+          "fields": []
+        },
+        "GEOMETRIC_REPRESENTATION_ITEM": {
+          "fields": []
+        },
+        "RATIONAL_B_SPLINE_CURVE": {
+          "fields": [
+            {
+              "name": "weights_data",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "REPRESENTATION_ITEM": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "BOUNDED_SURFACE:0|B_SPLINE_SURFACE:7|B_SPLINE_SURFACE_WITH_KNOTS:5|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_SURFACE:1|REPRESENTATION_ITEM:1|SURFACE:0",
+      "role": "GeometryDependency",
+      "components": {
+        "BOUNDED_SURFACE": {
+          "fields": []
+        },
+        "B_SPLINE_SURFACE": {
+          "fields": [
+            {
+              "name": "u_degree",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "v_degree",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "control_points_list",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "{\"aggregate\": [\"\\\"ref\\\"\"]}"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "surface_form",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "u_closed",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "v_closed",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "self_intersect",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        },
+        "B_SPLINE_SURFACE_WITH_KNOTS": {
+          "fields": [
+            {
+              "name": "u_multiplicities",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "v_multiplicities",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "u_knots",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "v_knots",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "knot_spec",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        },
+        "GEOMETRIC_REPRESENTATION_ITEM": {
+          "fields": []
+        },
+        "RATIONAL_B_SPLINE_SURFACE": {
+          "fields": [
+            {
+              "name": "weights_data",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "{\"aggregate\": [\"\\\"numeric\\\"\"]}"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "REPRESENTATION_ITEM": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        },
+        "SURFACE": {
+          "fields": []
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "B_SPLINE_CURVE_WITH_KNOTS:9",
+      "role": "GeometryDependency",
+      "components": {
+        "B_SPLINE_CURVE_WITH_KNOTS": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "degree",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "control_points_list",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "curve_form",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "closed_curve",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "self_intersect",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "knot_multiplicities",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "knots",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "knot_spec",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "B_SPLINE_SURFACE_WITH_KNOTS:13",
+      "role": "GeometryDependency",
+      "components": {
+        "B_SPLINE_SURFACE_WITH_KNOTS": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "u_degree",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "v_degree",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "control_points_list",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "{\"aggregate\": [\"\\\"ref\\\"\"]}"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "surface_form",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "u_closed",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "v_closed",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "self_intersect",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "u_multiplicities",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "v_multiplicities",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "u_knots",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "v_knots",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "knot_spec",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CALENDAR_DATE:3",
+      "role": "Unclassified",
+      "components": {
+        "CALENDAR_DATE": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CARTESIAN_POINT:2",
+      "role": "GeometryDependency",
+      "components": {
+        "CARTESIAN_POINT": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "coordinates",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CC_DESIGN_APPROVAL:2",
+      "role": "Unclassified",
+      "components": {
+        "CC_DESIGN_APPROVAL": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CC_DESIGN_DATE_AND_TIME_ASSIGNMENT:3",
+      "role": "Unclassified",
+      "components": {
+        "CC_DESIGN_DATE_AND_TIME_ASSIGNMENT": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CC_DESIGN_PERSON_AND_ORGANIZATION_ASSIGNMENT:3",
+      "role": "Unclassified",
+      "components": {
+        "CC_DESIGN_PERSON_AND_ORGANIZATION_ASSIGNMENT": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CC_DESIGN_SECURITY_CLASSIFICATION:2",
+      "role": "Unclassified",
+      "components": {
+        "CC_DESIGN_SECURITY_CLASSIFICATION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CIRCLE:3",
+      "role": "GeometryDependency",
+      "components": {
+        "CIRCLE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "position",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "radius",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CLOSED_SHELL:2",
+      "role": "GeometryDependency",
+      "components": {
+        "CLOSED_SHELL": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "cfs_faces",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "COLOUR_RGB:4",
+      "role": "Presentation",
+      "components": {
+        "COLOUR_RGB": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "red",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "green",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "blue",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CONICAL_SURFACE:4",
+      "role": "GeometryDependency",
+      "components": {
+        "CONICAL_SURFACE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "position",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "radius",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "semi_angle",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": [
+        {
+          "component": "CONICAL_SURFACE",
+          "index": 3,
+          "unit": "plane_angle"
+        }
+      ]
+    },
+    {
+      "signature": "CONTEXT_DEPENDENT_SHAPE_REPRESENTATION:2",
+      "role": "UnsupportedPath",
+      "components": {
+        "CONTEXT_DEPENDENT_SHAPE_REPRESENTATION": {
+          "fields": [
+            {
+              "name": "representation_relation",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "represented_product_relation",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "COORDINATED_UNIVERSAL_TIME_OFFSET:3",
+      "role": "Unclassified",
+      "components": {
+        "COORDINATED_UNIVERSAL_TIME_OFFSET": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "CYLINDRICAL_SURFACE:3",
+      "role": "GeometryDependency",
+      "components": {
+        "CYLINDRICAL_SURFACE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "position",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "radius",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "DATE_AND_TIME:2",
+      "role": "Unclassified",
+      "components": {
+        "DATE_AND_TIME": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "DATE_TIME_ROLE:1",
+      "role": "Unclassified",
+      "components": {
+        "DATE_TIME_ROLE": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "DESIGN_CONTEXT:3",
+      "role": "Unclassified",
+      "components": {
+        "DESIGN_CONTEXT": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "DIRECTION:2",
+      "role": "GeometryDependency",
+      "components": {
+        "DIRECTION": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "direction_ratios",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"numeric\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "EDGE_CURVE:5",
+      "role": "GeometryDependency",
+      "components": {
+        "EDGE_CURVE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "edge_start",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "edge_end",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "edge_geometry",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "same_sense",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "EDGE_LOOP:2",
+      "role": "GeometryDependency",
+      "components": {
+        "EDGE_LOOP": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "edge_list",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "ELLIPSE:4",
+      "role": "UnsupportedGeometry",
+      "components": {
+        "ELLIPSE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "position",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "semi_axis_1",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "semi_axis_2",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "FACE_BOUND:3",
+      "role": "GeometryDependency",
+      "components": {
+        "FACE_BOUND": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "bound",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "orientation",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "FACE_OUTER_BOUND:3",
+      "role": "GeometryDependency",
+      "components": {
+        "FACE_OUTER_BOUND": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "bound",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "orientation",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "FILL_AREA_STYLE:2",
+      "role": "Presentation",
+      "components": {
+        "FILL_AREA_STYLE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "fill_styles",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "FILL_AREA_STYLE_COLOUR:2",
+      "role": "Presentation",
+      "components": {
+        "FILL_AREA_STYLE_COLOUR": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "fill_colour",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2",
+      "role": "Context",
+      "components": {
+        "GEOMETRIC_REPRESENTATION_CONTEXT": {
+          "fields": [
+            {
+              "name": "coordinate_space_dimension",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        },
+        "GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT": {
+          "fields": [
+            {
+              "name": "uncertainty",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "GLOBAL_UNIT_ASSIGNED_CONTEXT": {
+          "fields": [
+            {
+              "name": "units",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "REPRESENTATION_CONTEXT": {
+          "fields": [
+            {
+              "name": "context_identifier",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "context_type",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2",
+      "role": "Context",
+      "components": {
+        "GEOMETRIC_REPRESENTATION_CONTEXT": {
+          "fields": [
+            {
+              "name": "coordinate_space_dimension",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        },
+        "GLOBAL_UNIT_ASSIGNED_CONTEXT": {
+          "fields": [
+            {
+              "name": "units",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "REPRESENTATION_CONTEXT": {
+          "fields": [
+            {
+              "name": "context_identifier",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "context_type",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "ITEM_DEFINED_TRANSFORMATION:4",
+      "role": "UnsupportedPath",
+      "components": {
+        "ITEM_DEFINED_TRANSFORMATION": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "transform_item_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "transform_item_2",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "LENGTH_UNIT:0|NAMED_UNIT:1|SI_UNIT:2",
+      "role": "UnitMetadata",
+      "components": {
+        "LENGTH_UNIT": {
+          "fields": []
+        },
+        "NAMED_UNIT": {
+          "fields": [
+            {
+              "name": "dimensions",
+              "shapes": [
+                "omitted"
+              ]
+            }
+          ]
+        },
+        "SI_UNIT": {
+          "fields": [
+            {
+              "name": "prefix",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "name",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "LINE:3",
+      "role": "GeometryDependency",
+      "components": {
+        "LINE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "pnt",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "dir",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "LOCAL_TIME:4",
+      "role": "Unclassified",
+      "components": {
+        "LOCAL_TIME": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_3",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "MANIFOLD_SOLID_BREP:2",
+      "role": "TargetRoot",
+      "components": {
+        "MANIFOLD_SOLID_BREP": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "outer",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "MECHANICAL_CONTEXT:3",
+      "role": "Unclassified",
+      "components": {
+        "MECHANICAL_CONTEXT": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION:3",
+      "role": "Presentation",
+      "components": {
+        "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "items",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "context_of_items",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "NAMED_UNIT:1|PLANE_ANGLE_UNIT:0|SI_UNIT:2",
+      "role": "UnitMetadata",
+      "components": {
+        "NAMED_UNIT": {
+          "fields": [
+            {
+              "name": "dimensions",
+              "shapes": [
+                "omitted"
+              ]
+            }
+          ]
+        },
+        "PLANE_ANGLE_UNIT": {
+          "fields": []
+        },
+        "SI_UNIT": {
+          "fields": [
+            {
+              "name": "prefix",
+              "shapes": [
+                "null"
+              ]
+            },
+            {
+              "name": "name",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "NAMED_UNIT:1|SI_UNIT:2|SOLID_ANGLE_UNIT:0",
+      "role": "UnitMetadata",
+      "components": {
+        "NAMED_UNIT": {
+          "fields": [
+            {
+              "name": "dimensions",
+              "shapes": [
+                "omitted"
+              ]
+            }
+          ]
+        },
+        "SI_UNIT": {
+          "fields": [
+            {
+              "name": "prefix",
+              "shapes": [
+                "null"
+              ]
+            },
+            {
+              "name": "name",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        },
+        "SOLID_ANGLE_UNIT": {
+          "fields": []
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "NEXT_ASSEMBLY_USAGE_OCCURRENCE:6",
+      "role": "UnsupportedPath",
+      "components": {
+        "NEXT_ASSEMBLY_USAGE_OCCURRENCE": {
+          "fields": [
+            {
+              "name": "id",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "relating_product_definition",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "related_product_definition",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "reference_designator",
+              "shapes": [
+                "null"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "ORGANIZATION:3",
+      "role": "Unclassified",
+      "components": {
+        "ORGANIZATION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "ORIENTED_EDGE:5",
+      "role": "GeometryDependency",
+      "components": {
+        "ORIENTED_EDGE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "edge_start",
+              "shapes": [
+                "omitted"
+              ]
+            },
+            {
+              "name": "edge_end",
+              "shapes": [
+                "omitted"
+              ]
+            },
+            {
+              "name": "edge_element",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "orientation",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PERSON:6",
+      "role": "Unclassified",
+      "components": {
+        "PERSON": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_3",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"string\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "UNREVIEWED_4",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"string\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "UNREVIEWED_5",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"string\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PERSON_AND_ORGANIZATION:2",
+      "role": "Unclassified",
+      "components": {
+        "PERSON_AND_ORGANIZATION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PERSON_AND_ORGANIZATION_ROLE:1",
+      "role": "Unclassified",
+      "components": {
+        "PERSON_AND_ORGANIZATION_ROLE": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PLANE:2",
+      "role": "GeometryDependency",
+      "components": {
+        "PLANE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "position",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRESENTATION_LAYER_ASSIGNMENT:3",
+      "role": "Presentation",
+      "components": {
+        "PRESENTATION_LAYER_ASSIGNMENT": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "assigned_items",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRESENTATION_STYLE_ASSIGNMENT:1",
+      "role": "Presentation",
+      "components": {
+        "PRESENTATION_STYLE_ASSIGNMENT": {
+          "fields": [
+            {
+              "name": "styles",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT:4",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT": {
+          "fields": [
+            {
+              "name": "id",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "frame_of_reference",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_CATEGORY:2",
+      "role": "Unclassified",
+      "components": {
+        "PRODUCT_CATEGORY": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_CONTEXT:3",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT_CONTEXT": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "frame_of_reference",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "discipline_type",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION:4",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT_DEFINITION": {
+          "fields": [
+            {
+              "name": "id",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string",
+                "null"
+              ]
+            },
+            {
+              "name": "formation",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "frame_of_reference",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_CONTEXT:3",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT_DEFINITION_CONTEXT": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "frame_of_reference",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "life_cycle_stage",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_FORMATION:3",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT_DEFINITION_FORMATION": {
+          "fields": [
+            {
+              "name": "id",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string",
+                "null"
+              ]
+            },
+            {
+              "name": "of_product",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE:4",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE": {
+          "fields": [
+            {
+              "name": "id",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string",
+                "null"
+              ]
+            },
+            {
+              "name": "of_product",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "make_or_buy",
+              "shapes": [
+                "enum"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_SHAPE:3",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT_DEFINITION_SHAPE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string",
+                "null"
+              ]
+            },
+            {
+              "name": "definition",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_RELATED_PRODUCT_CATEGORY:3",
+      "role": "ProductMetadata",
+      "components": {
+        "PRODUCT_RELATED_PRODUCT_CATEGORY": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "products",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PROPERTY_DEFINITION:3",
+      "role": "Unclassified",
+      "components": {
+        "PROPERTY_DEFINITION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "PROPERTY_DEFINITION_REPRESENTATION:2",
+      "role": "Unclassified",
+      "components": {
+        "PROPERTY_DEFINITION_REPRESENTATION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "REPRESENTATION:3",
+      "role": "Unclassified",
+      "components": {
+        "REPRESENTATION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "REPRESENTATION_RELATIONSHIP:4|REPRESENTATION_RELATIONSHIP_WITH_TRANSFORMATION:1|SHAPE_REPRESENTATION_RELATIONSHIP:0",
+      "role": "UnsupportedPath",
+      "components": {
+        "REPRESENTATION_RELATIONSHIP": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "rep_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "rep_2",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        },
+        "REPRESENTATION_RELATIONSHIP_WITH_TRANSFORMATION": {
+          "fields": [
+            {
+              "name": "transformation_operator",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        },
+        "SHAPE_REPRESENTATION_RELATIONSHIP": {
+          "fields": []
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SECURITY_CLASSIFICATION:3",
+      "role": "Unclassified",
+      "components": {
+        "SECURITY_CLASSIFICATION": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_2",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SECURITY_CLASSIFICATION_LEVEL:1",
+      "role": "Unclassified",
+      "components": {
+        "SECURITY_CLASSIFICATION_LEVEL": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SHAPE_DEFINITION_REPRESENTATION:2",
+      "role": "ShapeBinding",
+      "components": {
+        "SHAPE_DEFINITION_REPRESENTATION": {
+          "fields": [
+            {
+              "name": "definition",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "used_representation",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SHAPE_REPRESENTATION:3",
+      "role": "ShapeRepresentation",
+      "components": {
+        "SHAPE_REPRESENTATION": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "items",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "context_of_items",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SHAPE_REPRESENTATION_RELATIONSHIP:4",
+      "role": "NontransformingBridge",
+      "components": {
+        "SHAPE_REPRESENTATION_RELATIONSHIP": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string",
+                "null"
+              ]
+            },
+            {
+              "name": "rep_1",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "rep_2",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SPHERICAL_SURFACE:3",
+      "role": "GeometryDependency",
+      "components": {
+        "SPHERICAL_SURFACE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "position",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "radius",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "STYLED_ITEM:3",
+      "role": "Presentation",
+      "components": {
+        "STYLED_ITEM": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "styles",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "item",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SURFACE_SIDE_STYLE:2",
+      "role": "Presentation",
+      "components": {
+        "SURFACE_SIDE_STYLE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "styles",
+              "shapes": [
+                {
+                  "aggregate": [
+                    "\"ref\""
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SURFACE_STYLE_FILL_AREA:1",
+      "role": "Presentation",
+      "components": {
+        "SURFACE_STYLE_FILL_AREA": {
+          "fields": [
+            {
+              "name": "fill_area",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "SURFACE_STYLE_USAGE:2",
+      "role": "Presentation",
+      "components": {
+        "SURFACE_STYLE_USAGE": {
+          "fields": [
+            {
+              "name": "side",
+              "shapes": [
+                "enum"
+              ]
+            },
+            {
+              "name": "style",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "TOROIDAL_SURFACE:4",
+      "role": "GeometryDependency",
+      "components": {
+        "TOROIDAL_SURFACE": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "position",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "major_radius",
+              "shapes": [
+                "numeric"
+              ]
+            },
+            {
+              "name": "minor_radius",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "UNCERTAINTY_MEASURE_WITH_UNIT:4",
+      "role": "UnitMetadata",
+      "components": {
+        "UNCERTAINTY_MEASURE_WITH_UNIT": {
+          "fields": [
+            {
+              "name": "value_component",
+              "shapes": [
+                {
+                  "typed": "LENGTH_MEASURE",
+                  "items": [
+                    "numeric"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "unit_component",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "description",
+              "shapes": [
+                "string"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "VALUE_REPRESENTATION_ITEM:2",
+      "role": "Unclassified",
+      "components": {
+        "VALUE_REPRESENTATION_ITEM": {
+          "fields": [
+            {
+              "name": "UNREVIEWED_0",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "UNREVIEWED_1",
+              "shapes": [
+                {
+                  "typed": "COUNT_MEASURE",
+                  "items": [
+                    "numeric"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "VECTOR:3",
+      "role": "GeometryDependency",
+      "components": {
+        "VECTOR": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "orientation",
+              "shapes": [
+                "ref"
+              ]
+            },
+            {
+              "name": "magnitude",
+              "shapes": [
+                "numeric"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    },
+    {
+      "signature": "VERTEX_POINT:2",
+      "role": "GeometryDependency",
+      "components": {
+        "VERTEX_POINT": {
+          "fields": [
+            {
+              "name": "name",
+              "shapes": [
+                "string"
+              ]
+            },
+            {
+              "name": "vertex_geometry",
+              "shapes": [
+                "ref"
+              ]
+            }
+          ]
+        }
+      },
+      "review_status": "PROPOSED_NOT_RATIFIED",
+      "angle_fields": []
+    }
+  ],
+  "geometry_reference_fields": {
+    "MANIFOLD_SOLID_BREP": {
+      "outer": [
+        "CLOSED_SHELL"
+      ]
+    },
+    "CLOSED_SHELL": {
+      "cfs_faces": [
+        "ADVANCED_FACE"
+      ]
+    },
+    "ADVANCED_FACE": {
+      "bounds": [
+        "FACE_OUTER_BOUND",
+        "FACE_BOUND"
+      ],
+      "face_geometry": [
+        "PLANE",
+        "CYLINDRICAL_SURFACE",
+        "SPHERICAL_SURFACE",
+        "CONICAL_SURFACE",
+        "TOROIDAL_SURFACE",
+        "B_SPLINE_SURFACE_WITH_KNOTS",
+        "B_SPLINE_SURFACE"
+      ]
+    },
+    "FACE_OUTER_BOUND": {
+      "bound": [
+        "EDGE_LOOP"
+      ]
+    },
+    "FACE_BOUND": {
+      "bound": [
+        "EDGE_LOOP"
+      ]
+    },
+    "EDGE_LOOP": {
+      "edge_list": [
+        "ORIENTED_EDGE"
+      ]
+    },
+    "ORIENTED_EDGE": {
+      "edge_element": [
+        "EDGE_CURVE"
+      ]
+    },
+    "EDGE_CURVE": {
+      "edge_start": [
+        "VERTEX_POINT"
+      ],
+      "edge_end": [
+        "VERTEX_POINT"
+      ],
+      "edge_geometry": [
+        "LINE",
+        "CIRCLE",
+        "ELLIPSE",
+        "B_SPLINE_CURVE_WITH_KNOTS",
+        "B_SPLINE_CURVE"
+      ]
+    },
+    "VERTEX_POINT": {
+      "vertex_geometry": [
+        "CARTESIAN_POINT"
+      ]
+    },
+    "AXIS2_PLACEMENT_3D": {
+      "location": [
+        "CARTESIAN_POINT"
+      ],
+      "axis": [
+        "DIRECTION"
+      ],
+      "ref_direction": [
+        "DIRECTION"
+      ]
+    },
+    "VECTOR": {
+      "orientation": [
+        "DIRECTION"
+      ]
+    },
+    "LINE": {
+      "pnt": [
+        "CARTESIAN_POINT"
+      ],
+      "dir": [
+        "VECTOR"
+      ]
+    },
+    "CIRCLE": {
+      "position": [
+        "AXIS2_PLACEMENT_3D"
+      ]
+    },
+    "PLANE": {
+      "position": [
+        "AXIS2_PLACEMENT_3D"
+      ]
+    },
+    "CYLINDRICAL_SURFACE": {
+      "position": [
+        "AXIS2_PLACEMENT_3D"
+      ]
+    },
+    "CONICAL_SURFACE": {
+      "position": [
+        "AXIS2_PLACEMENT_3D"
+      ]
+    },
+    "SPHERICAL_SURFACE": {
+      "position": [
+        "AXIS2_PLACEMENT_3D"
+      ]
+    },
+    "TOROIDAL_SURFACE": {
+      "position": [
+        "AXIS2_PLACEMENT_3D"
+      ]
+    },
+    "B_SPLINE_CURVE_WITH_KNOTS": {
+      "control_points_list": [
+        "CARTESIAN_POINT"
+      ]
+    },
+    "B_SPLINE_CURVE": {
+      "control_points_list": [
+        "CARTESIAN_POINT"
+      ]
+    },
+    "B_SPLINE_SURFACE_WITH_KNOTS": {
+      "control_points_list": [
+        "CARTESIAN_POINT"
+      ]
+    },
+    "B_SPLINE_SURFACE": {
+      "control_points_list": [
+        "CARTESIAN_POINT"
+      ]
+    }
+  }
+}
