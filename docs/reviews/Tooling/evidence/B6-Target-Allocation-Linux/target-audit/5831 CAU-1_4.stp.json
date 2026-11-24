@@ -1,0 +1,797 @@
+{
+  "InputName": "5831 CAU-1_4.stp",
+  "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+  "CapturedSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+  "InputUnchanged": true,
+  "IndependentCapturedSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+  "ApplicationAssemblySha256": "599879FDB9CA813D6C2A451785F040B8A70A78C2D37F2D169F79C7F3E66A100F",
+  "ReaderAssemblySha256": "025BFC3BA76E97AAC9A71B6851650FFAD2E7885108553D131062BF581AA99072",
+  "ManifestRevision": 1,
+  "BindingRevision": 1,
+  "CompatibilityRevision": 1,
+  "RootId": "#1214",
+  "RepresentationId": "#19",
+  "MainRepresentationId": "#1216",
+  "ContextId": "#2117",
+  "RecordCount": 2122,
+  "GuardCalled": true,
+  "Binding": "Blocked",
+  "Compatibility": "Blocked",
+  "TargetStatus": "Blocked",
+  "Reasons": [
+    {
+      "Layer": "Binding",
+      "Code": "ProductBindingInvalid",
+      "Severity": "Error",
+      "SourceId": "#2122",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [
+        "#14"
+      ],
+      "Occurrence": 26,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Binding",
+      "Code": "ProductBindingInvalid",
+      "Severity": "Error",
+      "SourceId": "#2122",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [
+        "#15"
+      ],
+      "Occurrence": 27,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Compatibility",
+      "Code": "CurrentImportIncompatible",
+      "Severity": "Error",
+      "SourceId": "#1214",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 25,
+      "OriginalMessage": "STEP unit/context precheck: UnreviewedIncomingPath; root #1214; source #2122,#14.",
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1220",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 28,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1221",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 29,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1224",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 30,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1225",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 31,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1227",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 32,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1228",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 33,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1231",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 34,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1232",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 35,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1366",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 36,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1367",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 37,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1368",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 38,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1369",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 39,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1374",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 40,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1375",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 41,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1376",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 42,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1377",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 43,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1380",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 44,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1381",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 45,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1382",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 46,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1383",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 47,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1388",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 48,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1389",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 49,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1390",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 50,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1391",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 51,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1722",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 52,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1725",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 53,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1748",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 54,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1751",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 55,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1772",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 56,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1773",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 57,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1796",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 58,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#1797",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 59,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#508",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#213"
+      ],
+      "Occurrence": 17,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#509",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#214"
+      ],
+      "Occurrence": 18,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#512",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#215"
+      ],
+      "Occurrence": 19,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#513",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#216"
+      ],
+      "Occurrence": 20,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#515",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#217"
+      ],
+      "Occurrence": 21,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#516",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#218"
+      ],
+      "Occurrence": 22,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#519",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#219"
+      ],
+      "Occurrence": 23,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#520",
+      "Component": "EDGE_CURVE",
+      "Indices": [
+        3
+      ],
+      "RelatedIds": [
+        "#220"
+      ],
+      "Occurrence": 24,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#10",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#11",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 1,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#12",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 2,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#13",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 3,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#14",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 4,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#15",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 5,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#16",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 6,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#17",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 7,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#2128",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 8,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#213",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 9,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#214",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 10,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#215",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 11,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#216",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 12,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#217",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 13,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#218",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 14,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#219",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 15,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#220",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 16,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Target",
+      "Code": "DependencyUnavailable",
+      "Severity": "Error",
+      "SourceId": "",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    }
+  ],
+  "IndependentPrecheck": "Rejected",
+  "IndependentPrecheckReason": "STEP unit/context precheck: UnreviewedIncomingPath; root #1214; source #2122,#14.",
+  "PhysicalOccurrenceProofIssued": false,
+  "AngleAbsenceProofIssued": false,
+  "GeometryValidityProofIssued": false,
+  "ReadyIssued": false
+}

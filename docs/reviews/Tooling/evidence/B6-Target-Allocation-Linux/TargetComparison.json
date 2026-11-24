@@ -1,0 +1,279 @@
+{
+  "Count": 33,
+  "ExcludedProvenanceFields": [
+    "ApplicationAssemblySha256",
+    "ReaderAssemblySha256"
+  ],
+  "AllProjectedFieldsExactlyEqual": true,
+  "CauseTextBoundary": "Existing audit excludes inner cause text; no new omission introduced",
+  "BeforeApplicationAssemblySha256": "A8E809A20247405F23EED0522CADA326591CC51FBC03570D6E0380F3AE994B6E",
+  "AfterApplicationAssemblySha256": "599879FDB9CA813D6C2A451785F040B8A70A78C2D37F2D169F79C7F3E66A100F",
+  "BeforeReaderAssemblySha256": "6F3D8155D4AE988E86A5F53A17C6DDC33DA21B50BD90C8B09CA1D9BB5689A323",
+  "AfterReaderAssemblySha256": "025BFC3BA76E97AAC9A71B6851650FFAD2E7885108553D131062BF581AA99072",
+  "Rows": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "RecordCount": 9167,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "D1BDBF471C38CD6A4062594C3BAF5722ABB2FACA6E4E79DDE70F692837E4FE31"
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "RecordCount": 879,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "A6FF4B054C89333DD6BF1FAE50AC1C29A5D72C0E1FFF08B1EBE9A91C15550082"
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "RecordCount": 5519,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "D4EB8A947CBD6863A73E9FA4EA7D242248248682A9CF5E95440AB8FE2068A382"
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "RecordCount": 935,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "9EA7C4BFFF060021A2C209113AF039827A856C6D04795469A8420244B066391D"
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "RecordCount": 935,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "85870419E16962351AA2A06C7B4539C844C6D0E15A9A88781B2F7CB780EFF0F6"
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "RecordCount": 2122,
+      "Status": "Blocked",
+      "ReasonCount": 61,
+      "EqualSemanticProjectionSha256": "229A7AE68A13DB23A660ED3911000C33B01C0B2F7CF6F911C651A948A10A3980"
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "RecordCount": 26124,
+      "Status": "Blocked",
+      "ReasonCount": 5,
+      "EqualSemanticProjectionSha256": "2ECCF578C41803C4CC8E17B3138AB798AA6094088553491DB0C234AF1120EB18"
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "RecordCount": 37844,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "13A2BB878FB45AC9F173119603D558E09300D4CB9B6E2A94C57C933E232C3E42"
+    },
+    {
+      "InputName": "C01-Styled.step",
+      "InputSha256": "2285E9AE19C3D8D32CB5267A10F3293C6774142CDEAF17ED4CB71B6AAD805A6C",
+      "RecordCount": 187,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "FF45149683D3946B617383EC6A7144BD84BFF2D01C7D3F10935E9D3606342596"
+    },
+    {
+      "InputName": "C02-SecondGeometry.step",
+      "InputSha256": "710DC92F64261DCFDC91B8064CA6B7D17A20DE774CC0412943A8895AB2440F04",
+      "RecordCount": 188,
+      "Status": "Blocked",
+      "ReasonCount": 6,
+      "EqualSemanticProjectionSha256": "53D2A0BC0A4FBF4A1AFEC5933AD045DADD4C3100DDBA6456A908EC3618A48035"
+    },
+    {
+      "InputName": "C03-Bridge.step",
+      "InputSha256": "954CA92699C54EBFB14BB739194FA67FA74179CDFAD3EBD2C05C6BF7E17A81DB",
+      "RecordCount": 189,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "F6DA7141BABC0E61E374AC8C358CA3AA347817A0A7EABFEEAF191244D60EA3E0"
+    },
+    {
+      "InputName": "C04-DualBinding.step",
+      "InputSha256": "3E556DDC2B3CE3CCB10CE82A362072F0F41DC159C31F4022C934DE9A3503F515",
+      "RecordCount": 190,
+      "Status": "Blocked",
+      "ReasonCount": 4,
+      "EqualSemanticProjectionSha256": "18BEECCC2F81969BD82324E2B4DDF6D1D9B84F179882CCCA58CEF65928ADE6FA"
+    },
+    {
+      "InputName": "C05-BridgeDifferentUnits.step",
+      "InputSha256": "A1D7374A98C0FDFF5405745772A8233C8FA0B5CA91877958DF0B66173B1A3A1F",
+      "RecordCount": 189,
+      "Status": "Blocked",
+      "ReasonCount": 3,
+      "EqualSemanticProjectionSha256": "EB72CE4948162BA1DE84C9C4B5F69CC96B413813CB141A8E2545597C339C9AE2"
+    },
+    {
+      "InputName": "C06-UnreferencedPoint.step",
+      "InputSha256": "864464EC24ED67CAAEF575AC04650EE08B28641BDBE3FAB52E4539635B099915",
+      "RecordCount": 188,
+      "Status": "Blocked",
+      "ReasonCount": 1,
+      "EqualSemanticProjectionSha256": "00E4EB22E374ACA0C32FBAC6523D54FA10A1DFD019EEB8AAACED5834AD52B56E"
+    },
+    {
+      "InputName": "C07-Unknown.step",
+      "InputSha256": "FDBE289F9D8EC84050F2C11D99275D5547E2F3F86E95F1A819FFC9CC7ED52A9B",
+      "RecordCount": 188,
+      "Status": "Blocked",
+      "ReasonCount": 1,
+      "EqualSemanticProjectionSha256": "35FABA461C6D8DE75C4097E48948B93BE76733578A027C1BDE4F0D90781A5DBE"
+    },
+    {
+      "InputName": "C08-ComplexVoid.step",
+      "InputSha256": "196601F181CEE9D9CD7DBCF2E327FD892BAC688E11BAA6891047400A89154976",
+      "RecordCount": 188,
+      "Status": "Blocked",
+      "ReasonCount": 2,
+      "EqualSemanticProjectionSha256": "ED3C653D1AA2EDBA6BCFDE75518C9C17948A9745EA39785A029D7D3BC5BD4210"
+    },
+    {
+      "InputName": "C09-SurfaceBody.step",
+      "InputSha256": "971BE71D3506C22BD9CCAD38727C943BD55E11BA44E19F7B9DB52D4476B96A8B",
+      "RecordCount": 188,
+      "Status": "Blocked",
+      "ReasonCount": 2,
+      "EqualSemanticProjectionSha256": "2E52D3EFF05BDEEFF1EF9925269041D32FBCE39D4D8DA6A6522E11B45CE34CF6"
+    },
+    {
+      "InputName": "C10-TwoMappedItems.step",
+      "InputSha256": "A7A82D11A0F3C6CDA8E1A87332E5CFCE9071F27ADACE3374CC29C09750B541CE",
+      "RecordCount": 192,
+      "Status": "Blocked",
+      "ReasonCount": 13,
+      "EqualSemanticProjectionSha256": "8CFB10F36548F5F1A567B33E13436D61F5629480CBABAA17BB7E46297CE38092"
+    },
+    {
+      "InputName": "C11-ConeRadian.step",
+      "InputSha256": "56A5E3EE6C44C83026708346467B284E20B7BB553C1AF28152524381014E95A2",
+      "RecordCount": 106,
+      "Status": "Blocked",
+      "ReasonCount": 3,
+      "EqualSemanticProjectionSha256": "BF9BECE7474259ECADD31929D566819FB952D144F3C20B592AE7C6463C068187"
+    },
+    {
+      "InputName": "C12-ConeDegree.step",
+      "InputSha256": "C9FBEE3451EC48028CFFC00CE38275F11BB9D9D4661F1DAD6CC18AF1595EFDCB",
+      "RecordCount": 108,
+      "Status": "Blocked",
+      "ReasonCount": 10,
+      "EqualSemanticProjectionSha256": "3B53DA804DDA6B3E8849D9D59E574A09B633B6E4CC3BD6A1AE444EFEAEC63BF2"
+    },
+    {
+      "InputName": "C13-ConeTypedProduct.step",
+      "InputSha256": "2B3A028A4C966EE89E535723B21D060A02DC397425D461993B767CA736997E47",
+      "RecordCount": 107,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "3A29BB20E14FB20C68AE56ABCD5F43D884E11B502EA1FE5DF6CD807EE0DF1938"
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "RecordCount": 40333,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "15D05309B9D5D2EAFA06C9191616F285704CB99EECE6710EAD79EC66D53AB7CC"
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "RecordCount": 41350,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "A5F13B4EBF4D56F065D7C662488EA1235A28D093D757709F50CE8C3114D0BEB2"
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "RecordCount": 58568,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "05DB5DC1BD7D05040BEB90EE7C245B6C6C3B3661496BFCDB5DAAA58B66DE786C"
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "RecordCount": 82444,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "8E056E5021B9C72C365CDD1DD444374EA66E39BEB5845FB22997A4FE06833006"
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "RecordCount": 329,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "440D2A2B28DE50B8423E362C5D9BE314CAD326B1737FF5ADEE04887BBBF3C0D6"
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "RecordCount": 649,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "03F4D2761CFA3883021E752BE7A3E242C3D8246824C9CC7DC33BCC56880D9255"
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "RecordCount": 135828,
+      "Status": "Blocked",
+      "ReasonCount": 187,
+      "EqualSemanticProjectionSha256": "FF267EBC89B42F1F0E8D7ECBBAF9FA0A8BE73FABB8EF5848372CCF93F908D04B"
+    },
+    {
+      "InputName": "T001_PRISM.step",
+      "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "RecordCount": 187,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "2BC8D4EE7434F0D2DF44838F78FCC0AAA6D19F90DE63FB9C0E04CD7F02733114"
+    },
+    {
+      "InputName": "T002_SPHERE.step",
+      "InputSha256": "AB1155D291C0C0284B76F80077471C44DB33DD3A593034DD036041A0525C0193",
+      "RecordCount": 75,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "C3DC1881E6DB554EF2C9DE6693FAAC6E6EBEC2A5143DC909DDCAC91A267CE022"
+    },
+    {
+      "InputName": "T003_CYLINDER.step",
+      "InputSha256": "A78EBDD2613C4E9D7897B0FAA60061D0B8212BC685CE4480D9963C267E3D4E65",
+      "RecordCount": 125,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "B9D3B143D1C163F413C936EE6FC5BBDA53F7818FFC5B1C58EB656AE7C660679D"
+    },
+    {
+      "InputName": "T101_BASIC_POCKET.step",
+      "InputSha256": "F1A8A662CCC67DE88A5EF9BAE4A01B5B15FFB5D9CCB6A3E4DE1CC677A6E42049",
+      "RecordCount": 329,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "FEB3AC204FC13E1933476EECBB89A67ED4E1CFC38EA3D52095D2EE03AB9E931E"
+    },
+    {
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "InputSha256": "B54769A3969B6FFD9EF582F1C0791C682561300CF79C15F4883095CD2A065CD4",
+      "RecordCount": 755,
+      "Status": "TargetBoundOnly",
+      "ReasonCount": 0,
+      "EqualSemanticProjectionSha256": "CCBD9D914E10E7F22B99F7C280CFE2E714F077E01ACEC9E2DE0E50BFA77C527B"
+    }
+  ]
+}

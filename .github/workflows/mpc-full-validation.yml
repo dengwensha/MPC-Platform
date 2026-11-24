@@ -87,10 +87,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "M2 target controls failed." }
           python tools/ci/M2TargetProbe/compare_target.py $targetControls (Join-Path $root "evidence/m2-scope-controls.json") (Join-Path $root "evidence/m2-target-control-comparison.json") --count 13
           if ($LASTEXITCODE -ne 0) { throw "M2 target control comparison failed." }
-      - name: Checkout pre-target capture baseline for B6
+      - name: Checkout pre-optimization capture baseline for B6
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: 264b16e548d77fcf1d2365670b7f97803fa3450c
+          ref: 927bed567cbb223350be37ad88bc0c728a3c4bff
           path: .b6-baseline
           persist-credentials: false
       - name: B6 isolated production capture cost (public Windows subset)
@@ -100,8 +100,20 @@ jobs:
           dotnet build tools/ci/B6CaptureProbe/B6CaptureProbe.csproj -c Release --warnaserror -m:1
           if ($LASTEXITCODE -ne 0) { throw "B6 benchmark build failed." }
           $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
-          python tools/ci/B6CaptureProbe/run_b6.py --dotnet dotnet --probe tools/ci/B6CaptureProbe/bin/Release/net8.0/B6CaptureProbe.dll --baseline .b6-baseline/src/MPC.Application/bin/Release/net8.0 --current src/MPC.Application/bin/Release/net8.0 --inputs (Join-Path $root "ru-public-inputs") --output (Join-Path $root "evidence/B6-public-Windows") --trials 2
+          python tools/ci/B6CaptureProbe/run_b6.py --dotnet dotnet --probe tools/ci/B6CaptureProbe/bin/Release/net8.0/B6CaptureProbe.dll --baseline .b6-baseline/src/MPC.Application/bin/Release/net8.0 --current src/MPC.Application/bin/Release/net8.0 --inputs (Join-Path $root "ru-public-inputs") --output (Join-Path $root "evidence/B6-public-Windows") --trials 2 --require-target-equality
           if ($LASTEXITCODE -ne 0) { throw "B6 identity/semantics/lifecycle measurement failed." }
+      - name: B6 exact target reasons match pre-optimization source
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          $bin = "tools/ci/M2TargetProbe/bin/Release/net8.0/M2TargetProbe.dll"
+          $app = ".b6-baseline/src/MPC.Application/bin/Release/net8.0"
+          foreach ($set in @(@{Name="public"; Inputs="ru-public-inputs"; Count=9}, @{Name="controls"; Inputs="m2-target-controls"; Count=13})) {
+            $before = Join-Path $root ("evidence/b6-target-before-" + $set.Name)
+            dotnet $bin $app (Join-Path $root $set.Inputs) $before
+            if ($LASTEXITCODE -ne 0) { throw "B6 baseline target audit failed." }
+            python tools/ci/B6CaptureProbe/compare_target_semantics.py $before (Join-Path $root ("evidence/m2-target-" + $set.Name)) (Join-Path $root ("evidence/b6-exact-target-" + $set.Name + ".json")) --count $set.Count
+            if ($LASTEXITCODE -ne 0) { throw "B6 target reasons changed." }
+          }
       - name: Targeted rational curve GREEN
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests

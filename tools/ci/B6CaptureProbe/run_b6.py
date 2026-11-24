@@ -5,7 +5,7 @@ import argparse,collections,hashlib,json,pathlib,statistics,subprocess,sys
 
 p=argparse.ArgumentParser();p.add_argument('--dotnet',default='dotnet');p.add_argument('--probe',required=True)
 p.add_argument('--baseline',required=True);p.add_argument('--current',required=True);p.add_argument('--inputs',required=True)
-p.add_argument('--output',required=True);p.add_argument('--trials',type=int,default=2);a=p.parse_args()
+p.add_argument('--require-target-equality',action='store_true');p.add_argument('--output',required=True);p.add_argument('--trials',type=int,default=2);a=p.parse_args()
 out=pathlib.Path(a.output);out.mkdir(parents=True,exist_ok=True)
 assert not list(out.rglob('*.json')),'Output must be empty'
 inputs=sorted(p for p in pathlib.Path(a.inputs).iterdir() if p.suffix.lower() in ['.step','.stp'])
@@ -56,6 +56,8 @@ for path in inputs:
     assert len(base)==len(current)==len(target)==a.trials
     assert all(r['SemanticSummary']['Common']==base[0]['SemanticSummary']['Common'] for r in base+current)
     assert all(r['SemanticSummary']['TargetData']==current[0]['SemanticSummary']['TargetData'] for r in current+target)
+    if a.require_target_equality:
+        assert all(r['SemanticSummary']==current[0]['SemanticSummary'] for r in base+current),('Target semantics changed',path.name)
     assert all(r['InputSha256']==base[0]['InputSha256'] for r in group)
     assert all(r['ApplicationAssemblySha256']==base[0]['ApplicationAssemblySha256'] for r in base)
     assert len({r['ApplicationAssemblySha256'] for r in current+target})==1
@@ -76,7 +78,7 @@ for path in inputs:
     result['DerivedWarmCaptureMedianDeltaMilliseconds']=round(result['CurrentCapture']['WarmMedianMilliseconds']-result['BaselineCapture']['WarmMedianMilliseconds'],4)
     rows.append(result)
 summary={'SchemaRevision':1,'FileCount':len(inputs),'Trials':a.trials,'FreshProcesses':len(reports),
-    'MeasuredProductionCalls':len(reports)*4,'UntimedWarmupProductionCalls':len(reports)*2,
+    'MeasuredProductionCalls':len(reports)*4,'BeforeAfterTargetSemanticsRequired':a.require_target_equality,'UntimedWarmupProductionCalls':len(reports)*2,
     'TargetStatusCounts':dict(collections.Counter(r['TargetStatus'] for r in rows)),
     'AllSemanticsAndInputIdentitiesVerified':True,'AllReleasedObjectsCollected':True,'FailureControls':failures,
     'MemoryCaveat':'Process peak includes setup/warmups/earlier summaries; isolated-target memory includes prepared inventory. Never subtract peaks as attributable production memory.',
