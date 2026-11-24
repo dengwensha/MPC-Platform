@@ -1,0 +1,369 @@
+{
+  "InputName": "1_S26352_0300_05_2201.STEP",
+  "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+  "InputUnchanged": true,
+  "ReaderAssemblySha256": "EB572EB6B146015AFAC3BB804D77B33A0BB093BB37CBBDF1D3E740F5728E63DD",
+  "InventoryStatus": "Succeeded",
+  "InventoryDiagnostics": [],
+  "RecordCount": 879,
+  "DraftOutcome": "DraftCandidateOnly",
+  "Reasons": [],
+  "RootIds": [
+    "#674"
+  ],
+  "RepresentationId": "#158",
+  "ContextId": "#179",
+  "BridgeId": null,
+  "BindingId": "#285",
+  "PhysicalOccurrenceProofIssued": false,
+  "KnownAngularRecordIds": [],
+  "AngleAbsenceProofIssued": false,
+  "ApplicationEvidenceIssued": false,
+  "LedgerGroups": [
+    {
+      "Signature": "ADVANCED_BREP_SHAPE_REPRESENTATION:3",
+      "Role": "ShapeRepresentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "ngE=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "ADVANCED_FACE:4",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 26,
+      "EntityIdsDeltaVarintBase64": "AQ4OB1sGCxMJDykjOywLHCgfDSYjREUJWhQ=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "APPLICATION_CONTEXT:1",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "YJIE",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "APPLICATION_PROTOCOL_DEFINITION:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "4wLXAw==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "AXIS2_PLACEMENT_3D:4",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 43,
+      "EntityIdsDeltaVarintBase64": "CgwCCw9XDwIQFwUmAwIYExshEgozGRFDEg4MASoZAxkQARkNAywLIgINGQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CARTESIAN_POINT:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 147,
+      "EntityIdsDeltaVarintBase64": "BgIIBAECAwsOEgMLAgMCAQcBEQQKBQoCAQILAQYFCh0IBwUIAgQHEgcBDA0BAQIHBgIDAgkDAgQEBgcGAgQJAQQRDgENBAQBBgQFBAgDBAECBA4BDQQFBwEHAgICBQESAQUHAgUFBBQQBgECAw0JAwEECQQKBgEHBwQEDwUCCAwEFwYGBAELBQQGBQEDAwYKAQgE",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CIRCLE:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 16,
+      "EntityIdsDeltaVarintBase64": "VCc2MA0NTGwaHwsDZCqaAS0=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CLOSED_SHELL:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "lAU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "COLOUR_RGB:4",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "lwM=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CYLINDRICAL_SURFACE:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 8,
+      "EntityIdsDeltaVarintBase64": "ywGFAQ0eNQF4TA==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "DIRECTION:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 142,
+      "EntityIdsDeltaVarintBase64": "BQgEAgYDAwMEAwQHBAELAwYPAgMFAgMGCwEJCQwFBAIJEAQFBAkEBgYCAwEZBAIHFAIGDBMNAhIFBAQCEgMHBAUKDQoQAwUVBwYBBgUFCAsNAQIFBAEBBAcQAQYCAwQGAQYFAQIECgMGEQQCCQMFAwUBAgMIEAERBgEEAQICAgEGAgUNDgQDCgYUBQgBBg==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "EDGE_CURVE:5",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 72,
+      "EntityIdsDeltaVarintBase64": "NgYHFAgWIAoPEgcMBQUQBgQHFgcGBQ0DBxIQChQHFw0NBBAPGQQGBBcFDRAKBwgKDggJDAsVBQsLDg0TBQgNAwglDwQEAw0L",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "EDGE_LOOP:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 34,
+      "EntityIdsDeltaVarintBase64": "AwtIGgIBDQQxHAokAz4JEzcLBAobDAQqAUIEBD9mCVsFBA==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FACE_BOUND:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 8,
+      "EntityIdsDeltaVarintBase64": "L0A8DXDFAaABugE=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FACE_OUTER_BOUND:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 26,
+      "EntityIdsDeltaVarintBase64": "AjwmUGEXAnVCAgMOJzUPBywCFBBLAx0cDx0=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FILL_AREA_STYLE:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "lQU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FILL_AREA_STYLE_COLOUR:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "zAU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2",
+      "Role": "Context",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "aUo=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "LENGTH_UNIT:0|NAMED_UNIT:1|SI_UNIT:2",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "C9EG",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "LINE:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 56,
+      "EntityIdsDeltaVarintBase64": "IB0MECgKAREIBAk0DgQEBAMLFBMJAQwVDwEZAQMFCwMNAgUDBSUNAgQYJQxIOx0ICxEPBgEEEyY=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "MANIFOLD_SOLID_BREP:2",
+      "Role": "TargetRoot",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "ogU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION:3",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "jQI=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "NAMED_UNIT:1|PLANE_ANGLE_UNIT:0|SI_UNIT:2",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "vAG5AQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "NAMED_UNIT:1|SI_UNIT:2|SOLID_ANGLE_UNIT:0",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "rgNQ",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "ORIENTED_EDGE:5",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 144,
+      "EntityIdsDeltaVarintBase64": "BAMgAQMBCQIDAQQCBQgeAQ0EBQUCAwEEBQUUBg8EBAECBwMECwwEAQcEAQoIAgUFIAEFAwEEAQQKAQMCBRYBBAQBAwEJAQUHGAUBBwEICwMBAwUaBgMECwgFAQQcBQUEBwQBCx4BCAMBAwcDBQwQAgcBAwIGAQQEBQEIGQEEAgMBAwEGCQsBBAQJDQkEAQMG",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PLANE:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 18,
+      "EntityIdsDeltaVarintBase64": "GwMMIQRuEkMMWk6bASABWVQSBQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRESENTATION_LAYER_ASSIGNMENT:3",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "pQY=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRESENTATION_STYLE_ASSIGNMENT:1",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "zgQ=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "7gU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_CONTEXT:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "6AM=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "zwM=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION_CONTEXT:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "rwU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "zQQ=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION_SHAPE:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "twU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_RELATED_PRODUCT_CATEGORY:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "rAQ=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SHAPE_DEFINITION_REPRESENTATION:2",
+      "Role": "ShapeBinding",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "nQI=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "STYLED_ITEM:3",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "ugI=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SURFACE_SIDE_STYLE:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "1AU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SURFACE_STYLE_FILL_AREA:1",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "ZQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SURFACE_STYLE_USAGE:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "bg==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "UNCERTAINTY_MEASURE_WITH_UNIT:4",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "TOMB",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "VECTOR:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 56,
+      "EntityIdsDeltaVarintBase64": "CQMVDRICDgEBCwoDDAEiDhsCDg4CKg0QAQENHRECFgEJIhURKQ4QHAscAhMNOBMSDwINBA0cKRs=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "VERTEX_POINT:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 48,
+      "EntityIdsDeltaVarintBase64": "Eh4BGS9AAQQMDDUIDRxKDhUfEysECQYIAQUgCwYQBgYWCQwFDxsUBBArBwEHDRwQ",
+      "IssueEntityIdRanges": null
+    }
+  ],
+  "LedgerSha256": "87B11B8936F06F8DBABB51F837EBE7C610D3971E03E78A12133B22088D36F8B1"
+}

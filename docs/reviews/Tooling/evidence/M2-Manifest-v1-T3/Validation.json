@@ -1,0 +1,369 @@
+{
+  "Date": "2026-11-24 Europe/Istanbul",
+  "Start": "7c360c64b3adbfc8e8e2ff9851ac7a97c9feb0f3",
+  "MeasuredCodeCommit": "3490fffc02023e44e13fea403d4f89f048fe96eb",
+  "SDK": "8.0.422",
+  "Platform": "Linux .NET 8",
+  "SourceNormalizedSha256": {
+    "tools/ci/M2ScopeDraft/Program.cs": "32C752E1AD53A64B6AC05C642CF28AE079751DF58217BE7C39802ABA64B48E33",
+    "tools/ci/M2ScopeDraft/scope_draft.py": "BC1D8B102AA75117AF77CFFAC96078E1C9E42C1412BDA430DC93338C9A3A4222",
+    "tools/ci/M2ScopeDraft/build_manifest.py": "A241B5157D43FF288BE5983FBF3380EFFABE7FD23D2CCE52EF92A79EC361E912",
+    "tools/ci/M2ScopeDraft/make_controls.py": "4806F6DCAEF4615D0886E69A1A457E76385FEA1FC9E29548485FBEBF735C4948",
+    "tools/ci/M2ScopeDraft/test_scope_draft.py": "71C32E070F320C36423F04877B1A4FAF18361C77F355966A6C393C9C18A24F54",
+    "docs/reviews/Tooling/RU-Import-Context-Rules-v1-Proposal.md": "DA10EA5E862CA1E73119EA3144FB0FCB3ABB90E953D8409D8D42620415547CAF",
+    "src/MPC.Application/Step/ImportUnitPrecheck.cs": "64A488249CDE753A1B06E3DF5B7259AECAC296FBEB66194B3A952F8F9DEE7E6B",
+    "src/MPC.Connectors.Step/Readers/StepDataEntityReader.cs": "547008BCB29C5F7AB60262B4EC09341675AA1E5B9997935D772F466C20BAD537",
+    "src/MPC.Connectors.Step/Validation/StepDataInventoryValidator.cs": "FB5869D3EB0FE8B5507F4041A221CBC2DB88FE16917C5BC7DA7472B6771B7301"
+  },
+  "ManifestCanonicalSha256": "D7C26AA1D3BA4D67DFCAA620F446763F54B5287DC44B35BE3AB9E0A3B642A9B1",
+  "ExtractorAssemblySha256": "E59EFBB1B9084425EB1D3B039C44B8D2801B4BC02B28773F27829FBD3E954823",
+  "ReaderAssemblySha256": "EB572EB6B146015AFAC3BB804D77B33A0BB093BB37CBBDF1D3E740F5728E63DD",
+  "Build": "dotnet build tools/ci/M2ScopeDraft/M2ScopeDraft.csproj -c Release --no-restore -m:1 -p:BuildInParallel=false",
+  "Restore": "dotnet restore tools/ci/M2ScopeDraft/M2ScopeDraft.csproj -m:1 --source /tmp/empty-m2-feed -p:NuGetAudit=false",
+  "Run": "dotnet tools/ci/M2ScopeDraft/bin/Release/net8.0/M2ScopeDraft.dll <private input directory> <private neutral AST directory>; python tools/ci/M2ScopeDraft/scope_draft.py <manifest> <neutral directory> <summary directory>",
+  "SeparateExtractorProcesses": 2,
+  "SeparateClassifierProcesses": 2,
+  "RealInputCount": 15,
+  "GoldenInputCount": 5,
+  "RepeatEquality": "20/20 full neutral ASTs and summaries identical",
+  "EveryRecordIdAndCountReconciled": true,
+  "Results": {
+    "DraftCandidateOnly": 17,
+    "ScopeNotSupported": 3
+  },
+  "ProposedSignatures": 86,
+  "ExplicitUnclassifiedSignatures": 27,
+  "Controls": "12/12, source inputs generated from public T001 and independent analytic cone",
+  "LocalBuild": "0 warnings / 0 errors",
+  "TotalRecordCount": 444497,
+  "KnownLimits": [
+    "No trusted Application evidence, physical occurrence or angle-absence proof is issued",
+    "DraftCandidateOnly is neither geometry validity, a successful import nor evaluation eligibility; CORE BAS is a counterexample",
+    "Full parameter/cardinality/semantic validation and complete T1/product linkage remain future target-producer prerequisites",
+    "27 signatures intentionally unclassified; unknown blocks by default",
+    "T2 inheritance is proposed for this M2 draft, not v2 transformation enablement",
+    "Private AST contains scalar CAD values and is intentionally excluded from commit and CI uploaded evidence",
+    "Ledgers contain only signatures, roles, issue sets and lossless source ID encoding",
+    "Source IDs in this measured corpus are canonical numeric identifiers; no general identity-normalization claim",
+    "Two correlated workshop families/11 versions, not independent production jobs",
+    "Full 20-input result is Linux; final CI repeats public inputs and controls only",
+    "Final evidence-only descendant has identical producer sources, not necessarily byte-identical DLLs",
+    "M2 remains OPEN; R-U v1 closure and N1 bounded scope unchanged"
+  ],
+  "Rows": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "RecordCount": 9167,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#8883"
+      ],
+      "RepresentationId": "#4273",
+      "ContextId": "#5822",
+      "BridgeId": null,
+      "BindingId": "#7643",
+      "LedgerSha256": "65EBCC034E4B9A8EFAECDE9C6EECFC01AB923DB0B35C73A876D87CAA60B88F34"
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "RecordCount": 879,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#674"
+      ],
+      "RepresentationId": "#158",
+      "ContextId": "#179",
+      "BridgeId": null,
+      "BindingId": "#285",
+      "LedgerSha256": "87B11B8936F06F8DBABB51F837EBE7C610D3971E03E78A12133B22088D36F8B1"
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "RecordCount": 5519,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#2580"
+      ],
+      "RepresentationId": "#1493",
+      "ContextId": "#3524",
+      "BridgeId": null,
+      "BindingId": "#1658",
+      "LedgerSha256": "2CFA2F998F2343E740DA87BCAC8E27B3B8749E14D4529999820254128ED90DEA"
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "RecordCount": 935,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#170"
+      ],
+      "RepresentationId": "#261",
+      "ContextId": "#688",
+      "BridgeId": null,
+      "BindingId": "#102",
+      "LedgerSha256": "16BF7FC8273EDE929AAA0CD13C0997C043600EC95133363A5B171E292376A9D6"
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "RecordCount": 935,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#887"
+      ],
+      "RepresentationId": "#593",
+      "ContextId": "#697",
+      "BridgeId": null,
+      "BindingId": "#330",
+      "LedgerSha256": "CE51438A9353103240520BFAE100A89DA0BF0CF2A311DFF854C4A658F36D3D8D"
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "RecordCount": 2122,
+      "DraftOutcome": "ScopeNotSupported",
+      "Reasons": [
+        "ClassificationUnavailable",
+        "RecognizedUnsupportedScope"
+      ],
+      "RootIds": [
+        "#1214"
+      ],
+      "RepresentationId": "#19",
+      "ContextId": "#2117",
+      "BridgeId": "#18",
+      "BindingId": "#1215",
+      "LedgerSha256": "1DAFEBBF6F117FDA55B4811DA0FB90DADC5AC830FCDFC7956DE339FED7E4FCC0"
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "RecordCount": 26124,
+      "DraftOutcome": "ScopeNotSupported",
+      "Reasons": [
+        "RootCountNotOne"
+      ],
+      "RootIds": [
+        "#3412",
+        "#12364",
+        "#20743",
+        "#21269"
+      ],
+      "RepresentationId": null,
+      "ContextId": null,
+      "BridgeId": null,
+      "BindingId": null,
+      "LedgerSha256": "4D48026A2E8FE843E000C9C5A0B75A2D5FFB330AD868B5BA4F0FA89067E1C705"
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "RecordCount": 37844,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#10255"
+      ],
+      "RepresentationId": "#18360",
+      "ContextId": "#24103",
+      "BridgeId": null,
+      "BindingId": "#22346",
+      "LedgerSha256": "57887F11864B0B303207059BBBC2A3B7A0FC29F89F0A19BF433E9A2663810AD8"
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "RecordCount": 40333,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#20788"
+      ],
+      "RepresentationId": "#11582",
+      "ContextId": "#21853",
+      "BridgeId": null,
+      "BindingId": "#14040",
+      "LedgerSha256": "0DA6DE764630828059803F848F50FCDA76403D94100E773B4FE35DE11FBF2930"
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "RecordCount": 41350,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#27550"
+      ],
+      "RepresentationId": "#11342",
+      "ContextId": "#8038",
+      "BridgeId": null,
+      "BindingId": "#32301",
+      "LedgerSha256": "23698542DB7579762F24195FD16FE88505043CF682E742938CDB87B401643318"
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "RecordCount": 58568,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#24035"
+      ],
+      "RepresentationId": "#19943",
+      "ContextId": "#16376",
+      "BridgeId": null,
+      "BindingId": "#19042",
+      "LedgerSha256": "5E2C733CB63A6F598A5443B0509B1056813016FE106D5CDF504A8E5846192C19"
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "RecordCount": 82444,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#21002"
+      ],
+      "RepresentationId": "#1830",
+      "ContextId": "#27652",
+      "BridgeId": null,
+      "BindingId": "#73510",
+      "LedgerSha256": "23EE075DBFAA3C90DD5CD96AF495D2B4A4C3BE5245A3B57D18C391EE4414621D"
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "RecordCount": 329,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#42"
+      ],
+      "RepresentationId": "#120",
+      "ContextId": "#241",
+      "BridgeId": null,
+      "BindingId": "#22",
+      "LedgerSha256": "099651ADD623A215CF6344D14A062BCA06A0D359516CE170B597A0B841F2536C"
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "RecordCount": 649,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#125"
+      ],
+      "RepresentationId": "#493",
+      "ContextId": "#384",
+      "BridgeId": null,
+      "BindingId": "#576",
+      "LedgerSha256": "F7B2C4AF0F99EA618203A7E47876D722B8CE067C99CEB6A8D50E709EF4FDCAEF"
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "RecordCount": 135828,
+      "DraftOutcome": "ScopeNotSupported",
+      "Reasons": [
+        "AdditionalProductPath",
+        "ClassificationUnavailable",
+        "RecognizedUnsupportedScope",
+        "UnreferencedGeometry",
+        "UnreviewedRepresentationPath"
+      ],
+      "RootIds": [
+        "#39941"
+      ],
+      "RepresentationId": "#133269",
+      "ContextId": "#124918",
+      "BridgeId": "#24917",
+      "BindingId": "#43974",
+      "LedgerSha256": "E4ED1FC381D0506F6A628449B11017560E43FA4C3956EE737943D417581A8107"
+    },
+    {
+      "InputName": "T001_PRISM.step",
+      "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "RecordCount": 187,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#63"
+      ],
+      "RepresentationId": "#47",
+      "ContextId": "#61",
+      "BridgeId": null,
+      "BindingId": "#27",
+      "LedgerSha256": "C86F3F750607715686AA0B2A9785AE41421CAB522CD22CCAA30BDA5D14665414"
+    },
+    {
+      "InputName": "T002_SPHERE.step",
+      "InputSha256": "AB1155D291C0C0284B76F80077471C44DB33DD3A593034DD036041A0525C0193",
+      "RecordCount": 75,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#2"
+      ],
+      "RepresentationId": "#39",
+      "ContextId": "#48",
+      "BridgeId": null,
+      "BindingId": "#41",
+      "LedgerSha256": "26B5B27067D235241CDCD16E77418366711B5A0E7AC7976BB8749960AB06E89C"
+    },
+    {
+      "InputName": "T003_CYLINDER.step",
+      "InputSha256": "A78EBDD2613C4E9D7897B0FAA60061D0B8212BC685CE4480D9963C267E3D4E65",
+      "RecordCount": 125,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#98"
+      ],
+      "RepresentationId": "#56",
+      "ContextId": "#104",
+      "BridgeId": null,
+      "BindingId": "#88",
+      "LedgerSha256": "AB3061E99255A1C14D558AEBD175F0FB106AD339F3658FB48586CE3D844352F3"
+    },
+    {
+      "InputName": "T101_BASIC_POCKET.step",
+      "InputSha256": "F1A8A662CCC67DE88A5EF9BAE4A01B5B15FFB5D9CCB6A3E4DE1CC677A6E42049",
+      "RecordCount": 329,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#329"
+      ],
+      "RepresentationId": "#82",
+      "ContextId": "#228",
+      "BridgeId": null,
+      "BindingId": "#109",
+      "LedgerSha256": "C2739C9EFB00D1A6293AFAADD958CE84C798F539A0AA3E7D399EAC87D4BB6409"
+    },
+    {
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "InputSha256": "B54769A3969B6FFD9EF582F1C0791C682561300CF79C15F4883095CD2A065CD4",
+      "RecordCount": 755,
+      "DraftOutcome": "DraftCandidateOnly",
+      "Reasons": [],
+      "RootIds": [
+        "#250"
+      ],
+      "RepresentationId": "#520",
+      "ContextId": "#611",
+      "BridgeId": null,
+      "BindingId": "#652",
+      "LedgerSha256": "D3A3AA3607A5BCE84807536D220D3DADE11991290000AD90485E930F7C6E0808"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+[
+  {
+    "Control": "C01-Styled",
+    "InputSha256": "2285E9AE19C3D8D32CB5267A10F3293C6774142CDEAF17ED4CB71B6AAD805A6C",
+    "Expected": "DraftCandidateOnly",
+    "Observed": "DraftCandidateOnly",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": []
+  },
+  {
+    "Control": "C02-SecondGeometry",
+    "InputSha256": "710DC92F64261DCFDC91B8064CA6B7D17A20DE774CC0412943A8895AB2440F04",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "RootRepresentationNotUnique"
+    ]
+  },
+  {
+    "Control": "C03-Bridge",
+    "InputSha256": "954CA92699C54EBFB14BB739194FA67FA74179CDFAD3EBD2C05C6BF7E17A81DB",
+    "Expected": "DraftCandidateOnly",
+    "Observed": "DraftCandidateOnly",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": []
+  },
+  {
+    "Control": "C04-DualBinding",
+    "InputSha256": "3E556DDC2B3CE3CCB10CE82A362072F0F41DC159C31F4022C934DE9A3503F515",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "MissingOrDualSDR",
+      "UnreviewedRepresentationPath"
+    ]
+  },
+  {
+    "Control": "C05-BridgeDifferentUnits",
+    "InputSha256": "A1D7374A98C0FDFF5405745772A8233C8FA0B5CA91877958DF0B66173B1A3A1F",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "BridgeUnitsNotMmRadian3D",
+      "ClassificationUnavailable"
+    ]
+  },
+  {
+    "Control": "C06-UnreferencedPoint",
+    "InputSha256": "864464EC24ED67CAAEF575AC04650EE08B28641BDBE3FAB52E4539635B099915",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "UnreferencedGeometry"
+    ]
+  },
+  {
+    "Control": "C07-Unknown",
+    "InputSha256": "FDBE289F9D8EC84050F2C11D99275D5547E2F3F86E95F1A819FFC9CC7ED52A9B",
+    "Expected": "ClassificationUnavailable",
+    "Observed": "ClassificationUnavailable",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "ClassificationUnavailable"
+    ]
+  },
+  {
+    "Control": "C08-ComplexVoid",
+    "InputSha256": "196601F181CEE9D9CD7DBCF2E327FD892BAC688E11BAA6891047400A89154976",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "ClassificationUnavailable",
+      "RecognizedUnsupportedScope"
+    ]
+  },
+  {
+    "Control": "C09-SurfaceBody",
+    "InputSha256": "971BE71D3506C22BD9CCAD38727C943BD55E11BA44E19F7B9DB52D4476B96A8B",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "ClassificationUnavailable",
+      "RecognizedUnsupportedScope"
+    ]
+  },
+  {
+    "Control": "C10-TwoMappedItems",
+    "InputSha256": "A7A82D11A0F3C6CDA8E1A87332E5CFCE9071F27ADACE3374CC29C09750B541CE",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "ClassificationUnavailable",
+      "OtherGeometryRepresentationItem",
+      "RecognizedUnsupportedScope",
+      "UnreviewedRepresentationPath"
+    ]
+  },
+  {
+    "Control": "C11-ConeRadian",
+    "InputSha256": "56A5E3EE6C44C83026708346467B284E20B7BB553C1AF28152524381014E95A2",
+    "Expected": "DraftCandidateOnly",
+    "Observed": "DraftCandidateOnly",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": []
+  },
+  {
+    "Control": "C12-ConeDegree",
+    "InputSha256": "C9FBEE3451EC48028CFFC00CE38275F11BB9D9D4661F1DAD6CC18AF1595EFDCB",
+    "Expected": "ScopeNotSupported",
+    "Observed": "ScopeNotSupported",
+    "LedgerAccountsForEveryRecord": true,
+    "Reasons": [
+      "ClassificationUnavailable",
+      "TargetUnitsNotMmRadian3D"
+    ]
+  }
+]

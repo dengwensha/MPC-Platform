@@ -1,0 +1,477 @@
+{
+  "InputName": "0_S26352_0700_01_9001.STEP",
+  "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+  "InputUnchanged": true,
+  "ReaderAssemblySha256": "EB572EB6B146015AFAC3BB804D77B33A0BB093BB37CBBDF1D3E740F5728E63DD",
+  "InventoryStatus": "Succeeded",
+  "InventoryDiagnostics": [],
+  "RecordCount": 9167,
+  "DraftOutcome": "DraftCandidateOnly",
+  "Reasons": [],
+  "RootIds": [
+    "#8883"
+  ],
+  "RepresentationId": "#4273",
+  "ContextId": "#5822",
+  "BridgeId": null,
+  "BindingId": "#7643",
+  "PhysicalOccurrenceProofIssued": false,
+  "KnownAngularRecordIds": [
+    "#25",
+    "#167",
+    "#171",
+    "#722",
+    "#752",
+    "#793",
+    "#817",
+    "#978",
+    "#1288",
+    "#1349",
+    "#1384",
+    "#1412",
+    "#1814",
+    "#1876",
+    "#1948",
+    "#1980",
+    "#2040",
+    "#2067",
+    "#2274",
+    "#2387",
+    "#2408",
+    "#2445",
+    "#2576",
+    "#2685",
+    "#2822",
+    "#2842",
+    "#2853",
+    "#3098",
+    "#3138",
+    "#3304",
+    "#3331",
+    "#3348",
+    "#3475",
+    "#3628",
+    "#3721",
+    "#3751",
+    "#3823",
+    "#3934",
+    "#4049",
+    "#4080",
+    "#4115",
+    "#4134",
+    "#4326",
+    "#4666",
+    "#4739",
+    "#4772",
+    "#4786",
+    "#4859",
+    "#4969",
+    "#5195",
+    "#5210",
+    "#5221",
+    "#5451",
+    "#5551",
+    "#5784",
+    "#5821",
+    "#5867",
+    "#5981",
+    "#6050",
+    "#6114",
+    "#6178",
+    "#6241",
+    "#6425",
+    "#6461",
+    "#6614",
+    "#6678",
+    "#6884",
+    "#7075",
+    "#7103",
+    "#7111",
+    "#7208",
+    "#7372",
+    "#7400",
+    "#7415",
+    "#7511",
+    "#7557",
+    "#7560",
+    "#7571",
+    "#7582",
+    "#7600",
+    "#7647",
+    "#7705",
+    "#7829",
+    "#8003",
+    "#8165",
+    "#8452",
+    "#8653",
+    "#8730",
+    "#8923",
+    "#9042",
+    "#9050"
+  ],
+  "AngleAbsenceProofIssued": false,
+  "ApplicationEvidenceIssued": false,
+  "LedgerGroups": [
+    {
+      "Signature": "ADVANCED_BREP_SHAPE_REPRESENTATION:3",
+      "Role": "ShapeRepresentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "sSE=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "ADVANCED_FACE:4",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 315,
+      "EntityIdsDeltaVarintBase64": "LAIGDhYoBQcBFgUOEApgIwEFYggCAQk9SgE4GywQGzcMJUQfDxYbNRgFCAYIDikGVhMIMBIcAQUhGQUNDAIHCgeUAXkdMAsJXgRMGwUMDBoBEwYdCQoBJAdoCVIWCQIeECMlAQ0iBSkyBzQCMRsqGBc2GQQkGTcKChQHChIyZgMOEAIwPyoTCXQCGBgCKBkMATcuAUILCycIDg5rRysiCBYEpgEHLDcRZQgGI1EQFCsCJQ4hQwkGLRQMJiwKCQgMKhoPGAc1HDsKfwsVIx4yCT8BEi0HKzIQAQ0kLDFwCREYD2kFShMWNgkxDSgGIxUzJhcGODQHK2QZGgZCAQ0LLwYjHjgjAlUKCokBBxQDJgswBg0tCDwSCRUXDBQVFgkEAQsGAyIPLDoJEFgVfRIMDy0TOA4KJgMNCyEgCCAV",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "APPLICATION_CONTEXT:1",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "vwiYCg==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "APPLICATION_PROTOCOL_DEFINITION:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "oAnRGw==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "AXIS2_PLACEMENT_3D:4",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 583,
+      "EntityIdsDeltaVarintBase64": "BwMFAgINAQ8KChAHBy0JAwYTBAsQIAcMMg4GAiEBChgMCBInAQIIAxIZARMKDTkkCAUREB8BCgQRATwLCBkLAwkEBAMFDwcKDh0zBAkDAgQHFgoEKQcKFwcLAgIBDQsUDCwaDQUEBCEjGBQVCA4tGQgMDgsCAgUHAQgRBwkZEhAoChMLDRMPBQw4BwICAg4HBQMWCxkmDggEBQkFAgkeIhYFFB4BDQ8NFyUBBAUSDwgFBREZCiwJBw0EGxkGFBkDDg0EBAcCKwMTHwEEDB8TBQcCBQUzBgEOBxEoDzoBCwoPIC4sBRAOBAgPCQcGLAkBCQMDAxEFLBkZCgUHBAIBDQgGHggECC4LBiMMXwUJFxEXCygYDQYIEAoJFAwGPRMNFQsFRyIEOyIGAQcCDAQYFRgGPwIFAgUMBQ4OUQkEEScOEx4EIAYGChsBExMTBwILERcPFAcKKQUCCwICDAspFiQDGx4BDg8PMg0HNhMJDBgFBAEKBAYFEgcQCQYNMgoEAgcCHRIQCAwLDCIRCAwRBhZABAcMKREGRAYBCREODB4eGQMUD1MJAwUHDQMMCBAlIQgYAi1bBg8GBygqBAQLBwomGi8QCREtEhAZBAUCCAYBAjUJSwIRCBMNIRIiARcNBAgVAzoLCBUOKTwLCAMHEgEKHwcOMQgoCRAKCB4cDQIRAgQeFAUICgkWDQEEAgIPCA4RKhAGCSsaARUZFgUWFAEMCSAELAUOAQ0EGQEEJQcGCCkBAwgCBQwSAgUmNwYZBgEIDwgRKA==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "B_SPLINE_CURVE_WITH_KNOTS:9",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 9,
+      "EntityIdsDeltaVarintBase64": "F9EJyALuCK0J6gxXlQOpDg==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CARTESIAN_POINT:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 1570,
+      "EntityIdsDeltaVarintBase64": "Ah0GAgQCCAQDAgoCBwUEDAQDAQsIAwMOGAIDAQcEBgoMAwIJBgMKAQEKAg0CBQMBBxMGGQoBDwgBAwwDCAMDAgYNCgQEBBYFBgIJAwIHAwISBwQNAgcDAwIHEQoHAQkKFwcBAgQNAwEECAIEBwEDCAUHBQMKAw0JAQ8EAgECAwQXAQ0LAQUPAQsXAg4fAQEJDQQBAgQLAQICBAIEAwEBAgMCAxMEAwQJDQQFAxUDCQQGCQUEAgEFAQcDARkGEAkLBAUCBwEHAgELCwgCAQEIIwcDAwEHBAQLBAYJBAUCBAQDCgoBFwYCBBMDAwsGDQ0GBwEDAQsGAwMDAgQFBgoBEwoGCA8BAgsOARYBCQQBBQUDAwEBAgYBAwENDAIDBwsDAQ4RAwwDAgEFBAMFBQIBCAEEAwcIBgcWBwUKAgMHGwcDCwEFBBEFAQYKCQMBCQMEBQIBCAgGBwUJHQYEBBAFAwcDBAUNBgIMAQgFAwMMAwUDAwUJBQQCBwkJDAICBAcJARAEAgMFDwYMCAIGCAsEFRUMAgQFAwIEAwESBAUCAQsEBgEEBAkBBAEIAgEMAwkGCQ4FCQsBCQEFAwIPBAQKCAgJAwECCwQCAQMBBgELAg4FAgoHAQcDBg4DCxEDBgIOAwIBAQcGCggBAg8CBQQGCAQVCAcEAQEICQEIBgcBAgoCCAEDBwIIBAUDAwsLAQkGBggFDAUOAgMBCQcGDQMMAgECCgMDEgELAQMHAgEDAQQCBgIGAgMKBwECCAMECAEEDQEGAwYJBAgcBAcNAQsEAQQJAQEDAwIKAxAKBwcGAQEBAwENDxIEAwMEAQUCAwEDCgEHBQICEAQUCwMCCAcEBgQGAwIEAwcHCgUBBQgGAwIEGgkBAQgBDQkBEQIYBAMIAgIFAQIBDAIMCQUBBwYIBQQEBAIBAgEBBAIBBQQGAgIBBAEHAgYFBQ4DBwMBAwYGBg4JBBkECQICBwECAQwTAggCAQUCCAYBBgECAwYJBwoDAQcHAwEDAwcPBxMDAgoKBwMBAwIBBAUHBAMBCAMCBQIHBRkFBgIHGBEKAhwGAQMZAwICDhEFCQMBCAUFCQMEAQEDAxEIAgIEBAIGDQEGBgITCQMFDAUKAggECQgCAgQJAQ0FAgoJBQcKAwEDBgkGBBASAw0FBQkBBgEDAwUCDgcDBgICBQUDBgQEAQkBCBUCAwUFCAUHBQwDBQsBCw0FBgsBBgEGAQQBAQcCAgIMAQgEAgkHCwQHAgYGBQoCEwEBCQQGAgUEEgECAgEEAhECBAMLAgUEBAcCBQMEAgQIBAUEBAEOBwILAwMCBAECCgEBBgkCBAIECQIHDQgBEAcBBAMBBwEEAhECAQQFAgMBBQcGAwYEDgYCBAEFEgcEAgcBBgEBBQECAQkBEA4JAwENAQYHDgUIBAIFBAoCAwcDAwMIAQ4GLwMJAggBBAgBBgQKChMDAgMBAwUEBAQFBwQCBgECBgMDAwUGAgMDAwEBAgUCBAMECgIDEAIDBQIDDgICBg4EBwIJAgICCgUOAgkBMAICCAEGBgQDBwQLBwEFBAEDBwQHAwEBAwEBCQ4KCwcFCQoFDAUCAgcDAQEQAQMFAwEJAQsEFgQGAQEJAQkHAgQIBAwKCxABAg4GAgQHBgoIAgQEAQIDCQEBBAcCAgkBCgMEAQQJBAIQAQkHAQ4CBAsFEwUCAwgICAEIBQICBgEHBhoLCQUBBAEBCAEJAwEHBAQGAwsEBggDBQgBAgMKBQ0CAwIEBQIFBwEBAwoHAwIFCAMFBAICCxUKBgcFAQMECwYDAgECAwYCAQECCAMFAQkBCAYPAgcUAgYBAgIBAQgHBQIBCwsFCwICCgICDAMEEAgCCAIFAQ8LAwYBBQ8CAwcPCg8EBAMCCA8LAQQIBAoGDgIFCAIBBgECAQENBA0CBwIGBQYEBwMIBQUBAgsCCAsGBQ4CBAUDAgYBEhsLAwUBDQYDCAgIBAgCBAMKAgEBAQ0NCAIDAg0HAwIDBAsCBQMJAQoEDQoFAQ0GBAQRBgEOAwgBCwoCAQwGAwUGAQUHDwIDAwEEBA4JBgIDBAIDBwECAgYCAwQFAwcDBwUEAQYFAg==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CIRCLE:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 267,
+      "EntityIdsDeltaVarintBase64": "BAGfARgOKCklbyUYDBUGWgggZQsZBkMbCQgRERAcUhprLSg7IgdeDQMqJGAjD+0CARcBRgc0IwRCMA0CEG8OkgELhQEPBgg3GSZXCjUGDhklUQUGA1IWIT4MLgcLGzoNIA2VAQ4KCS4KBg4uDnIcDwYICCMFKgMPBgECKwxOEAIJDQkaFy1qRgwFZQMKQmVvFhFrBgIGKw4PUA4MFEYFK3QfEQk7GRQvFiZBDhoYLg0kJgUuDhgJGgZXFnsEFCgMCSsFAwIGCwICFBsFMQ0CJAIEH0QIJQ5MKg8ELTUOS0wBBQogTxM1F0EJiAEVDQp2JAMMEz8IEShLDwQtEgk0CQwDXjEMGBcUPQwVDgUhSGAH",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CLOSED_SHELL:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "xxU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "COLOUR_RGB:4",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "1Tc=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CONICAL_SURFACE:4",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 91,
+      "EntityIdsDeltaVarintBase64": "GY4BBKcEHikYoQG2Aj0jHJIDPkggPBvPAXEVJYMBbYkBFAv1ASimARsRf5kBXR5Ib3MfIxPAAdQCSSEOSW7iAQ8L5gFk6QElLnJFQEA/uAEkmQFAzgG/ARwIYaQBHA9gLgMLCxIvOnyuAaIBnwLJAU3BAXcI",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "CYLINDRICAL_SURFACE:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 83,
+      "EntityIdsDeltaVarintBase64": "pwIpTD8tmQFUD50BDd8BUTmyARktBZsBIRJlE9ABnQEdOfUBtwHFAgu2AbQBHP0B9QG+AkQwfbsBiQEVjwGlAQ4iLKkDDKYBYBcURIIBnAE/jAEH1wGiAWQVUCQC5wG2AZ0BA6MBcW8RAt0CxAIBbyknLjI=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "DIRECTION:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 1656,
+      "EntityIdsDeltaVarintBase64": "AwMCBQsCCgQHCA4EBAINAwEEAQIFBgMCBAINAQMCBAIDDQYNBgMFBgcEBgYDCAUBCgEOAQYFCgUBBwQCAgoCBgQNCggDAgQECgIEAgECARcDCwECEAEGAwMDCAYBBwsHCAIDAQMCAQEKFQIFCQMIAgIGAgcECAgEBwEHAgcDAQgMAQoCCwgGAgcCBAIDAgQEAgYEAhYCAQIFCgIJAQIIAgIHAwYBAREEAgIDBAgCAgQCBAUCBgYHBwYEBQIBAgQCCQkBAgMIAgEFFQoIAQEBAQcQCAYEBAEHBQkBBwISCgECAQUKDgYCAQgFBhIOAgQKBQIBAQUEEQQHAwIMCAQBAQQCAQUBAhACCwYEAgECCQoUAQUIBAIEBQQCAgEEAgYaDQUCBQcDAQoEAQYFAgoDAgIDAgkDBAkFAQEDDAkGAQICBQMCBwMCBwMJBwECBAkCAgIDAgkCBwwOBRMCBRAEAwcBAwEBBQUEBQIIAQMIDAIGBAYLAgELAgUHDAQCAwgFBwIIBAMBAgMLAQcDAgsBAgEHAQEDBQQCGgcGAwMDBAkKAgEBBwMBBQcKAQUCAwEDAwYKAgkDAgUFAQQKDQUCAQUTBAEEDgICAwEBAQIMAgkFBggBBQIJAgUCBQkGCAcHBQIGBAIFBAQBBAgDAwEPAQMCAwMECwIDBAMCAwgBBQYBAQkCAwkHAQkDBgMJAQoMAw4DFwUBBAgEAQQDAwEDCwQBDQMBAQYFAQMPAgEMBQkCCQYEFREBAgoDAgkFCQUKBAMDAwUGBQ0BAQQDAgULAQICARUDBQIBBgMHAgUEAg4BAQUCBg8CAgQCAwUBCwILAQ0HCgEGBgIKBgENAgkNBwIFBAcHBAEEBgQKFQECBgMBAQoDCgEDDQIJBwQTHQEHAwUEAgQLAwcBAwQFCAMKDQUHAgEDBAoDCAECBgEGAwEBBhQIDgIDBQkQIgIFCAMBAgEEBQQBBAsECwsGAwIJBwMFAQMKBAUMCgMGBgkDAhUCBAQGEQcJCQQFCQUKAQoFBgIIBAEGAQYBAQUBAgECEwkRCQEBBwUHCAICBgQFBAUBFRkEBAMBBAEIBAEDAggNAwICAgkBAwMDBAYGAQEDAxYUBgMDAwcCBAkKCwUDEQEEBAQDAggIAQoECgIIBAICBgQEAQMCAwMBAhUHAQcPCAQFBAcFGAIIAgYKAgYDBAoEBAQGAgkBBwIBAwIBAQUHBQoBCgQBAgEMBAEBAwkGBQUMBAcBAQkCAQoKBAIIAwEMAwQCCgIEFAEBCgEEAQQHAQsHAwIIAgEMAQoCAwUEBAIEAgUCAQkLAgMMCgQDBQEIAQQCBwEBAQQJBQMFAwMDBwsEAQMCBgIGGgYDCwYRBwYIAwQHAQYmAgEHCAUGCAECBQQFAQYJBAIFAQYBDgwBAwIDAwEBBAIIDAQCCAwCCgEFBQIHBAQRAwYDCQcCBgsJBAYKAwcUAwETBQMFAgsDAgcBCAYEAQUPFBoIBQgEAQcCBgIDAQYFBxADBAgJAQgPFQoFCgIBCAULBgQGAQgLBwEIAgYDDgoBBwMCAQcBAwUDAwIFAgMDAQcFCgcDDgEBEgQCCAkCAgEEAgMIBAIHBQYBCQkEAgQEBgcDAQIGAwEBIQ0JAwcMAhsBDAEDBgIRAQsGBAgHCQEGAQEFBgQCFQEMAgUFBgUBBwEFAgMFAwMBDAwLAggDCAEGCQMKBAQBAgkCDwYCBQILCgEFAwYIAwILAwQEBgILAQkBAgkEAgIICwoDAwUCAgslAwgHAgINAwMEAQMEBAILAQcRBQEBAhAIAwcEEAgCAwEGAw8CDQUCBxADBAQGDgsLAwECCgIFCAMBCgIBAQsBBgcIBAEDEwIHBg4CBBADAgcBDwIJAQMDAQYECAEWBgEBAxABAQQGEQQKAgUFAwQCAwgEAQEQAgUKBAYBAgkEBgICBQILCAgHAgoCEwIOAgcGBAEFCwoJAgIGAwkIAwIIBwYCBgkCDgEBCgUDBQoDBgYEEQgJCwgFAQUBBgYGAgECBQEMBQcIHAMJAQIDBgwBCAIDEAUECQECChsECgQBCQsHAgQCBgIJAgYCCgMCAwwDDAQGAgMDBQMDAgENDQ4CAgcCCgUEBgMHEQEEAwMCAxEeAQgDBg4GCQQHAQQCAQECAQkIAhMCCQYBBwsCDQIDBwEJCA0EAQcBDwIEGwELBQokAwIGBQUFAQELAwEI",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "EDGE_CURVE:5",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 766,
+      "EntityIdsDeltaVarintBase64": "DAoMCC8SBiAJBAspCQsEFAYGAQwLJQEPEhoBEBYHEQsLFggRFgYHAQkJAg4SBwoEGSwLCwgEJBMJDwYKAQ4FAggZAQoMChQSAjgEAgIEJAIsEA0MAhoFAioKBAIMBQUOBwQHBSABGSQLBQ4IGAIrEwkMEQYDBgMMBxAKARMJFhMLAgITGgITAxINAQgJDAMBCxAJGRAKAgIKAgUSEgIGAhEXAQ4cCAEBCgQICBg3BgUfDgoOCQQZAhEJDwcTAwISFwkBFBYWBwkDHwEOEw8GHgwGDwIEAgcbEwgLEwMGAgMEAwgPEA0LGAcEDAcPCwcFAQEEIR4REwYCFREGFR0LBQIIFCAJDBUIAi8GCgcBAQQQEgExDQUFBQMHFQIHCQcTCAQLDSMLBAEOFwETFQUJAQYMBQkBGx0EGgUCKgwKAQsPBDQPBgoJAQUjCAErBgEKCAIGEQsBDQoHERoIDwcIBgIEDxsYGwMDCAwCCBAKAQwNBxIHCQILAwgQEQQEBQsdHQ4TBgQFBQgPBAISCBAKBRsUBgQBAwkHDAsBOhAFDx8HGgYHBAcCAhsGAwoKCBoSCycHAQERGRMDJREBDAMIDwkWGwIBCgcTDAUCBgIPFxUPBxoDAgwIDwoBFAYQBQcCAwcKKQgEDxMdCQ4bAQQTNhEIBwIMAggDBx8BCwkGFBUKCg4GAgMOGiYSBgEDBwYRBwIXCA8ODAoHFwEFBQcFGwIUBg8KEAcNFQMUJQUBDQkDCRQEEwgODAUSBRAOBwYPDisKBQEHDAIDAgkWAiYIBQEPBAkQBwQDBwIlAS0JDgoBAQIJCA4MFBYMBwcOAQsSFRESCgEhBxgBAwIjDgcUBwEBCQMFDhILDQgFEQ4NCAoRAgcCAgUPGwIPKgkEBgIHIRYJIQ0KHwYCBQgJHCoUBQEKHhsgGRIFBxETCgwKCw4SBwEGHwIUBhEKBgEMAgkCDREEAxIHDw0GAw8EBicCCQEDCQgVHRcHCwgCBB0JASkDBwUCBgIZBQIIEBIHEA==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "EDGE_LOOP:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 339,
+      "EntityIdsDeltaVarintBase64": "CUwCLBAdBRADMGcID1YpBg8HGHFYASEOCgIVFAUbLgwPCVQKCwwnLwkSJAcsDDInAwkMGCAMHxgUDgw3Dw42IkscLQIeVhQTHxEcFyQcCAoxAgwoDhUDCxEMCSgDEAIBIxMBEDwKFBwJAx8NCQgjHwIFEgEODAgZDVUKRxpIEQEUFxZ6JVkBCwonJz9cHwIIATUcESUECgkNCxIHDhUURQwBCQo2KgEnJxI1HBcMbQI6UwYDA5YBPgsFExQSJw9kAkEeLQocKyAWATEiEwsbIh0cDQYOGw8NCjUJBTg7HAkXJxUcFQNLCxsFBhYUEhlCIhcEDTcgGQsDGyJAAhYLLBAnAhQnHQscFQ1ECikKAisPPFknDhkXDBAIBwIDDgUXMR1FNwIDLxUxFw8JBTAoIW4tKQwCBDFNThkVGScFAx0ZCzkpC0QbDAI2DAQRGBQVCzwOGw==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FACE_BOUND:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 24,
+      "EntityIdsDeltaVarintBase64": "0QJK6wErpQNohAmlAo4FqAGRBFz9AokC/gG1Aya+BugCZM0EywPwCCs=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FACE_OUTER_BOUND:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 315,
+      "EntityIdsDeltaVarintBase64": "AUUXExIVSSEsDR4aBwYxdQMKGj0gGRwtYxAqDgE4BA00AR4QBgYDJwUcDkECCBYBLAwoBBcVMW4SBisiBh8nFiw5WiQDPUIKGwVMBzsdFSEOGAwqMjgUKSY3Dg8iBkYHERAHCh4CUhg0LxMYAUYtBAqQAQgGEiEeAwcKECRZBy8KGwUlDxFpTXAKCDYNHxRCYTIaBR0hWgYtIxITGDMBHgsIMgMTS2UKLTANIR0CDw4QqwEaARwJAwgWGQwDIwgwAgsJGBUOAWgFPgIIQRRZCQMMGAcCEAI/IRAPNGY7EGAcNRADARITExkhKREKBxAnDB0/bwYEBwQHBREHLhYGFDENA1MVS30OAwURJhQBChUTARQFJg4LCAkDAhUSKQ4UTRg8NBQDCAYONiIaMwQcBQYOPQYhBC0MGgcdKAY=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FILL_AREA_STYLE:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "lBw=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "FILL_AREA_STYLE_COLOUR:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "rUI=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2",
+      "Role": "Context",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "vi3JFA==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "LENGTH_UNIT:0|NAMED_UNIT:1|SI_UNIT:2",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "nAGwCA==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "LINE:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 490,
+      "EntityIdsDeltaVarintBase64": "DgQCHhEEHBVJDgIbCxUBBgsOEQwNCgEBChUhAggHBw0TSgkZDRIMBQ4NDAkVCxsmFToFA0ILJAVIBAMfARwWNwcSBQEOPBsGFAQtDAIaBQQLGgovMRoSAScXDRYIJQsHBzcZOxIHIxgDAgcLCRgDFSQSFhkBAwsIKxAOFSsELhAOOwcPBhMaBA0lIwELKCQhEAMOFAgdAQMCGRIBEgUGJTgUJBJNCwQmDxAYFwQOAx8JBAcHFQ8FDworByQWFgQLCxkHDAYNBRMIAQISGgEVGhAZCxUIAxkbIQEIAQsFFxoeJAQBFAcaBQESCR4gbAMCCgkLEQUBNBMNKAIbHAYgAysEEAEFCx8OIgtRAyEEER8NAxELBCgIEgcEGgYJHyAgGgEDCyUuERUHBwkNAgUpDCcGFRklCwYVBxIgHxwbOAEcCgoIBwwCETZPBwJPIBgcIB8JGx8FDhAdBgQuDC0hBQkHAgJGEyAMCAUUGzIODgYFOQwOAxAWHR8BBBcIFggICgQHGQoYCAQYExAEAgUNBQoEBAYRJQMhKAgMGQwZHg8yKA0yMB09BgcCLDANFgsEFz0NBA40EBQIAgIKBBYNIwQXDgMFChoWDzMRAwIODwIEAQwxKQYOAgICQQUaBAMXARwwChwIBSBDAQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "MANIFOLD_SOLID_BREP:2",
+      "Role": "TargetRoot",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "s0U=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION:3",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "5Qs=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "NAMED_UNIT:1|PLANE_ANGLE_UNIT:0|SI_UNIT:2",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "mSXZFw==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "NAMED_UNIT:1|SI_UNIT:2|SOLID_ANGLE_UNIT:0",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "4RfkDQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "ORIENTED_EDGE:5",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 1532,
+      "EntityIdsDeltaVarintBase64": "CxABAggLAgMKAR0DBwEKAQIEAgILFgECAxYCAwkMAQECCQMGAgMGAwkBBQoCBQMDBgEIAQMBAwgBCwMFCwEKAgECCAMGCgEKAgECCAECBgUGAQoMCgIFCAELARMCCgoBAQMHAQcCAwYBBwEIBQIEBgMCCwENAQQDBAYFCA0CDQYCAQsBAQoBCgQHCgoCAwUCAgsKDAcKAgwBAgsIBAcNEgMLAQMEBwYDDQICBwQFBQUCAQoBAgECCwEGAwkCAQgBDAQNBAIKAQECDAYECgMOAgoGAgsJAQECBgsHCQwDCAQHAwUEBgEGCwcHCQEHBwIECBAMAQEGDQUMCwIHEAkKAgUICw0BCgIDEwEKBAkJAgsLAgECCAEDBgIKEgMNBgQDBQQPBQcEBwIEBQIBCwEDBwECBgoDCAEBAgMKDBMLAQwBAggCBAUJAgoBAQYCFAIBCAECDhEBCwEDBQIGBAoBCwICAgUGCQEMAgsNBQwPBQQECAIGAQ4CBgIKCA0LBAYJAQIMAQQJDAoIAgILBAYIAQkDAgkCBQ8NAwUKDgkBCgEDAQIIBwYVAQIIAQMECAULAwsECw0BBwEECAEBCAYHCAECBgcCAyMCDQoLAQgIAgwBAgkCAwwGAQgBFAMICAoCDQkEBgINCQIJAgYNAQkBBgICAwIECgsCCgQGBQYMAgIKBQYCAwcDCAEBFQQFAgENAQECAwoBAgYFBAgCCgEFBwECDAcCCwEKAgYGBQsBAQQJAQIGDgsEBgICCAMDBgEJAQsFAgkBBwIHBAcCDgEBCgEBCwECBQgCAQsMDQgLDQEGAgwDAwoLAQkGDAYBCgEIAgILBgEBCAIDBQEDBwQJBBACAQMJAQoEBQMBDAMJCQgCAQgBAgICCQIIBAkBEgkDDAwOCgMJBBECAggDBgsKBAwBCgMFBQ0JARIJCgEBCBMMCwULAQoBDQQFBAgBAhcSAQcBDgoIAxYCCxABCgoEBgUIBBYBBgIOAg4EAQIKBwIEBgMLDwkCBAQCBwEPAQIEAgQFAgEJAQMDCwIFAwQFAQoCAQIIAQIGAgkDDQEKBgQGCgQJAQIJAwcBCwIIBgMMCgEJAgMKBwEJCwECCwsCAQoMAwUNAQIWBAgPBgIIAwYDJAIGAwMFAgoBDgEDCQYECgMOBAUJDgIBAwcCBwwPAQEBAQYDBgIEAwILAQIJAwwGDgEGDAICBwQECAsBAgkMBAYSAQEGAgQHAQcCAQsCBgIFBgEKCwEFCAcRAQIEDAIIAQ4DCgIDDQsBDAMFAhUNAQcDAgcDCgkBCgQHBwcDARwKBwMZAQcDAwYOAQIHBgIGCgIBCgQBCgEHEAgBAgMJAwUCBQcBCwEBDAEDBQ8cAQEOBgYCAQMHAQsFCAcCCAUECAkBDAkZAgYBAQQDCwwIAQMGAgoBAgYNAwgCBAYDAwgNCAIDHQEKBAINCAICBwEDBgYMAQgCAggDAwwCDA4HAgMGAggDAQIICQUJAQoBAQILAQkDBAUCAg0LAwUGCQkBAQsBBQYbCAINBgsGAgMKCQEOAQEEAggJAwwEFwENDAMIAxIBCQYCBAcCBwEBHxMBAQcCCQMKBwECCAEDBAIHAgoLDAEEBwQEBwMBDwEKBgIDBQMBDAECAQIPAgQEAwoFCAICBwIQDgMLCwsBCwECCAMGDQsIAQETAQwFCwECBAMFBggBBwUCBQYKAQgBAggLAQwCDwwIAwIHAQEKAQUHCAwBCgECBQQFAgYCDAMPAwYCBAYBAQsCCQYDAwgJBAIICAUIAgEJDgENBAkCCwcKAgcFBw0BAQECCAIDAwIEAwIBCQENAwcHCQEMAwMJAQMGCgEJAgIHAQcCFwQFCAMIAgkNCQsBCAwDEgIBCQEBBwIHCAMBCw8DCAIMDgoBAQYECAIOCAECBwgLDAIXBQMPARIHBQYDCAEBAwgCAgQFBwEJAgENAg0FCBEDCQEIBgQDAwwBAQIIAQgGBAELCQ0ICAENAwIGDQ4NBgEDBgoGAgoEBhEPAQUDAwYKAQIJAQ0FAwoBCgEBBQQFAgQ=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PLANE:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 141,
+      "EntityIdsDeltaVarintBase64": "EBMYFQM1Q2CCAZcBCjETdzkfFxy5AlIMbDMGCAUnjwFVPpIBAi4FrQHwARYRJ8IBlwFBFyZ0DRE3DEExMoQBFnMkLzY6Wi8OBRgvITrkAR4pHR04FYgBDTM6Ax1RKtgBCkBCAkcoVBDNAXt6LgwkEhYQOA2rARAyYEIaAic7BwkqLAiYAuoCywFVIxMCPsoBfQ0zBzevAX0CFwkKvgE0ODsp",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRESENTATION_LAYER_ASSIGNMENT:3",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "jSs=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRESENTATION_STYLE_ASSIGNMENT:1",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "jQw=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "6xg=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_CONTEXT:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "qzU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "lh4=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION_CONTEXT:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "kjU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE:4",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "rDw=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_DEFINITION_SHAPE:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "+iU=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "PRODUCT_RELATED_PRODUCT_CATEGORY:3",
+      "Role": "ProductMetadata",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "qBE=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SHAPE_DEFINITION_REPRESENTATION:2",
+      "Role": "ShapeBinding",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "2zs=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "STYLED_ITEM:3",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "1QI=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SURFACE_SIDE_STYLE:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "gEM=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SURFACE_STYLE_FILL_AREA:1",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "2kI=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "SURFACE_STYLE_USAGE:2",
+      "Role": "Presentation",
+      "Issues": [],
+      "Count": 1,
+      "EntityIdsDeltaVarintBase64": "mj0=",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "UNCERTAINTY_MEASURE_WITH_UNIT:4",
+      "Role": "UnitMetadata",
+      "Issues": [],
+      "Count": 2,
+      "EntityIdsDeltaVarintBase64": "pAX7OQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "VECTOR:3",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 490,
+      "EntityIdsDeltaVarintBase64": "FQgMDwUyEB4NBAkVEAcGKCMICBcIIxM4AQsJDAsFHzgEBAMEBgQOBwERHBI7DwkcBglBGTEKKh0ZLggBBwc2AREHCRIvGwkBAg0BCA4pBwUZIxYKCwEOCQEHFDYMBAUJFhoRJx8MAgUJDQwBLwgMHAEBDAYcBxAaLwQEEioHAUkFBQUGIwwLWkIIIRcLCQMEFQgPCQc7AggOJwYJQBQHGmEDCQgBCQIKCQYID0YBDxsHGgMYEAgTBQEFCD8RMxQjCwpDG3MXBAUJDQIRBwcLIiQJBSYJDxstAQsMBA8PESkSBwMBAQsDAww3FjAUDwYGDAwIEwsvFx81NAYSChAECAgRHgkDCQIYCAISByQXBAMGBgUCFi42BAgCBxEhBx5bAhYMHxwHBwYGAwgILRwHIhULEhkPHw4HGwwPDw4OESAPHCUONwELCgIYAi4SExkFBgUKBAcSWgIBCQwDCgwKDxgnAwEBCwk9BhcaBQoIJhAGRA8MDwsIDAsYJQoqF0EFCAIKBxkNThAIFxYNBScGDwQeGgpcDAQGCgcRFTY6HDkIBQcBARApPwkFGgYWDQcVJwQDBAcMAwsPH0kBCAIPAgJwJAoLEwwJByUGBgICChAJBRBWAgkULgg/EBYoXwELKQwBTwYCBhsMDQ==",
+      "IssueEntityIdRanges": null
+    },
+    {
+      "Signature": "VERTEX_POINT:2",
+      "Role": "GeometryDependency",
+      "Issues": [],
+      "Count": 461,
+      "EntityIdsDeltaVarintBase64": "PwwBAgQ0DB8wJAsTH0AIHRYBAw0lCQJLAi0WFQsCEBkPOBcCIAoIBQkOA0s0DxclASUNAyYLJikSEyIlGw4FAg0REyICCjElBRApDwMBLxUEBRwDEAkQICIIDBECDGctDCILEgwNCDAUAgkMAQoiOAkKPSAmCREpCxMJCQ8HHi0gVhZPEwsLDiYJAQZoHQwQJgsMLAgNKFIOBAcCCyUaCxcQGA8TLSoFHxYPAgIXBwYDEB8XEQozAQ0DAgUICRcdBzIYAhQCAxsLBAwJDgsFAhEDCRkLBAI8Fw4BAgkFGi5dHwkWJQoHChcTGAYNCS4LCQYZGQEMAx8LAxMNCQMIGCgOKgwDEA1EDQIUCQV4Fgk0BCsKED8aAgEDDhAMAgICCxVBERpLBw4BBB8XCwoJCAInFAIoJxYzAxALAxMgFBoXCQokFwUiCycHJQcKGAIMCRUcDQE+JhMOBwMPGwEKDgRVDAQ6CisBEwoEHAwKDgERKSQbJRAUGwYiAQsNGActLTIQIhoBAhMTCwQSDDwCCz0GHgsGAwwmAgsCJwYDBR8JFQ4RBQMCDRoiBAkHCwwWDg8BOQgNDgsQEAQOCA0kEgQXKBgMFAcKBwgjMjU=",
+      "IssueEntityIdRanges": null
+    }
+  ],
+  "LedgerSha256": "65EBCC034E4B9A8EFAECDE9C6EECFC01AB923DB0B35C73A876D87CAA60B88F34"
+}
