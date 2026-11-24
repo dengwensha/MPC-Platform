@@ -58,16 +58,15 @@ fingerprints = []
 for path in results:
     payload = json.loads(path.read_text(encoding="utf-8-sig"))
     diagnostics = payload["Diagnostics"]
-    groups = collections.Counter()
-    ids = []
-    for diagnostic in diagnostics:
-        assert diagnostic["Code"] == "STEP_REFERENCE_RESOLUTION_FAILED", diagnostic
-        match = re.fullmatch(r"STEP semantic entity '(#\d+)' could not be resolved\.", diagnostic["Message"])
-        assert match, diagnostic
-        entity_id = match.group(1)
-        assert entity_id in records, entity_id
-        ids.append(entity_id)
-        groups[families[entity_id]] += 1
+    assert payload["Status"] == 2 and payload["Summary"] is None, payload
+    assert len(diagnostics) == 1, diagnostics
+    diagnostic = diagnostics[0]
+    assert diagnostic["Code"] == "APP-STEP-SEMANTIC-001", diagnostic
+    assert diagnostic["Message"] == "STEP unit/context precheck: TransformedRepresentationPath; root #39941; source #6306,#130526.", diagnostic
+    assert "REPRESENTATION_RELATIONSHIP_WITH_TRANSFORMATION" in families["#130526"]
+    assert families["#39941"] == "MANIFOLD_SOLID_BREP"
+    groups = collections.Counter({"RU_TRANSFORM_PATH_REJECTION": 1})
+    ids = ["#39941", "#6306", "#130526"]
     fingerprint = hashlib.sha256(json.dumps(diagnostics, sort_keys=True).encode()).hexdigest()
     fingerprints.append(fingerprint)
     runs.append({"File": path.name, "Count": len(diagnostics), "UniqueIds": len(set(ids)), "Groups": dict(groups), "DiagnosticFingerprint": fingerprint,
@@ -75,6 +74,7 @@ for path in results:
 assert len(set(fingerprints)) == 1, "Diagnostic runs differ"
 report = {"SourceSHA256": digest, "SourceEntities": len(records),
           "EvidenceRun": os.environ["GITHUB_RUN_ID"], "ReviewedCommit": os.environ["GITHUB_SHA"],
+          "CompatibilityOwnerApproval": "PENDING; verified rejection is not approval",
           "Runs": runs, "BSplineInventory": dict(collections.Counter(v for v in families.values() if "B_SPLINE" in v))}
 (root.parent / "evidence" / "b18-reconciliation.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
 print(json.dumps(report, indent=2))

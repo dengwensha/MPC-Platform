@@ -62,6 +62,7 @@ public static class ManufacturingRegionImportService
                 throw new InvalidDataException("STEP semantic entity identifiers must be unique.", exception);
             }
 
+            ImportUnitPrecheck.EnsureCompatible(inventory, roots[0].SourceEntityId!);
             var operation = StepCanonicalMappingOperation.Create(semanticResolver);
             var mapped = operation.Map(roots[0]);
             if (!mapped.IsSuccessful || mapped.Value is null) return false;

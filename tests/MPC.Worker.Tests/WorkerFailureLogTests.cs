@@ -77,6 +77,23 @@ public sealed class WorkerFailureLogTests : IDisposable
     }
 
     [Fact]
+    public void UnitPrecheckFailureLeavesOriginalCorrelatedDiagnostic()
+    {
+        Directory.CreateDirectory(_folder);
+        string golden=Path.Combine(AppContext.BaseDirectory,"TestData/Step/Golden/T001_PRISM.step");
+        string path=Path.Combine(_folder,"metre.step");
+        File.WriteAllText(path,File.ReadAllText(golden).Replace("#147 =( LENGTH_UNIT ( ) NAMED_UNIT ( * ) SI_UNIT ( .MILLI., .METRE. ) );",
+            "#147 =( LENGTH_UNIT ( ) NAMED_UNIT ( * ) SI_UNIT ( $, .METRE. ) );"));
+        string hash=Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(path)));
+        var request=new RegionSourceValidationRequest("1.1",Id,WorkerOperationKind.ValidateRegionSource,path,"#8",hash,RegionSourceValidationRequirement.SourceLinkOnly);
+        AssertFailure(new RegionSourceValidationProcessor(new WorkerFailureLog(_folder)).Process(request));
+        using var json=JsonDocument.Parse(File.ReadAllText(LogPath));
+        Assert.Equal(Id,json.RootElement.GetProperty("RequestId").GetString());
+        Assert.Contains("STEP unit/context precheck: ",json.RootElement.GetProperty("ExceptionDetails").GetString());
+        Assert.Contains("#63",json.RootElement.GetProperty("ExceptionDetails").GetString());
+    }
+
+    [Fact]
     public void UnwritableDestination_DoesNotReplaceImportFailure()
     {
         Directory.CreateDirectory(_folder);

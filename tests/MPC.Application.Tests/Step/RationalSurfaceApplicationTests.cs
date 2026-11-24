@@ -66,6 +66,7 @@ public sealed class RationalSurfaceApplicationTests
                 ENDSEC;
                 END-ISO-10303-21;
                 """);
+            UnitCompatibleFixture.AddBinding(path);
             return new StepImportApplicationService().Execute(new StepImportRequest(path));
         }
         finally { File.Delete(path); }

@@ -59,6 +59,7 @@ public sealed class BSplineCurveApplicationTests
                 #100=CLOSED_SHELL('',(#80));
                 #110=MANIFOLD_SOLID_BREP('',#100);
                 """ + "\n" + curve + "\nENDSEC;\nEND-ISO-10303-21;");
+            UnitCompatibleFixture.AddBinding(path);
             return new StepImportApplicationService().Execute(new StepImportRequest(path));
         }
         finally { File.Delete(path); }

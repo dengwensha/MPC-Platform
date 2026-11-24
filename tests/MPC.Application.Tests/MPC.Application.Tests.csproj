@@ -32,6 +32,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="../../src/MPC.Application/Step/ImportUnitPrecheck.cs" Link="RUUnitAudit/ImportUnitPrecheck.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../src/MPC.Application/Step/StepImportApplicationService.cs" Link="RUUnitAudit/StepImportApplicationService.cs" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../src/MPC.Application/Manufacturing/ManufacturingRegionImportService.cs" Link="RUUnitAudit/ManufacturingRegionImportService.cs" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData/Step/RU-QuarterCone.step" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\MPC.Tests\TestData\Step\GE03B01-QuarterConePole.step"
           Link="TestData\Step\GE03B01-QuarterConePole.step" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\docs\reviews\Tooling\evidence\M2-HeaderV2-Envelope\controls\C01-CommentData.step"
