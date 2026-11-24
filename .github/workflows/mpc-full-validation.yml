@@ -34,6 +34,13 @@ jobs:
         run: ./tools/ci/Invoke-MpcFullValidation.ps1 -Stage Regression
       - name: Standalone source-face Worker acceptance without SOLIDWORKS
         run: ./tools/acceptance/Invoke-RegionSourceAcceptance.ps1 -EvidenceDirectory (Join-Path $env:RUNNER_TEMP "mpc-full-validation/evidence/source-face-acceptance")
+      - name: Observe R-U current import unit behavior (not safety acceptance)
+        run: |
+          dotnet build tools/ci/RUUnitProbe/RUUnitProbe.csproj -c Release --warnaserror
+          if ($LASTEXITCODE -ne 0) { throw "R-U observation probe build failed." }
+          $output = Join-Path $env:RUNNER_TEMP "mpc-full-validation/evidence/ru-unit-observations.json"
+          dotnet tools/ci/RUUnitProbe/bin/Release/net8.0/RUUnitProbe.dll . $output
+          if ($LASTEXITCODE -ne 0) { throw "R-U observation failed; do not report unavailable output as safe." }
       - name: Targeted rational curve GREEN
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests

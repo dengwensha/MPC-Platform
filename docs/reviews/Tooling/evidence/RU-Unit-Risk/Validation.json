@@ -1,0 +1,35 @@
+{
+  "Date": "2026-11-24 Europe/Istanbul",
+  "MeasuredCommit": "c632166ee31f2e54b9e3c166992e3c22d7a56ba2",
+  "SDK": "8.0.422",
+  "Platform": "Linux .NET 8",
+  "BuildCommand": "dotnet build tools/ci/RUUnitProbe/RUUnitProbe.csproj -c Release --no-restore -m:1 -p:BuildInParallel=false",
+  "RunCommand": "dotnet tools/ci/RUUnitProbe/bin/Release/net8.0/RUUnitProbe.dll . <output.json>",
+  "RestoreCommand": "dotnet restore tools/ci/RUUnitProbe/RUUnitProbe.csproj -m:1 --source /tmp/empty-ru-feed -p:NuGetAudit=false",
+  "SeparateProcesses": 2,
+  "RepeatedRowsEqual": "7/7",
+  "AllInputsUnchanged": true,
+  "SourceNormalizedSha256": {
+    "tools/ci/RUUnitProbe/Program.cs": "77F42EADB105D3D9D3E4CFDD767B3ED3FCAAE37E358E147D785BDA8C74E7897A",
+    "src/MPC.Application/Manufacturing/ManufacturingRegionImportService.cs": "C01DCD9861BF2FE27CAB8F92D3BBA8F22E25F58AFC5DFE7B550D0C9502306A48",
+    "src/MPC.Application/Manufacturing/ValidatedRegionImportService.cs": "91CD92892A395C344846572EE1B6B2C87FBA70A35696CBE22D4A28573BE5E842",
+    "src/MPC.Application/Manufacturing/ManufacturingRegion.cs": "C839896F67EDC7BE872C44980B2DE5ABBD36DAD1B1539D4239350697DFA5DCC2",
+    "src/MPC.Application/Step/StepImportApplicationService.cs": "17491A47628B56703F47DA57FC190964ED8E06A07E5C1713B71795522F3FC6E6",
+    "src/MPC.Application/Step/StepSemanticHandlerCatalog.cs": "1F17A9AAB15B0866AD14C699F066AA5A89B7D39FE507CF8BDC8CB19504C9CE88",
+    "src/MPC.Connectors.Step/Resolution/StepUnitResolver.cs": "1A2704D8C15EA3BFB28CFAE602CE8FFDC78662BD5C11D98431AAB56328B54562",
+    "src/MPC.Mapping.Step/StepConicalSurfaceGeometryMapper.cs": "680352B58BEAA33B813821A4B708E9C168FC5F483BC33CA248E8DF59782501A1"
+  },
+  "GoldenByteSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+  "GoldenDecodedNormalizedSha256": "2285E9AE19C3D8D32CB5267A10F3293C6774142CDEAF17ED4CB71B6AAD805A6C",
+  "GoldenDecoding": "Existing File.ReadAllText UTF-8 replacement fallback; golden contains invalid UTF-8; fixture text then normalizes CRLF to LF",
+  "Limitations": [
+    "Observation only, not corrected safety behavior",
+    "Angular fixtures deliberately replace a prism face without reconstructing a physically valid cone boundary",
+    "Region publication is planar face #30; mapped cone is face #8",
+    "No claim of whole-file conformance or calculation eligibility",
+    "Production sources unchanged; no full local regression claim",
+    "Windows observations from exact final PR CI required",
+    "Final evidence-only descendant may have a different assembly hash"
+  ],
+  "LocalBuild": "0 warnings / 0 errors"
+}
