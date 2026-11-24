@@ -1,7 +1,7 @@
 {
   "document_schema_revision": 1,
-  "manifest_revision": "1-review.1",
-  "status": "PROPOSED_PENDING_SENIOR_NOT_RATIFIED",
+  "manifest_revision": 1,
+  "status": "SENIOR_SECTION_38_ACCEPTED_CONDITIONAL_ON_FINAL_HEAD_WINDOWS_CI_AND_MERGE",
   "authority": "Review contract only; no production loader, classifier or evidence issuer in this PR",
   "start_commit": "12e38d21afcc85fcccdd1a2f7e76c4fb9d030281",
   "historical_draft_sha256": "EE03563A63F98C79D629E8D387DD0AEBA7031BC9F021BC750FB4923E70DA1A41",
@@ -10,9 +10,9 @@
   "physical_occurrence_proof": false,
   "angle_absence_proof": false,
   "version_bindings": {
-    "RecordRoleManifest": "1-review.1",
-    "TargetBindingPolicy": "1-proposed",
-    "CurrentImportCompatibility": "1-proposed",
+    "RecordRoleManifest": 1,
+    "TargetBindingPolicy": 1,
+    "CurrentImportCompatibility": 1,
     "ContextUnitPolicy": 1,
     "HeaderSchemaAllowlist": 2,
     "EnvelopePolicy": 1,
@@ -692,11 +692,11 @@
     "I04-T2": "Either direct SDR to geometry representation, or exactly one simple four-field nontransforming bridge to a distinct SHAPE_REPRESENTATION containing placements only. Either endpoint order; exactly one SDR across both endpoints and it targets the main endpoint. Reject chain/branch/cycle/self-link, second SDR including direct-plus-bridge, transformation/mapping/assembly and unknown incoming endpoint paths. Typed fields establish binding; reverse index only detects additional paths.",
     "I05-Product": "Resolve unique SDR -> PRODUCT_DEFINITION_SHAPE -> PRODUCT_DEFINITION -> admitted formation -> PRODUCT and PRODUCT_DEFINITION_CONTEXT -> APPLICATION_CONTEXT. Validate each full referenced row and its complete metadata chain. Allowed incoming to geometry is SDR (direct) or bridge; main endpoint only SDR+bridge. PDS incoming only this SDR; selected PRODUCT_DEFINITION incoming only this PDS. Other product metadata cannot hide an assembly/occurrence path. This includes all ImportUnitPrecheck product checks and adds full typed formation/product/context validation.",
     "I06-T1": "Carry every ImportUnitPrecheck Styled/Layer/Style check, child-role check, whole presentation item-list validation, RGB bounds, invalid-side and active-cycle rejection. Validate ALL Presentation rows with this catalogue, not just root incoming rows. STYLED_ITEM target and every direct layer geometry target must be in the root typed dependency closure; every styled layer item must have that property. Presentation representation items must all be valid STYLED_ITEM for this root, with their own valid context. Incoming to STYLED_ITEM only validated presentation representation or layer. Detect cycles via active/done sets without dropping shared valid nodes. Colour/layer metadata does not create physical occurrence or choose geometry context.",
-    "I07-ContextUnits": "Whole exact 3D context signature. Units list contains one supported length and one radian definition; at most one optional exact steradian, no other dimension, conversion unit, duplicate dimension or unknown candidate. Full definitions inspected, not generic inventory SI lookup. Presentation context does not replace target context. Uncertainty rows are validated retained metadata, not a precision/normalization attestation; their length-unit definition must equal their owning context length semantically.",
+    "I07-ContextUnits": "Whole exact 3D context signature. Units list contains one supported length and one radian definition; at most one optional exact steradian, no other dimension, conversion unit, duplicate dimension or unknown candidate. Full definitions inspected, not generic inventory SI lookup. Presentation context does not replace target context. Uncertainty rows are validated retained metadata, not a precision/normalization attestation; their length-unit definition must equal their owning context length semantically. A3: These structural unit/field rules apply to EVERY context, including presentation-only contexts such as T001 #89. Metre or centimetre with radian is structurally admissible there; CurrentImportCompatibility mm/radian is required ONLY for geometry/main binding endpoint contexts, never solely because a context belongs to presentation. Presentation units cannot rescue invalid binding units.",
     "I08-BSpline": "Each curve degree p < control-point count N; distinct knot and multiplicity lists equal length >=2; strictly increasing finite knots; multiplicities positive Int64, endpoint <=p+1 and interior <=p, checked sum N+p+1. Surface grid rectangular with U rows >u_degree and V columns >v_degree; apply identical knot rules independently in U/V. Rational weights positive finite with exact curve count/grid shape. Repeated control-point references and weights allowed, no deduplication. These finite field invariants do not prove a regular, non-self-intersecting or supported surface.",
     "I09-NoGeometryClaim": "Finite analytic scalars remain signed structural data; no radius-sign, axis-orthogonality, vector-magnitude positivity, valid-cone-angle, topology closure/orientation, normal, signed toroidal compatibility or evaluator support assertion. These remain mandatory semantic/coverage/normalization gates before geometry use. Never weaken existing mapper checks. No physical-occurrence or angle-absence proof here.",
     "I10-Ownership": "Only same retained captured bytes/inventory in a real InventoryEvidence and owner ImportSession can produce/read bound target observation. Private constructors/data, owner-checked bind/read, no detached neutral/observation input to decision API, no equal-hash owner substitution, no evidence->session back-reference. Use StepEvidenceSyntax.Components. No production afterSourceCaptured use, new consumer, Ready or wire changes.",
-    "I11-Compatibility": "Evaluate structural binding independently of CurrentImportCompatibility v1; compare endpoint supported length/angle exact rational definitions, not IDs. Current compatibility requires millimetre/radian on every binding endpoint even with no angular field. Any current ImportUnitPrecheck rejection forbids positive target issuance. Agreeing supported metre/centimetre endpoints may satisfy structural unit equality but fail import compatibility. Do not relax R-U, add identity-transform support or normalize.",
+    "I11-Compatibility": "Evaluate structural binding independently of CurrentImportCompatibility v1; compare endpoint supported length/angle exact rational definitions, not IDs. Current compatibility requires millimetre/radian on every binding endpoint even with no angular field. Any current ImportUnitPrecheck rejection forbids positive target issuance. Agreeing supported metre/centimetre endpoints may satisfy structural unit equality but fail import compatibility. Do not relax R-U, add identity-transform support or normalize. A1: The producer MUST directly invoke current ImportUnitPrecheck.EnsureCompatible on the exact retained inventory instance and uniquely established root ID, inside the compatibility layer. Faithful reimplementation/parity tests alone are insufficient. Catch only its documented input-rejection InvalidDataException around that call, retain original message/inner cause/source identity and record CurrentImportIncompatible; do not return early or suppress other independent findings. Unexpected exceptions propagate. If required root/inventory is unavailable, mark compatibility Unavailable with its real dependency reason; never choose a root to run the check. A2: Only the exact approved revision tuple may be emitted/accepted; proposal, missing or unknown labels yield TargetRevisionUnsupported/Blocked.",
     "I12-Reasons": "Preserve all independently observable failures with policy layer, code, source ID, component/field/list indices, related IDs and original stage. Do not invent child findings when a parent cannot be parsed/resolved; emit unavailable dependency with related ID and continue independent records. All proposed target reasons Error/blocking. Sort ordinal policy-layer then code then source ID then component then numeric field/list indices then related-ID tuple then original stable occurrence; deduplicate only exact identical tuples. Unexpected exceptions propagate under existing policy, never fabricate clean data."
   },
   "required_global_invariants": [
@@ -743,7 +743,8 @@
         "denominator": 1
       },
       "comparison": "Dimensions, exact unit code and reduced rational scale equal at both endpoints; no doubles or normalization",
-      "optional_steradian": "Exact direct SI steradian only; retained auxiliary dimension, not plane angle"
+      "optional_steradian": "Exact direct SI steradian only; retained auxiliary dimension, not plane angle",
+      "context_scope": "Every context including presentation; structural supported-unit/field validation; semantic equality required only across the binding bridge endpoints"
     },
     "CurrentImportCompatibility1": {
       "length": "MILLI/METRE only",
@@ -751,7 +752,17 @@
       "always_require_angle": true,
       "R_U_rejection_prevents_positive_target": true,
       "coordinate_conversion": false,
-      "transform_support": false
+      "transform_support": false,
+      "context_scope": "Only geometry/main binding endpoints; presentation-only metre/cm context does not by itself impose mm compatibility",
+      "mandatory_existing_guard": {
+        "call": "ImportUnitPrecheck.EnsureCompatible(retainedInventory, uniqueRootId)",
+        "same_inventory_instance": true,
+        "reread_forbidden": true,
+        "known_rejection_reason": "CurrentImportIncompatible",
+        "preserve_original_failure": true,
+        "unexpected_exception_policy": "propagate",
+        "reimplementation_is_not_substitute": true
+      }
     }
   },
   "proposed_results": {
@@ -3205,6 +3216,30 @@
     "New field boundaries and equal metre/centimetre/mm split-layer cases; no historical result relabeled as new contract execution",
     "C1 new types and all-Application methods/constructors parameter lock; only bound observation own private constructor exempt; returns restricted too",
     "Pin source, reason-code/severity, independent revision tuple and contract bytes; no consumer or production test hook use",
-    "Windows full CI and public profile; private corpus Linux unless separately measured; user acceptance before merging new successful-import loss"
-  ]
+    "Windows full CI and public profile; private corpus Linux unless separately measured; user acceptance before merging new successful-import loss",
+    "A1: Every R-U-rejected historical control verifies the direct guard call on the same retained inventory and CurrentImportIncompatible; no positive target; no silent early-return in all-reasons collection",
+    "A2: Emit only approved revision tuple; old review/proposed labels, missing/unknown/mixed revisions and equal-hash foreign owner remain Blocked",
+    "A3: Presentation-only metre/radian and centimetre/radian contexts are structurally accepted with mm/radian binding contexts; reversed case still blocked; malformed presentation context remains blocking",
+    "For every loss from the 17 historical draft candidates explain all new producer reasons, especially B-spline workshop consistency; owner approval required for any currently successful real-import loss"
+  ],
+  "approved_revision_enforcement": {
+    "activation": "Only after section 38 A1-A3 amendment, green final-head Windows CI and merge",
+    "required_tuple": {
+      "RecordRoleManifest": 1,
+      "TargetBindingPolicy": 1,
+      "CurrentImportCompatibility": 1,
+      "ContextUnitPolicy": 1,
+      "HeaderSchemaAllowlist": 2,
+      "EnvelopePolicy": 1
+    },
+    "matching": "Exact integer revision values and independently pinned sources/contract; no string coercion, latest fallback, unknown or mixed tuple",
+    "blocked_examples": [
+      "1-review.1",
+      "1-proposed",
+      "unknown revision",
+      "missing required revision"
+    ],
+    "failure_reason": "TargetRevisionUnsupported",
+    "producer_revision_rule": "Only approved integer revisions may be emitted; proposal labels never become positive evidence"
+  }
 }

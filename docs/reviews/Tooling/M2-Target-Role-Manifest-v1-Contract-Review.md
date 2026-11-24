@@ -3,7 +3,8 @@
 Date: 2026-11-24 Europe/Istanbul. Class: VERIFY / design preparation.
 Start: 12e38d21afcc85fcccdd1a2f7e76c4fb9d030281 (#138 merge).
 Branch: docs/M2-manifest-v1-contract. Owner: Mehmet İlkay Kınacı.
-State: PROPOSED_PENDING_SENIOR_NOT_RATIFIED; M2 OPEN.
+State: Senior section 38 accepted with A1–A3; activation requires green final-head
+Windows CI and merge. No producer implementation in this PR. M2 OPEN.
 
 ## One goal and authority
 
@@ -13,8 +14,9 @@ trusted, consumer-free target producer can be implemented. The companion
 signature/field/profile catalogue. This document defines interpretation, deltas and
 acceptance. Neither file is loaded by production or by the T3 tool. Any conflict
 between these two documents is an unresolved review defect, never a permissive
-fallback. Senior acceptance and green final-head CI are required before promotion;
-this PR does not declare the proposed contract ratified.
+fallback. Senior section 38 conditionally accepted the exact contract with the
+A1–A3 amendments recorded below. Ratification activates only after green final-head
+Windows CI and merge; approved revision labels do not authorize pre-merge evidence.
 
 Only documentation changes. No src, production tests, tooling, reader, manifest pins,
 wire/enum values, Host/Worker/IPC or private CAD content changes. No trusted target
@@ -116,17 +118,20 @@ every declared reference, including metadata, must resolve uniquely.
 
 ## M1: independently versioned binding and import compatibility
 
-| Contract | Revision proposed here | Meaning |
+| Contract | Approved revision after activation | Meaning |
 | --- | --- | --- |
-| RecordRoleManifest | `1-review.1` pending ratification | Whole signature/field/role catalogue and graph requirements |
-| TargetBindingPolicy | `1-proposed` | Typed representation/product link plus supported, semantically equal endpoint units |
-| CurrentImportCompatibility | `1-proposed` | Current unnormalized mapping path admits only mm + unprefixed radian |
+| RecordRoleManifest | `1` | Whole signature/field/role catalogue and graph requirements |
+| TargetBindingPolicy | `1` | Typed representation/product link plus supported, semantically equal endpoint units |
+| CurrentImportCompatibility | `1` | Current unnormalized mapping path admits only mm + unprefixed radian |
 | ContextUnitPolicy | existing 1, unchanged | Supports direct metre, centimetre, millimetre and radian observations |
 | Header / envelope | existing 2 / 1, unchanged | Independent observations; not replaced by target proof |
 | Evaluator coverage / normalization | absent | No corresponding permission or attestation |
 
-Bind every revision independently to the owning evidence; unsupported/missing
-revision cannot mean latest or v1. Store exact rational length scale to metre
+Bind every revision independently to the owning evidence. A2 requires the exact
+approved integer revision tuple in JSON, with pinned sources/contract. The producer
+must emit only these approved revisions after activation. `1-review.1`, `1-proposed`,
+missing, unknown or mixed revisions are Blocked/TargetRevisionUnsupported; no
+string coercion or latest/v1 fallback. Store exact rational length scale to metre
 (1/1, 1/100, 1/1000) and angle scale to radian (1/1). Two endpoint definitions are
 compared by dimension, exact code and reduced rational scale, not IDs or computed
 double coefficients. Different IDs with the same definition may match. There is no
@@ -148,6 +153,24 @@ header/schema decision is inferred from product metadata or from the import stat
 A later reviewed normalization revision may revise import compatibility without
 redefining structural binding. Until then, a file rejected by ImportUnitPrecheck
 MUST NOT obtain a positive trusted target-only result.
+
+A1 makes that last guarantee structural: the producer compatibility layer MUST call
+`ImportUnitPrecheck.EnsureCompatible(retainedInventory, uniqueRootId)` directly on
+the exact inventory instance being inspected, before positive target issuance. A
+copied rule set or parity tests cannot replace this call. Its documented input
+rejection (`InvalidDataException`) is caught only around that call and recorded as
+`CurrentImportIncompatible`, preserving the original message, inner cause and source
+identity. Continue collecting independent reasons; do not return early. Unexpected
+exceptions keep propagating under the existing policy. When root or inventory is
+unavailable, compatibility is Unavailable with the real dependency reason; no
+arbitrary root selection or fresh read is permitted.
+
+A3 applies the supported structural unit rules to EVERY context, including colour/
+presentation contexts such as T001 #89. Those contexts may use supported metre or
+centimetre plus radian; the mm+radian compatibility restriction applies ONLY to the
+geometry/main binding endpoints. A presentation-only non-mm context does not by
+itself block compatibility. Its malformed/unsupported units still block structural
+validation, and its valid units cannot rescue an invalid target binding context.
 
 ## Typed T1, T2, product and whole-file requirements
 
@@ -238,8 +261,8 @@ Neither is a relaxation of current positive target/import compatibility. Profile
 effects of stricter field rules are NOT yet measured. The old 17/3 count must not
 be copied into an implementation report as if these new rules had run.
 
-Before implementation: Senior must accept/amend this exact catalogue and the M1
-split. After accepted document merge, build only the consumer-free C1-owned target
+Before implementation: section 38's acceptance becomes active after A1–A3 and
+green final-head document merge. Then build only the consumer-free C1-owned target
 producer, with no physical-occurrence/angle-absence proof or Ready result.
 
 Before that producer may merge:
@@ -248,6 +271,9 @@ Before that producer may merge:
 | --- | --- |
 | Historical 20-file + 12-control comparison | Same input hashes; draft result, ImportUnitPrecheck result and new producer layers/reasons side by side; every stricter difference explained; no R-U-rejected file gets TargetBoundOnly |
 | M1 cases | Distinct-ID equal mm passes binding/compatibility; equal m and equal cm pass binding but fail compatibility; mixed units preserve both reasons; conversion and missing/duplicate dimensions fail |
+| A1 direct guard | Every R-U-rejected historical control exercises the same-inventory direct precheck and records CurrentImportIncompatible; no copied-rule substitute or positive target; independent reasons retained |
+| A2 approved revisions | Producer emits only approved integer tuple; review/proposed labels, missing/unknown/mixed revisions block with TargetRevisionUnsupported |
+| A3 presentation contexts | mm binding with presentation-only metre/radian or cm/radian does not fail compatibility; reversed target/presentation case still blocks; malformed presentation context blocks structural validation |
 | Field boundaries | For each reusable profile and each conditional field wiring: wrong kind, `$` vs `*`, min−1/min/extra items, duplicates where forbidden, nonfinite/overflow, invalid enum/ref target/unknown complex component; integer versus real; optional directions; B-spline degree/grid/knot/weight consistency |
 | T1/product parity | All current precheck cases, style catalogue/target/side/RGB/cycle and product tests; additional all-row malformed/unowned/unknown presentation and product-tail cases; whole-list behavior |
 | Determinism and ownership | Multiple simultaneous reasons in stable complete order; unavailable prerequisites; same bytes/different session and foreign hash; immutable data; reflection method/constructor lock; no production hook use |
@@ -258,6 +284,14 @@ and accepted by the owner before producer merge; do not silently expand the cata
 to recover a file. Existing imports are not consumer targets in this next slice.
 New exhaustive field tests and comparison measurements belong to the producer PR,
 not fabricated as completed evidence in this documentation PR.
+
+Every drop from the 17 historical draft candidates must be explained, particularly
+B-spline consistency effects in workshop files. Existing successful real-import
+loss still requires owner acceptance. The optional section 38 suggestion to require
+exactly one PRODUCT_DEFINITION globally is NOT adopted in this amendment: the
+reviewed typed unique selected-product binding and all-record checks remain the
+contract. Any global product-count extension requires its own impact/review; no
+new product-count restriction is silently introduced here.
 
 ## Senior review decisions requested
 
@@ -280,5 +314,19 @@ Risk trigger trust/fail-closed YES; independent design review required. Wire/sha
 numeric enums/IPC/persistence/UI entry NO. No additional physical acceptance is
 needed for these documents. Local JSON/exhaustiveness/ref-link checks and
 `git diff --check` are documentation consistency checks, not policy acceptance.
-Reviewed/Closing and final-head CI pending; no merge before Senior decision.
-Manifest remains proposed, M2 OPEN.
+## Senior section 38 conditional acceptance and A1–A3 amendment
+
+The owner supplied independent review of `1e2889f91fad6831fa29e50246e7b45c1b7f47b6`.
+Reviewer verified all 86 signatures (54 conditional / 32 denied), source pin,
+12 global invariants, 83 profiles, 20 reason codes and sampled complete B-spline,
+cone, style and product rows. Finite-only analytic scalars, identity, B-spline,
+M1 split, T1/product checks, result semantics and C1 were accepted. Reviewer did
+not verify CI. Requested A1–A3 are now in both this document and the JSON; no
+source, tests, tools, historical evidence or admitted signature/field row changes.
+
+Merge is authorized after green exact amended-head Windows CI. Then only the
+consumer-free target producer may proceed, under the complete comparison/parity/
+ownership/test gates above. No physical-occurrence, angle-absence, geometry validity
+or Ready proof. Reviewed: `1e2889f91fad6831fa29e50246e7b45c1b7f47b6` plus this
+explicitly requested amendment; Closing/final-head CI pending in delivery PR record.
+M2 OPEN; other follow-ups and bounded prior acceptances unchanged.
