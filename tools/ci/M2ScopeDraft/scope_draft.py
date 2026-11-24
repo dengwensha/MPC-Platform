@@ -165,6 +165,6 @@ def classify(data,manifest):
  return {'InputName':data['InputName'],'InputSha256':data['InputSha256'],'InputUnchanged':data['InputUnchanged'],'ReaderAssemblySha256':data['ReaderAssemblySha256'],'InventoryStatus':data['Status'],'InventoryDiagnostics':data['Diagnostics'],'RecordCount':len(records),'DraftOutcome':outcome,'Reasons':reasons,'RootIds':roots,'RepresentationId':representation,'ContextId':context,'BridgeId':bridge,'BindingId':binding,'PhysicalOccurrenceProofIssued':False,'KnownAngularRecordIds':[r['Id'] for r in records if any(c['Name']=='CONICAL_SURFACE' for c in r['Components'])],'AngleAbsenceProofIssued':False,'ApplicationEvidenceIssued':False,'LedgerGroups':ledger,'LedgerSha256':hashlib.sha256(json.dumps(ledger,sort_keys=True,separators=(',',':')).encode()).hexdigest().upper()}
 
 if __name__=='__main__':
- manifest=json.loads(pathlib.Path(sys.argv[1]).read_text());source=pathlib.Path(sys.argv[2]);out=pathlib.Path(sys.argv[3]);out.mkdir(parents=True,exist_ok=True)
+ manifest=json.loads(pathlib.Path(sys.argv[1]).read_text(encoding='utf-8'));source=pathlib.Path(sys.argv[2]);out=pathlib.Path(sys.argv[3]);out.mkdir(parents=True,exist_ok=True)
  for p in sorted(source.glob('*.json')):
-  result=classify(json.loads(p.read_text()),manifest);(out/p.name).write_text(json.dumps(result,indent=2)+'\n');print(result['InputName'],result['DraftOutcome'],','.join(result['Reasons']))
+  result=classify(json.loads(p.read_text(encoding='utf-8')),manifest);(out/p.name).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8');print(result['InputName'],result['DraftOutcome'],','.join(result['Reasons']))

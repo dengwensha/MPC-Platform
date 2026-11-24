@@ -45,7 +45,7 @@ def signature(r):return '|'.join(sorted(c['Name']+':'+str(len(c['Parameters'])) 
 if __name__=='__main__':
  stats={}
  for p in sorted(pathlib.Path(sys.argv[1]).glob('*.json')):
-  for r in json.loads(p.read_text())['Records']:
+  for r in json.loads(p.read_text(encoding='utf-8'))['Records']:
    sig=signature(r)
    if not sig:continue
    if sig not in stats:
@@ -79,5 +79,5 @@ if __name__=='__main__':
    for field in component['fields']:
     if name in ('SHAPE_REPRESENTATION_RELATIONSHIP','PRODUCT_DEFINITION_SHAPE','PRODUCT_DEFINITION','PRODUCT_DEFINITION_FORMATION','PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE') and field['name']=='description' and 'null' not in field['shapes']:field['shapes'].append('null')
  manifest={'schema_revision':1,'manifest_revision':'1-DRAFT','status':'PROPOSED_NOT_RATIFIED','default_role':'Unclassified','unknown_blocks':True,'same_capture_proof':False,'evaluator_coverage':False,'production_target_issuer':False,'inherited_RU_rules':'docs/reviews/Tooling/RU-Import-Context-Rules-v1-Proposal.md + Senior sections 35/36; import code remains unchanged','T2':'One simple nontransforming bridge; both unique 3D contexts mm+radian; no transforms/assembly; direct+bridge dual SDR rejects','rules':[stats[k] for k in sorted(stats)],'geometry_reference_fields':{'MANIFOLD_SOLID_BREP':{'outer':['CLOSED_SHELL']},'CLOSED_SHELL':{'cfs_faces':['ADVANCED_FACE']},'ADVANCED_FACE':{'bounds':['FACE_OUTER_BOUND','FACE_BOUND'],'face_geometry':['PLANE','CYLINDRICAL_SURFACE','SPHERICAL_SURFACE','CONICAL_SURFACE','TOROIDAL_SURFACE','B_SPLINE_SURFACE_WITH_KNOTS','B_SPLINE_SURFACE']},'FACE_OUTER_BOUND':{'bound':['EDGE_LOOP']},'FACE_BOUND':{'bound':['EDGE_LOOP']},'EDGE_LOOP':{'edge_list':['ORIENTED_EDGE']},'ORIENTED_EDGE':{'edge_element':['EDGE_CURVE']},'EDGE_CURVE':{'edge_start':['VERTEX_POINT'],'edge_end':['VERTEX_POINT'],'edge_geometry':['LINE','CIRCLE','ELLIPSE','B_SPLINE_CURVE_WITH_KNOTS','B_SPLINE_CURVE']},'VERTEX_POINT':{'vertex_geometry':['CARTESIAN_POINT']},'AXIS2_PLACEMENT_3D':{'location':['CARTESIAN_POINT'],'axis':['DIRECTION'],'ref_direction':['DIRECTION']},'VECTOR':{'orientation':['DIRECTION']},'LINE':{'pnt':['CARTESIAN_POINT'],'dir':['VECTOR']},'CIRCLE':{'position':['AXIS2_PLACEMENT_3D']},'PLANE':{'position':['AXIS2_PLACEMENT_3D']},'CYLINDRICAL_SURFACE':{'position':['AXIS2_PLACEMENT_3D']},'CONICAL_SURFACE':{'position':['AXIS2_PLACEMENT_3D']},'SPHERICAL_SURFACE':{'position':['AXIS2_PLACEMENT_3D']},'TOROIDAL_SURFACE':{'position':['AXIS2_PLACEMENT_3D']},'B_SPLINE_CURVE_WITH_KNOTS':{'control_points_list':['CARTESIAN_POINT']},'B_SPLINE_CURVE':{'control_points_list':['CARTESIAN_POINT']},'B_SPLINE_SURFACE_WITH_KNOTS':{'control_points_list':['CARTESIAN_POINT']},'B_SPLINE_SURFACE':{'control_points_list':['CARTESIAN_POINT']}}}
- pathlib.Path(sys.argv[2]).write_text(json.dumps(manifest,indent=2)+'\n')
+ pathlib.Path(sys.argv[2]).write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
  print('Proposed signatures:',len(stats),'explicit unclassified:',sum(r['role']=='Unclassified' for r in stats.values()))
