@@ -50,6 +50,22 @@ jobs:
           }
           dotnet tools/ci/RUCompatibilityProbe/bin/Release/net8.0/RUCompatibilityProbe.dll src/MPC.Application/bin/Release/net8.0 $inputs (Join-Path $root "evidence/ru-compatibility")
           if ($LASTEXITCODE -ne 0) { throw "R-U compatibility measurement failed." }
+      - name: M2 manifest draft structural discovery (not eligibility)
+        run: |
+          dotnet build tools/ci/M2ScopeDraft/M2ScopeDraft.csproj -c Release --warnaserror
+          if ($LASTEXITCODE -ne 0) { throw "M2 neutral extractor build failed." }
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          $manifest = "docs/reviews/Tooling/evidence/M2-Manifest-v1-T3/Manifest-v1-DRAFT.json"
+          dotnet tools/ci/M2ScopeDraft/bin/Release/net8.0/M2ScopeDraft.dll (Join-Path $root "ru-public-inputs") (Join-Path $root "m2-neutral")
+          if ($LASTEXITCODE -ne 0) { throw "M2 public extraction failed." }
+          python tools/ci/M2ScopeDraft/scope_draft.py $manifest (Join-Path $root "m2-neutral") (Join-Path $root "evidence/m2-manifest-draft")
+          if ($LASTEXITCODE -ne 0) { throw "M2 draft classification failed." }
+          python tools/ci/M2ScopeDraft/make_controls.py . (Join-Path $root "m2-scope-controls")
+          if ($LASTEXITCODE -ne 0) { throw "M2 controls generation failed." }
+          dotnet tools/ci/M2ScopeDraft/bin/Release/net8.0/M2ScopeDraft.dll (Join-Path $root "m2-scope-controls") (Join-Path $root "m2-control-neutral")
+          if ($LASTEXITCODE -ne 0) { throw "M2 controls extraction failed." }
+          python tools/ci/M2ScopeDraft/test_scope_draft.py $manifest (Join-Path $root "m2-control-neutral") (Join-Path $root "evidence/m2-scope-controls.json")
+          if ($LASTEXITCODE -ne 0) { throw "M2 structural discovery controls failed." }
       - name: Targeted rational curve GREEN
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests
