@@ -363,6 +363,47 @@ public sealed class RegionSourceValidationWorkerTests
         Assert.Equal(RegionSourceValidationOutcome.RequestRejected,
             new RegionSourceValidationProcessor().Process(null).Outcome);
 
+    [Theory]
+    [InlineData(".METRE.", ".MILLI.")]
+    [InlineData(".METRE.", "$")]
+    [InlineData(".METRE.", ".CENTI.")]
+    public async Task UnitPrecheckPreservesCorrelatedV11Failure(string unit, string prefix)
+    {
+        string path=Path.Combine(Path.GetTempPath(),Guid.NewGuid()+".step");
+        try
+        {
+            string text=await File.ReadAllTextAsync(Golden);
+            text=text.Replace("#147 =( LENGTH_UNIT ( ) NAMED_UNIT ( * ) SI_UNIT ( .MILLI., .METRE. ) );",
+                "#147 =( LENGTH_UNIT ( ) NAMED_UNIT ( * ) SI_UNIT ( "+prefix+", "+unit+" ) );");
+            await File.WriteAllTextAsync(path,text);
+            var (exit,result)=await Run(Request(path));
+            Assert.Equal(Id,result.RequestId);Assert.Equal("1.1",result.ContractVersion);
+            Assert.Equal(prefix==".MILLI."?WorkerExitCodes.Succeeded:WorkerExitCodes.OperationFailed,exit);
+            Assert.Equal(prefix==".MILLI."?RegionSourceValidationOutcome.SourceLinkMatched:RegionSourceValidationOutcome.ImportFailed,result.Outcome);
+        }
+        finally { File.Delete(path); }
+    }
+
+    [Fact]
+    public async Task UnitPrecheckPreservesLegacyV10FailureEnvelope()
+    {
+        string folder=Path.Combine(Path.GetTempPath(),Guid.NewGuid().ToString("N"));Directory.CreateDirectory(folder);
+        try
+        {
+            string path=Path.Combine(folder,"metre.step"),input=Path.Combine(folder,"request.json"),output=Path.Combine(folder,"result.json");
+            string source=await File.ReadAllTextAsync(Golden);
+            await File.WriteAllTextAsync(path,source.Replace("#147 =( LENGTH_UNIT ( ) NAMED_UNIT ( * ) SI_UNIT ( .MILLI., .METRE. ) );",
+                "#147 =( LENGTH_UNIT ( ) NAMED_UNIT ( * ) SI_UNIT ( $, .METRE. ) );"));
+            await File.WriteAllTextAsync(input,JsonSerializer.Serialize(new WorkerOperationRequest("1.0",Id,WorkerOperationKind.AnalyzeModel,path)));
+            int exit=await new WorkerProcessRunner().RunAsync([input,output],TextWriter.Null);
+            var result=JsonSerializer.Deserialize<WorkerOperationResult>(await File.ReadAllTextAsync(output));
+            Assert.NotNull(result);Assert.Equal(WorkerExitCodes.OperationFailed,exit);Assert.Equal(Id,result.RequestId);
+            Assert.Equal(WorkerOperationStatus.Failed,result.Status);Assert.Null(result.Summary);
+            Assert.Contains(result.Diagnostics,d=>d.Code=="APP-STEP-SEMANTIC-001"&&d.Message.StartsWith("STEP unit/context precheck: ",StringComparison.Ordinal));
+        }
+        finally { Directory.Delete(folder,true); }
+    }
+
     [Fact]
     public async Task LegacyV10GoldenImport_PreservesOriginalResultShapeAndVersion()
     {

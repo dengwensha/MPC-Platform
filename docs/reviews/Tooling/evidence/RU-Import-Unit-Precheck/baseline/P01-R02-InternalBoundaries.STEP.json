@@ -1,0 +1,35 @@
+{
+  "InputName": "P01-R02-InternalBoundaries.STEP",
+  "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#19",
+  "ApplicationAssemblySha256": "936634F376267DF6BA20C91F76FCB31D26B0DBCF5C3D83D64ABD720974DD404B",
+  "ReaderAssemblySha256": "D47D2E304B1DD346D2F45C2789A4519803FB6AF607B095F845ABCA389554033A",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#125"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#131",
+    "#371",
+    "#384",
+    "#477",
+    "#493",
+    "#497",
+    "#524",
+    "#535",
+    "#576"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Succeeded",
+    "SummaryPresent": true,
+    "Diagnostics": []
+  },
+  "Region": {
+    "Available": true,
+    "Succeeded": true,
+    "Published": true,
+    "OriginSha256": "1DBC64B7802E5E3645CC1B397BED7FAEAC4B5160DEA50C13C0AEB667231FD949"
+  }
+}

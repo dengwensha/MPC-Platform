@@ -1,0 +1,56 @@
+{
+  "InputName": "BACK PLATE.STEP",
+  "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#10003",
+  "ApplicationAssemblySha256": "936634F376267DF6BA20C91F76FCB31D26B0DBCF5C3D83D64ABD720974DD404B",
+  "ReaderAssemblySha256": "D47D2E304B1DD346D2F45C2789A4519803FB6AF607B095F845ABCA389554033A",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#3412",
+    "#12364",
+    "#20743",
+    "#21269"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#2915",
+    "#2938",
+    "#3193",
+    "#3878",
+    "#7244",
+    "#7635",
+    "#7942",
+    "#13379",
+    "#14404",
+    "#14536",
+    "#16529",
+    "#17055",
+    "#18172",
+    "#20160",
+    "#21251",
+    "#21483",
+    "#21551",
+    "#22408",
+    "#22435",
+    "#24351",
+    "#25357"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Failed",
+    "SummaryPresent": false,
+    "Diagnostics": [
+      {
+        "Code": "APP-STEP-ROOT-001",
+        "Severity": "Error",
+        "Reason": null
+      }
+    ]
+  },
+  "Region": {
+    "Available": true,
+    "Succeeded": false,
+    "Published": false,
+    "OriginSha256": null
+  }
+}

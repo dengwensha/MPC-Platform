@@ -34,13 +34,22 @@ jobs:
         run: ./tools/ci/Invoke-MpcFullValidation.ps1 -Stage Regression
       - name: Standalone source-face Worker acceptance without SOLIDWORKS
         run: ./tools/acceptance/Invoke-RegionSourceAcceptance.ps1 -EvidenceDirectory (Join-Path $env:RUNNER_TEMP "mpc-full-validation/evidence/source-face-acceptance")
-      - name: Observe R-U current import unit behavior (not safety acceptance)
+      - name: Record bounded R-U public-path compatibility
         run: |
-          dotnet build tools/ci/RUUnitProbe/RUUnitProbe.csproj -c Release --warnaserror
-          if ($LASTEXITCODE -ne 0) { throw "R-U observation probe build failed." }
-          $output = Join-Path $env:RUNNER_TEMP "mpc-full-validation/evidence/ru-unit-observations.json"
-          dotnet tools/ci/RUUnitProbe/bin/Release/net8.0/RUUnitProbe.dll . $output
-          if ($LASTEXITCODE -ne 0) { throw "R-U observation failed; do not report unavailable output as safe." }
+          dotnet build tools/ci/RUCompatibilityProbe/RUCompatibilityProbe.csproj -c Release --warnaserror
+          if ($LASTEXITCODE -ne 0) { throw "R-U compatibility probe build failed." }
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          $inputs = Join-Path $root "ru-public-inputs"
+          New-Item -ItemType Directory -Force $inputs | Out-Null
+          Copy-Item tests/MPC.Tests/TestData/Step/Golden/*.step $inputs
+          Copy-Item tests/MPC.Application.Tests/TestData/Step/RU-QuarterCone.step $inputs
+          foreach ($name in @("P01-R01-Prismatic.STEP", "P01-R02-InternalBoundaries.STEP", "P01-R03-CurvedSurfaces.STEP")) {
+            $files = @(Get-ChildItem (Join-Path $root "corpus") -Recurse -File -Filter $name)
+            if ($files.Count -ne 1) { throw "Expected one reference input: $name" }
+            Copy-Item $files[0].FullName $inputs
+          }
+          dotnet tools/ci/RUCompatibilityProbe/bin/Release/net8.0/RUCompatibilityProbe.dll src/MPC.Application/bin/Release/net8.0 $inputs (Join-Path $root "evidence/ru-compatibility")
+          if ($LASTEXITCODE -ne 0) { throw "R-U compatibility measurement failed." }
       - name: Targeted rational curve GREEN
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests

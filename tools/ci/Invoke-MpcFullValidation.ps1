@@ -77,7 +77,7 @@ if ($Stage -eq 'Corpus') {
     )
     $worker = (Resolve-Path 'src/MPC.Worker/bin/x64/Release/net8.0/MPC.Worker.dll').Path
     $rows = @()
-    $allSucceeded = $true
+    $allExpected = $true
     foreach ($part in $parts) {
         $found = @(Get-ChildItem (Join-Path $root 'corpus') -Recurse -File -Filter $part.Name)
         if ($found.Count -ne 1) { throw "Expected one corpus input: $($part.Name)" }
@@ -101,7 +101,16 @@ if ($Stage -eq 'Corpus') {
             $result = Get-Content "$prefix-result.json" -Raw | ConvertFrom-Json
             if ($result.RequestId -ne $requestId -or $result.ContractVersion -ne '1.0') { throw 'Result correlation/version mismatch.' }
             $ok = $process.ExitCode -eq 0 -and $result.Status -eq 0 -and @($result.Diagnostics).Count -eq 0 -and $null -ne $result.Summary
-            if (-not $ok) { $allSucceeded = $false }
+            # R-U restriction under review: R03 contains a transforming representation path.
+            # This expectation verifies fail-closed policy, NOT owner approval of lost compatibility.
+            if ($part.Id -eq 'R03') {
+                $diagnostics = @($result.Diagnostics)
+                $ok = $process.ExitCode -eq 3 -and $result.Status -eq 2 -and $null -eq $result.Summary -and $diagnostics.Count -eq 1
+                if ($ok) {
+                    $ok = $diagnostics[0].Code -eq 'APP-STEP-SEMANTIC-001' -and $diagnostics[0].Message -eq 'STEP unit/context precheck: TransformedRepresentationPath; root #39941; source #6306,#130526.'
+                }
+            }
+            if (-not $ok) { $allExpected = $false }
             $rows += [pscustomobject][ordered]@{Part=$part.Id; Run=$iteration; Exit=$process.ExitCode; Status=$result.Status; Diagnostics=@($result.Diagnostics).Count; DurationMs=$watch.ElapsedMilliseconds; Summary=$result.Summary}
             $result.PSObject.Properties.Remove('RequestId')
             $payload = $result | ConvertTo-Json -Depth 50 -Compress
@@ -114,9 +123,10 @@ if ($Stage -eq 'Corpus') {
     $summary = @('## Real STEP corpus (three worker processes per part)','', '| Part | Run | Exit | Status (0=Succeeded, 2=Failed) | Diagnostics |','|---|---:|---:|---:|---:|')
     foreach ($row in $rows) { $summary += "| $($row.Part) | $($row.Run) | $($row.Exit) | $($row.Status) | $($row.Diagnostics) |" }
     $summary += ''
+    $summary += 'R03 is an exact bounded R-U transform-path rejection; real-file compatibility approval remains a separate owner merge gate.'
     $summary += 'Real STEP worker runs on GitHub; interactive SOLIDWORKS add-in operation is not tested.'
     $summary | Set-Content (Join-Path $evidence 'corpus-summary.md')
     $summary | Add-Content $env:GITHUB_STEP_SUMMARY
     $summary | Write-Output
-    if (-not $allSucceeded) { throw 'Corpus compatibility is not complete. See retained results; full regression is reported separately.' }
+    if (-not $allExpected) { throw 'Corpus result differs from the explicit R-U acceptance matrix. See retained results; full regression is reported separately.' }
 }

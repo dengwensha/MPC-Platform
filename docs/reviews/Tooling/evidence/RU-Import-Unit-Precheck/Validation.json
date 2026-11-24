@@ -1,0 +1,1549 @@
+{
+  "Date": "2026-11-24 Europe/Istanbul",
+  "Start": "aecccb557c8806731010a4c608d1469277d6ffff",
+  "MeasuredCommit": "6b59550b7370eab5116a6923327b29439f45bda5",
+  "Platform": "Linux .NET 8",
+  "SDK": "8.0.422",
+  "BaselineBuild": "dotnet build /tmp/ru-baseline/src/MPC.Application/MPC.Application.csproj -c Release --no-restore -m:1 -p:BuildInParallel=false",
+  "CurrentBuild": "dotnet build src/MPC.Application/MPC.Application.csproj -c Release --no-restore -m:1 -p:BuildInParallel=false",
+  "RunTemplate": "dotnet tools/ci/RUCompatibilityProbe/bin/Release/net8.0/RUCompatibilityProbe.dll <Application-bin-directory> /tmp/ru-real-inputs <output-directory>",
+  "SourceNormalizedSha256": {
+    "src/MPC.Application/Step/ImportUnitPrecheck.cs": "64A488249CDE753A1B06E3DF5B7259AECAC296FBEB66194B3A952F8F9DEE7E6B",
+    "src/MPC.Application/Step/StepImportApplicationService.cs": "E4ADE244C2E322FBF81D118957FE88F4BFACF291A24D14C2B8CDA22C46143F1A",
+    "src/MPC.Application/Manufacturing/ManufacturingRegionImportService.cs": "5FA8C18CBFD6B766E49BE5E984D286683F6F346B741051CA547CA9638F383BE0",
+    "src/MPC.Application/Inventory/HeaderUnitObservation.cs": "D062130ED86A69D3B0C26F3246CFF6EC3B4F72B891C9D4235F9FBD41C7041633",
+    "src/MPC.Connectors.Step/Readers/StepDataEntityReader.cs": "547008BCB29C5F7AB60262B4EC09341675AA1E5B9997935D772F466C20BAD537",
+    "src/MPC.Connectors.Step/Validation/StepDataInventoryValidator.cs": "FB5869D3EB0FE8B5507F4041A221CBC2DB88FE16917C5BC7DA7472B6771B7301",
+    "tools/ci/RUCompatibilityProbe/Program.cs": "4A8D7F8CC53B916E7219F0B05BD96EF955ABFD0BC53CE2B273C3A3C44DB7EA99",
+    "tests/MPC.Application.Tests/TestData/Step/RU-QuarterCone.step": "56A5E3EE6C44C83026708346467B284E20B7BB553C1AF28152524381014E95A2"
+  },
+  "RealInputs": 15,
+  "GoldenInputs": 5,
+  "RoutesPerInput": 2,
+  "CurrentSeparateProcesses": 2,
+  "CurrentRouteObservations": 80,
+  "BaselineRouteObservations": 40,
+  "RepeatEquality": "20/20 full rows identical",
+  "NewRealCompatibilityLosses": [
+    "P01-R03-CurvedSurfaces.STEP"
+  ],
+  "OwnerApproval": "PENDING for R03; no permission inferred from CI or silence",
+  "IndependentSeniorReview": "PENDING",
+  "WindowsScope": "Final-head CI will profile 3 public real references + five goldens + independent cone; 11 workshop versions and one Festo file profiled locally only",
+  "LocalTests": {
+    "Application": "461/461",
+    "Core": "1366/1366",
+    "WorkerLinuxPublicPaths": "90/90",
+    "WorkerWindowsApphostCase": "Not runnable on Linux; full Worker suite required in Windows CI",
+    "InitialRed": "19 failed / 2 passed (21 focused cases)",
+    "FinalApplicationNewCases": 31,
+    "NewWorkerCases": 5
+  },
+  "Limits": [
+    "Not normalization to metres or calculation readiness",
+    "Legacy toroidal header reread remains unresolved",
+    "R03 is deliberately rejected for a transforming representation path; new owner approval required before merge",
+    "Festo previously failed; failure reason now unreviewed product metadata",
+    "Matching input hashes validated against prior 15-file manifest",
+    "No raw workshop/Festo CAD or numerical geometry is committed",
+    "Origin hash records equality without publishing raw geometry",
+    "Repeated outcomes are not a general parser/performance/physical conformance proof"
+  ],
+  "Rows": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "SelectedFaceId": "#1009",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "338BA1452AEA27270EDD78BB35E9E9F14079294178ECE74E4E8EE56A5ED3C961"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "338BA1452AEA27270EDD78BB35E9E9F14079294178ECE74E4E8EE56A5ED3C961"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "SelectedFaceId": "#127",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "2B99F920FC9FC100D7B4208A7C01ABB6F34A1866DDF52C58A54B498545962810"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "2B99F920FC9FC100D7B4208A7C01ABB6F34A1866DDF52C58A54B498545962810"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "SelectedFaceId": "#1118",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "43301261101F8C9C92903A550DD9164FE4C289218CAB65C6B253A1D4057EF75B"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "43301261101F8C9C92903A550DD9164FE4C289218CAB65C6B253A1D4057EF75B"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "SelectedFaceId": "#116",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "CB050C3D4A618104EB420CCC2EEE4CBB61BE487E482EC3DBB2D6C2249768D63A"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "CB050C3D4A618104EB420CCC2EEE4CBB61BE487E482EC3DBB2D6C2249768D63A"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "SelectedFaceId": "#143",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "4BA6E065E24B62C82656826B4ED93DB479103120C0E6161279CB8FD26ED5EA25"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "4BA6E065E24B62C82656826B4ED93DB479103120C0E6161279CB8FD26ED5EA25"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "SelectedFaceId": "#1138",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Failed",
+        "SummaryPresent": false,
+        "Diagnostics": [
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "STEP_REFERENCE_RESOLUTION_FAILED",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-CURVE-002",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "STEP_REFERENCE_RESOLUTION_FAILED",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-CURVE-002",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-CURVE-002",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "STEP_REFERENCE_RESOLUTION_FAILED",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-CURVE-002",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "STEP_REFERENCE_RESOLUTION_FAILED",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-ADVANCED-FACE-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-EDGE-LOOP-001",
+            "Severity": "Error",
+            "Reason": null
+          }
+        ]
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Failed",
+        "SummaryPresent": false,
+        "Diagnostics": [
+          {
+            "Code": "APP-STEP-SEMANTIC-001",
+            "Severity": "Error",
+            "Reason": "STEP unit/context precheck: UnreviewedIncomingPath; root #1214; source #2122,#14."
+          }
+        ]
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": false,
+        "Published": false,
+        "OriginSha256": null
+      },
+      "RegionAfter": {
+        "Available": false,
+        "FailureType": "System.IO.InvalidDataException",
+        "Reason": "STEP unit/context precheck: UnreviewedIncomingPath; root #1214; source #2122,#14."
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "SelectedFaceId": "#10003",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Failed",
+        "SummaryPresent": false,
+        "Diagnostics": [
+          {
+            "Code": "APP-STEP-ROOT-001",
+            "Severity": "Error",
+            "Reason": null
+          }
+        ]
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Failed",
+        "SummaryPresent": false,
+        "Diagnostics": [
+          {
+            "Code": "APP-STEP-ROOT-001",
+            "Severity": "Error",
+            "Reason": null
+          }
+        ]
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": false,
+        "Published": false,
+        "OriginSha256": null
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": false,
+        "Published": false,
+        "OriginSha256": null
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "SelectedFaceId": "#10032",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "A92CD439A97E565BBB2B51EACD09B78928AD187B6560D50ABDC238F3DAB69DD5"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "A92CD439A97E565BBB2B51EACD09B78928AD187B6560D50ABDC238F3DAB69DD5"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "SelectedFaceId": "#1009",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "23C97C217BB770618130533F6775FAE5CDFE2AF701EA5838DE5101C43604378B"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "23C97C217BB770618130533F6775FAE5CDFE2AF701EA5838DE5101C43604378B"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "SelectedFaceId": "#1007",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "FC08E330FE486FB8C76EEC035A5A861F9F2B231B49695722995FD1322CE7AA86"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "FC08E330FE486FB8C76EEC035A5A861F9F2B231B49695722995FD1322CE7AA86"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "SelectedFaceId": "#10064",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Failed",
+        "SummaryPresent": false,
+        "Diagnostics": [
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          }
+        ]
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Failed",
+        "SummaryPresent": false,
+        "Diagnostics": [
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          },
+          {
+            "Code": "MAP-STEP-TORUS-004",
+            "Severity": "Error",
+            "Reason": null
+          }
+        ]
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": false,
+        "Published": false,
+        "OriginSha256": null
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": false,
+        "Published": false,
+        "OriginSha256": null
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "SelectedFaceId": "#10055",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "0F849FABA6555B6D9FE5C4AC7D71521F85DBD22AB55433B5D92C7D720B00FB2B"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "0F849FABA6555B6D9FE5C4AC7D71521F85DBD22AB55433B5D92C7D720B00FB2B"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "SelectedFaceId": "#111",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "676ED0E4727D98303E386EA3D1C062A93BDB5340848E3B49307890AD4820C92D"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "676ED0E4727D98303E386EA3D1C062A93BDB5340848E3B49307890AD4820C92D"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "SelectedFaceId": "#19",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "1DBC64B7802E5E3645CC1B397BED7FAEAC4B5160DEA50C13C0AEB667231FD949"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "1DBC64B7802E5E3645CC1B397BED7FAEAC4B5160DEA50C13C0AEB667231FD949"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "SelectedFaceId": "#100080",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Failed",
+        "SummaryPresent": false,
+        "Diagnostics": [
+          {
+            "Code": "APP-STEP-SEMANTIC-001",
+            "Severity": "Error",
+            "Reason": "STEP unit/context precheck: TransformedRepresentationPath; root #39941; source #6306,#130526."
+          }
+        ]
+      },
+      "RegionBefore": {
+        "Available": false,
+        "FailureType": "System.IO.InvalidDataException",
+        "Reason": null
+      },
+      "RegionAfter": {
+        "Available": false,
+        "FailureType": "System.IO.InvalidDataException",
+        "Reason": null
+      },
+      "NewPreviouslySuccessfulLegacyRejection": true,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "T001_PRISM.step",
+      "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "SelectedFaceId": "#143",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "F9B06E2F369B1BBEB1308233E15735D612E8D38E446D60AE1B317ABE4A914D6E"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "F9B06E2F369B1BBEB1308233E15735D612E8D38E446D60AE1B317ABE4A914D6E"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "T002_SPHERE.step",
+      "InputSha256": "AB1155D291C0C0284B76F80077471C44DB33DD3A593034DD036041A0525C0193",
+      "SelectedFaceId": "#34",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": false,
+        "Published": false,
+        "OriginSha256": null
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": false,
+        "Published": false,
+        "OriginSha256": null
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "T003_CYLINDER.step",
+      "InputSha256": "A78EBDD2613C4E9D7897B0FAA60061D0B8212BC685CE4480D9963C267E3D4E65",
+      "SelectedFaceId": "#10",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "27A4F4001BCE73D9838092D8C1EC81D02B48B69E6386C5A96AAA921E261523CF"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "27A4F4001BCE73D9838092D8C1EC81D02B48B69E6386C5A96AAA921E261523CF"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "T101_BASIC_POCKET.step",
+      "InputSha256": "F1A8A662CCC67DE88A5EF9BAE4A01B5B15FFB5D9CCB6A3E4DE1CC677A6E42049",
+      "SelectedFaceId": "#132",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "5BFDD7E6965479F93320E980475CCB3ECC1CE3CE436DAA0E7874FB20C0FD1DA9"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "5BFDD7E6965479F93320E980475CCB3ECC1CE3CE436DAA0E7874FB20C0FD1DA9"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    },
+    {
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "InputSha256": "B54769A3969B6FFD9EF582F1C0791C682561300CF79C15F4883095CD2A065CD4",
+      "SelectedFaceId": "#15",
+      "LegacyBefore": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "LegacyAfter": {
+        "Available": true,
+        "Status": "Succeeded",
+        "SummaryPresent": true,
+        "Diagnostics": []
+      },
+      "RegionBefore": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "9A302B8163F70CDDC8EE6BE4E2A1B866F1E6D5FAC8B4424427C327A67CF6EA76"
+      },
+      "RegionAfter": {
+        "Available": true,
+        "Succeeded": true,
+        "Published": true,
+        "OriginSha256": "9A302B8163F70CDDC8EE6BE4E2A1B866F1E6D5FAC8B4424427C327A67CF6EA76"
+      },
+      "NewPreviouslySuccessfulLegacyRejection": false,
+      "RepeatedResultEqual": true
+    }
+  ],
+  "FinalHeadProvenance": "Evidence-only descendant of measured code; producer sources identical; CI assembly bytes not claimed identical"
+}

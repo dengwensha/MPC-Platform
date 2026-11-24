@@ -1,0 +1,35 @@
+{
+  "InputName": "T003_CYLINDER.step",
+  "InputSha256": "A78EBDD2613C4E9D7897B0FAA60061D0B8212BC685CE4480D9963C267E3D4E65",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#10",
+  "ApplicationAssemblySha256": "03041E31A34664411CD9E63ABCCD62C7EDD0D951557F3B7E20125E64071C31D6",
+  "ReaderAssemblySha256": "5B7A4A194E6C3B0A9037609852A5BFE5B8BD9A016EC6E5DB40750F429A4D448F",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#98"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#1",
+    "#45",
+    "#56",
+    "#65",
+    "#87",
+    "#88",
+    "#94",
+    "#102",
+    "#104"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Succeeded",
+    "SummaryPresent": true,
+    "Diagnostics": []
+  },
+  "Region": {
+    "Available": true,
+    "Succeeded": true,
+    "Published": true,
+    "OriginSha256": "27A4F4001BCE73D9838092D8C1EC81D02B48B69E6386C5A96AAA921E261523CF"
+  }
+}

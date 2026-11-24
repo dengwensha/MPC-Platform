@@ -181,6 +181,17 @@ public sealed class StepImportApplicationService
             new StepSemanticEntityResolver(
                 semanticEntities);
 
+        try
+        {
+            ImportUnitPrecheck.EnsureCompatible(inventory, solidRoot.SourceEntityId!);
+        }
+        catch (InvalidDataException exception)
+        {
+            diagnostics.Add(new StepImportDiagnostic(SemanticFailureCode,
+                StepImportDiagnosticSeverity.Error, exception.Message, solidRoot.SourceEntityId));
+            return StepImportResult.Failure(diagnostics);
+        }
+
         StepCanonicalMappingOperation operation =
             StepCanonicalMappingOperation.Create(
                 semanticResolver);

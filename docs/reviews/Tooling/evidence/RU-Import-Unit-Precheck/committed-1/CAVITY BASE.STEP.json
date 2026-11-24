@@ -1,0 +1,35 @@
+{
+  "InputName": "CAVITY BASE.STEP",
+  "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#1009",
+  "ApplicationAssemblySha256": "03041E31A34664411CD9E63ABCCD62C7EDD0D951557F3B7E20125E64071C31D6",
+  "ReaderAssemblySha256": "5B7A4A194E6C3B0A9037609852A5BFE5B8BD9A016EC6E5DB40750F429A4D448F",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#20788"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#11582",
+    "#14040",
+    "#16933",
+    "#21853",
+    "#27939",
+    "#29002",
+    "#35594",
+    "#37941",
+    "#38199"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Succeeded",
+    "SummaryPresent": true,
+    "Diagnostics": []
+  },
+  "Region": {
+    "Available": true,
+    "Succeeded": true,
+    "Published": true,
+    "OriginSha256": "23C97C217BB770618130533F6775FAE5CDFE2AF701EA5838DE5101C43604378B"
+  }
+}
