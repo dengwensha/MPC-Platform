@@ -62,7 +62,30 @@ CI result and measured Windows table are recorded in the PR; the private20 Windo
 repeat remains a first-consumer acceptance item. CI has semantic/identity/lifecycle
 assertions, not noisy elapsed/RSS pass thresholds.
 
-## Proposed first-consumer budget — awaiting owner acceptance and Windows evidence
+## Verified public Windows result
+
+Windows CI #301, head `45f6f7a0ceae3ec5ce3b27c826bb7261f0193bdf`, passed full
+2248/2248 regression and Worker5/5. The paired B6 protocol passed on nine public
+inputs: 54 fresh normal processes, 216 timed calls and 108 warmups, plus four
+expected-unavailable control processes. Identity/semantic/lifecycle checks passed.
+Full snapshots and the verified artifact digest are retained in
+[Windows Validation.json](evidence/B6-Capture-Cost-Windows/Validation.json).
+
+| Windows input | Baseline warm median | Current warm median | Isolated target warm median | Current first-call max | All-sample process peak |
+| --- | --- | --- | --- | --- | --- |
+| R03 | 0.702 s | 4.873 s | 4.259 s | 6.100 s | 505.4 MiB |
+| R01 | 0.0021 s | 0.0316 s | 0.0303 s | 0.147 s | 43.3 MiB |
+| R02 | 0.0036 s | 0.0588 s | 0.0625 s | 0.183 s | 55.6 MiB |
+
+R03 has only about 6.6 MiB observed space below a 512-MiB resident-memory target.
+That is NOT robust headroom or an accepted operating envelope. Do not raise the
+target automatically: measure the owner's private corpus and actual 16-GB machine,
+then review work/allocation improvement and enforceable limits before a consumer.
+More installed RAM alone does not establish equivalent GC/OS/process behavior.
+The independently timed target median is not required to be less than the paired
+capture median for every tiny file: distinct processes/JIT/GC add measurement noise.
+
+## Proposed first-consumer budget — awaiting owner acceptance and enforcement
 
 | Item | Proposal | Meaning / next design requirement |
 | --- | --- | --- |
@@ -72,9 +95,9 @@ assertions, not noisy elapsed/RSS pass thresholds.
 | Resident-memory engineering target | 512 MiB process peak per capture worker | Compared with observed complete process peaks; not allocated bytes or private-commit limit. Do not silently raise it to make a platform pass. |
 | Before consumer merge | Owner accepts values; private Windows corpus confirms envelope; reviewed enforcement/failure design exists | Define file/record/work bounds and how excess terminates/rejects without success; a post-call stopwatch alone is not a hard limit. |
 
-These are provisional proposals for a 16-GB development workstation. Windows results
-can demonstrate a violation needing design/optimization; they cannot authorize a
-larger cap automatically. Worst-case/adversarial inputs, machine pressure, storage
+These are provisional proposals for a 16-GB development workstation. The current
+Windows result is too close to the memory target to approve headroom. Windows results
+cannot authorize a larger cap automatically. Worst-case/adversarial inputs, machine pressure, storage
 latency and the remaining consumer phases have not been bounded by this corpus.
 No source-size limit, OS/job memory cap, cancellation API or new result code is
 introduced in this measurement PR. The choice of enforceable resource metric and
