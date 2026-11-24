@@ -1,0 +1,70 @@
+{
+  "InputName": "C11-ConeRadian.step",
+  "InputSha256": "56A5E3EE6C44C83026708346467B284E20B7BB553C1AF28152524381014E95A2",
+  "CapturedSha256": "56A5E3EE6C44C83026708346467B284E20B7BB553C1AF28152524381014E95A2",
+  "InputUnchanged": true,
+  "IndependentCapturedSha256": "56A5E3EE6C44C83026708346467B284E20B7BB553C1AF28152524381014E95A2",
+  "ApplicationAssemblySha256": "A8E809A20247405F23EED0522CADA326591CC51FBC03570D6E0380F3AE994B6E",
+  "ReaderAssemblySha256": "6F3D8155D4AE988E86A5F53A17C6DDC33DA21B50BD90C8B09CA1D9BB5689A323",
+  "ManifestRevision": 1,
+  "BindingRevision": 1,
+  "CompatibilityRevision": 1,
+  "RootId": "#1000",
+  "RepresentationId": "#1001",
+  "MainRepresentationId": "#1001",
+  "ContextId": "#1002",
+  "RecordCount": 106,
+  "GuardCalled": true,
+  "Binding": "Blocked",
+  "Compatibility": "Observed",
+  "TargetStatus": "Blocked",
+  "Reasons": [
+    {
+      "Layer": "Binding",
+      "Code": "DependencyUnavailable",
+      "Severity": "Error",
+      "SourceId": "#1009",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 1,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#1009",
+      "Component": "PRODUCT",
+      "Indices": [
+        3,
+        0
+      ],
+      "RelatedIds": [
+        "#1011"
+      ],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Target",
+      "Code": "DependencyUnavailable",
+      "Severity": "Error",
+      "SourceId": "",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    }
+  ],
+  "IndependentPrecheck": "Passed",
+  "IndependentPrecheckReason": null,
+  "PhysicalOccurrenceProofIssued": false,
+  "AngleAbsenceProofIssued": false,
+  "GeometryValidityProofIssued": false,
+  "ReadyIssued": false
+}

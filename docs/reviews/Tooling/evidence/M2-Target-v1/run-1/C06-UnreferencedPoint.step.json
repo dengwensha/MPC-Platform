@@ -1,0 +1,41 @@
+{
+  "InputName": "C06-UnreferencedPoint.step",
+  "InputSha256": "864464EC24ED67CAAEF575AC04650EE08B28641BDBE3FAB52E4539635B099915",
+  "CapturedSha256": "864464EC24ED67CAAEF575AC04650EE08B28641BDBE3FAB52E4539635B099915",
+  "InputUnchanged": true,
+  "IndependentCapturedSha256": "864464EC24ED67CAAEF575AC04650EE08B28641BDBE3FAB52E4539635B099915",
+  "ApplicationAssemblySha256": "A8E809A20247405F23EED0522CADA326591CC51FBC03570D6E0380F3AE994B6E",
+  "ReaderAssemblySha256": "6F3D8155D4AE988E86A5F53A17C6DDC33DA21B50BD90C8B09CA1D9BB5689A323",
+  "ManifestRevision": 1,
+  "BindingRevision": 1,
+  "CompatibilityRevision": 1,
+  "RootId": "#63",
+  "RepresentationId": "#47",
+  "MainRepresentationId": "#47",
+  "ContextId": "#61",
+  "RecordCount": 188,
+  "GuardCalled": true,
+  "Binding": "Observed",
+  "Compatibility": "Observed",
+  "TargetStatus": "Blocked",
+  "Reasons": [
+    {
+      "Layer": "Ownership",
+      "Code": "UnownedGeometry",
+      "Severity": "Error",
+      "SourceId": "#990001",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    }
+  ],
+  "IndependentPrecheck": "Passed",
+  "IndependentPrecheckReason": null,
+  "PhysicalOccurrenceProofIssued": false,
+  "AngleAbsenceProofIssued": false,
+  "GeometryValidityProofIssued": false,
+  "ReadyIssued": false
+}

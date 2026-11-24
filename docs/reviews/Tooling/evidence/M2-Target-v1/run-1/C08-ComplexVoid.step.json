@@ -1,0 +1,53 @@
+{
+  "InputName": "C08-ComplexVoid.step",
+  "InputSha256": "196601F181CEE9D9CD7DBCF2E327FD892BAC688E11BAA6891047400A89154976",
+  "CapturedSha256": "196601F181CEE9D9CD7DBCF2E327FD892BAC688E11BAA6891047400A89154976",
+  "InputUnchanged": true,
+  "IndependentCapturedSha256": "196601F181CEE9D9CD7DBCF2E327FD892BAC688E11BAA6891047400A89154976",
+  "ApplicationAssemblySha256": "A8E809A20247405F23EED0522CADA326591CC51FBC03570D6E0380F3AE994B6E",
+  "ReaderAssemblySha256": "6F3D8155D4AE988E86A5F53A17C6DDC33DA21B50BD90C8B09CA1D9BB5689A323",
+  "ManifestRevision": 1,
+  "BindingRevision": 1,
+  "CompatibilityRevision": 1,
+  "RootId": "#63",
+  "RepresentationId": "#47",
+  "MainRepresentationId": "#47",
+  "ContextId": "#61",
+  "RecordCount": 188,
+  "GuardCalled": true,
+  "Binding": "Observed",
+  "Compatibility": "Observed",
+  "TargetStatus": "Blocked",
+  "Reasons": [
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#990001",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#990001",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 1,
+      "OriginalMessage": null,
+      "CauseType": null
+    }
+  ],
+  "IndependentPrecheck": "Passed",
+  "IndependentPrecheckReason": null,
+  "PhysicalOccurrenceProofIssued": false,
+  "AngleAbsenceProofIssued": false,
+  "GeometryValidityProofIssued": false,
+  "ReadyIssued": false
+}

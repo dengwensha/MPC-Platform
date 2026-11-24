@@ -117,9 +117,29 @@ geometric record is byte-identical after line-ending normalization (test pinned)
 This corrected control must pass target binding and is C13 in the audit. It does
 not replace C11 or inflate the 20-file real corpus.
 
-Final measured code commit, source/DLL hashes, two runs, complete 20+12+1 outcomes,
-timing and final-head CI will be recorded in evidence/M2-Target-v1/Validation.json
-and the delivery PR before requesting Senior acceptance. Initial local results:
+Measured code: `8a2eb1a48d7bc5e9e2147bb4ee59540c112a84a6`. Full source/DLL/contract
+hashes, SDK/build commands and 66 complete metadata snapshots are recorded in
+[Validation.json](evidence/M2-Target-v1/Validation.json). Final evidence-only descendant
+retains identical producer/test sources; final-head CI is recorded in the PR.
+
+- Full corpus: 20/20 snapshots byte-identical across separate processes; all 444,497
+  records/counts match historical T3. 17 TargetBoundOnly, three Blocked (corrected
+  BACK PLATE, Festo, R03). No loss from the 17 historical candidates, including
+  B-spline workshop files. This is not a new successful geometry-import claim.
+- Controls: original 12 plus separate C13, repeated 13/13 byte-identically. Three
+  target-bound (C01, C03, C13), ten blocked. Historical C11 is the one explained
+  stricter metadata finding. Every independently rejected R-U call blocks, with the
+  actual producer guard call recorded; no positive target on an R-U rejection.
+- Measurements: 66 real target captures/gates and 66 independently captured R-U
+  calls. Initial/session/independent hashes and final unchanged-file check agree.
+  Full reason snapshots are retained, not only code counts. No scalar CAD tokens
+  or inner cause text is uploaded.
+- Linux whole-audit 20-file runs: 20.9923 and 22.6891 seconds, peak RSS 598,152 and
+  699,848 KiB. These include capture/target, a SECOND independent R-U inventory and
+  JSON emission; they are NOT isolated production latency or a Host memory budget.
+  This cost remains a B6/first-consumer measurement concern; no optimization claim.
+
+Local results:
 Application 526/526, Core 1366/1366, Contracts 94/94; Windows-only Worker executable
 fixture cannot run on Linux. Final Windows full regression and Worker acceptance
 remain mandatory, not waived by these local results.
