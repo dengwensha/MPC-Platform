@@ -1,0 +1,247 @@
+{
+  "Scope": "Target binding only; no physical occurrence/angle absence/geometry validity/Ready",
+  "Count": 13,
+  "OutcomeCounts": {
+    "TargetBoundOnly": 3,
+    "Blocked": 10
+  },
+  "EveryIndependentPrecheckRejectionBlocks": true,
+  "NoUnexplainedHistoricalCandidateLoss": true,
+  "Rows": [
+    {
+      "InputName": "C01-Styled.step",
+      "InputSha256": "2285E9AE19C3D8D32CB5267A10F3293C6774142CDEAF17ED4CB71B6AAD805A6C",
+      "RecordCount": 187,
+      "Draft": "DraftCandidateOnly",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Observed",
+      "Compatibility": "Observed",
+      "Target": "TargetBoundOnly",
+      "ReasonCounts": {},
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "7B496783FE109BF82BE7698C010CE2D3F1B2901BD1576E696FD8D729B876B199"
+    },
+    {
+      "InputName": "C02-SecondGeometry.step",
+      "InputSha256": "710DC92F64261DCFDC91B8064CA6B7D17A20DE774CC0412943A8895AB2440F04",
+      "RecordCount": 188,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Rejected",
+      "IndependentPrecheckReason": "STEP unit/context precheck: AmbiguousDirectRepresentation; root #63; source #63.",
+      "GuardCalled": true,
+      "Binding": "Blocked",
+      "Compatibility": "Blocked",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "CurrentImportIncompatible": 1,
+        "DependencyUnavailable": 2,
+        "RootBindingInvalid": 3
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "B726ED68D434BB7D19C4AB805402462B37206D68554F7D26482260DB09600826"
+    },
+    {
+      "InputName": "C03-Bridge.step",
+      "InputSha256": "954CA92699C54EBFB14BB739194FA67FA74179CDFAD3EBD2C05C6BF7E17A81DB",
+      "RecordCount": 189,
+      "Draft": "DraftCandidateOnly",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Observed",
+      "Compatibility": "Observed",
+      "Target": "TargetBoundOnly",
+      "ReasonCounts": {},
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "791FA45AD4EDFA64FF0A3FF81071E43C709BFCA2D3B415233C517E14E0EEDA70"
+    },
+    {
+      "InputName": "C04-DualBinding.step",
+      "InputSha256": "3E556DDC2B3CE3CCB10CE82A362072F0F41DC159C31F4022C934DE9A3503F515",
+      "RecordCount": 190,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Rejected",
+      "IndependentPrecheckReason": "STEP unit/context precheck: AmbiguousProductBinding; root #63; source #47,#990001.",
+      "GuardCalled": true,
+      "Binding": "Blocked",
+      "Compatibility": "Blocked",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "CurrentImportIncompatible": 1,
+        "DependencyUnavailable": 1,
+        "ProductBindingInvalid": 1,
+        "RootBindingInvalid": 1
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "E1EB2E9F8CAAD05FFDEC6C057E98399BCFEFD7906DC7D57D139C934859AF17D1"
+    },
+    {
+      "InputName": "C05-BridgeDifferentUnits.step",
+      "InputSha256": "A1D7374A98C0FDFF5405745772A8233C8FA0B5CA91877958DF0B66173B1A3A1F",
+      "RecordCount": 189,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Rejected",
+      "IndependentPrecheckReason": "STEP unit/context precheck: ImportRequiresMillimetreRadian; root #63; source #89,#16.",
+      "GuardCalled": true,
+      "Binding": "Blocked",
+      "Compatibility": "Blocked",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "BridgeUnitMismatch": 1,
+        "CurrentImportIncompatible": 1,
+        "DependencyUnavailable": 1
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "0179EE6C34E5624543E93146E3810EBD7F2CC795CF032803E79DE3502C8C4B14"
+    },
+    {
+      "InputName": "C06-UnreferencedPoint.step",
+      "InputSha256": "864464EC24ED67CAAEF575AC04650EE08B28641BDBE3FAB52E4539635B099915",
+      "RecordCount": 188,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Observed",
+      "Compatibility": "Observed",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "UnownedGeometry": 1
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "539207BB49C54DE91282CD26EBA87D29768BD596AF17FEF8B59974D7AC0B83A5"
+    },
+    {
+      "InputName": "C07-Unknown.step",
+      "InputSha256": "FDBE289F9D8EC84050F2C11D99275D5547E2F3F86E95F1A819FFC9CC7ED52A9B",
+      "RecordCount": 188,
+      "Draft": "ClassificationUnavailable",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Observed",
+      "Compatibility": "Observed",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "UnclassifiedSignature": 1
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "6DE57ACD0EB1750618F3422A360980D57761CA6E6BC9DD201C5C8819C4A7CE38"
+    },
+    {
+      "InputName": "C08-ComplexVoid.step",
+      "InputSha256": "196601F181CEE9D9CD7DBCF2E327FD892BAC688E11BAA6891047400A89154976",
+      "RecordCount": 188,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Observed",
+      "Compatibility": "Observed",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "UnclassifiedSignature": 1,
+        "UnsupportedScope": 1
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "98EB01016AC967866990F0BDAD526BEE4FDC5D893366DD079ACA8724B08D5376"
+    },
+    {
+      "InputName": "C09-SurfaceBody.step",
+      "InputSha256": "971BE71D3506C22BD9CCAD38727C943BD55E11BA44E19F7B9DB52D4476B96A8B",
+      "RecordCount": 188,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Observed",
+      "Compatibility": "Observed",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "UnclassifiedSignature": 1,
+        "UnsupportedScope": 1
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "E87C9410B3C54984E322AEFA16BCDA34E80F563DCD40080CA8522D452437D7EA"
+    },
+    {
+      "InputName": "C10-TwoMappedItems.step",
+      "InputSha256": "A7A82D11A0F3C6CDA8E1A87332E5CFCE9071F27ADACE3374CC29C09750B541CE",
+      "RecordCount": 192,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Rejected",
+      "IndependentPrecheckReason": "STEP unit/context precheck: UnreviewedIncomingPath; root #63; source #47,#990001.",
+      "GuardCalled": true,
+      "Binding": "Blocked",
+      "Compatibility": "Blocked",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "CurrentImportIncompatible": 1,
+        "DependencyUnavailable": 1,
+        "ReferenceRoleMismatch": 2,
+        "RootBindingInvalid": 2,
+        "UnclassifiedSignature": 4,
+        "UnsupportedScope": 3
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "F793BF44C14AD4A575FD12D723B48CCF7EA0CAC3B844C7F3481E97CAC73E8878"
+    },
+    {
+      "InputName": "C11-ConeRadian.step",
+      "InputSha256": "56A5E3EE6C44C83026708346467B284E20B7BB553C1AF28152524381014E95A2",
+      "RecordCount": 106,
+      "Draft": "DraftCandidateOnly",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Blocked",
+      "Compatibility": "Observed",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "DependencyUnavailable": 2,
+        "ReferenceRoleMismatch": 1
+      },
+      "CandidateLossExplanation": "Historical analytic cone PRODUCT.frame_of_reference points to APPLICATION_CONTEXT #1011 instead of PRODUCT_CONTEXT; full typed product tail blocks. Geometry unchanged. Original control retained; independent C13 changes only product metadata.",
+      "FullReasonSnapshotSha256": "93CF2E5B18CDD77026F3527ECAE393DBDAB86B0ACC555C1143DE778943A1C963"
+    },
+    {
+      "InputName": "C12-ConeDegree.step",
+      "InputSha256": "C9FBEE3451EC48028CFFC00CE38275F11BB9D9D4661F1DAD6CC18AF1595EFDCB",
+      "RecordCount": 108,
+      "Draft": "ScopeNotSupported",
+      "IndependentImportUnitPrecheck": "Rejected",
+      "IndependentPrecheckReason": "STEP unit/context precheck: UnsupportedUnitDefinition; root #1000; source #1002,#1004.",
+      "GuardCalled": true,
+      "Binding": "Blocked",
+      "Compatibility": "Blocked",
+      "Target": "Blocked",
+      "ReasonCounts": {
+        "ContextBindingUnavailable": 1,
+        "ContextUnitsUnsupported": 1,
+        "CurrentImportIncompatible": 1,
+        "DependencyUnavailable": 3,
+        "ReferenceRoleMismatch": 2,
+        "UnclassifiedSignature": 2
+      },
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "AD437D2C9E85643B1E32F70D707423755226CCDDD32159713AC8DCD65D85B488"
+    },
+    {
+      "InputName": "C13-ConeTypedProduct.step",
+      "InputSha256": "2B3A028A4C966EE89E535723B21D060A02DC397425D461993B767CA736997E47",
+      "RecordCount": 107,
+      "Draft": "Additional positive control; not historical set",
+      "IndependentImportUnitPrecheck": "Passed",
+      "IndependentPrecheckReason": null,
+      "GuardCalled": true,
+      "Binding": "Observed",
+      "Compatibility": "Observed",
+      "Target": "TargetBoundOnly",
+      "ReasonCounts": {},
+      "CandidateLossExplanation": null,
+      "FullReasonSnapshotSha256": "B4CA3812A47A6F8A65DF0714C207AAA0D7FD0B1C0A074DDCCF3687097A37AEF9"
+    }
+  ]
+}

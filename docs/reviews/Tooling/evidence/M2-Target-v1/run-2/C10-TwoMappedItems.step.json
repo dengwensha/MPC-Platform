@@ -1,0 +1,197 @@
+{
+  "InputName": "C10-TwoMappedItems.step",
+  "InputSha256": "A7A82D11A0F3C6CDA8E1A87332E5CFCE9071F27ADACE3374CC29C09750B541CE",
+  "CapturedSha256": "A7A82D11A0F3C6CDA8E1A87332E5CFCE9071F27ADACE3374CC29C09750B541CE",
+  "InputUnchanged": true,
+  "IndependentCapturedSha256": "A7A82D11A0F3C6CDA8E1A87332E5CFCE9071F27ADACE3374CC29C09750B541CE",
+  "ApplicationAssemblySha256": "A8E809A20247405F23EED0522CADA326591CC51FBC03570D6E0380F3AE994B6E",
+  "ReaderAssemblySha256": "6F3D8155D4AE988E86A5F53A17C6DDC33DA21B50BD90C8B09CA1D9BB5689A323",
+  "ManifestRevision": 1,
+  "BindingRevision": 1,
+  "CompatibilityRevision": 1,
+  "RootId": "#63",
+  "RepresentationId": "#47",
+  "MainRepresentationId": "#47",
+  "ContextId": "#61",
+  "RecordCount": 192,
+  "GuardCalled": true,
+  "Binding": "Blocked",
+  "Compatibility": "Blocked",
+  "TargetStatus": "Blocked",
+  "Reasons": [
+    {
+      "Layer": "Binding",
+      "Code": "RootBindingInvalid",
+      "Severity": "Error",
+      "SourceId": "#47",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [
+        "#990001"
+      ],
+      "Occurrence": 10,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Binding",
+      "Code": "RootBindingInvalid",
+      "Severity": "Error",
+      "SourceId": "#990005",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 11,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Compatibility",
+      "Code": "CurrentImportIncompatible",
+      "Severity": "Error",
+      "SourceId": "#63",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 9,
+      "OriginalMessage": "STEP unit/context precheck: UnreviewedIncomingPath; root #63; source #47,#990001.",
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#990005",
+      "Component": "SHAPE_REPRESENTATION",
+      "Indices": [
+        1,
+        0
+      ],
+      "RelatedIds": [
+        "#990002"
+      ],
+      "Occurrence": 7,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "ReferenceRoleMismatch",
+      "Severity": "Error",
+      "SourceId": "#990005",
+      "Component": "SHAPE_REPRESENTATION",
+      "Indices": [
+        1,
+        1
+      ],
+      "RelatedIds": [
+        "#990003"
+      ],
+      "Occurrence": 8,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#990001",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#990002",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 2,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#990003",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 4,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnclassifiedSignature",
+      "Severity": "Error",
+      "SourceId": "#990004",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 6,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#990001",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 1,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#990002",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 3,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Records",
+      "Code": "UnsupportedScope",
+      "Severity": "Error",
+      "SourceId": "#990003",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 5,
+      "OriginalMessage": null,
+      "CauseType": null
+    },
+    {
+      "Layer": "Target",
+      "Code": "DependencyUnavailable",
+      "Severity": "Error",
+      "SourceId": "",
+      "Component": "",
+      "Indices": [],
+      "RelatedIds": [],
+      "Occurrence": 0,
+      "OriginalMessage": null,
+      "CauseType": null
+    }
+  ],
+  "IndependentPrecheck": "Rejected",
+  "IndependentPrecheckReason": "STEP unit/context precheck: UnreviewedIncomingPath; root #63; source #47,#990001.",
+  "PhysicalOccurrenceProofIssued": false,
+  "AngleAbsenceProofIssued": false,
+  "GeometryValidityProofIssued": false,
+  "ReadyIssued": false
+}
