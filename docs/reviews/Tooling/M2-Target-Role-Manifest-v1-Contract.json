@@ -1,0 +1,3245 @@
+{
+  "document_schema_revision": 1,
+  "manifest_revision": 1,
+  "status": "SENIOR_SECTION_38_ACCEPTED_CONDITIONAL_ON_FINAL_HEAD_WINDOWS_CI_AND_MERGE",
+  "authority": "Review contract only; no production loader, classifier or evidence issuer in this PR",
+  "start_commit": "12e38d21afcc85fcccdd1a2f7e76c4fb9d030281",
+  "historical_draft_sha256": "EE03563A63F98C79D629E8D387DD0AEBA7031BC9F021BC750FB4923E70DA1A41",
+  "production_implementation": false,
+  "ready_result": false,
+  "physical_occurrence_proof": false,
+  "angle_absence_proof": false,
+  "version_bindings": {
+    "RecordRoleManifest": 1,
+    "TargetBindingPolicy": 1,
+    "CurrentImportCompatibility": 1,
+    "ContextUnitPolicy": 1,
+    "HeaderSchemaAllowlist": 2,
+    "EnvelopePolicy": 1,
+    "EvaluatorCoverageManifest": null,
+    "NormalizationPolicy": null
+  },
+  "default_admission": "deny",
+  "signature_matching": "Ordinal exact whole component-name/arity set, all components unique; component order immaterial, field order exact; no subtype fallback",
+  "parameter_matching": "Actual parsed StepParameter kind; no value-to-string coercion; $ and * only explicitly admitted; profile one_of is exhaustive",
+  "unbounded_list_limits": "maximum_items null means no schema upper bound; resource exhaustion is capture/observation failure, never truncation or a positive prefix",
+  "profiles": {
+    "Text": {
+      "kind": "StepStringParameter",
+      "empty_allowed": true,
+      "null_allowed": false
+    },
+    "OptionalText": {
+      "one_of": [
+        "Text",
+        "Null"
+      ]
+    },
+    "Null": {
+      "kind": "StepNullParameter",
+      "literal": "$"
+    },
+    "Omitted": {
+      "kind": "StepOmittedParameter",
+      "literal": "*"
+    },
+    "Finite": {
+      "kind": [
+        "StepIntegerParameter",
+        "StepRealParameter"
+      ],
+      "conversion": "InvariantCulture binary64; must be finite; no string/enum coercion"
+    },
+    "PositiveFinite": {
+      "base": "Finite",
+      "minimum_exclusive": 0
+    },
+    "NonnegativeFinite": {
+      "base": "Finite",
+      "minimum_inclusive": 0
+    },
+    "ColourChannel": {
+      "base": "Finite",
+      "minimum_inclusive": 0,
+      "maximum_inclusive": 1
+    },
+    "PositiveInteger": {
+      "kind": "StepIntegerParameter",
+      "range": "1..Int64.MaxValue; checked arithmetic"
+    },
+    "Dimension3": {
+      "kind": "StepIntegerParameter",
+      "raw_literal": "3"
+    },
+    "Boolean": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".F.",
+        ".T."
+      ]
+    },
+    "Logical": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".F.",
+        ".T.",
+        ".U."
+      ]
+    },
+    "StyleSide": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".BOTH.",
+        ".POSITIVE.",
+        ".NEGATIVE."
+      ]
+    },
+    "SourceKind": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".BOUGHT.",
+        ".NOT_KNOWN.",
+        ".MADE."
+      ]
+    },
+    "CurveForm": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".POLYLINE_FORM.",
+        ".CIRCULAR_ARC.",
+        ".ELLIPTIC_ARC.",
+        ".PARABOLIC_ARC.",
+        ".HYPERBOLIC_ARC.",
+        ".UNSPECIFIED."
+      ]
+    },
+    "SurfaceForm": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".PLANE_SURF.",
+        ".CYLINDRICAL_SURF.",
+        ".CONICAL_SURF.",
+        ".SPHERICAL_SURF.",
+        ".TOROIDAL_SURF.",
+        ".SURF_OF_REVOLUTION.",
+        ".RULED_SURF.",
+        ".GENERALISED_CONE.",
+        ".QUADRIC_SURF.",
+        ".SURF_OF_LINEAR_EXTRUSION.",
+        ".UNSPECIFIED."
+      ]
+    },
+    "KnotSpec": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".UNIFORM_KNOTS.",
+        ".QUASI_UNIFORM_KNOTS.",
+        ".PIECEWISE_BEZIER_KNOTS.",
+        ".UNSPECIFIED."
+      ]
+    },
+    "Coordinates3": {
+      "kind": "aggregate",
+      "member": "Finite",
+      "minimum_items": 3,
+      "maximum_items": 3,
+      "ordering": "preserved",
+      "duplicates": "allowed"
+    },
+    "Direction3": {
+      "base": "Coordinates3",
+      "extra": "At least one component is nonzero; do not normalize or compute a possibly overflowing norm"
+    },
+    "PositiveIntegers": {
+      "kind": "aggregate",
+      "member": "PositiveInteger",
+      "minimum_items": 2,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "allowed"
+    },
+    "Knots": {
+      "kind": "aggregate",
+      "member": "Finite",
+      "minimum_items": 2,
+      "maximum_items": null,
+      "ordering": "strictly increasing",
+      "duplicates": "forbidden"
+    },
+    "Weights": {
+      "kind": "aggregate",
+      "member": "PositiveFinite",
+      "minimum_items": 2,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "allowed"
+    },
+    "WeightGrid": {
+      "kind": "aggregate",
+      "member": "Weights",
+      "minimum_items": 2,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "extra": "Rectangular; dimensions equal control point grid"
+    },
+    "LengthMeasure": {
+      "kind": "StepTypedParameter",
+      "type_name": "LENGTH_MEASURE",
+      "parameters": [
+        "NonnegativeFinite"
+      ],
+      "arity": 1
+    },
+    "LengthPrefix": {
+      "one_of": [
+        "Null",
+        {
+          "kind": "StepEnumerationParameter",
+          "literals": [
+            ".CENTI.",
+            ".MILLI."
+          ]
+        }
+      ]
+    },
+    "MetreName": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".METRE."
+      ]
+    },
+    "RadianName": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".RADIAN."
+      ]
+    },
+    "SteradianName": {
+      "kind": "StepEnumerationParameter",
+      "literals": [
+        ".STERADIAN."
+      ]
+    },
+    "RefRoot": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "MANIFOLD_SOLID_BREP:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefShell": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "CLOSED_SHELL:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefFace": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "ADVANCED_FACE:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefBound": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "FACE_BOUND:3",
+        "FACE_OUTER_BOUND:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefLoop": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "EDGE_LOOP:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefOrientedEdge": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "ORIENTED_EDGE:5"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefEdge": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "EDGE_CURVE:5"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefVertex": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "VERTEX_POINT:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefPoint": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "CARTESIAN_POINT:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefDirection": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "DIRECTION:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefVector": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "VECTOR:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefPlacement": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "AXIS2_PLACEMENT_3D:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefSurface": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "BOUNDED_SURFACE:0|B_SPLINE_SURFACE:7|B_SPLINE_SURFACE_WITH_KNOTS:5|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_SURFACE:1|REPRESENTATION_ITEM:1|SURFACE:0",
+        "B_SPLINE_SURFACE_WITH_KNOTS:13",
+        "CONICAL_SURFACE:4",
+        "CYLINDRICAL_SURFACE:3",
+        "PLANE:2",
+        "SPHERICAL_SURFACE:3",
+        "TOROIDAL_SURFACE:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefCurve": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "BOUNDED_CURVE:0|B_SPLINE_CURVE:5|B_SPLINE_CURVE_WITH_KNOTS:3|CURVE:0|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_CURVE:1|REPRESENTATION_ITEM:1",
+        "B_SPLINE_CURVE_WITH_KNOTS:9",
+        "CIRCLE:3",
+        "LINE:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefShape": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "ADVANCED_BREP_SHAPE_REPRESENTATION:3",
+        "SHAPE_REPRESENTATION:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefMainShape": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "SHAPE_REPRESENTATION:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefContext": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2",
+        "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefLengthUnit": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "LENGTH_UNIT:0|NAMED_UNIT:1|SI_UNIT:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefUnit": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "LENGTH_UNIT:0|NAMED_UNIT:1|SI_UNIT:2",
+        "NAMED_UNIT:1|PLANE_ANGLE_UNIT:0|SI_UNIT:2",
+        "NAMED_UNIT:1|SI_UNIT:2|SOLID_ANGLE_UNIT:0"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefUncertainty": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "UNCERTAINTY_MEASURE_WITH_UNIT:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefApplication": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "APPLICATION_CONTEXT:1"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefProductContext": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "PRODUCT_CONTEXT:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefProduct": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "PRODUCT:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefFormation": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "PRODUCT_DEFINITION_FORMATION:3",
+        "PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefProductDefinitionContext": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "PRODUCT_DEFINITION_CONTEXT:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefProductDefinition": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "PRODUCT_DEFINITION:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefProductShape": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "PRODUCT_DEFINITION_SHAPE:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefStyled": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "STYLED_ITEM:3"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefStyleAssignment": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "PRESENTATION_STYLE_ASSIGNMENT:1"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefStyleUsage": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "SURFACE_STYLE_USAGE:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefSideStyle": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "SURFACE_SIDE_STYLE:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefFillAreaStyle": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "FILL_AREA_STYLE:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefSurfaceFill": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "SURFACE_STYLE_FILL_AREA:1"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefFillColour": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "FILL_AREA_STYLE_COLOUR:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefColour": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "COLOUR_RGB:4"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefShapeItem": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "AXIS2_PLACEMENT_3D:4",
+        "MANIFOLD_SOLID_BREP:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefStyledGeometry": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "ADVANCED_FACE:4",
+        "AXIS2_PLACEMENT_3D:4",
+        "BOUNDED_CURVE:0|B_SPLINE_CURVE:5|B_SPLINE_CURVE_WITH_KNOTS:3|CURVE:0|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_CURVE:1|REPRESENTATION_ITEM:1",
+        "BOUNDED_SURFACE:0|B_SPLINE_SURFACE:7|B_SPLINE_SURFACE_WITH_KNOTS:5|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_SURFACE:1|REPRESENTATION_ITEM:1|SURFACE:0",
+        "B_SPLINE_CURVE_WITH_KNOTS:9",
+        "B_SPLINE_SURFACE_WITH_KNOTS:13",
+        "CARTESIAN_POINT:2",
+        "CIRCLE:3",
+        "CLOSED_SHELL:2",
+        "CONICAL_SURFACE:4",
+        "CYLINDRICAL_SURFACE:3",
+        "DIRECTION:2",
+        "EDGE_CURVE:5",
+        "EDGE_LOOP:2",
+        "FACE_BOUND:3",
+        "FACE_OUTER_BOUND:3",
+        "LINE:3",
+        "MANIFOLD_SOLID_BREP:2",
+        "ORIENTED_EDGE:5",
+        "PLANE:2",
+        "SPHERICAL_SURFACE:3",
+        "TOROIDAL_SURFACE:4",
+        "VECTOR:3",
+        "VERTEX_POINT:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "RefLayerItem": {
+      "kind": "StepEntityReferenceParameter",
+      "target_exact_signatures": [
+        "ADVANCED_FACE:4",
+        "AXIS2_PLACEMENT_3D:4",
+        "BOUNDED_CURVE:0|B_SPLINE_CURVE:5|B_SPLINE_CURVE_WITH_KNOTS:3|CURVE:0|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_CURVE:1|REPRESENTATION_ITEM:1",
+        "BOUNDED_SURFACE:0|B_SPLINE_SURFACE:7|B_SPLINE_SURFACE_WITH_KNOTS:5|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_SURFACE:1|REPRESENTATION_ITEM:1|SURFACE:0",
+        "B_SPLINE_CURVE_WITH_KNOTS:9",
+        "B_SPLINE_SURFACE_WITH_KNOTS:13",
+        "CARTESIAN_POINT:2",
+        "CIRCLE:3",
+        "CLOSED_SHELL:2",
+        "CONICAL_SURFACE:4",
+        "CYLINDRICAL_SURFACE:3",
+        "DIRECTION:2",
+        "EDGE_CURVE:5",
+        "EDGE_LOOP:2",
+        "FACE_BOUND:3",
+        "FACE_OUTER_BOUND:3",
+        "LINE:3",
+        "MANIFOLD_SOLID_BREP:2",
+        "ORIENTED_EDGE:5",
+        "PLANE:2",
+        "SPHERICAL_SURFACE:3",
+        "STYLED_ITEM:3",
+        "TOROIDAL_SURFACE:4",
+        "VECTOR:3",
+        "VERTEX_POINT:2"
+      ],
+      "resolution": "Exactly one Complete record; target must satisfy its full admitted rule, not merely contain a named base component"
+    },
+    "OptionalDirection": {
+      "one_of": [
+        "Null",
+        "RefDirection"
+      ]
+    },
+    "ShapeItems": {
+      "kind": "aggregate",
+      "member": "RefShapeItem",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "Faces": {
+      "kind": "aggregate",
+      "member": "RefFace",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "Bounds": {
+      "kind": "aggregate",
+      "member": "RefBound",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "Edges": {
+      "kind": "aggregate",
+      "member": "RefOrientedEdge",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "allowed"
+    },
+    "ControlPoints": {
+      "kind": "aggregate",
+      "member": "RefPoint",
+      "minimum_items": 2,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "allowed"
+    },
+    "Units": {
+      "kind": "aggregate",
+      "member": "RefUnit",
+      "minimum_items": 2,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "Uncertainties": {
+      "kind": "aggregate",
+      "member": "RefUncertainty",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "ProductContexts": {
+      "kind": "aggregate",
+      "member": "RefProductContext",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "Products": {
+      "kind": "aggregate",
+      "member": "RefProduct",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "StyledItems": {
+      "kind": "aggregate",
+      "member": "RefStyled",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "StyleAssignments": {
+      "kind": "aggregate",
+      "member": "RefStyleAssignment",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "StyleUsages": {
+      "kind": "aggregate",
+      "member": "RefStyleUsage",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "SurfaceFills": {
+      "kind": "aggregate",
+      "member": "RefSurfaceFill",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "FillColours": {
+      "kind": "aggregate",
+      "member": "RefFillColour",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "LayerItems": {
+      "kind": "aggregate",
+      "member": "RefLayerItem",
+      "minimum_items": 1,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "forbidden"
+    },
+    "PointGrid": {
+      "kind": "aggregate",
+      "member": "ControlPoints",
+      "minimum_items": 2,
+      "maximum_items": null,
+      "ordering": "preserved",
+      "duplicates": "allowed",
+      "extra": "Rectangular; repeated control-point references allowed"
+    }
+  },
+  "invariants": {
+    "I01-ExactRecords": "Every record has a unique canonical positive decimal ID matching #[1-9][0-9]* (no leading-zero alias). Every record Complete, exact whole signature and arity. Unknown/duplicate component, partial record or unknown field blocks; never use recognized-base containment. All declared references must resolve exactly once, including metadata; numeric-ID alias normalization is not introduced.",
+    "I02-AllRecords": "Account for all records exactly once. Unclassified or explicitly unsupported anywhere blocks positive target issuance. Every GeometryDependency must be reachable by typed geometry edges from the root or an admitted shape-placement item. A styled/layer target cannot sponsor otherwise unowned geometry. All presentation and metadata records are still validated even when unreachable from the root.",
+    "I03-Root": "Exactly one MANIFOLD_SOLID_BREP root in the whole inventory; reject void/faceted/surface/wire/mapping/assembly/unknown forms. Root occurs once in exactly one admitted geometry representation items list. Other items only validated AXIS2_PLACEMENT_3D. No automatic selection/deduplication or second geometric representation.",
+    "I04-T2": "Either direct SDR to geometry representation, or exactly one simple four-field nontransforming bridge to a distinct SHAPE_REPRESENTATION containing placements only. Either endpoint order; exactly one SDR across both endpoints and it targets the main endpoint. Reject chain/branch/cycle/self-link, second SDR including direct-plus-bridge, transformation/mapping/assembly and unknown incoming endpoint paths. Typed fields establish binding; reverse index only detects additional paths.",
+    "I05-Product": "Resolve unique SDR -> PRODUCT_DEFINITION_SHAPE -> PRODUCT_DEFINITION -> admitted formation -> PRODUCT and PRODUCT_DEFINITION_CONTEXT -> APPLICATION_CONTEXT. Validate each full referenced row and its complete metadata chain. Allowed incoming to geometry is SDR (direct) or bridge; main endpoint only SDR+bridge. PDS incoming only this SDR; selected PRODUCT_DEFINITION incoming only this PDS. Other product metadata cannot hide an assembly/occurrence path. This includes all ImportUnitPrecheck product checks and adds full typed formation/product/context validation.",
+    "I06-T1": "Carry every ImportUnitPrecheck Styled/Layer/Style check, child-role check, whole presentation item-list validation, RGB bounds, invalid-side and active-cycle rejection. Validate ALL Presentation rows with this catalogue, not just root incoming rows. STYLED_ITEM target and every direct layer geometry target must be in the root typed dependency closure; every styled layer item must have that property. Presentation representation items must all be valid STYLED_ITEM for this root, with their own valid context. Incoming to STYLED_ITEM only validated presentation representation or layer. Detect cycles via active/done sets without dropping shared valid nodes. Colour/layer metadata does not create physical occurrence or choose geometry context.",
+    "I07-ContextUnits": "Whole exact 3D context signature. Units list contains one supported length and one radian definition; at most one optional exact steradian, no other dimension, conversion unit, duplicate dimension or unknown candidate. Full definitions inspected, not generic inventory SI lookup. Presentation context does not replace target context. Uncertainty rows are validated retained metadata, not a precision/normalization attestation; their length-unit definition must equal their owning context length semantically. A3: These structural unit/field rules apply to EVERY context, including presentation-only contexts such as T001 #89. Metre or centimetre with radian is structurally admissible there; CurrentImportCompatibility mm/radian is required ONLY for geometry/main binding endpoint contexts, never solely because a context belongs to presentation. Presentation units cannot rescue invalid binding units.",
+    "I08-BSpline": "Each curve degree p < control-point count N; distinct knot and multiplicity lists equal length >=2; strictly increasing finite knots; multiplicities positive Int64, endpoint <=p+1 and interior <=p, checked sum N+p+1. Surface grid rectangular with U rows >u_degree and V columns >v_degree; apply identical knot rules independently in U/V. Rational weights positive finite with exact curve count/grid shape. Repeated control-point references and weights allowed, no deduplication. These finite field invariants do not prove a regular, non-self-intersecting or supported surface.",
+    "I09-NoGeometryClaim": "Finite analytic scalars remain signed structural data; no radius-sign, axis-orthogonality, vector-magnitude positivity, valid-cone-angle, topology closure/orientation, normal, signed toroidal compatibility or evaluator support assertion. These remain mandatory semantic/coverage/normalization gates before geometry use. Never weaken existing mapper checks. No physical-occurrence or angle-absence proof here.",
+    "I10-Ownership": "Only same retained captured bytes/inventory in a real InventoryEvidence and owner ImportSession can produce/read bound target observation. Private constructors/data, owner-checked bind/read, no detached neutral/observation input to decision API, no equal-hash owner substitution, no evidence->session back-reference. Use StepEvidenceSyntax.Components. No production afterSourceCaptured use, new consumer, Ready or wire changes.",
+    "I11-Compatibility": "Evaluate structural binding independently of CurrentImportCompatibility v1; compare endpoint supported length/angle exact rational definitions, not IDs. Current compatibility requires millimetre/radian on every binding endpoint even with no angular field. Any current ImportUnitPrecheck rejection forbids positive target issuance. Agreeing supported metre/centimetre endpoints may satisfy structural unit equality but fail import compatibility. Do not relax R-U, add identity-transform support or normalize. A1: The producer MUST directly invoke current ImportUnitPrecheck.EnsureCompatible on the exact retained inventory instance and uniquely established root ID, inside the compatibility layer. Faithful reimplementation/parity tests alone are insufficient. Catch only its documented input-rejection InvalidDataException around that call, retain original message/inner cause/source identity and record CurrentImportIncompatible; do not return early or suppress other independent findings. Unexpected exceptions propagate. If required root/inventory is unavailable, mark compatibility Unavailable with its real dependency reason; never choose a root to run the check. A2: Only the exact approved revision tuple may be emitted/accepted; proposal, missing or unknown labels yield TargetRevisionUnsupported/Blocked.",
+    "I12-Reasons": "Preserve all independently observable failures with policy layer, code, source ID, component/field/list indices, related IDs and original stage. Do not invent child findings when a parent cannot be parsed/resolved; emit unavailable dependency with related ID and continue independent records. All proposed target reasons Error/blocking. Sort ordinal policy-layer then code then source ID then component then numeric field/list indices then related-ID tuple then original stable occurrence; deduplicate only exact identical tuples. Unexpected exceptions propagate under existing policy, never fabricate clean data."
+  },
+  "required_global_invariants": [
+    "I01-ExactRecords",
+    "I02-AllRecords",
+    "I03-Root",
+    "I04-T2",
+    "I05-Product",
+    "I06-T1",
+    "I07-ContextUnits",
+    "I08-BSpline",
+    "I09-NoGeometryClaim",
+    "I10-Ownership",
+    "I11-Compatibility",
+    "I12-Reasons"
+  ],
+  "row_invariant_links": "Review index only; every required_global_invariant remains mandatory regardless of individual row links",
+  "unit_policies": {
+    "TargetBindingPolicy1": {
+      "length_scale_to_metre": [
+        {
+          "prefix": "$",
+          "unit": "METRE",
+          "numerator": 1,
+          "denominator": 1
+        },
+        {
+          "prefix": "CENTI",
+          "unit": "METRE",
+          "numerator": 1,
+          "denominator": 100
+        },
+        {
+          "prefix": "MILLI",
+          "unit": "METRE",
+          "numerator": 1,
+          "denominator": 1000
+        }
+      ],
+      "plane_angle_scale_to_radian": {
+        "prefix": "$",
+        "unit": "RADIAN",
+        "numerator": 1,
+        "denominator": 1
+      },
+      "comparison": "Dimensions, exact unit code and reduced rational scale equal at both endpoints; no doubles or normalization",
+      "optional_steradian": "Exact direct SI steradian only; retained auxiliary dimension, not plane angle",
+      "context_scope": "Every context including presentation; structural supported-unit/field validation; semantic equality required only across the binding bridge endpoints"
+    },
+    "CurrentImportCompatibility1": {
+      "length": "MILLI/METRE only",
+      "plane_angle": "unprefixed RADIAN only",
+      "always_require_angle": true,
+      "R_U_rejection_prevents_positive_target": true,
+      "coordinate_conversion": false,
+      "transform_support": false,
+      "context_scope": "Only geometry/main binding endpoints; presentation-only metre/cm context does not by itself impose mm compatibility",
+      "mandatory_existing_guard": {
+        "call": "ImportUnitPrecheck.EnsureCompatible(retainedInventory, uniqueRootId)",
+        "same_inventory_instance": true,
+        "reread_forbidden": true,
+        "known_rejection_reason": "CurrentImportIncompatible",
+        "preserve_original_failure": true,
+        "unexpected_exception_policy": "propagate",
+        "reimplementation_is_not_substitute": true
+      }
+    }
+  },
+  "proposed_results": {
+    "per_layer": [
+      "Observed",
+      "Blocked",
+      "Unavailable"
+    ],
+    "per_layer_meaning": {
+      "Observed": "Required checks completed and passed; not merely data present",
+      "Blocked": "A known policy requirement failed",
+      "Unavailable": "Checks could not be completed; never treated as passed"
+    },
+    "aggregate": [
+      "TargetBoundOnly",
+      "Blocked",
+      "NoEvidence"
+    ],
+    "aggregate_precedence": "NoEvidence only for missing required owner/session/evidence; foreign owner or unsupported revision and any observed layer failure/unavailable prerequisite are Blocked. Preserve all available reasons. Never inspect foreign evidence contents to report further data.",
+    "positive_requirements": "C1 owner/session/revisions valid, InventoryClear, every record/classification/T1/product/root/binding/compatibility prerequisite Observed and zero blocking/unavailable target reasons. Header/envelope observations retained separately; combined eligibility gate still absent. ImportUnitPrecheck cannot reject. TargetBoundOnly is not physical occurrence, valid geometry, coverage, normalization or Ready."
+  },
+  "proposed_reason_codes": {
+    "TargetEvidenceUnavailable": "Error",
+    "TargetOwnerMismatch": "Error",
+    "TargetRevisionUnsupported": "Error",
+    "InventoryNotClear": "Error",
+    "RecordIdentityInvalid": "Error",
+    "RecordPartial": "Error",
+    "UnclassifiedSignature": "Error",
+    "UnsupportedScope": "Error",
+    "FieldConstraintFailed": "Error",
+    "ReferenceUnresolved": "Error",
+    "ReferenceRoleMismatch": "Error",
+    "UnownedGeometry": "Error",
+    "RootBindingInvalid": "Error",
+    "ProductBindingInvalid": "Error",
+    "PresentationInvalid": "Error",
+    "ContextBindingUnavailable": "Error",
+    "ContextUnitsUnsupported": "Error",
+    "BridgeUnitMismatch": "Error",
+    "CurrentImportIncompatible": "Error",
+    "DependencyUnavailable": "Error"
+  },
+  "rules": [
+    {
+      "signature": "ADVANCED_BREP_SHAPE_REPRESENTATION:3",
+      "role": "ShapeRepresentation",
+      "admission": "conditional",
+      "components": {
+        "ADVANCED_BREP_SHAPE_REPRESENTATION": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "items",
+              "constraint": "ShapeItems"
+            },
+            {
+              "index": 2,
+              "name": "context_of_items",
+              "constraint": "RefContext"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I03-Root",
+        "I04-T2",
+        "I05-Product",
+        "I11-Compatibility"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "ADVANCED_FACE:4",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "ADVANCED_FACE": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "bounds",
+              "constraint": "Bounds"
+            },
+            {
+              "index": 2,
+              "name": "face_geometry",
+              "constraint": "RefSurface"
+            },
+            {
+              "index": 3,
+              "name": "same_sense",
+              "constraint": "Boolean"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "APPLICATION_CONTEXT:1",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "APPLICATION_CONTEXT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "application",
+              "constraint": "Text"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "APPLICATION_PROTOCOL_DEFINITION:4",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "APPLICATION_PROTOCOL_DEFINITION": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "status",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "schema_name",
+              "constraint": "Text"
+            },
+            {
+              "index": 2,
+              "name": "year",
+              "constraint": "PositiveInteger"
+            },
+            {
+              "index": 3,
+              "name": "application_context",
+              "constraint": "RefApplication"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "APPROVAL:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "APPROVAL_DATE_TIME:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "APPROVAL_PERSON_ORGANIZATION:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "APPROVAL_ROLE:1",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "APPROVAL_STATUS:1",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "AXIS2_PLACEMENT_3D:4",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "AXIS2_PLACEMENT_3D": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "location",
+              "constraint": "RefPoint"
+            },
+            {
+              "index": 2,
+              "name": "axis",
+              "constraint": "OptionalDirection"
+            },
+            {
+              "index": 3,
+              "name": "ref_direction",
+              "constraint": "OptionalDirection"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "BOUNDED_CURVE:0|B_SPLINE_CURVE:5|B_SPLINE_CURVE_WITH_KNOTS:3|CURVE:0|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_CURVE:1|REPRESENTATION_ITEM:1",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "BOUNDED_CURVE": {
+          "arity": 0,
+          "fields": []
+        },
+        "B_SPLINE_CURVE": {
+          "arity": 5,
+          "fields": [
+            {
+              "index": 0,
+              "name": "degree",
+              "constraint": "PositiveInteger"
+            },
+            {
+              "index": 1,
+              "name": "control_points_list",
+              "constraint": "ControlPoints"
+            },
+            {
+              "index": 2,
+              "name": "curve_form",
+              "constraint": "CurveForm"
+            },
+            {
+              "index": 3,
+              "name": "closed_curve",
+              "constraint": "Logical"
+            },
+            {
+              "index": 4,
+              "name": "self_intersect",
+              "constraint": "Logical"
+            }
+          ]
+        },
+        "B_SPLINE_CURVE_WITH_KNOTS": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "knot_multiplicities",
+              "constraint": "PositiveIntegers"
+            },
+            {
+              "index": 1,
+              "name": "knots",
+              "constraint": "Knots"
+            },
+            {
+              "index": 2,
+              "name": "knot_spec",
+              "constraint": "KnotSpec"
+            }
+          ]
+        },
+        "CURVE": {
+          "arity": 0,
+          "fields": []
+        },
+        "GEOMETRIC_REPRESENTATION_ITEM": {
+          "arity": 0,
+          "fields": []
+        },
+        "RATIONAL_B_SPLINE_CURVE": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "weights_data",
+              "constraint": "Weights"
+            }
+          ]
+        },
+        "REPRESENTATION_ITEM": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I08-BSpline"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "BOUNDED_SURFACE:0|B_SPLINE_SURFACE:7|B_SPLINE_SURFACE_WITH_KNOTS:5|GEOMETRIC_REPRESENTATION_ITEM:0|RATIONAL_B_SPLINE_SURFACE:1|REPRESENTATION_ITEM:1|SURFACE:0",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "BOUNDED_SURFACE": {
+          "arity": 0,
+          "fields": []
+        },
+        "B_SPLINE_SURFACE": {
+          "arity": 7,
+          "fields": [
+            {
+              "index": 0,
+              "name": "u_degree",
+              "constraint": "PositiveInteger"
+            },
+            {
+              "index": 1,
+              "name": "v_degree",
+              "constraint": "PositiveInteger"
+            },
+            {
+              "index": 2,
+              "name": "control_points_list",
+              "constraint": "PointGrid"
+            },
+            {
+              "index": 3,
+              "name": "surface_form",
+              "constraint": "SurfaceForm"
+            },
+            {
+              "index": 4,
+              "name": "u_closed",
+              "constraint": "Logical"
+            },
+            {
+              "index": 5,
+              "name": "v_closed",
+              "constraint": "Logical"
+            },
+            {
+              "index": 6,
+              "name": "self_intersect",
+              "constraint": "Logical"
+            }
+          ]
+        },
+        "B_SPLINE_SURFACE_WITH_KNOTS": {
+          "arity": 5,
+          "fields": [
+            {
+              "index": 0,
+              "name": "u_multiplicities",
+              "constraint": "PositiveIntegers"
+            },
+            {
+              "index": 1,
+              "name": "v_multiplicities",
+              "constraint": "PositiveIntegers"
+            },
+            {
+              "index": 2,
+              "name": "u_knots",
+              "constraint": "Knots"
+            },
+            {
+              "index": 3,
+              "name": "v_knots",
+              "constraint": "Knots"
+            },
+            {
+              "index": 4,
+              "name": "knot_spec",
+              "constraint": "KnotSpec"
+            }
+          ]
+        },
+        "GEOMETRIC_REPRESENTATION_ITEM": {
+          "arity": 0,
+          "fields": []
+        },
+        "RATIONAL_B_SPLINE_SURFACE": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "weights_data",
+              "constraint": "WeightGrid"
+            }
+          ]
+        },
+        "REPRESENTATION_ITEM": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            }
+          ]
+        },
+        "SURFACE": {
+          "arity": 0,
+          "fields": []
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I08-BSpline"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "B_SPLINE_CURVE_WITH_KNOTS:9",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "B_SPLINE_CURVE_WITH_KNOTS": {
+          "arity": 9,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "degree",
+              "constraint": "PositiveInteger"
+            },
+            {
+              "index": 2,
+              "name": "control_points_list",
+              "constraint": "ControlPoints"
+            },
+            {
+              "index": 3,
+              "name": "curve_form",
+              "constraint": "CurveForm"
+            },
+            {
+              "index": 4,
+              "name": "closed_curve",
+              "constraint": "Logical"
+            },
+            {
+              "index": 5,
+              "name": "self_intersect",
+              "constraint": "Logical"
+            },
+            {
+              "index": 6,
+              "name": "knot_multiplicities",
+              "constraint": "PositiveIntegers"
+            },
+            {
+              "index": 7,
+              "name": "knots",
+              "constraint": "Knots"
+            },
+            {
+              "index": 8,
+              "name": "knot_spec",
+              "constraint": "KnotSpec"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I08-BSpline"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "B_SPLINE_SURFACE_WITH_KNOTS:13",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "B_SPLINE_SURFACE_WITH_KNOTS": {
+          "arity": 13,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "u_degree",
+              "constraint": "PositiveInteger"
+            },
+            {
+              "index": 2,
+              "name": "v_degree",
+              "constraint": "PositiveInteger"
+            },
+            {
+              "index": 3,
+              "name": "control_points_list",
+              "constraint": "PointGrid"
+            },
+            {
+              "index": 4,
+              "name": "surface_form",
+              "constraint": "SurfaceForm"
+            },
+            {
+              "index": 5,
+              "name": "u_closed",
+              "constraint": "Logical"
+            },
+            {
+              "index": 6,
+              "name": "v_closed",
+              "constraint": "Logical"
+            },
+            {
+              "index": 7,
+              "name": "self_intersect",
+              "constraint": "Logical"
+            },
+            {
+              "index": 8,
+              "name": "u_multiplicities",
+              "constraint": "PositiveIntegers"
+            },
+            {
+              "index": 9,
+              "name": "v_multiplicities",
+              "constraint": "PositiveIntegers"
+            },
+            {
+              "index": 10,
+              "name": "u_knots",
+              "constraint": "Knots"
+            },
+            {
+              "index": 11,
+              "name": "v_knots",
+              "constraint": "Knots"
+            },
+            {
+              "index": 12,
+              "name": "knot_spec",
+              "constraint": "KnotSpec"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I08-BSpline"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "CALENDAR_DATE:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "CARTESIAN_POINT:2",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "CARTESIAN_POINT": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "coordinates",
+              "constraint": "Coordinates3"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "CC_DESIGN_APPROVAL:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "CC_DESIGN_DATE_AND_TIME_ASSIGNMENT:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "CC_DESIGN_PERSON_AND_ORGANIZATION_ASSIGNMENT:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "CC_DESIGN_SECURITY_CLASSIFICATION:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "CIRCLE:3",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "CIRCLE": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "position",
+              "constraint": "RefPlacement"
+            },
+            {
+              "index": 2,
+              "name": "radius",
+              "constraint": "Finite"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "CLOSED_SHELL:2",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "CLOSED_SHELL": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "cfs_faces",
+              "constraint": "Faces"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "COLOUR_RGB:4",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "COLOUR_RGB": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "red",
+              "constraint": "ColourChannel"
+            },
+            {
+              "index": 2,
+              "name": "green",
+              "constraint": "ColourChannel"
+            },
+            {
+              "index": 3,
+              "name": "blue",
+              "constraint": "ColourChannel"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "CONICAL_SURFACE:4",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "CONICAL_SURFACE": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "position",
+              "constraint": "RefPlacement"
+            },
+            {
+              "index": 2,
+              "name": "radius",
+              "constraint": "Finite"
+            },
+            {
+              "index": 3,
+              "name": "semi_angle",
+              "constraint": "Finite"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": [
+        {
+          "component": "CONICAL_SURFACE",
+          "index": 3,
+          "unit": "plane_angle"
+        }
+      ]
+    },
+    {
+      "signature": "CONTEXT_DEPENDENT_SHAPE_REPRESENTATION:2",
+      "role": "UnsupportedPath",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnsupportedScope"
+    },
+    {
+      "signature": "COORDINATED_UNIVERSAL_TIME_OFFSET:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "CYLINDRICAL_SURFACE:3",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "CYLINDRICAL_SURFACE": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "position",
+              "constraint": "RefPlacement"
+            },
+            {
+              "index": 2,
+              "name": "radius",
+              "constraint": "Finite"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "DATE_AND_TIME:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "DATE_TIME_ROLE:1",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "DESIGN_CONTEXT:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "DIRECTION:2",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "DIRECTION": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "direction_ratios",
+              "constraint": "Direction3"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "EDGE_CURVE:5",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "EDGE_CURVE": {
+          "arity": 5,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "edge_start",
+              "constraint": "RefVertex"
+            },
+            {
+              "index": 2,
+              "name": "edge_end",
+              "constraint": "RefVertex"
+            },
+            {
+              "index": 3,
+              "name": "edge_geometry",
+              "constraint": "RefCurve"
+            },
+            {
+              "index": 4,
+              "name": "same_sense",
+              "constraint": "Boolean"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "EDGE_LOOP:2",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "EDGE_LOOP": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "edge_list",
+              "constraint": "Edges"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "ELLIPSE:4",
+      "role": "UnsupportedGeometry",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnsupportedScope"
+    },
+    {
+      "signature": "FACE_BOUND:3",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "FACE_BOUND": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "bound",
+              "constraint": "RefLoop"
+            },
+            {
+              "index": 2,
+              "name": "orientation",
+              "constraint": "Boolean"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "FACE_OUTER_BOUND:3",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "FACE_OUTER_BOUND": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "bound",
+              "constraint": "RefLoop"
+            },
+            {
+              "index": 2,
+              "name": "orientation",
+              "constraint": "Boolean"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "FILL_AREA_STYLE:2",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "FILL_AREA_STYLE": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "fill_styles",
+              "constraint": "FillColours"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "FILL_AREA_STYLE_COLOUR:2",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "FILL_AREA_STYLE_COLOUR": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "fill_colour",
+              "constraint": "RefColour"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2",
+      "role": "Context",
+      "admission": "conditional",
+      "components": {
+        "GEOMETRIC_REPRESENTATION_CONTEXT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "coordinate_space_dimension",
+              "constraint": "Dimension3"
+            }
+          ]
+        },
+        "GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "uncertainty",
+              "constraint": "Uncertainties"
+            }
+          ]
+        },
+        "GLOBAL_UNIT_ASSIGNED_CONTEXT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "units",
+              "constraint": "Units"
+            }
+          ]
+        },
+        "REPRESENTATION_CONTEXT": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "context_identifier",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "context_type",
+              "constraint": "Text"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I07-ContextUnits"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "GEOMETRIC_REPRESENTATION_CONTEXT:1|GLOBAL_UNIT_ASSIGNED_CONTEXT:1|REPRESENTATION_CONTEXT:2",
+      "role": "Context",
+      "admission": "conditional",
+      "components": {
+        "GEOMETRIC_REPRESENTATION_CONTEXT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "coordinate_space_dimension",
+              "constraint": "Dimension3"
+            }
+          ]
+        },
+        "GLOBAL_UNIT_ASSIGNED_CONTEXT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "units",
+              "constraint": "Units"
+            }
+          ]
+        },
+        "REPRESENTATION_CONTEXT": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "context_identifier",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "context_type",
+              "constraint": "Text"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I07-ContextUnits"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "ITEM_DEFINED_TRANSFORMATION:4",
+      "role": "UnsupportedPath",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnsupportedScope"
+    },
+    {
+      "signature": "LENGTH_UNIT:0|NAMED_UNIT:1|SI_UNIT:2",
+      "role": "UnitMetadata",
+      "admission": "conditional",
+      "components": {
+        "LENGTH_UNIT": {
+          "arity": 0,
+          "fields": []
+        },
+        "NAMED_UNIT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "dimensions",
+              "constraint": "Omitted"
+            }
+          ]
+        },
+        "SI_UNIT": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "prefix",
+              "constraint": "LengthPrefix"
+            },
+            {
+              "index": 1,
+              "name": "name",
+              "constraint": "MetreName"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I07-ContextUnits"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "LINE:3",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "LINE": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "pnt",
+              "constraint": "RefPoint"
+            },
+            {
+              "index": 2,
+              "name": "dir",
+              "constraint": "RefVector"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "LOCAL_TIME:4",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "MANIFOLD_SOLID_BREP:2",
+      "role": "TargetRoot",
+      "admission": "conditional",
+      "components": {
+        "MANIFOLD_SOLID_BREP": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "outer",
+              "constraint": "RefShell"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I03-Root",
+        "I04-T2",
+        "I05-Product",
+        "I11-Compatibility"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "MECHANICAL_CONTEXT:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION:3",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "items",
+              "constraint": "StyledItems"
+            },
+            {
+              "index": 2,
+              "name": "context_of_items",
+              "constraint": "RefContext"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "NAMED_UNIT:1|PLANE_ANGLE_UNIT:0|SI_UNIT:2",
+      "role": "UnitMetadata",
+      "admission": "conditional",
+      "components": {
+        "NAMED_UNIT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "dimensions",
+              "constraint": "Omitted"
+            }
+          ]
+        },
+        "PLANE_ANGLE_UNIT": {
+          "arity": 0,
+          "fields": []
+        },
+        "SI_UNIT": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "prefix",
+              "constraint": "Null"
+            },
+            {
+              "index": 1,
+              "name": "name",
+              "constraint": "RadianName"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I07-ContextUnits"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "NAMED_UNIT:1|SI_UNIT:2|SOLID_ANGLE_UNIT:0",
+      "role": "UnitMetadata",
+      "admission": "conditional",
+      "components": {
+        "NAMED_UNIT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "dimensions",
+              "constraint": "Omitted"
+            }
+          ]
+        },
+        "SI_UNIT": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "prefix",
+              "constraint": "Null"
+            },
+            {
+              "index": 1,
+              "name": "name",
+              "constraint": "SteradianName"
+            }
+          ]
+        },
+        "SOLID_ANGLE_UNIT": {
+          "arity": 0,
+          "fields": []
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I07-ContextUnits"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "NEXT_ASSEMBLY_USAGE_OCCURRENCE:6",
+      "role": "UnsupportedPath",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnsupportedScope"
+    },
+    {
+      "signature": "ORGANIZATION:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "ORIENTED_EDGE:5",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "ORIENTED_EDGE": {
+          "arity": 5,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "edge_start",
+              "constraint": "Omitted"
+            },
+            {
+              "index": 2,
+              "name": "edge_end",
+              "constraint": "Omitted"
+            },
+            {
+              "index": 3,
+              "name": "edge_element",
+              "constraint": "RefEdge"
+            },
+            {
+              "index": 4,
+              "name": "orientation",
+              "constraint": "Boolean"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PERSON:6",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "PERSON_AND_ORGANIZATION:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "PERSON_AND_ORGANIZATION_ROLE:1",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "PLANE:2",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "PLANE": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "position",
+              "constraint": "RefPlacement"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRESENTATION_LAYER_ASSIGNMENT:3",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "PRESENTATION_LAYER_ASSIGNMENT": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "description",
+              "constraint": "Text"
+            },
+            {
+              "index": 2,
+              "name": "assigned_items",
+              "constraint": "LayerItems"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRESENTATION_STYLE_ASSIGNMENT:1",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "PRESENTATION_STYLE_ASSIGNMENT": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "styles",
+              "constraint": "StyleUsages"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT:4",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "id",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 2,
+              "name": "description",
+              "constraint": "Text"
+            },
+            {
+              "index": 3,
+              "name": "frame_of_reference",
+              "constraint": "ProductContexts"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_CATEGORY:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "PRODUCT_CONTEXT:3",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT_CONTEXT": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "frame_of_reference",
+              "constraint": "RefApplication"
+            },
+            {
+              "index": 2,
+              "name": "discipline_type",
+              "constraint": "Text"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION:4",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT_DEFINITION": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "id",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "description",
+              "constraint": "OptionalText"
+            },
+            {
+              "index": 2,
+              "name": "formation",
+              "constraint": "RefFormation"
+            },
+            {
+              "index": 3,
+              "name": "frame_of_reference",
+              "constraint": "RefProductDefinitionContext"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_CONTEXT:3",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT_DEFINITION_CONTEXT": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "frame_of_reference",
+              "constraint": "RefApplication"
+            },
+            {
+              "index": 2,
+              "name": "life_cycle_stage",
+              "constraint": "Text"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_FORMATION:3",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT_DEFINITION_FORMATION": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "id",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "description",
+              "constraint": "OptionalText"
+            },
+            {
+              "index": 2,
+              "name": "of_product",
+              "constraint": "RefProduct"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE:4",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT_DEFINITION_FORMATION_WITH_SPECIFIED_SOURCE": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "id",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "description",
+              "constraint": "OptionalText"
+            },
+            {
+              "index": 2,
+              "name": "of_product",
+              "constraint": "RefProduct"
+            },
+            {
+              "index": 3,
+              "name": "make_or_buy",
+              "constraint": "SourceKind"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_DEFINITION_SHAPE:3",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT_DEFINITION_SHAPE": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "description",
+              "constraint": "OptionalText"
+            },
+            {
+              "index": 2,
+              "name": "definition",
+              "constraint": "RefProductDefinition"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PRODUCT_RELATED_PRODUCT_CATEGORY:3",
+      "role": "ProductMetadata",
+      "admission": "conditional",
+      "components": {
+        "PRODUCT_RELATED_PRODUCT_CATEGORY": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "description",
+              "constraint": "Text"
+            },
+            {
+              "index": 2,
+              "name": "products",
+              "constraint": "Products"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I05-Product"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "PROPERTY_DEFINITION:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "PROPERTY_DEFINITION_REPRESENTATION:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "REPRESENTATION:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "REPRESENTATION_RELATIONSHIP:4|REPRESENTATION_RELATIONSHIP_WITH_TRANSFORMATION:1|SHAPE_REPRESENTATION_RELATIONSHIP:0",
+      "role": "UnsupportedPath",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnsupportedScope"
+    },
+    {
+      "signature": "SECURITY_CLASSIFICATION:3",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "SECURITY_CLASSIFICATION_LEVEL:1",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "SHAPE_DEFINITION_REPRESENTATION:2",
+      "role": "ShapeBinding",
+      "admission": "conditional",
+      "components": {
+        "SHAPE_DEFINITION_REPRESENTATION": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "definition",
+              "constraint": "RefProductShape"
+            },
+            {
+              "index": 1,
+              "name": "used_representation",
+              "constraint": "RefShape"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I03-Root",
+        "I04-T2",
+        "I05-Product",
+        "I11-Compatibility"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "SHAPE_REPRESENTATION:3",
+      "role": "ShapeRepresentation",
+      "admission": "conditional",
+      "components": {
+        "SHAPE_REPRESENTATION": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "items",
+              "constraint": "ShapeItems"
+            },
+            {
+              "index": 2,
+              "name": "context_of_items",
+              "constraint": "RefContext"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I03-Root",
+        "I04-T2",
+        "I05-Product",
+        "I11-Compatibility"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "SHAPE_REPRESENTATION_RELATIONSHIP:4",
+      "role": "NontransformingBridge",
+      "admission": "conditional",
+      "components": {
+        "SHAPE_REPRESENTATION_RELATIONSHIP": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "description",
+              "constraint": "OptionalText"
+            },
+            {
+              "index": 2,
+              "name": "rep_1",
+              "constraint": "RefShape"
+            },
+            {
+              "index": 3,
+              "name": "rep_2",
+              "constraint": "RefShape"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I03-Root",
+        "I04-T2",
+        "I05-Product",
+        "I11-Compatibility"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "SPHERICAL_SURFACE:3",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "SPHERICAL_SURFACE": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "position",
+              "constraint": "RefPlacement"
+            },
+            {
+              "index": 2,
+              "name": "radius",
+              "constraint": "Finite"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "STYLED_ITEM:3",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "STYLED_ITEM": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "styles",
+              "constraint": "StyleAssignments"
+            },
+            {
+              "index": 2,
+              "name": "item",
+              "constraint": "RefStyledGeometry"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "SURFACE_SIDE_STYLE:2",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "SURFACE_SIDE_STYLE": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "styles",
+              "constraint": "SurfaceFills"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "SURFACE_STYLE_FILL_AREA:1",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "SURFACE_STYLE_FILL_AREA": {
+          "arity": 1,
+          "fields": [
+            {
+              "index": 0,
+              "name": "fill_area",
+              "constraint": "RefFillAreaStyle"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "SURFACE_STYLE_USAGE:2",
+      "role": "Presentation",
+      "admission": "conditional",
+      "components": {
+        "SURFACE_STYLE_USAGE": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "side",
+              "constraint": "StyleSide"
+            },
+            {
+              "index": 1,
+              "name": "style",
+              "constraint": "RefSideStyle"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I06-T1"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "TOROIDAL_SURFACE:4",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "TOROIDAL_SURFACE": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "position",
+              "constraint": "RefPlacement"
+            },
+            {
+              "index": 2,
+              "name": "major_radius",
+              "constraint": "Finite"
+            },
+            {
+              "index": 3,
+              "name": "minor_radius",
+              "constraint": "Finite"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "UNCERTAINTY_MEASURE_WITH_UNIT:4",
+      "role": "UnitMetadata",
+      "admission": "conditional",
+      "components": {
+        "UNCERTAINTY_MEASURE_WITH_UNIT": {
+          "arity": 4,
+          "fields": [
+            {
+              "index": 0,
+              "name": "value_component",
+              "constraint": "LengthMeasure"
+            },
+            {
+              "index": 1,
+              "name": "unit_component",
+              "constraint": "RefLengthUnit"
+            },
+            {
+              "index": 2,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 3,
+              "name": "description",
+              "constraint": "Text"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim",
+        "I07-ContextUnits"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "VALUE_REPRESENTATION_ITEM:2",
+      "role": "Unclassified",
+      "admission": "deny",
+      "components": {},
+      "invariants": [],
+      "angle_fields": [],
+      "denial_reason": "UnclassifiedSignature"
+    },
+    {
+      "signature": "VECTOR:3",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "VECTOR": {
+          "arity": 3,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "orientation",
+              "constraint": "RefDirection"
+            },
+            {
+              "index": 2,
+              "name": "magnitude",
+              "constraint": "Finite"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    },
+    {
+      "signature": "VERTEX_POINT:2",
+      "role": "GeometryDependency",
+      "admission": "conditional",
+      "components": {
+        "VERTEX_POINT": {
+          "arity": 2,
+          "fields": [
+            {
+              "index": 0,
+              "name": "name",
+              "constraint": "Text"
+            },
+            {
+              "index": 1,
+              "name": "vertex_geometry",
+              "constraint": "RefPoint"
+            }
+          ]
+        }
+      },
+      "invariants": [
+        "I01-ExactRecords",
+        "I02-AllRecords",
+        "I09-NoGeometryClaim"
+      ],
+      "angle_fields": []
+    }
+  ],
+  "implementation_acceptance": [
+    "Full ImportUnitPrecheck parity tests plus stricter field-constraint tests; no R-U rejection receives positive target",
+    "20 corpus files + 12 historical controls compare draft, precheck and trusted producer; all stricter differences explained",
+    "New field boundaries and equal metre/centimetre/mm split-layer cases; no historical result relabeled as new contract execution",
+    "C1 new types and all-Application methods/constructors parameter lock; only bound observation own private constructor exempt; returns restricted too",
+    "Pin source, reason-code/severity, independent revision tuple and contract bytes; no consumer or production test hook use",
+    "Windows full CI and public profile; private corpus Linux unless separately measured; user acceptance before merging new successful-import loss",
+    "A1: Every R-U-rejected historical control verifies the direct guard call on the same retained inventory and CurrentImportIncompatible; no positive target; no silent early-return in all-reasons collection",
+    "A2: Emit only approved revision tuple; old review/proposed labels, missing/unknown/mixed revisions and equal-hash foreign owner remain Blocked",
+    "A3: Presentation-only metre/radian and centimetre/radian contexts are structurally accepted with mm/radian binding contexts; reversed case still blocked; malformed presentation context remains blocking",
+    "For every loss from the 17 historical draft candidates explain all new producer reasons, especially B-spline workshop consistency; owner approval required for any currently successful real-import loss"
+  ],
+  "approved_revision_enforcement": {
+    "activation": "Only after section 38 A1-A3 amendment, green final-head Windows CI and merge",
+    "required_tuple": {
+      "RecordRoleManifest": 1,
+      "TargetBindingPolicy": 1,
+      "CurrentImportCompatibility": 1,
+      "ContextUnitPolicy": 1,
+      "HeaderSchemaAllowlist": 2,
+      "EnvelopePolicy": 1
+    },
+    "matching": "Exact integer revision values and independently pinned sources/contract; no string coercion, latest fallback, unknown or mixed tuple",
+    "blocked_examples": [
+      "1-review.1",
+      "1-proposed",
+      "unknown revision",
+      "missing required revision"
+    ],
+    "failure_reason": "TargetRevisionUnsupported",
+    "producer_revision_rule": "Only approved integer revisions may be emitted; proposal labels never become positive evidence"
+  }
+}
