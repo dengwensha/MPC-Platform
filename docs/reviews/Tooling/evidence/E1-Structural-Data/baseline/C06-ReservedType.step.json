@@ -1,0 +1,16 @@
+{
+  "InputName": "C06-ReservedType.step",
+  "InputSha256": "9D47601D8A57A0344CE0333AA52FC8CE1A83B0532C571B680742AEB1D7193BE8",
+  "InputUnchanged": true,
+  "ReaderAssemblySha256": "7329A518F279E3DF0B9BCBA4F49A231259449B94F198EB3812B938CBEA6413E9",
+  "ApplicationAssemblySha256": "FDA50E03E896451766BCAB247F13188FAD75EBDE54CF3258EAD2DE7A0C439AEC",
+  "File": {
+    "Available": false,
+    "FailureType": "System.FormatException"
+  },
+  "Memory": {
+    "Available": false,
+    "FailureType": "System.FormatException"
+  },
+  "Equal": true
+}

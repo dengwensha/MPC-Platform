@@ -1,0 +1,40 @@
+{
+  "InputName": "C05-MissingEndsec.step",
+  "InputSha256": "41C2D1B963948197B297FE5F5AC7433496E64D2819890B1A312AD192CEA21BD1",
+  "InputUnchanged": true,
+  "ReaderAssemblySha256": "7329A518F279E3DF0B9BCBA4F49A231259449B94F198EB3812B938CBEA6413E9",
+  "ApplicationAssemblySha256": "FDA50E03E896451766BCAB247F13188FAD75EBDE54CF3258EAD2DE7A0C439AEC",
+  "File": {
+    "Available": true,
+    "FailureType": null,
+    "Status": "Failed",
+    "FullResultSha256": "61DAC03A604EE6A05952A81CB1779CAAB2E5B3E12EFA49A0E3778E998EB8F5B9",
+    "InventorySha256": "74234E98AFE7498FB5DAF1F36AC2D78ACC339464F950703B8C019892F982B90B",
+    "DiagnosticsSha256": "ED2B92065BC9E6D3B257AD750328F141450E6AAB91F832E0374C60F75B6A53EB",
+    "EntityCount": null,
+    "DiagnosticCount": 1,
+    "Diagnostics": [
+      {
+        "Code": "STEP_DATA_SECTION_NOT_FOUND",
+        "Severity": "Fatal"
+      }
+    ]
+  },
+  "Memory": {
+    "Available": true,
+    "FailureType": null,
+    "Status": "Failed",
+    "FullResultSha256": "61DAC03A604EE6A05952A81CB1779CAAB2E5B3E12EFA49A0E3778E998EB8F5B9",
+    "InventorySha256": "74234E98AFE7498FB5DAF1F36AC2D78ACC339464F950703B8C019892F982B90B",
+    "DiagnosticsSha256": "ED2B92065BC9E6D3B257AD750328F141450E6AAB91F832E0374C60F75B6A53EB",
+    "EntityCount": null,
+    "DiagnosticCount": 1,
+    "Diagnostics": [
+      {
+        "Code": "STEP_DATA_SECTION_NOT_FOUND",
+        "Severity": "Fatal"
+      }
+    ]
+  },
+  "Equal": true
+}

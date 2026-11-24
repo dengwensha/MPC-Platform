@@ -1,0 +1,30 @@
+using System.Reflection;
+using System.Runtime.Loader;
+using System.Security.Cryptography;
+using System.Text.Json;
+using System.Collections;
+const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+string Digest(byte[] b) => Convert.ToHexString(SHA256.HashData(b));
+object? Prop(object o,string n)=>o.GetType().GetProperty(n,flags)!.GetValue(o);
+string HashObject(object? o)=>Digest(JsonSerializer.SerializeToUtf8Bytes(o,o?.GetType()??typeof(object)));
+string dir=Path.GetFullPath(args[0]);
+AssemblyLoadContext.Default.Resolving+=(_,n)=>Assembly.LoadFrom(Path.Combine(dir,n.Name+".dll"));
+var asm=Assembly.LoadFrom(Path.Combine(dir,"MPC.Connectors.Step.dll"));
+var rt=asm.GetType("MPC.Connectors.Step.Readers.StepDataEntityReader")!;
+var vt=asm.GetType("MPC.Connectors.Step.Validation.StepDataInventoryValidator")!;
+Directory.CreateDirectory(args[2]);
+foreach(var path in Directory.GetFiles(args[1]).Order()){
+ var bytes=File.ReadAllBytes(path); string before=Digest(bytes);
+ object Observe(bool memory){
+  try{
+   var reader=Activator.CreateInstance(rt,Activator.CreateInstance(vt))!;
+   using var stream=new MemoryStream(bytes,false);
+   var result=rt.GetMethod(memory?"ReadCaptured":"Read")!.Invoke(reader,memory?[stream]:[path])!;
+   var inv=Prop(result,"Value");var ds=Prop(result,"Diagnostics")!;
+   return new {Available=true,FailureType=(string?)null,Status=Prop(result,"Status")!.ToString(),FullResultSha256=HashObject(result),InventorySha256=HashObject(inv),DiagnosticsSha256=HashObject(ds),EntityCount=inv is null?(int?)null:(int)Prop(inv,"TotalEntityCount")!,DiagnosticCount=((IEnumerable)ds).Cast<object>().Count(),Diagnostics=((IEnumerable)ds).Cast<object>().Select(d=>new{Code=Prop(d,"Code"),Severity=Prop(d,"Severity")!.ToString()}).ToArray()};
+  }catch(TargetInvocationException ex){return new{Available=false,FailureType=ex.InnerException!.GetType().FullName};}
+ }
+ var file=Observe(false);var memory=Observe(true);
+ var row=new{InputName=Path.GetFileName(path),InputSha256=before,InputUnchanged=before==Digest(File.ReadAllBytes(path)),ReaderAssemblySha256=Digest(File.ReadAllBytes(asm.Location)),ApplicationAssemblySha256=Digest(File.ReadAllBytes(Path.Combine(dir,"MPC.Application.dll"))),File=file,Memory=memory,Equal=JsonSerializer.Serialize(file)==JsonSerializer.Serialize(memory)};
+ File.WriteAllText(Path.Combine(args[2],Path.GetFileName(path)+".json"),JsonSerializer.Serialize(row,new JsonSerializerOptions{WriteIndented=true}));Console.WriteLine(row.InputName+": "+row.Equal);
+}

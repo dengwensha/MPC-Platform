@@ -24,7 +24,7 @@ public sealed class HeaderPolicyV2Tests
     [Theory]
     [InlineData("DATA;#1=CARTESIAN_POINT('',(0.,0.,0.));ENDSEC;DATA;#2=CARTESIAN_POINT('',(1.,0.,0.));ENDSEC;END-ISO-10303-21;")]
     [InlineData("DATA('named',('AUTOMOTIVE_DESIGN'));#1=CARTESIAN_POINT('',(0.,0.,0.));ENDSEC;END-ISO-10303-21;")]
-    public void PartialInventoryCannotSubstituteForEnvelopeProof(string tail)
+    public void UnsupportedSectionsFailInventoryAndHaveIndependentEnvelopeRejection(string tail)
     {
         string path = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".step");
         try
@@ -33,8 +33,10 @@ public sealed class HeaderPolicyV2Tests
             var result = InventoryEvidence.ImportSession.CaptureFromFile(path);
             Assert.Null(result.Failure);
             var session = Assert.IsType<InventoryEvidence.ImportSession>(result.Session);
-            Assert.Equal(1, session.RetainedEntityCount);
-            Assert.Equal(InventoryDecisionStatus.InventoryClear, Gate.Evaluate(session.Evidence, session).Status);
+            Assert.Equal(0, session.RetainedEntityCount);
+            Assert.Equal(InventoryDecisionStatus.Blocked, Gate.Evaluate(session.Evidence, session).Status);
+            Assert.False(session.Evidence.HasInventory);
+            Assert.Equal("STEP_DATA_SECTION_NOT_FOUND", Assert.Single(session.Evidence.Diagnostics).Code);
             var entry = session.GetType().GetMethod("ReadEnvelope", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.NotNull(entry);
             var observation = entry.Invoke(session, [session.Evidence]);

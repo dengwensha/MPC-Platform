@@ -34,7 +34,12 @@ public sealed class StepDataEntityReader
                 nameof(inventoryValidator));
     }
 
-    /// <summary>Reads a STEP DATA inventory and preserves supported reader diagnostics.</summary>
+    /// <summary>Reads a STEP DATA inventory and preserves supported reader diagnostics.
+    /// Selects one unparameterized structural DATA section, skipping quoted/comment/
+    /// binary decoys. Ambiguous or unsupported section layout returns the existing
+    /// fatal STEP_DATA_SECTION_NOT_FOUND result, not a partial first-section success.
+    /// This API also supports DATA fragments; it is not full Part 21 conformance proof.
+    /// </summary>
     /// <exception cref="System.FormatException">
     /// A simple declaration uses COMPLEX_ENTITY, the internal complex-record discriminator.
     /// The read is rejected before constructing an inconsistent record; this is not
@@ -567,191 +572,118 @@ public sealed class StepDataEntityReader
                character == '_';
     }
 
-    private static string? ExtractDataSection(
-        string content)
+    // Reader API continues to support DATA fragments; full exchange/header policy
+    // belongs to Application evidence. Selection itself must be unambiguous: one
+    // bare DATA section, no additional/parameterized/unsupported sections or tail.
+    // Statement boundaries skip strings, doubled quotes, binary literals and comments.
+    // Parenthesis balance within entity payload remains the existing inventory/
+    // semantic parser's responsibility, preserving partial-record diagnostics.
+    private static string? ExtractDataSection(string content)
     {
-        var dataStart =
-            FindKeywordStatement(
-                content,
-                "DATA",
-                startIndex:
-                    0);
-
-        if (dataStart < 0)
+        int dataStart = -1, dataEnd = -1, statementStart = 0;
+        bool quoted = false, binary = false, comment = false, terminated = false;
+        var prefix = new StringBuilder(128);
+        bool truncated = false;
+        void Append(char c, bool separator = false)
         {
-            return null;
-        }
-
-        var dataContentStart =
-            content.IndexOf(
-                ';',
-                dataStart);
-
-        if (dataContentStart < 0)
-        {
-            return null;
-        }
-
-        var endSectionStart =
-            FindKeywordStatement(
-                content,
-                "ENDSEC",
-                dataContentStart + 1);
-
-        if (endSectionStart < 0)
-        {
-            return null;
-        }
-
-        return content.Substring(
-            dataContentStart + 1,
-            endSectionStart -
-            dataContentStart -
-            1);
-    }
-
-    private static int FindKeywordStatement(
-        string content,
-        string keyword,
-        int startIndex)
-    {
-        var searchIndex =
-            startIndex;
-
-        while (searchIndex <
-               content.Length)
-        {
-            var index =
-                content.IndexOf(
-                    keyword,
-                    searchIndex,
-                    StringComparison
-                        .OrdinalIgnoreCase);
-
-            if (index < 0)
+            if (separator)
             {
-                return -1;
+                if (prefix.Length == 0 || prefix[^1] == ' ') return;
+                c = ' ';
             }
-
-            var beforeIsValid =
-                index == 0 ||
-                !IsIdentifierCharacter(
-                    content[index - 1]);
-
-            var afterIndex =
-                index +
-                keyword.Length;
-
-            var afterIsValid =
-                afterIndex >=
-                content.Length ||
-                !IsIdentifierCharacter(
-                    content[afterIndex]);
-
-            if (beforeIsValid &&
-                afterIsValid)
-            {
-                return index;
-            }
-
-            searchIndex =
-                index +
-                keyword.Length;
+            if (prefix.Length < 128) prefix.Append(c);
+            else truncated = true;
         }
-
-        return -1;
-    }
-
-    private static bool IsIdentifierCharacter(
-        char character)
-    {
-        return char.IsLetterOrDigit(
-                   character) ||
-               character == '_';
-    }
-
-    private static IReadOnlyList<string>
-        SplitStatements(
-            string dataSection)
-    {
-        var statements =
-            new List<string>();
-
-        var current =
-            new StringBuilder();
-
-        var insideString =
-            false;
-
-        for (var index = 0;
-             index <
-             dataSection.Length;
-             index++)
+        for (int i = 0; i < content.Length; i++)
         {
-            var character =
-                dataSection[index];
-
-            if (character == '\'')
+            char c = content[i];
+            if (comment)
             {
-                current.Append(
-                    character);
-
-                if (insideString &&
-                    index + 1 <
-                    dataSection.Length &&
-                    dataSection[index + 1] ==
-                    '\'')
-                {
-                    current.Append(
-                        dataSection[index + 1]);
-
-                    index++;
-                    continue;
-                }
-
-                insideString =
-                    !insideString;
-
+                if (c == '*' && i + 1 < content.Length && content[i + 1] == '/')
+                { comment = false; i++; Append(' ', separator: true); }
                 continue;
             }
-
-            if (!insideString &&
-                character == ';')
+            if (!quoted && !binary && c == '/' && i + 1 < content.Length && content[i + 1] == '*')
+            { comment = true; i++; Append(' ', separator: true); continue; }
+            if (!quoted && !binary && char.IsWhiteSpace(c)) { Append(c, separator: true); continue; }
+            if (!quoted && !binary && c == ';')
             {
-                var statement =
-                    current
-                        .ToString()
-                        .Trim();
-
-                if (!string.IsNullOrWhiteSpace(
-                        statement))
+                string statement = prefix.ToString().Trim();
+                int nameEnd = 0;
+                while (nameEnd < statement.Length && (char.IsLetterOrDigit(statement[nameEnd]) || statement[nameEnd] is '_' or '-')) nameEnd++;
+                string name = statement[..nameEnd];
+                string suffix = statement[nameEnd..].TrimStart();
+                bool exact = !truncated && suffix.Length == 0;
+                bool Is(string value) => name.Equals(value, StringComparison.OrdinalIgnoreCase);
+                if (terminated || (dataEnd >= 0 && statement.Length == 0)) return null;
+                if (Is("ANCHOR") || Is("REFERENCE") || Is("SIGNATURE")) return null;
+                if (Is("DATA") && (exact || suffix.StartsWith('(')))
                 {
-                    statements.Add(
-                        statement + ";");
+                    if (!exact || dataStart >= 0) return null;
+                    dataStart = i + 1;
                 }
-
-                current.Clear();
+                else if (Is("ENDSEC") && exact && dataStart >= 0)
+                {
+                    if (dataEnd >= 0) return null;
+                    dataEnd = statementStart;
+                }
+                else if (Is("END-ISO-10303-21") && exact)
+                {
+                    if (dataEnd < 0) return null;
+                    terminated = true;
+                }
+                else if (dataEnd >= 0 && statement.Length != 0) return null;
+                prefix.Clear(); truncated = false; statementStart = i + 1;
                 continue;
             }
-
-            current.Append(
-                character);
+            Append(c);
+            if (!binary && c == '\'')
+            {
+                if (quoted && i + 1 < content.Length && content[i + 1] == '\'')
+                { Append(content[++i]); continue; }
+                quoted = !quoted;
+            }
+            else if (!quoted && c == '"') binary = !binary;
         }
+        if (quoted || binary || comment || prefix.ToString().Trim().Length != 0
+            || dataStart < 0 || dataEnd < dataStart) return null;
+        return content.Substring(dataStart, dataEnd - dataStart);
+    }
 
-        var remaining =
-            current
-                .ToString()
-                .Trim();
-
-        if (!string.IsNullOrWhiteSpace(
-                remaining))
+    private static IReadOnlyList<string> SplitStatements(string dataSection)
+    {
+        var statements = new List<string>();
+        var current = new StringBuilder();
+        bool quoted = false, binary = false, comment = false;
+        for (int i = 0; i < dataSection.Length; i++)
         {
-            statements.Add(
-                remaining);
+            char c = dataSection[i];
+            if (comment)
+            {
+                if (c == '*' && i + 1 < dataSection.Length && dataSection[i + 1] == '/')
+                { comment = false; i++; current.Append(' '); }
+                continue;
+            }
+            if (!quoted && !binary && c == '/' && i + 1 < dataSection.Length && dataSection[i + 1] == '*')
+            { comment = true; i++; current.Append(' '); continue; }
+            if (!quoted && !binary && c == ';')
+            {
+                string statement = current.ToString().Trim();
+                if (statement.Length != 0) statements.Add(statement + ";");
+                current.Clear(); continue;
+            }
+            current.Append(c);
+            if (!binary && c == '\'')
+            {
+                if (quoted && i + 1 < dataSection.Length && dataSection[i + 1] == '\'')
+                { current.Append(dataSection[++i]); continue; }
+                quoted = !quoted;
+            }
+            else if (!quoted && c == '"') binary = !binary;
         }
-
-        return statements
-            .AsReadOnly();
+        string remaining = current.ToString().Trim();
+        if (remaining.Length != 0) statements.Add(remaining);
+        return statements.AsReadOnly();
     }
 
     private static string?
