@@ -1,0 +1,126 @@
+{
+  "InputName": "CORE BAS.STEP",
+  "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#10064",
+  "ApplicationAssemblySha256": "936634F376267DF6BA20C91F76FCB31D26B0DBCF5C3D83D64ABD720974DD404B",
+  "ReaderAssemblySha256": "D47D2E304B1DD346D2F45C2789A4519803FB6AF607B095F845ABCA389554033A",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#24035"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#439",
+    "#4707",
+    "#13121",
+    "#16376",
+    "#19042",
+    "#19943",
+    "#20671",
+    "#32491",
+    "#39791"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Failed",
+    "SummaryPresent": false,
+    "Diagnostics": [
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      },
+      {
+        "Code": "MAP-STEP-TORUS-004",
+        "Severity": "Error",
+        "Reason": null
+      }
+    ]
+  },
+  "Region": {
+    "Available": true,
+    "Succeeded": false,
+    "Published": false,
+    "OriginSha256": null
+  }
+}

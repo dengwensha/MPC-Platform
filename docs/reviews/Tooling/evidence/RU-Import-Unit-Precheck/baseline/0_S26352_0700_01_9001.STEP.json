@@ -1,0 +1,35 @@
+{
+  "InputName": "0_S26352_0700_01_9001.STEP",
+  "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#1009",
+  "ApplicationAssemblySha256": "936634F376267DF6BA20C91F76FCB31D26B0DBCF5C3D83D64ABD720974DD404B",
+  "ReaderAssemblySha256": "D47D2E304B1DD346D2F45C2789A4519803FB6AF607B095F845ABCA389554033A",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#8883"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#156",
+    "#1228",
+    "#1509",
+    "#4273",
+    "#4761",
+    "#5822",
+    "#7643",
+    "#7794",
+    "#8455"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Succeeded",
+    "SummaryPresent": true,
+    "Diagnostics": []
+  },
+  "Region": {
+    "Available": true,
+    "Succeeded": true,
+    "Published": true,
+    "OriginSha256": "338BA1452AEA27270EDD78BB35E9E9F14079294178ECE74E4E8EE56A5ED3C961"
+  }
+}

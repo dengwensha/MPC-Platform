@@ -1,0 +1,35 @@
+{
+  "InputName": "CAVITY STEEL.STEP",
+  "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#1007",
+  "ApplicationAssemblySha256": "936634F376267DF6BA20C91F76FCB31D26B0DBCF5C3D83D64ABD720974DD404B",
+  "ReaderAssemblySha256": "D47D2E304B1DD346D2F45C2789A4519803FB6AF607B095F845ABCA389554033A",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#27550"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#3678",
+    "#8038",
+    "#11342",
+    "#15592",
+    "#19532",
+    "#25185",
+    "#32301",
+    "#37847",
+    "#39840"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Succeeded",
+    "SummaryPresent": true,
+    "Diagnostics": []
+  },
+  "Region": {
+    "Available": true,
+    "Succeeded": true,
+    "Published": true,
+    "OriginSha256": "FC08E330FE486FB8C76EEC035A5A861F9F2B231B49695722995FD1322CE7AA86"
+  }
+}

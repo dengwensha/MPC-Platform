@@ -1,0 +1,36 @@
+from pathlib import Path
+rows=[];next_id=1
+
+def add(kind):
+ global next_id
+ n=next_id;next_id+=1;rows.append(f'#{n}={kind};');return n
+p=[add(f"CARTESIAN_POINT('',({x}.,{y}.,{z}.))") for x,y,z in [(0,0,1),(1,0,1),(0,1,1),(0,0,2),(2,0,2),(0,2,2)]]
+v=[add(f"VERTEX_POINT('',#{i})") for i in p]
+def direction(x,y,z):return add(f"DIRECTION('',({x},{y},{z}))")
+z=direction(0,0,1);x=direction(1,0,0);y=direction(0,1,0);mz=direction(0,0,-1);mx=direction(-1,0,0);my=direction(0,-1,0)
+def axis(point,normal,ref):return add(f"AXIS2_PLACEMENT_3D('',#{point},#{normal},#{ref})")
+base=axis(p[0],z,x);top=axis(p[3],z,x)
+c1=add(f"CIRCLE('',#{base},1.)");c2=add(f"CIRCLE('',#{top},2.)")
+coords=[(0,0,1),(1,0,1),(0,1,1),(0,0,2),(2,0,2),(0,2,2)]
+def line(a,b):
+ d=[coords[b][i]-coords[a][i] for i in range(3)];length=sum(c*c for c in d)**.5
+ di=direction(*(c/length for c in d));vector=add(f"VECTOR('',#{di},{length:.17g})")
+ return add(f"LINE('',#{p[a]},#{vector})")
+def edge(a,b,c=None):return add(f"EDGE_CURVE('',#{v[a]},#{v[b]},#{line(a,b) if c is None else c},.T.)")
+e=[edge(0,1),edge(1,2,c1),edge(2,0),edge(0,3),edge(3,4),edge(4,5,c2),edge(5,3),edge(1,4),edge(2,5)]
+planes=[add(f"PLANE('',#{axis(p[0],mz,x)})"),add(f"PLANE('',#{top})"),add(f"PLANE('',#{axis(p[0],my,x)})"),add(f"PLANE('',#{axis(p[0],mx,y)})")]
+cone=add(f"CONICAL_SURFACE('',#{base},1.,0.7853981633974483)")
+loops=[[(2,False),(1,False),(0,False)],[(4,True),(5,True),(6,True)],[(0,True),(7,True),(4,False),(3,False)],[(3,True),(6,False),(8,False),(2,True)],[(1,True),(8,True),(5,False),(7,False)]]
+usage={i:[] for i in range(9)}
+for i,uses in enumerate(loops):
+ oriented=[]
+ for index,forward in uses:
+  usage[index].append(forward);oriented.append(add(f"ORIENTED_EDGE('',*,*,#{e[index]},{'.T.' if forward else '.F.'})"))
+ loop=add("EDGE_LOOP('',("+','.join('#'+str(n) for n in oriented)+'))')
+ bound=add(f"FACE_OUTER_BOUND('',#{loop},.T.)")
+ rows.append(f"#{801+i}=ADVANCED_FACE('',(#{bound}),#{(planes+[cone])[i]},.T.);")
+assert all(sorted(xs)==[False,True] for xs in usage.values())
+assert 6-9+5==2
+rows.extend(["#999=CLOSED_SHELL('',(#801,#802,#803,#804,#805));","#1000=MANIFOLD_SOLID_BREP('analytic quarter conical frustum',#999);","#1001=ADVANCED_BREP_SHAPE_REPRESENTATION('',(#1000),#1002);","#1002=(GEOMETRIC_REPRESENTATION_CONTEXT(3) GLOBAL_UNIT_ASSIGNED_CONTEXT((#1003,#1004)) REPRESENTATION_CONTEXT('',''));","#1003=(LENGTH_UNIT() NAMED_UNIT(*) SI_UNIT(.MILLI.,.METRE.));","#1004=(PLANE_ANGLE_UNIT() NAMED_UNIT(*) SI_UNIT($,.RADIAN.));","#1005=SHAPE_DEFINITION_REPRESENTATION(#1006,#1001);","#1006=PRODUCT_DEFINITION_SHAPE('','',#1007);","#1007=PRODUCT_DEFINITION('','',#1008,#1010);","#1008=PRODUCT_DEFINITION_FORMATION('','',#1009);","#1009=PRODUCT('RU analytic frustum','','',(#1011));","#1010=PRODUCT_DEFINITION_CONTEXT('',#1011,'');","#1011=APPLICATION_CONTEXT('');"])
+text="ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Analytic closed quarter conical frustum; six vertices nine edges five faces'),'1');\nFILE_NAME('RU-QuarterCone.step','',('MPC'),('MPC'),'','','');\nFILE_SCHEMA(('AUTOMOTIVE_DESIGN'));\nENDSEC;\nDATA;\n"+'\n'.join(rows)+"\nENDSEC;\nEND-ISO-10303-21;\n"
+Path('tests/MPC.Application.Tests/TestData/Step/RU-QuarterCone.step').write_text(text)

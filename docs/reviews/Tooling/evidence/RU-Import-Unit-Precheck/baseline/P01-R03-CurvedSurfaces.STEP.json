@@ -1,0 +1,38 @@
+{
+  "InputName": "P01-R03-CurvedSurfaces.STEP",
+  "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+  "InputUnchanged": true,
+  "SelectedFaceId": "#100080",
+  "ApplicationAssemblySha256": "936634F376267DF6BA20C91F76FCB31D26B0DBCF5C3D83D64ABD720974DD404B",
+  "ReaderAssemblySha256": "D47D2E304B1DD346D2F45C2789A4519803FB6AF607B095F845ABCA389554033A",
+  "InventoryStatus": "Succeeded",
+  "RootIds": [
+    "#39941"
+  ],
+  "BindingAndUnitRecordIds": [
+    "#794",
+    "#6306",
+    "#13953",
+    "#24917",
+    "#26262",
+    "#43974",
+    "#69458",
+    "#70196",
+    "#98806",
+    "#104460",
+    "#111936",
+    "#124918",
+    "#133269"
+  ],
+  "Legacy": {
+    "Available": true,
+    "Status": "Succeeded",
+    "SummaryPresent": true,
+    "Diagnostics": []
+  },
+  "Region": {
+    "Available": false,
+    "FailureType": "System.IO.InvalidDataException",
+    "Reason": null
+  }
+}
