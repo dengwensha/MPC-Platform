@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="../../src/MPC.Application/Inventory/Target*.cs" Link="TargetAudit/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../src/MPC.Application/Step/ImportUnitPrecheck.cs" Link="RUUnitAudit/ImportUnitPrecheck.cs" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../src/MPC.Application/Step/StepImportApplicationService.cs" Link="RUUnitAudit/StepImportApplicationService.cs" CopyToOutputDirectory="PreserveNewest" />
     <None Include="../../src/MPC.Application/Manufacturing/ManufacturingRegionImportService.cs" Link="RUUnitAudit/ManufacturingRegionImportService.cs" CopyToOutputDirectory="PreserveNewest" />
@@ -39,6 +40,7 @@
 
   <ItemGroup>
     <None Update="TestData/Step/RU-QuarterCone.step" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="TestData/Step/RU-QuarterCone-TargetMetadata.step" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

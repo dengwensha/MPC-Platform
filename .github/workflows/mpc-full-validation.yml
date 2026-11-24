@@ -66,6 +66,27 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "M2 controls extraction failed." }
           python tools/ci/M2ScopeDraft/test_scope_draft.py $manifest (Join-Path $root "m2-control-neutral") (Join-Path $root "evidence/m2-scope-controls.json")
           if ($LASTEXITCODE -ne 0) { throw "M2 structural discovery controls failed." }
+      - name: Consumer-free target evidence and independent R-U comparison
+        run: |
+          dotnet build tools/ci/M2TargetProbe/M2TargetProbe.csproj -c Release --warnaserror
+          if ($LASTEXITCODE -ne 0) { throw "M2 target audit build failed." }
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          $bin = "tools/ci/M2TargetProbe/bin/Release/net8.0/M2TargetProbe.dll"
+          $app = "src/MPC.Application/bin/Release/net8.0"
+          $target = Join-Path $root "evidence/m2-target-public"
+          dotnet $bin $app (Join-Path $root "ru-public-inputs") $target
+          if ($LASTEXITCODE -ne 0) { throw "M2 public target observation failed." }
+          python tools/ci/M2TargetProbe/compare_target.py $target (Join-Path $root "evidence/m2-manifest-draft") (Join-Path $root "evidence/m2-target-public-comparison.json") --count 9
+          if ($LASTEXITCODE -ne 0) { throw "M2 public comparison failed." }
+          $controls = Join-Path $root "m2-target-controls"
+          New-Item -ItemType Directory -Force $controls | Out-Null
+          Copy-Item (Join-Path $root "m2-scope-controls/*.step") $controls
+          Copy-Item tests/MPC.Application.Tests/TestData/Step/RU-QuarterCone-TargetMetadata.step (Join-Path $controls "C13-ConeTypedProduct.step")
+          $targetControls = Join-Path $root "evidence/m2-target-controls"
+          dotnet $bin $app $controls $targetControls
+          if ($LASTEXITCODE -ne 0) { throw "M2 target controls failed." }
+          python tools/ci/M2TargetProbe/compare_target.py $targetControls (Join-Path $root "evidence/m2-scope-controls.json") (Join-Path $root "evidence/m2-target-control-comparison.json") --count 13
+          if ($LASTEXITCODE -ne 0) { throw "M2 target control comparison failed." }
       - name: Targeted rational curve GREEN
         run: |
           dotnet test tests/MPC.Application.Tests/MPC.Application.Tests.csproj -c Release --no-build --no-restore --filter FullyQualifiedName~RationalBSplineCurveApplicationTests

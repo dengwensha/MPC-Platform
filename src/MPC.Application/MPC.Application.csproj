@@ -15,4 +15,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="../../docs/reviews/Tooling/M2-Target-Role-Manifest-v1-Contract.json"
+                      LogicalName="MPC.TargetContract.v1.json" />
+  </ItemGroup>
+
 </Project>

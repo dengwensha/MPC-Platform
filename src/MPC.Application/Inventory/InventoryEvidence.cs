@@ -58,6 +58,8 @@ internal sealed class InventoryEvidence
     internal int SeverityMappingRevision => CurrentSeverityMappingRevision;
     private HeaderUnitData HeaderUnitData { get; }
     private EnvelopeData EnvelopeData { get; }
+    private TargetData TargetData { get; }
+    internal ReaderRevision TargetProducerRevision => HeaderUnitProducerRevision;
     // Same producer assembly identity; source/manifest pin for the envelope is independent.
     internal ReaderRevision EnvelopeProducerRevision => HeaderUnitProducerRevision;
     internal ReaderRevision HeaderUnitProducerRevision { get; }
@@ -83,6 +85,7 @@ internal sealed class InventoryEvidence
             d.Code, InventoryPolicy.ProjectSeverity(d.Severity), (int)d.Severity,
             d.SourceEntityId, i, d.Message, d.ExceptionType, d.SourceEntityType)).ToArray());
         ReaderRevision = revision;
+        TargetData = TargetProducer.Read(result.Value);
     }
 
     // Operation-scoped owner. Evidence deliberately has no back-reference to this
@@ -92,6 +95,7 @@ internal sealed class InventoryEvidence
         private readonly StepDataInventory? _inventory;
         private HeaderUnitObservation HeaderUnits { get; }
         private EnvelopeObservation Envelope { get; }
+        private TargetObservation Target { get; }
         internal InventoryEvidence Evidence { get; }
         internal string DocumentSha256 { get; }
         private ImportSession(string hash, CadConnectorResult<StepDataInventory> result, ReaderRevision revision,
@@ -102,6 +106,7 @@ internal sealed class InventoryEvidence
             Evidence = new InventoryEvidence(hash, result, revision, capturedBytes, headerUnitRevision);
             HeaderUnits = HeaderUnitObservation.EvidenceBinding.Bind(Evidence, this)!;
             Envelope = EnvelopeObservation.EvidenceBinding.Bind(Evidence, this)!;
+            Target = TargetObservation.EvidenceBinding.Bind(Evidence, this)!;
         }
         // Bound header/unit evidence is exposed only through this owner check.
         // Equal hashes do not make another operation's evidence interchangeable.
@@ -116,6 +121,12 @@ internal sealed class InventoryEvidence
 
         internal EnvelopeData? ReadEnvelopeData(InventoryEvidence? evidence) =>
             evidence is not null && Owns(evidence) ? evidence.EnvelopeData : null;
+
+        internal TargetObservation? ReadTarget(InventoryEvidence? evidence) =>
+            evidence is not null && Owns(evidence) ? Target : null;
+
+        internal TargetData? ReadTargetData(InventoryEvidence? evidence) =>
+            evidence is not null && Owns(evidence) ? evidence.TargetData : null;
 
         internal bool Owns(InventoryEvidence evidence) => ReferenceEquals(Evidence, evidence);
         internal int RetainedEntityCount => _inventory?.TotalEntityCount ?? 0;
