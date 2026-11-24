@@ -59,16 +59,40 @@ A standalone/unreferenced point remains out of scope, even diagnostic-free.
 Closure membership is discovery only; typed reference roles are checked where listed,
 not a claim that every semantic or topological invariant has been implemented.
 
-## T2 decision proposed for M2: adopt reviewed R-U v1 unchanged
+## T2 and M1 — structural binding separate from current import compatibility
 
-Adopt the bounded R-U v1 rules from #135/Senior §35 and accepted #136/§36:
+Adopt the bounded STRUCTURAL R-U v1 rules from #135/Senior §35 and accepted #136/§36:
 one simple non-transforming SHAPE_REPRESENTATION_RELATIONSHIP, direct root in one
-geometry representation, unique SDR/product binding, both endpoints mm+radian with
-semantic unit equality rather than equal IDs, either endpoint ordering; reject
-mapping/transformation/assembly, chains/branches/cycles, duplicate root membership,
-direct-plus-bridge dual SDR and unknown incoming binding paths. The source rule
-file and production guard are hash-bound in Validation.json as the inheritance
-baseline. No v2 identity-transform exemption is proposed; #137 remains separate.
+geometry representation, unique SDR/product binding, semantic unit equality rather
+than equal IDs, either endpoint ordering; reject mapping/transformation/assembly,
+chains/branches/cycles, duplicate root membership, direct-plus-bridge dual SDR and
+unknown incoming binding paths. The source rule file and production guard remain
+hash-bound in Validation.json as the inheritance baseline. No v2 identity-transform
+exemption is proposed; #137 remains separate.
+
+Senior §37 M1 distinguishes TWO independently versioned policies:
+- Binding: endpoint units must be supported by the applicable unit policy and
+  semantically equal. Millimetres are not a permanent structural binding condition.
+- Current import compatibility: until a separately verified normalization or scale-
+  independent pipeline exists, only mm + unprefixed radian may enter the current
+  mapping path. Metre/centimetre stay rejected by R-U v1; ContextUnitPolicy 1 is
+  unchanged and can still describe their evidence.
+
+For example, equal supported metre contexts may satisfy the structural unit-equality
+condition while failing import compatibility. Preserve distinct outcomes/reasons;
+do not call this an invalid representation binding. No positive trusted target
+evidence may be issued for a file rejected by current ImportUnitPrecheck. A future
+reviewed normalization revision may change import compatibility without redefining
+the structural binding rule. Neither layer alone establishes evaluator readiness.
+
+The committed DRAFT JSON, classifier and measured T3 outputs freeze the earlier
+combined mm/radian discovery predicate. They are historical draft measurements,
+not the normative separated implementation; no code, manifest hash or measured
+outcome is changed here. BEFORE DRAFT promotion or trusted target implementation,
+encode binding and compatibility as separate revisioned requirements, specify their
+reason aggregation and test equal-metre binding versus blocked import compatibility.
+M1 is now explicit in this design; its machine-contract/test realization is a
+mandatory pre-producer gate, not claimed implemented by this clarification.
 
 The dry-run binding model exercises these requirements but is NOT a production-
 complete implementation or attestation of equivalence to ImportUnitPrecheck.
@@ -143,3 +167,36 @@ Festo data. AST intermediates stay outside uploaded evidence. Final PR CI pendin
 Trust/fail-closed trigger YES (proposed future sufficient proof/role policy); wire,
 shared enum values, IPC, persistence and UI entry NO. Independent final-diff design
 review before merge. Reviewed/Closing pending; R-U v1 and N1 scope not expanded.
+
+
+## Senior section 37 — draft acceptance and pre-producer gates
+
+Owner supplied independent review of dca251b546ae780b3105e3cc0d3bd5224be8b930
+on 2026-11-24. Reviewer independently decoded every ledger: 444,497 records exactly
+once, matching hashes; 20 repeated outputs equal; 12 controls as expected. Decisions:
+draft manifest/T3 sufficient; 27 unclassified signatures may remain blocking; T1 and
+angular-field list accepted within the declared type set. No Windows CI/dotnet rerun
+by reviewer claimed. Merge is conditional only on green exact-head Windows CI.
+M1 above is a pre-producer condition, not a document-merge blocker. This amendment
+implements that explicitly requested distinction without changing measured tools.
+
+Before any trusted target producer:
+1. Ratify/promote the manifest after explicit lengths/cardinalities, allowed enum
+   values, reference types and numeric conditions are specified; realize M1's
+   separate binding/compatibility contract and tests. DRAFT acceptance is not this
+   promotion or automatic implementation authorization.
+2. Use ImportUnitPrecheck's full T1 style catalogue, style target/cycle and product-
+   binding checks, shared or faithfully ported with the same tests; the draft's
+   type-name-only exemptions must not become trusted evidence logic.
+3. Use reviewed StepEvidenceSyntax.Components, not the tooling complex splitter.
+4. Compare the trusted producer with BOTH draft and ImportUnitPrecheck over all
+   20 files and 12 controls. A R-U-rejected file must never get positive target
+   evidence. Explain stricter differences instead of silently relaxing policies.
+5. Apply C1 owned issuance/read access, reflection guards for new types and full
+   producer source/reason/severity pins. No consumer or Ready result.
+6. Preserve all reasons in deterministic order. This producer must not issue
+   physical-occurrence proof or angle-absence proof.
+
+Manifest DRAFT, M2 OPEN. R-U v1 and N1 bounded acceptances unchanged. Deferred roles
+remain blocking; validation properties may later support independent geometry
+checks only through a separately reviewed contract, not a harmless-metadata guess.
