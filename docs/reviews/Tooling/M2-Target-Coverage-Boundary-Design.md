@@ -44,10 +44,30 @@ named MANIFOLD_SOLID_BREP cannot hide a void/faceted/unsupported extension. Unkn
 components or conflicting roles prevent positive proof. Handler absence cannot
 make geometry disappear. Unreferenced geometry also counts against whole-file scope.
 
-Direct occurrence proof requires one supported representation of one supported root
-in one resolved 3D context, with no second geometry-bearing representation, root,
-placement instance or unclassified relationship. Two representations sharing one
-root are not assumed equivalent. Repeated item membership is not silently deduped.
+Direct occurrence proof requires the root to be a direct item of one supported,
+product-associated shape representation in one resolved 3D context. That typed
+product/shape binding defines the physical occurrence, not every reference to the
+root. A second independent geometry-bearing shape representation, root or physical
+placement prevents positive direct-only scope. Two such shape representations
+sharing one root are not assumed equivalent. Repeated root item membership is not
+silently deduped.
+
+T1 presentation distinction: STYLED_ITEM, approved presentation representations and
+layer assignments are permitted presentation information, not physical occurrences.
+An indirect style/colour/layer reference to the root does not create another solid.
+An axis-placement item in the same shape representation likewise defines placement,
+not an additional geometry body. These exceptions require exact manifest signatures,
+parameter roles and reference validation; arbitrary geometry cannot be hidden by a
+presentation type name or ignored as styling. Extra actual geometry or an unknown
+component/relationship still blocks. Distinguish a representation's context used for
+presentation from the physical target's geometry context; never borrow its units.
+
+Verified T001 example: #63 is a direct item of #47 ADVANCED_BREP_SHAPE_REPRESENTATION;
+#48 STYLED_ITEM references #63, and #144 presentation representation contains #48.
+That approved presentation path must not count as a second physical occurrence.
+The same representation's axis-placement item is not a second body. A T001-like
+coloured/layered single solid must satisfy the target-scope fixture once the complete
+manifest and product/context links are validated; this is not overall Ready.
 Multiple contexts alone are harmless; a second unused unit context is not itself
 another physical body. Context binding must come from typed representation fields,
 not the first context, proximity, matching units or a global reference search.
@@ -59,7 +79,15 @@ one instance. Preserve offending IDs/relationships; two placements of one root
 must never pass. Supporting even one mapped instance later requires a separately
 reviewed traversal/transform policy with cycle, multiplicity and unit tests.
 An unrecognized relationship is unavailable classification, never a direct-instance
-proof. Existing importer behavior remains unchanged by this design.
+proof. T2 remains an explicit decision BEFORE manifest v1 review: whether to admit a
+validated, non-transforming SHAPE_REPRESENTATION_RELATIONSHIP path between the
+product-associated main shape representation and its geometry representation.
+The direct-only proposal does not silently approve this bridge or count it as two
+physical instances. The manifest must state support or explicit ScopeNotSupported,
+typed endpoints/cardinality/context binding, and distinguish it from transforming
+relationships/mapping. Profile the supplied Festo/other files before choosing; no
+claim about all supplier files follows from the single unique Festo sample.
+Existing importer behavior remains unchanged by this design.
 
 ## Positive ledger and evaluator-specific coverage
 
@@ -157,7 +185,10 @@ own reviewed lexical rules/source pin; it is not part of the first target slice.
 | Four BACK PLATE bodies | ScopeNotSupported, no body selection or repair |
 | BREP_WITH_VOIDS or FACETED_BREP (simple or complex) | Recognized unsupported geometry, never hidden by base component |
 | Solid plus surface, wireframe or unreferenced extra solid | ScopeNotSupported |
-| One root referenced by two representations or duplicate item entries | No equivalence/dedup assumption; no positive direct proof |
+| T001-like solid with STYLED_ITEM, presentation/layer references and axis placement | One physical occurrence after exact T1 manifest validation; target proof only |
+| Same root in a second independent geometry-bearing shape representation / duplicate root item | No equivalence/dedup assumption; no positive direct proof |
+| Non-transforming SHAPE_REPRESENTATION_RELATIONSHIP bridge | Follow explicit reviewed T2 decision; no implicit support |
+| Unreferenced geometry record | No positive whole-file scope; never exempt merely because unreachable |
 | One root placed twice; even one mapped/assembly instance | ScopeNotSupported under direct-only v1 |
 | Unknown record/component/relationship, even diagnostic-free | Classification unavailable; no positive scope/absence proof |
 | One target context plus unused context with same/different valid units | Bind actual target context; no global unit or multiplicity-only rejection |
@@ -181,8 +212,17 @@ correlated families/versions identified, never inferred from zero diagnostics.
 ## Delivery and decisions requested
 
 1. Review this direct-only boundary and the U1 prerequisites. No implementation yet.
-2. Ratify an explicit record-role/root/occurrence manifest with synthetic positive
-   and negative fixtures; implement only consumer-free target/context evidence.
+2. Write and independently review manifest v1 in a separate document: exact record/
+   complex signatures and roles, T1 presentation/placement classification, explicit
+   T2 bridge decision and angular-valued fields. BEFORE that review, T3 must dry-run
+   the draft classifier on all 15 real and five golden inputs, reporting per-record
+   classifications, offending IDs/reasons and target/occurrence counts. Pin classifier/
+   manifest/input revisions; do not publish raw private CAD. Expose unreferenced point/
+   geometry rejections rather than hiding or relaxing them to make the corpus pass.
+   The dry-run is discovery evidence, not trusted production proof or eligibility.
+   Include T001-style presentation, second geometry representation, T2 bridge and
+   unreferenced geometry fixtures. Only after amended #132 merges green AND manifest
+   v1 with T3 is accepted, implement consumer-free target/context evidence.
    Pin complete producer source, reason/severity map and independent revisions.
    No whole-file Ready result or geometry support expansion. Record/profile real
    inputs without publishing raw CAD; report unsupported and unavailable separately.
@@ -206,3 +246,27 @@ assembly/selected-body support, Host/Worker/IPC/DTO changes and feature/time/cos
 Owner of remaining follow-ups: Mehmet İlkay Kınacı; §29 scans due at combined gate,
 U1 before angle-bearing mapping, Windows repetition before first Windows consumer,
 B2 before claiming 2D context support, N3/B6 before performance/optimization claims.
+
+
+## Senior section 33 — conditional acceptance and open prerequisites
+
+Owner supplied independent review of 42a611b5018b5566fdb9456654949dd1565b93af
+on 2026-11-24. The reviewer checked code and T001 structure; CI was not independently
+verified. Design accepted conditional on T1 before merge. T1 is incorporated above
+and in the acceptance matrix; no runtime source/test or original U1 policy changed.
+Maintainer verified original PR Windows CI #284 (2147/2147, Release 0 warnings/errors,
+Worker 5/5, inventory controls 6/6); the amended head needs its own successful CI.
+
+T2 decision and T3 dry-run are mandatory BEFORE separate manifest v1 review, not
+conditions falsely claimed complete here. Manifest approval and this amended design's
+merge precede any trusted target producer. C1 ownership and producer source/reason
+pins are required; no consumer or Ready result in that implementation. Delivery
+sequence accepted: manifest + target evidence -> coverage/normalization including
+U1 -> combined gate/reflection expansions -> consumer.
+
+R-U current-import unit risk is separately OPEN in issue #133, owner Mehmet İlkay
+Kınacı: existing imports do not enforce target-context length/angle units. This is
+independent of M2 and next current-import safety verification before import expansion
+or end-user release. Reproduce with unit fixtures before claiming runtime validation;
+choose/review a narrow guard or validated conversion separately. No fix is implied
+by this design or by future U1. M2 remains OPEN. No new physical test is claimed.
