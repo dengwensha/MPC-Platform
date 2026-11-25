@@ -1,13 +1,39 @@
 """Create a disposable instrumented source copy. NEVER edits the repository's src/.
-Only the pinned revision is admitted. Generated DLLs are diagnostic-only, not products.
+Only clean, committed current production inputs are admitted. Diagnostic DLLs are not products.
 """
 import hashlib,io,json,pathlib,subprocess,sys,tarfile
 repo=pathlib.Path(sys.argv[1]).resolve();dest=pathlib.Path(sys.argv[2]).resolve()
-ref='9b5f0334001e9d0558e95865bb9001b9ba12cb49'
+def git(*args):
+    return subprocess.check_output(['git',*args],cwd=repo)
+def normalized(data):
+    return data.decode('utf-8-sig').replace('\r\n','\n')
+def digest(data):
+    return hashlib.sha256(normalized(data).encode()).hexdigest().upper()
+ref=git('rev-parse','HEAD').decode().strip()
+checked=['src/MPC.Application/Inventory/InventoryEvidence.cs',
+         'src/MPC.Application/Inventory/TargetProducer.cs',
+         'src/MPC.Application/Inventory/TargetBinding.cs']
+inputs=['src','Directory.Build.props','Directory.Build.targets','Directory.Packages.props',
+        'global.json','NuGet.Config','NuGet.config','nuget.config',
+        'docs/reviews/Tooling/M2-Target-Role-Manifest-v1-Contract.json']
+def source_state():
+    hashes={}
+    for path in checked:
+        current=digest((repo/path).read_bytes());committed=digest(git('show',ref+':'+path))
+        if current!=committed:
+            raise RuntimeError('Current source differs from archived HEAD: '+path)
+        hashes[path]=current
+    if git('status','--porcelain','--untracked-files=all','--',*inputs).strip():
+        raise RuntimeError('Production/build inputs must be clean and committed before profiling')
+    if git('rev-parse','HEAD').decode().strip()!=ref:
+        raise RuntimeError('HEAD changed during source guard')
+    return hashes
 assert dest!=repo and repo not in dest.parents,'Diagnostic copy must be outside repository'
 assert not dest.exists(),'Fresh destination required'
-# Tracked project source from exact approved main; raw CAD is not included.
-data=subprocess.check_output(['git','archive',ref],cwd=repo)
+source_hashes=source_state()  # Fail BEFORE creating any diagnostic output.
+data=git('archive',ref)       # Current commit, never a historical hard-coded tree.
+if source_state()!=source_hashes:
+    raise RuntimeError('Source changed while creating diagnostic archive')
 dest.mkdir(parents=True)
 with tarfile.open(fileobj=io.BytesIO(data)) as archive:
     if hasattr(tarfile,'data_filter'):
@@ -16,6 +42,9 @@ with tarfile.open(fileobj=io.BytesIO(data)) as archive:
         members=archive.getmembers()
         assert all((m.isfile() or m.isdir()) and not pathlib.PurePosixPath(m.name).is_absolute() and '..' not in pathlib.PurePosixPath(m.name).parts for m in members)
         archive.extractall(dest,members=members)
+for path,expected in source_hashes.items():
+    if digest((dest/path).read_bytes())!=expected:
+        raise RuntimeError('Diagnostic starting source differs from current source: '+path)
 changes=[]
 def inject(path,old,new):
     p=dest/path;s=p.read_text(encoding='utf-8-sig');assert s.count(old)==1,(path,old,s.count(old))
@@ -37,6 +66,6 @@ p='src/MPC.Application/Inventory/TargetBinding.cs'
 a='                try { ImportUnitPrecheck.EnsureCompatible(_inventory!, _root); _compatibility = TargetLayerStatus.Observed; }';inject(p,a,'                '+mark('Precheck.Before')+'\n'+a)
 # Place AFTER the existing try/catch, still inside the same unique-root branch.
 a='            }\n            else Add("Compatibility", "DependencyUnavailable");';inject(p,a,'                '+mark('Precheck.After')+'\n'+a)
-report={'ApprovedSourceCommit':ref,'Purpose':'Disposable diagnostic clone only. Forced-GC/rooted checkpoints perturb liveness/timing. No product authority or budget acceptance.','Changes':changes}
+report={'SourceCommit':ref,'ApprovalInferred':False,'SourceGuard':{'CurrentThreeFileNormalizedSha256':source_hashes,'ProductionInputsClean':True,'ArchiveMatchesCurrent':True},'Purpose':'Disposable diagnostic clone only. Forced-GC/rooted checkpoints perturb liveness/timing. No product authority or budget acceptance.','Changes':changes}
 (dest/'B6DiagnosticOverlay.json').write_text(json.dumps(report,indent=2)+'\n')
 print('Created diagnostic-only copy',dest,'with',len(changes),'exact-anchor insertions')
