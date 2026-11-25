@@ -177,6 +177,8 @@ jobs:
         if: always() && (steps.corpus.outcome == 'success' || steps.corpus.outcome == 'failure')
         run: python tools/ci/reconcile_r03.py
       - name: B6 CLR allocation and controlled live-heap profile (not budget acceptance)
+        env:
+          B6_REVIEW_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
           $copy = Join-Path $env:RUNNER_TEMP "b6-diagnostic-copy"

@@ -136,12 +136,42 @@ internal static partial class TargetProducer
                 Splines(id, row);
             }
             foreach (var (id, row) in _rows.Where(p => p.Value.Role == "Context")) Context(id);
+            ReleaseValidatedParameters();
             Bind();
             PresentationAndOwnership();
             var binding = _reasons.Any(r => r.Layer == "Binding") ? TargetLayerStatus.Blocked
                 : _root is null || _geometry is null ? TargetLayerStatus.Unavailable : TargetLayerStatus.Observed;
             return new(_root, _geometry, _main, _context, _inventory.TotalEntityCount, _guardCalled, binding, _compatibility, _reasons);
         }
+
+        // Derived from every P() read in Bind/Context/PresentationAndOwnership, including
+        // reads on unknown/partial incoming rows and ALL shape representations. Never
+        // select by role: the queried component may exist on a differently classified row.
+        private static bool RetainParameters(string component) => component is
+            "GLOBAL_UNIT_ASSIGNED_CONTEXT" or "GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT" or
+            "SI_UNIT" or "UNCERTAINTY_MEASURE_WITH_UNIT" or
+            "SHAPE_REPRESENTATION" or "ADVANCED_BREP_SHAPE_REPRESENTATION" or
+            "SHAPE_REPRESENTATION_RELATIONSHIP" or "SHAPE_DEFINITION_REPRESENTATION" or
+            "PRODUCT_DEFINITION_SHAPE" or "PRODUCT_DEFINITION" or
+            "AXIS2_PLACEMENT_3D" or "STYLED_ITEM" or "PRESENTATION_LAYER_ASSIGNMENT" or
+            "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION";
+
+        private void ReleaseValidatedParameters()
+        {
+            // Immutable contract-name-only empty payloads preserve key/presence without
+            // per-capture placeholder allocation. They never contain source-file data.
+            // Original inventory, references, signatures, roles and reasons stay intact.
+            foreach (var (_, row) in _rows)
+                foreach (var (component, _) in row.Parts)
+                    if (!RetainParameters(component) && EmptyPayloads.TryGetValue(component, out var payload))
+                        row.Parts[component] = payload;
+        }
+
+        // Bounded by the pinned contract, not by input. Unrecognized names remain
+        // conservative; no cross-capture parameter tree or observation is cached.
+        private static readonly IReadOnlyDictionary<string, StepTypedParameter> EmptyPayloads = Rules.Keys
+            .SelectMany(s => s.Split('|')).Select(s => s[..s.IndexOf(':')]).Distinct(StringComparer.Ordinal)
+            .ToDictionary(s => s, s => new StepTypedParameter(s + "()", s, []), StringComparer.Ordinal);
 
         // Executes every named profile and every nested member, accumulating paths.
         private void Validate(string id, string component, int[] path, StepParameter value, string profile)

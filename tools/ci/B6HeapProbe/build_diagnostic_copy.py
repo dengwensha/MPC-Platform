@@ -1,7 +1,7 @@
 """Create a disposable instrumented source copy. NEVER edits the repository's src/.
 Only clean, committed current production inputs are admitted. Diagnostic DLLs are not products.
 """
-import hashlib,io,json,pathlib,subprocess,sys,tarfile
+import hashlib,io,json,os,pathlib,subprocess,sys,tarfile
 repo=pathlib.Path(sys.argv[1]).resolve();dest=pathlib.Path(sys.argv[2]).resolve()
 def git(*args):
     return subprocess.check_output(['git',*args],cwd=repo)
@@ -66,6 +66,6 @@ p='src/MPC.Application/Inventory/TargetBinding.cs'
 a='                try { ImportUnitPrecheck.EnsureCompatible(_inventory!, _root); _compatibility = TargetLayerStatus.Observed; }';inject(p,a,'                '+mark('Precheck.Before')+'\n'+a)
 # Place AFTER the existing try/catch, still inside the same unique-root branch.
 a='            }\n            else Add("Compatibility", "DependencyUnavailable");';inject(p,a,'                '+mark('Precheck.After')+'\n'+a)
-report={'SourceCommit':ref,'ApprovalInferred':False,'SourceGuard':{'CurrentThreeFileNormalizedSha256':source_hashes,'ProductionInputsClean':True,'ArchiveMatchesCurrent':True},'Purpose':'Disposable diagnostic clone only. Forced-GC/rooted checkpoints perturb liveness/timing. No product authority or budget acceptance.','Changes':changes}
+report={'SourceCommit':ref,'ReviewHeadCommit':os.environ.get('B6_REVIEW_HEAD'),'ApprovalInferred':False,'SourceGuard':{'CurrentThreeFileNormalizedSha256':source_hashes,'ProductionInputsClean':True,'ArchiveMatchesCurrent':True},'Purpose':'Disposable diagnostic clone only. Forced-GC/rooted checkpoints perturb liveness/timing. No product authority or budget acceptance.','Changes':changes}
 (dest/'B6DiagnosticOverlay.json').write_text(json.dumps(report,indent=2)+'\n')
 print('Created diagnostic-only copy',dest,'with',len(changes),'exact-anchor insertions')

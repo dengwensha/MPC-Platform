@@ -1,5 +1,5 @@
 """Source-version regression: same semantics must never hide an obsolete profile copy."""
-import hashlib,json,pathlib,subprocess,sys,tempfile
+import hashlib,json,os,pathlib,subprocess,sys,tempfile
 project=pathlib.Path(sys.argv[1]).resolve();builder=project/'tools/ci/B6HeapProbe/build_diagnostic_copy.py'
 paths=['src/MPC.Application/Inventory/InventoryEvidence.cs','src/MPC.Application/Inventory/TargetProducer.cs','src/MPC.Application/Inventory/TargetBinding.cs']
 def sha(data):return hashlib.sha256(data.decode('utf-8-sig').replace('\r\n','\n').encode()).hexdigest().upper()
@@ -13,18 +13,19 @@ with tempfile.TemporaryDirectory(prefix='b6-source-guard-') as tmp:
     def commit(message):git('add','.');git('commit','-m',message);return git('rev-parse','HEAD').decode().strip()
     first=commit('initial source')
     def invoke(label,success):
-        dest=root/label;r=subprocess.run([sys.executable,str(builder),str(repo),str(dest)],capture_output=True,text=True)
+        dest=root/label;r=subprocess.run([sys.executable,str(builder),str(repo),str(dest)],capture_output=True,text=True,
+            env={**os.environ,'B6_REVIEW_HEAD':git('rev-parse','HEAD').decode().strip()})
         if success:
             assert r.returncode==0,(r.stdout,r.stderr)
             return json.loads((dest/'B6DiagnosticOverlay.json').read_text(encoding='utf-8'))
         assert r.returncode!=0 and not dest.exists(),(label,r.stdout,r.stderr)
-    a=invoke('clean',True);assert a['SourceCommit']==first and not a['ApprovalInferred']
+    a=invoke('clean',True);assert a['SourceCommit']==a['ReviewHeadCommit']==first and not a['ApprovalInferred']
     f=repo/paths[1];original=f.read_bytes();f.write_bytes(original+b'\n// same semantics, uncommitted source change\n')
     invoke('dirty',False)
     git('add',paths[1]);invoke('staged',False)
     second=commit('committed semantically neutral future source')
     b=invoke('current',True)
-    assert b['SourceCommit']==second and second!=first
+    assert b['SourceCommit']==b['ReviewHeadCommit']==second and second!=first
     h=b['SourceGuard']['CurrentThreeFileNormalizedSha256']
     assert h[paths[1]]==sha(f.read_bytes()) and h[paths[1]]!=a['SourceGuard']['CurrentThreeFileNormalizedSha256'][paths[1]]
     assert next(c for c in b['Changes'] if c['Path']==paths[1])['BeforeNormalizedSha256']==h[paths[1]]
