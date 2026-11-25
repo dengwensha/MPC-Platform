@@ -1,0 +1,248 @@
+{
+  "Date": "2026-11-25 Europe/Istanbul",
+  "Framework": ".NET SDK 8.0.422 / Linux x64",
+  "BeforeCommit": "f204c031236c0e4ce596954874f912718346f7c2",
+  "MeasuredTrialCommit": "159b50c0243a03840147fa26517a688da4c1056a",
+  "MeasuredProducerNormalizedSha256": "4C95DBD73331E98059D97468A874176BC123A4E34186E5517DA3598997FD2456",
+  "CorpusFiles": 20,
+  "ExistingControls": 13,
+  "NewDownstreamNegatives": 5,
+  "SemanticTrials": 2,
+  "AllBeforeAfterAndRepeatTargetProjectionsEqual": true,
+  "ProductionMeasurementFreshProcesses": 120,
+  "MeasuredProductionCalls": 480,
+  "WarmupProductionCalls": 240,
+  "UnavailableControls": 4,
+  "AllReleasedObjectsCollected": true,
+  "BeforePreA1RootedHeapBytes": [
+    313959152,
+    313962024
+  ],
+  "AfterPreA1RootedHeapBytes": [
+    179153528,
+    179150696
+  ],
+  "PreA1ReductionPercent": 42.93802507466319,
+  "FirstCaptureAllocationComparisons": [
+    {
+      "Trial": 1,
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "T101_BASIC_POCKET.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "T003_CYLINDER.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "T002_SPHERE.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "T001_PRISM.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51472
+    },
+    {
+      "Trial": 1,
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "P01-R01-Prismatic.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "CORE STEEL.STEP",
+      "FirstCaptureExtraAllocatedBytes": 39632
+    },
+    {
+      "Trial": 1,
+      "InputName": "CORE BAS.STEP",
+      "FirstCaptureExtraAllocatedBytes": 55912
+    },
+    {
+      "Trial": 1,
+      "InputName": "CAVITY STEEL.STEP",
+      "FirstCaptureExtraAllocatedBytes": 63184
+    },
+    {
+      "Trial": 1,
+      "InputName": "CAVITY BASE.STEP",
+      "FirstCaptureExtraAllocatedBytes": 61672
+    },
+    {
+      "Trial": 1,
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "FirstCaptureExtraAllocatedBytes": 43800
+    },
+    {
+      "Trial": 1,
+      "InputName": "BACK PLATE.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51688
+    },
+    {
+      "Trial": 1,
+      "InputName": "5831 CAU-1_4.stp",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 1,
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "FirstCaptureExtraAllocatedBytes": 63704
+    },
+    {
+      "Trial": 2,
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "T101_BASIC_POCKET.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "T003_CYLINDER.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "T002_SPHERE.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "T001_PRISM.step",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "FirstCaptureExtraAllocatedBytes": 55384
+    },
+    {
+      "Trial": 2,
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "P01-R01-Prismatic.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "CORE STEEL.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51424
+    },
+    {
+      "Trial": 2,
+      "InputName": "CORE BAS.STEP",
+      "FirstCaptureExtraAllocatedBytes": 39824
+    },
+    {
+      "Trial": 2,
+      "InputName": "CAVITY STEEL.STEP",
+      "FirstCaptureExtraAllocatedBytes": 47312
+    },
+    {
+      "Trial": 2,
+      "InputName": "CAVITY BASE.STEP",
+      "FirstCaptureExtraAllocatedBytes": 49800
+    },
+    {
+      "Trial": 2,
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "FirstCaptureExtraAllocatedBytes": 52328
+    },
+    {
+      "Trial": 2,
+      "InputName": "BACK PLATE.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51544
+    },
+    {
+      "Trial": 2,
+      "InputName": "5831 CAU-1_4.stp",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    },
+    {
+      "Trial": 2,
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "FirstCaptureExtraAllocatedBytes": 51344
+    }
+  ],
+  "FirstCaptureAllocationDeltaMinBytes": 39632,
+  "FirstCaptureAllocationDeltaMaxBytes": 63704,
+  "FirstCaptureAllocationIncreasedCount": 40,
+  "Acceptance": {
+    "ExactTargetSemantics": true,
+    "MeaningfulControlledPreA1HeapGain": true,
+    "NoActualCaptureAllocationRegression": false,
+    "LatencyAndPeakNoRegression": "Not accepted; all measurements reported, no CI timing/budget authority inferred",
+    "ShipB": false,
+    "Disposition": "Reject B under Senior43 condition3; production change reverted. A design only."
+  },
+  "TrialWindowsCI": {
+    "Head": "159b50c0243a03840147fa26517a688da4c1056a",
+    "Number": 312,
+    "Run": 45579418319,
+    "FullRegression": 2253,
+    "WorkerAcceptance": "5/5",
+    "Successful": true
+  },
+  "ExcludedRuns": "Earlier /tmp/b6-b-r03 rejected by DLL-identity guard; /tmp/b6-b-r03-fixed used superseded per-call placeholder code. Neither included in final evidence."
+}
