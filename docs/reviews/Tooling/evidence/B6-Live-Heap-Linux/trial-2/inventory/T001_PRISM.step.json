@@ -1,0 +1,151 @@
+{
+  "SchemaRevision": 1,
+  "Label": "trial-2",
+  "Mode": "inventory",
+  "InputName": "T001_PRISM.step",
+  "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+  "ApplicationAssemblySha256": "249490E3A0C8FE5B526568947D5DB0E55C76DF31C86348D04D51E6A685AE2587",
+  "ReaderAssemblySha256": "C0338456C0AE4B33D6B2A07BB0CBF2BFB03C60A08B094ECDEC4F5A349D451370",
+  "Runtime": ".NET 8.0.28",
+  "Platform": "Debian GNU/Linux 13 (trixie)",
+  "DiagnosticCopyOnly": false,
+  "ProfileIsEligibilityEvidence": false,
+  "ConsumerInvoked": false,
+  "BaselineRootedHeapBytes": 304840,
+  "ResultRootedHeapBytes": 412152,
+  "ApproximateRootedHeapDeltaBytes": 107312,
+  "ReleasedObjectCollected": true,
+  "TotalSampledEvents": 8,
+  "DroppedEvents": 0,
+  "AllocationTypes": [
+    {
+      "Type": "System.Text.StringBuilder",
+      "Samples": 2,
+      "SampledAllocationIntervalBytes": 215792,
+      "SampledTriggerObjectBytes": 96
+    },
+    {
+      "Type": "System.String",
+      "Samples": 2,
+      "SampledAllocationIntervalBytes": 213176,
+      "SampledTriggerObjectBytes": 344
+    },
+    {
+      "Type": "System.Diagnostics.Tracing.EventWrittenEventArgs",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 110352,
+      "SampledTriggerObjectBytes": 72
+    },
+    {
+      "Type": "System.Text.RegularExpressions.GroupCollection",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106344,
+      "SampledTriggerObjectBytes": 40
+    },
+    {
+      "Type": "MPC.Connectors.Step.Models.StepDataEntityRecord",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 72
+    },
+    {
+      "Type": "System.GCMemoryInfoData",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 104880,
+      "SampledTriggerObjectBytes": 288
+    }
+  ],
+  "Checkpoints": [],
+  "Segments": [
+    {
+      "Label": "Return",
+      "SampleCount": 8,
+      "AllocationTypes": [
+        {
+          "Type": "System.Text.StringBuilder",
+          "Samples": 2,
+          "SampledAllocationIntervalBytes": 215792,
+          "SampledTriggerObjectBytes": 96
+        },
+        {
+          "Type": "System.String",
+          "Samples": 2,
+          "SampledAllocationIntervalBytes": 213176,
+          "SampledTriggerObjectBytes": 344
+        },
+        {
+          "Type": "System.Diagnostics.Tracing.EventWrittenEventArgs",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 110352,
+          "SampledTriggerObjectBytes": 72
+        },
+        {
+          "Type": "System.Text.RegularExpressions.GroupCollection",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106344,
+          "SampledTriggerObjectBytes": 40
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepDataEntityRecord",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 72
+        },
+        {
+          "Type": "System.GCMemoryInfoData",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 104880,
+          "SampledTriggerObjectBytes": 288
+        }
+      ],
+      "MemorySamples": 5,
+      "ObservedMaxHeapBytes": 914248,
+      "ObservedMaxWorkingSetBytes": 46497792
+    }
+  ],
+  "MemorySamples": [
+    {
+      "Time": "2026-11-25T07:09:59.5299006Z",
+      "Heap": 354184,
+      "WorkingSet": 41148416,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:59.5405674Z",
+      "Heap": 660552,
+      "WorkingSet": 44814336,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:59.5458908Z",
+      "Heap": 873480,
+      "WorkingSet": 45912064,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:59.5511263Z",
+      "Heap": 914248,
+      "WorkingSet": 46256128,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:59.5566963Z",
+      "Heap": 412152,
+      "WorkingSet": 46497792,
+      "Committed": 1925120
+    }
+  ],
+  "SemanticSummary": {
+    "RecordCount": 187,
+    "Status": "Succeeded"
+  },
+  "SemanticSha256": "D3A06D0FAB31E3BAB72054ADC85EDDFD702349A4EDF8DFF3B6C1FE7BBBA86103",
+  "Caveats": [
+    "CLR allocation ticks are sampled. Interval bytes weighted by triggering type are estimates, NOT exact per-type allocation/live sizes.",
+    "Observer allocations/sampling overhead included; no latency or budget acceptance from these runs.",
+    "Diagnostic copy checkpoints force GC and root Check explicitly; these are controlled reachable-heap observations, NOT natural production peaks or exclusive object graph sizes.",
+    "5ms working-set/heap samples can miss peaks. GC committed bytes, live managed heap and resident process memory are different metrics.",
+    "Types/counts/IDs/hashes only. No raw CAD, private values, object addresses or heap dumps emitted.",
+    "Diagnostic copy output is never accepted as product evidence or given to a consumer. Canonical/diagnostic projected semantics compared separately."
+  ]
+}

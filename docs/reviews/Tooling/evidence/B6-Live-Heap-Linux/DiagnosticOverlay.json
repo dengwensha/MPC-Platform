@@ -1,0 +1,76 @@
+{
+  "ApprovedSourceCommit": "9b5f0334001e9d0558e95865bb9001b9ba12cb49",
+  "Purpose": "Disposable diagnostic clone only. Forced-GC/rooted checkpoints perturb liveness/timing. No product authority or budget acceptance.",
+  "Changes": [
+    {
+      "Path": "src/MPC.Application/Inventory/InventoryEvidence.cs",
+      "BeforeNormalizedSha256": "7D960E2238128FDE43B8E642282D36920A6FD58E0FAC39EE28F8E49E9BCBA94F",
+      "AfterNormalizedSha256": "2607B16BB734C72FB0A95DABB88EBC6FC3A12F609261ABB9F2C477388231D258",
+      "Anchor": "        TargetData = TargetProducer.Read(result.Value);",
+      "Replacement": "        ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.Before\", result.Value);\n        TargetData = TargetProducer.Read(result.Value);"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/InventoryEvidence.cs",
+      "BeforeNormalizedSha256": "2607B16BB734C72FB0A95DABB88EBC6FC3A12F609261ABB9F2C477388231D258",
+      "AfterNormalizedSha256": "4DE48D99C347D94433576FDF6CB9D20D239539BDE330537CB5B0E33A53953816",
+      "Anchor": "            return new InventoryCaptureResult(new ImportSession(hash, result, revision, bytes, headerUnitRevision), null, null);",
+      "Replacement": "            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Inventory.Complete\", result.Value);\n            return new InventoryCaptureResult(new ImportSession(hash, result, revision, bytes, headerUnitRevision), null, null);"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetProducer.cs",
+      "BeforeNormalizedSha256": "CB3F7DB6A9B225286848C88779B54BE56B53D3CA3C83656F83CB8ED3FFAEDAA4",
+      "AfterNormalizedSha256": "2A6A2DA81007A17A7A2CFD670D76D9E205E1F234CAA39BA33B39EB7574D7DE8E",
+      "Anchor": "        internal TargetData Run()\n        {",
+      "Replacement": "        internal TargetData Run()\n        {\n            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.Enter\", this);"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetProducer.cs",
+      "BeforeNormalizedSha256": "2A6A2DA81007A17A7A2CFD670D76D9E205E1F234CAA39BA33B39EB7574D7DE8E",
+      "AfterNormalizedSha256": "B1C1C977BA07437E8BFCB55AE19A2B583C4AD648FEC26D3A2D8599124DEB7299",
+      "Anchor": "            // Include incomplete/unknown records",
+      "Replacement": "            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.Rows\", this);\n            // Include incomplete/unknown records"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetProducer.cs",
+      "BeforeNormalizedSha256": "B1C1C977BA07437E8BFCB55AE19A2B583C4AD648FEC26D3A2D8599124DEB7299",
+      "AfterNormalizedSha256": "7F5A66C21666CE8E5DC8682FD5AA2FEA49BADBCDD7A6D4E1622262D68E267AF2",
+      "Anchor": "            foreach (var (id, row) in _rows)\n            {",
+      "Replacement": "            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.Incoming\", this);\n            foreach (var (id, row) in _rows)\n            {"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetProducer.cs",
+      "BeforeNormalizedSha256": "7F5A66C21666CE8E5DC8682FD5AA2FEA49BADBCDD7A6D4E1622262D68E267AF2",
+      "AfterNormalizedSha256": "CF739B73D64D4C4A2916EA8A15515925BC70E09E300CD813174086AB313D86EA",
+      "Anchor": "            foreach (var (id, row) in _rows.Where(p => p.Value.Role == \"Context\")) Context(id);",
+      "Replacement": "            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.Fields\", this);\n            foreach (var (id, row) in _rows.Where(p => p.Value.Role == \"Context\")) Context(id);\n            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.Contexts\", this);"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetProducer.cs",
+      "BeforeNormalizedSha256": "CF739B73D64D4C4A2916EA8A15515925BC70E09E300CD813174086AB313D86EA",
+      "AfterNormalizedSha256": "55D908F71F27608F68A5B8A564A7E6FF188E554CEAAC13944E9D00463E070631",
+      "Anchor": "            PresentationAndOwnership();",
+      "Replacement": "            PresentationAndOwnership();\n            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.Ownership\", this);"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetProducer.cs",
+      "BeforeNormalizedSha256": "55D908F71F27608F68A5B8A564A7E6FF188E554CEAAC13944E9D00463E070631",
+      "AfterNormalizedSha256": "14E9540C0D5C56262F64CDA2CD66E173BA9DD4FB88E8B1BFEDA9D00CF3C906EF",
+      "Anchor": "            return new(_root, _geometry, _main, _context, _inventory.TotalEntityCount, _guardCalled, binding, _compatibility, _reasons);",
+      "Replacement": "            ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Target.End\", this);\n            return new(_root, _geometry, _main, _context, _inventory.TotalEntityCount, _guardCalled, binding, _compatibility, _reasons);"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetBinding.cs",
+      "BeforeNormalizedSha256": "2A44B81A7B73308DD2BADB8822600B323C96790242EE1771E62C0854ADD0C590",
+      "AfterNormalizedSha256": "2EB042F29F3D8217C678C086E0113CD22B6C3F39E3B0C1CDCCB0A017E0979548",
+      "Anchor": "                try { ImportUnitPrecheck.EnsureCompatible(_inventory!, _root); _compatibility = TargetLayerStatus.Observed; }",
+      "Replacement": "                ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Precheck.Before\", this);\n                try { ImportUnitPrecheck.EnsureCompatible(_inventory!, _root); _compatibility = TargetLayerStatus.Observed; }"
+    },
+    {
+      "Path": "src/MPC.Application/Inventory/TargetBinding.cs",
+      "BeforeNormalizedSha256": "2EB042F29F3D8217C678C086E0113CD22B6C3F39E3B0C1CDCCB0A017E0979548",
+      "AfterNormalizedSha256": "DEC8F8DBDD78E86380679EAC2A6A6E562890A1D33ADB5E1A942A7AFDCDC988BC",
+      "Anchor": "            }\n            else Add(\"Compatibility\", \"DependencyUnavailable\");",
+      "Replacement": "                ((System.Action<string, object?>?)System.AppDomain.CurrentDomain.GetData(\"MPC.B6.DiagnosticOnly.Checkpoint\"))?.Invoke(\"Precheck.After\", this);\n            }\n            else Add(\"Compatibility\", \"DependencyUnavailable\");"
+    }
+  ]
+}

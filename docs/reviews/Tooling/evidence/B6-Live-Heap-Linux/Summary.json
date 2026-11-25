@@ -1,0 +1,269 @@
+{
+  "SchemaRevision": 1,
+  "Inputs": 4,
+  "Trials": 2,
+  "FreshProcesses": 24,
+  "AllocationObserverSelfTestRequired": true,
+  "AllReleasedObjectsCollected": true,
+  "AllCanonicalDiagnosticSemanticsEqual": true,
+  "NegativeUnavailableControlsRejected": [
+    "canonical",
+    "inventory",
+    "diagnostic"
+  ],
+  "Rows": [
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "RecordCount": 58568,
+      "Status": "TargetBoundOnly",
+      "CanonicalDiagnosticSemanticsEqual": true,
+      "RepeatedSemanticsEqual": true,
+      "SemanticSha256": "97D97F0F073B7E622D48D6D4EEE40DFFD566D97D6C6CA61EADB7642D042F9FBC",
+      "InventoryApproximateRootedHeapDeltas": [
+        26807712,
+        26811048
+      ],
+      "CanonicalApproximateRootedHeapDeltas": [
+        27834960,
+        27833208
+      ],
+      "DiagnosticRootedHeapByCheckpoint": {
+        "Inventory.Complete": [
+          31964976,
+          31964920
+        ],
+        "Target.Before": [
+          32004656,
+          32008272
+        ],
+        "Target.Enter": [
+          32005176,
+          32010544
+        ],
+        "Target.Rows": [
+          113440376,
+          113448504
+        ],
+        "Target.Incoming": [
+          120798624,
+          120806248
+        ],
+        "Target.Fields": [
+          120857184,
+          120865992
+        ],
+        "Target.Contexts": [
+          120857864,
+          120859168
+        ],
+        "Precheck.Before": [
+          120859608,
+          120860296
+        ],
+        "Precheck.After": [
+          120908704,
+          120908840
+        ],
+        "Target.Ownership": [
+          120916816,
+          120916256
+        ],
+        "Target.End": [
+          120917552,
+          120916872
+        ]
+      }
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "RecordCount": 82444,
+      "Status": "TargetBoundOnly",
+      "CanonicalDiagnosticSemanticsEqual": true,
+      "RepeatedSemanticsEqual": true,
+      "SemanticSha256": "C553C66B3741CACED930020C844321DA9A4881FC2FAD4A145C46A7F1B23EED89",
+      "InventoryApproximateRootedHeapDeltas": [
+        38840480,
+        38842312
+      ],
+      "CanonicalApproximateRootedHeapDeltas": [
+        40070808,
+        40066736
+      ],
+      "DiagnosticRootedHeapByCheckpoint": {
+        "Inventory.Complete": [
+          46576152,
+          46601832
+        ],
+        "Target.Before": [
+          46637080,
+          46655824
+        ],
+        "Target.Enter": [
+          46639584,
+          46657312
+        ],
+        "Target.Rows": [
+          169362800,
+          169353456
+        ],
+        "Target.Incoming": [
+          181033296,
+          181052920
+        ],
+        "Target.Fields": [
+          181117128,
+          181112960
+        ],
+        "Target.Contexts": [
+          181117912,
+          181113544
+        ],
+        "Precheck.Before": [
+          181118912,
+          181114456
+        ],
+        "Precheck.After": [
+          181186312,
+          181181624
+        ],
+        "Target.Ownership": [
+          181196304,
+          181196168
+        ],
+        "Target.End": [
+          181196728,
+          181192400
+        ]
+      }
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "RecordCount": 135828,
+      "Status": "Blocked",
+      "CanonicalDiagnosticSemanticsEqual": true,
+      "RepeatedSemanticsEqual": true,
+      "SemanticSha256": "FBBE6EC5E97C204FD6A2F3B1F756B3C52B980648F43A79308E9E1D0968417B8F",
+      "InventoryApproximateRootedHeapDeltas": [
+        66104512,
+        66104280
+      ],
+      "CanonicalApproximateRootedHeapDeltas": [
+        68022952,
+        68017864
+      ],
+      "DiagnosticRootedHeapByCheckpoint": {
+        "Inventory.Complete": [
+          80413840,
+          80416416
+        ],
+        "Target.Before": [
+          80567640,
+          80570880
+        ],
+        "Target.Enter": [
+          80569160,
+          80571944
+        ],
+        "Target.Rows": [
+          297442680,
+          297448896
+        ],
+        "Target.Incoming": [
+          313823104,
+          313829136
+        ],
+        "Target.Fields": [
+          313956336,
+          313958864
+        ],
+        "Target.Contexts": [
+          313956904,
+          313959312
+        ],
+        "Precheck.Before": [
+          313957464,
+          313961256
+        ],
+        "Precheck.After": [
+          314068488,
+          314061696
+        ],
+        "Target.Ownership": [
+          314074888,
+          314077096
+        ],
+        "Target.End": [
+          314075600,
+          314077680
+        ]
+      }
+    },
+    {
+      "InputName": "T001_PRISM.step",
+      "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "RecordCount": 187,
+      "Status": "TargetBoundOnly",
+      "CanonicalDiagnosticSemanticsEqual": true,
+      "RepeatedSemanticsEqual": true,
+      "SemanticSha256": "936AC32661C8CC11B00D05D2A383CE336D7837E04CB7471D2ED2262505A97AC3",
+      "InventoryApproximateRootedHeapDeltas": [
+        107016,
+        107312
+      ],
+      "CanonicalApproximateRootedHeapDeltas": [
+        497904,
+        497840
+      ],
+      "DiagnosticRootedHeapByCheckpoint": {
+        "Inventory.Complete": [
+          427160,
+          427584
+        ],
+        "Target.Before": [
+          432256,
+          431472
+        ],
+        "Target.Enter": [
+          432248,
+          431920
+        ],
+        "Target.Rows": [
+          1071536,
+          1070600
+        ],
+        "Target.Incoming": [
+          1093064,
+          1092664
+        ],
+        "Target.Fields": [
+          1094304,
+          1094616
+        ],
+        "Target.Contexts": [
+          1095184,
+          1095584
+        ],
+        "Precheck.Before": [
+          1096280,
+          1096160
+        ],
+        "Precheck.After": [
+          1098000,
+          1097944
+        ],
+        "Target.Ownership": [
+          1100768,
+          1106920
+        ],
+        "Target.End": [
+          1101280,
+          1107432
+        ]
+      }
+    }
+  ],
+  "Scope": "Runtime sampled allocations and explicit-root forced-GC phase observations. Not exclusive graph sizes, natural production peaks, latency or real Worker budget acceptance."
+}

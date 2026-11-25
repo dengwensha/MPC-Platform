@@ -1,0 +1,395 @@
+{
+  "SchemaRevision": 1,
+  "Label": "trial-1",
+  "Mode": "canonical",
+  "InputName": "T001_PRISM.step",
+  "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+  "ApplicationAssemblySha256": "249490E3A0C8FE5B526568947D5DB0E55C76DF31C86348D04D51E6A685AE2587",
+  "ReaderAssemblySha256": "C0338456C0AE4B33D6B2A07BB0CBF2BFB03C60A08B094ECDEC4F5A349D451370",
+  "Runtime": ".NET 8.0.28",
+  "Platform": "Debian GNU/Linux 13 (trixie)",
+  "DiagnosticCopyOnly": false,
+  "ProfileIsEligibilityEvidence": false,
+  "ConsumerInvoked": false,
+  "BaselineRootedHeapBytes": 304280,
+  "ResultRootedHeapBytes": 802184,
+  "ApproximateRootedHeapDeltaBytes": 497904,
+  "ReleasedObjectCollected": true,
+  "TotalSampledEvents": 30,
+  "DroppedEvents": 0,
+  "AllocationTypes": [
+    {
+      "Type": "System.String",
+      "Samples": 8,
+      "SampledAllocationIntervalBytes": 936792,
+      "SampledTriggerObjectBytes": 194144
+    },
+    {
+      "Type": "System.Byte[]",
+      "Samples": 4,
+      "SampledAllocationIntervalBytes": 740136,
+      "SampledTriggerObjectBytes": 644736
+    },
+    {
+      "Type": "System.Char[]",
+      "Samples": 2,
+      "SampledAllocationIntervalBytes": 213704,
+      "SampledTriggerObjectBytes": 18064
+    },
+    {
+      "Type": "System.String[]",
+      "Samples": 2,
+      "SampledAllocationIntervalBytes": 212432,
+      "SampledTriggerObjectBytes": 88
+    },
+    {
+      "Type": "System.Reflection.MethodBaseInvoker",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 110352,
+      "SampledTriggerObjectBytes": 80
+    },
+    {
+      "Type": "SelectManySingleSelectorIterator\u00602[System.Text.Json.JsonProperty,System.ValueTuple\u00603[System.String,System.Int32,System.String]]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 107864,
+      "SampledTriggerObjectBytes": 80
+    },
+    {
+      "Type": "System.IO.Strategies.UnixFileStreamStrategy",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106632,
+      "SampledTriggerObjectBytes": 64
+    },
+    {
+      "Type": "Entry[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord[]][]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106344,
+      "SampledTriggerObjectBytes": 432
+    },
+    {
+      "Type": "SelectIListIterator\u00602[System.String,MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106344,
+      "SampledTriggerObjectBytes": 56
+    },
+    {
+      "Type": "System.Linq.Grouping\u00602[System.Numerics.BigInteger,MPC.Connectors.Step.Validation.StepDataInventoryValidator\u002BIndexedEntity]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106344,
+      "SampledTriggerObjectBytes": 64
+    },
+    {
+      "Type": "Entry[System.String,System.Collections.Generic.List\u00601[System.String]][]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 4752
+    },
+    {
+      "Type": "System.Collections.Generic.HashSet\u00601[System.String]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 64
+    },
+    {
+      "Type": "System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter][]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 40
+    },
+    {
+      "Type": "System.Collections.Generic.List\u00601[MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 32
+    },
+    {
+      "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 24
+    },
+    {
+      "Type": "System.Text.RegularExpressions.Group[]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 32
+    },
+    {
+      "Type": "System.ValueTuple\u00602[MPC.Connectors.Step.Models.StepDataEntityRecord,System.Int32][]",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 106088,
+      "SampledTriggerObjectBytes": 40
+    },
+    {
+      "Type": "System.Text.StringBuilder",
+      "Samples": 1,
+      "SampledAllocationIntervalBytes": 104632,
+      "SampledTriggerObjectBytes": 48
+    }
+  ],
+  "Checkpoints": [],
+  "Segments": [
+    {
+      "Label": "Return",
+      "SampleCount": 30,
+      "AllocationTypes": [
+        {
+          "Type": "System.String",
+          "Samples": 8,
+          "SampledAllocationIntervalBytes": 936792,
+          "SampledTriggerObjectBytes": 194144
+        },
+        {
+          "Type": "System.Byte[]",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 740136,
+          "SampledTriggerObjectBytes": 644736
+        },
+        {
+          "Type": "System.Char[]",
+          "Samples": 2,
+          "SampledAllocationIntervalBytes": 213704,
+          "SampledTriggerObjectBytes": 18064
+        },
+        {
+          "Type": "System.String[]",
+          "Samples": 2,
+          "SampledAllocationIntervalBytes": 212432,
+          "SampledTriggerObjectBytes": 88
+        },
+        {
+          "Type": "System.Reflection.MethodBaseInvoker",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 110352,
+          "SampledTriggerObjectBytes": 80
+        },
+        {
+          "Type": "SelectManySingleSelectorIterator\u00602[System.Text.Json.JsonProperty,System.ValueTuple\u00603[System.String,System.Int32,System.String]]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 107864,
+          "SampledTriggerObjectBytes": 80
+        },
+        {
+          "Type": "System.IO.Strategies.UnixFileStreamStrategy",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106632,
+          "SampledTriggerObjectBytes": 64
+        },
+        {
+          "Type": "Entry[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord[]][]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106344,
+          "SampledTriggerObjectBytes": 432
+        },
+        {
+          "Type": "SelectIListIterator\u00602[System.String,MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106344,
+          "SampledTriggerObjectBytes": 56
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.Numerics.BigInteger,MPC.Connectors.Step.Validation.StepDataInventoryValidator\u002BIndexedEntity]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106344,
+          "SampledTriggerObjectBytes": 64
+        },
+        {
+          "Type": "Entry[System.String,System.Collections.Generic.List\u00601[System.String]][]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 4752
+        },
+        {
+          "Type": "System.Collections.Generic.HashSet\u00601[System.String]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 64
+        },
+        {
+          "Type": "System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter][]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 40
+        },
+        {
+          "Type": "System.Collections.Generic.List\u00601[MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 32
+        },
+        {
+          "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 24
+        },
+        {
+          "Type": "System.Text.RegularExpressions.Group[]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 32
+        },
+        {
+          "Type": "System.ValueTuple\u00602[MPC.Connectors.Step.Models.StepDataEntityRecord,System.Int32][]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106088,
+          "SampledTriggerObjectBytes": 40
+        },
+        {
+          "Type": "System.Text.StringBuilder",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 104632,
+          "SampledTriggerObjectBytes": 48
+        }
+      ],
+      "MemorySamples": 20,
+      "ObservedMaxHeapBytes": 3751664,
+      "ObservedMaxWorkingSetBytes": 51634176
+    }
+  ],
+  "MemorySamples": [
+    {
+      "Time": "2026-11-25T07:09:21.3187264Z",
+      "Heap": 337176,
+      "WorkingSet": 38862848,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3337682Z",
+      "Heap": 836920,
+      "WorkingSet": 43048960,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3390639Z",
+      "Heap": 1002592,
+      "WorkingSet": 44040192,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.344332Z",
+      "Heap": 1050208,
+      "WorkingSet": 45490176,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3495335Z",
+      "Heap": 1277240,
+      "WorkingSet": 46616576,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3547468Z",
+      "Heap": 1318184,
+      "WorkingSet": 46878720,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.360046Z",
+      "Heap": 1407672,
+      "WorkingSet": 47144960,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3653613Z",
+      "Heap": 1472624,
+      "WorkingSet": 47411200,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.370585Z",
+      "Heap": 1587344,
+      "WorkingSet": 47665152,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3758262Z",
+      "Heap": 1603240,
+      "WorkingSet": 47865856,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3811179Z",
+      "Heap": 1652272,
+      "WorkingSet": 48054272,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3863549Z",
+      "Heap": 2484304,
+      "WorkingSet": 49442816,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3916679Z",
+      "Heap": 2514784,
+      "WorkingSet": 49651712,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.3968739Z",
+      "Heap": 2606112,
+      "WorkingSet": 49852416,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.4020876Z",
+      "Heap": 2622432,
+      "WorkingSet": 50003968,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.4073291Z",
+      "Heap": 3392304,
+      "WorkingSet": 50860032,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.4125803Z",
+      "Heap": 3514368,
+      "WorkingSet": 51040256,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.4178028Z",
+      "Heap": 3669952,
+      "WorkingSet": 51302400,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.4229965Z",
+      "Heap": 3751664,
+      "WorkingSet": 51470336,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:09:21.4288278Z",
+      "Heap": 802184,
+      "WorkingSet": 51634176,
+      "Committed": 4755456
+    }
+  ],
+  "SemanticSummary": {
+    "DocumentSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+    "RecordCount": 187,
+    "ReadStatus": "Succeeded",
+    "RootId": "#63",
+    "RepresentationId": "#47",
+    "MainRepresentationId": "#47",
+    "ContextId": "#61",
+    "Binding": "Observed",
+    "Compatibility": "Observed",
+    "GuardCalled": true,
+    "Status": "TargetBoundOnly",
+    "Reasons": []
+  },
+  "SemanticSha256": "936AC32661C8CC11B00D05D2A383CE336D7837E04CB7471D2ED2262505A97AC3",
+  "Caveats": [
+    "CLR allocation ticks are sampled. Interval bytes weighted by triggering type are estimates, NOT exact per-type allocation/live sizes.",
+    "Observer allocations/sampling overhead included; no latency or budget acceptance from these runs.",
+    "Diagnostic copy checkpoints force GC and root Check explicitly; these are controlled reachable-heap observations, NOT natural production peaks or exclusive object graph sizes.",
+    "5ms working-set/heap samples can miss peaks. GC committed bytes, live managed heap and resident process memory are different metrics.",
+    "Types/counts/IDs/hashes only. No raw CAD, private values, object addresses or heap dumps emitted.",
+    "Diagnostic copy output is never accepted as product evidence or given to a consumer. Canonical/diagnostic projected semantics compared separately."
+  ]
+}

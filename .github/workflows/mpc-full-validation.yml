@@ -176,6 +176,36 @@ jobs:
       - name: Reconcile current R03 diagnostics
         if: always() && (steps.corpus.outcome == 'success' || steps.corpus.outcome == 'failure')
         run: python tools/ci/reconcile_r03.py
+      - name: Checkout approved source for diagnostic-only heap copy
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 9b5f0334001e9d0558e95865bb9001b9ba12cb49
+          path: .b6-heap-source
+          persist-credentials: false
+      - name: B6 CLR allocation and controlled live-heap profile (not budget acceptance)
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          $copy = Join-Path $env:RUNNER_TEMP "b6-diagnostic-copy"
+          python tools/ci/B6HeapProbe/build_diagnostic_copy.py .b6-heap-source $copy
+          if ($LASTEXITCODE -ne 0) { throw "Diagnostic-only source copy failed." }
+          dotnet build (Join-Path $copy "src/MPC.Application/MPC.Application.csproj") -c Release --warnaserror -m:1
+          if ($LASTEXITCODE -ne 0) { throw "Diagnostic-only build failed." }
+          $diag = Join-Path $copy "src/MPC.Application/bin/Release/net8.0"
+          Copy-Item (Join-Path $copy "B6DiagnosticOverlay.json") $diag
+          dotnet build tools/ci/B6HeapProbe/B6HeapProbe.csproj -c Release --warnaserror -m:1
+          if ($LASTEXITCODE -ne 0) { throw "Heap profiler build failed." }
+          $probe = "tools/ci/B6HeapProbe/bin/Release/net8.0/B6HeapProbe.dll"
+          dotnet $probe self-test
+          if ($LASTEXITCODE -ne 0) { throw "Runtime allocation provider unavailable." }
+          $inputs = Join-Path $root "b6-heap-inputs"
+          New-Item -ItemType Directory -Force $inputs | Out-Null
+          foreach ($name in @("P01-R03-CurvedSurfaces.STEP", "T001_PRISM.step")) {
+            Copy-Item (Join-Path (Join-Path $root "ru-public-inputs") $name) $inputs
+          }
+          $output = Join-Path $root "evidence/B6-live-heap-Windows"
+          python tools/ci/B6HeapProbe/run_profile.py --dotnet dotnet --probe $probe --canonical src/MPC.Application/bin/Release/net8.0 --diagnostic $diag --inputs $inputs --manifest docs/reviews/Tooling/evidence/B6-Target-Allocation-Linux/Summary.json --output $output --trials 2
+          if ($LASTEXITCODE -ne 0) { throw "Heap profile identity/semantics/lifecycle failed." }
+          Copy-Item (Join-Path $copy "B6DiagnosticOverlay.json") $output
       - name: Preserve validation evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
