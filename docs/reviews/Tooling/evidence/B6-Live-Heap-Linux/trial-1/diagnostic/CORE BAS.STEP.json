@@ -1,0 +1,3868 @@
+{
+  "SchemaRevision": 1,
+  "Label": "trial-1",
+  "Mode": "diagnostic",
+  "InputName": "CORE BAS.STEP",
+  "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+  "ApplicationAssemblySha256": "E85FBBA1DB2EC87EC144977D50297B026669C5D6E557C14F4500CD0B19B2FB4A",
+  "ReaderAssemblySha256": "B9C3FB558F7B1F4344A52D0596EC55643DAD37ED7E3D46C63B75551CCAF904BF",
+  "Runtime": ".NET 8.0.28",
+  "Platform": "Debian GNU/Linux 13 (trixie)",
+  "DiagnosticCopyOnly": true,
+  "ProfileIsEligibilityEvidence": false,
+  "ConsumerInvoked": false,
+  "BaselineRootedHeapBytes": 304240,
+  "ResultRootedHeapBytes": 28136048,
+  "ApproximateRootedHeapDeltaBytes": 27831808,
+  "ReleasedObjectCollected": true,
+  "TotalSampledEvents": 4814,
+  "DroppedEvents": 0,
+  "AllocationTypes": [
+    {
+      "Type": "System.String",
+      "Samples": 1746,
+      "SampledAllocationIntervalBytes": 205286200,
+      "SampledTriggerObjectBytes": 19985528
+    },
+    {
+      "Type": "System.Int32[]",
+      "Samples": 271,
+      "SampledAllocationIntervalBytes": 31330112,
+      "SampledTriggerObjectBytes": 4903744
+    },
+    {
+      "Type": "System.String[]",
+      "Samples": 237,
+      "SampledAllocationIntervalBytes": 26193800,
+      "SampledTriggerObjectBytes": 1409176
+    },
+    {
+      "Type": "Entry[System.String][]",
+      "Samples": 173,
+      "SampledAllocationIntervalBytes": 23933496,
+      "SampledTriggerObjectBytes": 7105056
+    },
+    {
+      "Type": "System.Collections.Generic.List\u00601[System.String]",
+      "Samples": 134,
+      "SampledAllocationIntervalBytes": 14289440,
+      "SampledTriggerObjectBytes": 4288
+    },
+    {
+      "Type": "System.Char[]",
+      "Samples": 117,
+      "SampledAllocationIntervalBytes": 12360592,
+      "SampledTriggerObjectBytes": 773816
+    },
+    {
+      "Type": "DistinctIterator\u00601[System.String]",
+      "Samples": 116,
+      "SampledAllocationIntervalBytes": 12345224,
+      "SampledTriggerObjectBytes": 7424
+    },
+    {
+      "Type": "MPC.Connectors.Step.Models.StepDataEntityRecord[]",
+      "Samples": 99,
+      "SampledAllocationIntervalBytes": 11501368,
+      "SampledTriggerObjectBytes": 1389832
+    },
+    {
+      "Type": "System.Text.StringBuilder",
+      "Samples": 106,
+      "SampledAllocationIntervalBytes": 11202064,
+      "SampledTriggerObjectBytes": 5088
+    },
+    {
+      "Type": "Enumerator[MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 99,
+      "SampledAllocationIntervalBytes": 10547848,
+      "SampledTriggerObjectBytes": 3960
+    },
+    {
+      "Type": "System.Func\u00602[System.String,MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 90,
+      "SampledAllocationIntervalBytes": 9579488,
+      "SampledTriggerObjectBytes": 5760
+    },
+    {
+      "Type": "MPC.Connectors.Step.Models.StepParameter[]",
+      "Samples": 84,
+      "SampledAllocationIntervalBytes": 8945832,
+      "SampledTriggerObjectBytes": 4112
+    },
+    {
+      "Type": "System.Collections.Generic.List\u00601[MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 80,
+      "SampledAllocationIntervalBytes": 8518768,
+      "SampledTriggerObjectBytes": 2560
+    },
+    {
+      "Type": "System.Text.RegularExpressions.Group",
+      "Samples": 78,
+      "SampledAllocationIntervalBytes": 8293712,
+      "SampledTriggerObjectBytes": 4992
+    },
+    {
+      "Type": "System.Collections.Generic.HashSet\u00601[System.String]",
+      "Samples": 76,
+      "SampledAllocationIntervalBytes": 8086448,
+      "SampledTriggerObjectBytes": 4864
+    },
+    {
+      "Type": "Entry[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord[]][]",
+      "Samples": 9,
+      "SampledAllocationIntervalBytes": 6927896,
+      "SampledTriggerObjectBytes": 6633184
+    },
+    {
+      "Type": "SelectIListIterator\u00602[System.String,MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 64,
+      "SampledAllocationIntervalBytes": 6814464,
+      "SampledTriggerObjectBytes": 3584
+    },
+    {
+      "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[System.String]",
+      "Samples": 64,
+      "SampledAllocationIntervalBytes": 6808600,
+      "SampledTriggerObjectBytes": 1536
+    },
+    {
+      "Type": "Enumerator[System.String]",
+      "Samples": 62,
+      "SampledAllocationIntervalBytes": 6600592,
+      "SampledTriggerObjectBytes": 2480
+    },
+    {
+      "Type": "Entry[System.String,MPC.Connectors.Step.Models.StepTypedParameter][]",
+      "Samples": 60,
+      "SampledAllocationIntervalBytes": 6388320,
+      "SampledTriggerObjectBytes": 5760
+    },
+    {
+      "Type": "System.Text.RegularExpressions.Match",
+      "Samples": 60,
+      "SampledAllocationIntervalBytes": 6384656,
+      "SampledTriggerObjectBytes": 6720
+    },
+    {
+      "Type": "System.Linq.Grouping\u00602[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord]",
+      "Samples": 57,
+      "SampledAllocationIntervalBytes": 6071752,
+      "SampledTriggerObjectBytes": 3192
+    },
+    {
+      "Type": "System.Byte[]",
+      "Samples": 6,
+      "SampledAllocationIntervalBytes": 5754656,
+      "SampledTriggerObjectBytes": 5562240
+    },
+    {
+      "Type": "Row",
+      "Samples": 46,
+      "SampledAllocationIntervalBytes": 4892528,
+      "SampledTriggerObjectBytes": 3312
+    },
+    {
+      "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[MPC.Connectors.Step.Models.StepParameter]",
+      "Samples": 44,
+      "SampledAllocationIntervalBytes": 4685616,
+      "SampledTriggerObjectBytes": 1056
+    },
+    {
+      "Type": "\u003CGetEnumerator\u003Ed__19[System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter]]",
+      "Samples": 38,
+      "SampledAllocationIntervalBytes": 4047216,
+      "SampledTriggerObjectBytes": 2736
+    },
+    {
+      "Type": "System.SZGenericArrayEnumerator\u00601[System.String]",
+      "Samples": 37,
+      "SampledAllocationIntervalBytes": 3940648,
+      "SampledTriggerObjectBytes": 1184
+    },
+    {
+      "Type": "System.Linq.EnumerableSorter\u00602[System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter],System.String]",
+      "Samples": 37,
+      "SampledAllocationIntervalBytes": 3939592,
+      "SampledTriggerObjectBytes": 2072
+    },
+    {
+      "Type": "System.Collections.Generic.Dictionary\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter]",
+      "Samples": 34,
+      "SampledAllocationIntervalBytes": 3621496,
+      "SampledTriggerObjectBytes": 2720
+    },
+    {
+      "Type": "Entry[System.Numerics.BigInteger][]",
+      "Samples": 5,
+      "SampledAllocationIntervalBytes": 3530384,
+      "SampledTriggerObjectBytes": 3351920
+    }
+  ],
+  "Checkpoints": [
+    {
+      "Label": "Inventory.Complete",
+      "WorkStart": "2026-11-25T07:08:48.173318Z",
+      "ObserverEnter": "2026-11-25T07:08:48.5609649Z",
+      "ObserverEnd": "2026-11-25T07:08:48.595738Z",
+      "ThreadAllocatedBytes": 180369496,
+      "HeapBeforeForcedGC": 51359864,
+      "RootedHeapAfterGC": 31964976,
+      "GCCommittedBytes": 57921536,
+      "Counts": {}
+    },
+    {
+      "Label": "Target.Before",
+      "WorkStart": "2026-11-25T07:08:48.595738Z",
+      "ObserverEnter": "2026-11-25T07:08:48.6861296Z",
+      "ObserverEnd": "2026-11-25T07:08:48.7085734Z",
+      "ThreadAllocatedBytes": 32767896,
+      "HeapBeforeForcedGC": 47235784,
+      "RootedHeapAfterGC": 32004656,
+      "GCCommittedBytes": 53886976,
+      "Counts": {}
+    },
+    {
+      "Label": "Target.Enter",
+      "WorkStart": "2026-11-25T07:08:48.7085734Z",
+      "ObserverEnter": "2026-11-25T07:08:48.7110286Z",
+      "ObserverEnd": "2026-11-25T07:08:48.7270325Z",
+      "ThreadAllocatedBytes": 464,
+      "HeapBeforeForcedGC": 32053792,
+      "RootedHeapAfterGC": 32005176,
+      "GCCommittedBytes": 49831936,
+      "Counts": {
+        "_rows": 0,
+        "_incoming": 0,
+        "_reasons": 0,
+        "_units": 0
+      }
+    },
+    {
+      "Label": "Target.Rows",
+      "WorkStart": "2026-11-25T07:08:48.7270325Z",
+      "ObserverEnter": "2026-11-25T07:08:49.7671671Z",
+      "ObserverEnd": "2026-11-25T07:08:49.8711964Z",
+      "ThreadAllocatedBytes": 233449648,
+      "HeapBeforeForcedGC": 121829144,
+      "RootedHeapAfterGC": 113440376,
+      "GCCommittedBytes": 136957952,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 0,
+        "_reasons": 0,
+        "_units": 0
+      }
+    },
+    {
+      "Label": "Target.Incoming",
+      "WorkStart": "2026-11-25T07:08:49.8711964Z",
+      "ObserverEnter": "2026-11-25T07:08:49.9154981Z",
+      "ObserverEnd": "2026-11-25T07:08:50.0254203Z",
+      "ThreadAllocatedBytes": 23584512,
+      "HeapBeforeForcedGC": 123388368,
+      "RootedHeapAfterGC": 120798624,
+      "GCCommittedBytes": 139800576,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 58562,
+        "_reasons": 0,
+        "_units": 0
+      }
+    },
+    {
+      "Label": "Target.Fields",
+      "WorkStart": "2026-11-25T07:08:50.0254203Z",
+      "ObserverEnter": "2026-11-25T07:08:50.7517113Z",
+      "ObserverEnd": "2026-11-25T07:08:50.8696545Z",
+      "ThreadAllocatedBytes": 37105560,
+      "HeapBeforeForcedGC": 124985064,
+      "RootedHeapAfterGC": 120857184,
+      "GCCommittedBytes": 145424384,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 58562,
+        "_reasons": 0,
+        "_units": 0
+      }
+    },
+    {
+      "Label": "Target.Contexts",
+      "WorkStart": "2026-11-25T07:08:50.8696545Z",
+      "ObserverEnter": "2026-11-25T07:08:50.8791186Z",
+      "ObserverEnd": "2026-11-25T07:08:50.9953684Z",
+      "ThreadAllocatedBytes": 1040,
+      "HeapBeforeForcedGC": 120918688,
+      "RootedHeapAfterGC": 120857864,
+      "GCCommittedBytes": 143597568,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 58562,
+        "_reasons": 0,
+        "_units": 2
+      }
+    },
+    {
+      "Label": "Precheck.Before",
+      "WorkStart": "2026-11-25T07:08:50.9953684Z",
+      "ObserverEnter": "2026-11-25T07:08:51.0048225Z",
+      "ObserverEnd": "2026-11-25T07:08:51.1237384Z",
+      "ThreadAllocatedBytes": 400,
+      "HeapBeforeForcedGC": 120919296,
+      "RootedHeapAfterGC": 120859608,
+      "GCCommittedBytes": 143667200,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 58562,
+        "_reasons": 0,
+        "_units": 2
+      }
+    },
+    {
+      "Label": "Precheck.After",
+      "WorkStart": "2026-11-25T07:08:51.1237384Z",
+      "ObserverEnter": "2026-11-25T07:08:51.2657452Z",
+      "ObserverEnd": "2026-11-25T07:08:51.3877316Z",
+      "ThreadAllocatedBytes": 40130248,
+      "HeapBeforeForcedGC": 144615528,
+      "RootedHeapAfterGC": 120908704,
+      "GCCommittedBytes": 156655616,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 58562,
+        "_reasons": 0,
+        "_units": 2
+      }
+    },
+    {
+      "Label": "Target.Ownership",
+      "WorkStart": "2026-11-25T07:08:51.3877316Z",
+      "ObserverEnter": "2026-11-25T07:08:51.5158016Z",
+      "ObserverEnd": "2026-11-25T07:08:51.6326477Z",
+      "ThreadAllocatedBytes": 8103360,
+      "HeapBeforeForcedGC": 129441112,
+      "RootedHeapAfterGC": 120916816,
+      "GCCommittedBytes": 152096768,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 58562,
+        "_reasons": 0,
+        "_units": 2
+      }
+    },
+    {
+      "Label": "Target.End",
+      "WorkStart": "2026-11-25T07:08:51.6326477Z",
+      "ObserverEnter": "2026-11-25T07:08:51.6328335Z",
+      "ObserverEnd": "2026-11-25T07:08:51.7523346Z",
+      "ThreadAllocatedBytes": 96,
+      "HeapBeforeForcedGC": 120961912,
+      "RootedHeapAfterGC": 120917552,
+      "GCCommittedBytes": 152236032,
+      "Counts": {
+        "_rows": 58568,
+        "_incoming": 58562,
+        "_reasons": 0,
+        "_units": 2
+      }
+    }
+  ],
+  "Segments": [
+    {
+      "Label": "Inventory.Complete",
+      "SampleCount": 1437,
+      "AllocationTypes": [
+        {
+          "Type": "System.String",
+          "Samples": 598,
+          "SampledAllocationIntervalBytes": 82933256,
+          "SampledTriggerObjectBytes": 19551464
+        },
+        {
+          "Type": "System.Char[]",
+          "Samples": 114,
+          "SampledAllocationIntervalBytes": 12043344,
+          "SampledTriggerObjectBytes": 756880
+        },
+        {
+          "Type": "System.Text.StringBuilder",
+          "Samples": 105,
+          "SampledAllocationIntervalBytes": 11095272,
+          "SampledTriggerObjectBytes": 5040
+        },
+        {
+          "Type": "System.Text.RegularExpressions.Group",
+          "Samples": 78,
+          "SampledAllocationIntervalBytes": 8293712,
+          "SampledTriggerObjectBytes": 4992
+        },
+        {
+          "Type": "System.Int32[]",
+          "Samples": 70,
+          "SampledAllocationIntervalBytes": 7695280,
+          "SampledTriggerObjectBytes": 519616
+        },
+        {
+          "Type": "System.Text.RegularExpressions.Match",
+          "Samples": 60,
+          "SampledAllocationIntervalBytes": 6384656,
+          "SampledTriggerObjectBytes": 6720
+        },
+        {
+          "Type": "System.Byte[]",
+          "Samples": 3,
+          "SampledAllocationIntervalBytes": 5234384,
+          "SampledTriggerObjectBytes": 5234424
+        },
+        {
+          "Type": "System.String[]",
+          "Samples": 35,
+          "SampledAllocationIntervalBytes": 4325536,
+          "SampledTriggerObjectBytes": 920120
+        },
+        {
+          "Type": "Entry[System.Numerics.BigInteger][]",
+          "Samples": 5,
+          "SampledAllocationIntervalBytes": 3530384,
+          "SampledTriggerObjectBytes": 3351920
+        },
+        {
+          "Type": "Node[System.Numerics.BigInteger]",
+          "Samples": 33,
+          "SampledAllocationIntervalBytes": 3513504,
+          "SampledTriggerObjectBytes": 1848
+        },
+        {
+          "Type": "System.Collections.Generic.List\u00601[System.String]",
+          "Samples": 32,
+          "SampledAllocationIntervalBytes": 3414640,
+          "SampledTriggerObjectBytes": 1024
+        },
+        {
+          "Type": "System.Text.RegularExpressions.GroupCollection",
+          "Samples": 32,
+          "SampledAllocationIntervalBytes": 3408624,
+          "SampledTriggerObjectBytes": 1280
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.Numerics.BigInteger,MPC.Connectors.Step.Validation.StepDataInventoryValidator\u002BIndexedEntity]",
+          "Samples": 32,
+          "SampledAllocationIntervalBytes": 3406960,
+          "SampledTriggerObjectBytes": 2048
+        },
+        {
+          "Type": "System.Int32[][]",
+          "Samples": 30,
+          "SampledAllocationIntervalBytes": 3192672,
+          "SampledTriggerObjectBytes": 1440
+        },
+        {
+          "Type": "IndexedEntity",
+          "Samples": 30,
+          "SampledAllocationIntervalBytes": 3188768,
+          "SampledTriggerObjectBytes": 1680
+        },
+        {
+          "Type": "IndexedEntity[]",
+          "Samples": 22,
+          "SampledAllocationIntervalBytes": 2910784,
+          "SampledTriggerObjectBytes": 936248
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepDataEntityRecord",
+          "Samples": 27,
+          "SampledAllocationIntervalBytes": 2871984,
+          "SampledTriggerObjectBytes": 1944
+        },
+        {
+          "Type": "Enumerator[System.String]",
+          "Samples": 23,
+          "SampledAllocationIntervalBytes": 2451784,
+          "SampledTriggerObjectBytes": 920
+        },
+        {
+          "Type": "System.Text.RegularExpressions.Group[]",
+          "Samples": 20,
+          "SampledAllocationIntervalBytes": 2128672,
+          "SampledTriggerObjectBytes": 792
+        },
+        {
+          "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[System.String]",
+          "Samples": 20,
+          "SampledAllocationIntervalBytes": 2122608,
+          "SampledTriggerObjectBytes": 480
+        },
+        {
+          "Type": "Node[System.Numerics.BigInteger][]",
+          "Samples": 19,
+          "SampledAllocationIntervalBytes": 2019856,
+          "SampledTriggerObjectBytes": 888
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepDataEntityRecord[]",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 1386120,
+          "SampledTriggerObjectBytes": 1386240
+        },
+        {
+          "Type": "System.Collections.Generic.Stack\u00601[System.Collections.Generic.SortedSet\u00601\u002BNode[System.Numerics.BigInteger]]",
+          "Samples": 13,
+          "SampledAllocationIntervalBytes": 1384016,
+          "SampledTriggerObjectBytes": 416
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.Numerics.BigInteger,MPC.Connectors.Step.Validation.StepDataInventoryValidator\u002BIndexedEntity][]",
+          "Samples": 6,
+          "SampledAllocationIntervalBytes": 1311096,
+          "SampledTriggerObjectBytes": 1032384
+        },
+        {
+          "Type": "System.Collections.Generic.SortedSet\u00601[System.Numerics.BigInteger]",
+          "Samples": 12,
+          "SampledAllocationIntervalBytes": 1277920,
+          "SampledTriggerObjectBytes": 576
+        },
+        {
+          "Type": "System.Object[]",
+          "Samples": 5,
+          "SampledAllocationIntervalBytes": 532936,
+          "SampledTriggerObjectBytes": 424
+        },
+        {
+          "Type": "System.Diagnostics.Tracing.EventWrittenEventArgs",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 425904,
+          "SampledTriggerObjectBytes": 288
+        },
+        {
+          "Type": "MoreEventInfo",
+          "Samples": 2,
+          "SampledAllocationIntervalBytes": 212688,
+          "SampledTriggerObjectBytes": 192
+        },
+        {
+          "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[System.Object]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106600,
+          "SampledTriggerObjectBytes": 24
+        },
+        {
+          "Type": "System.IntPtr",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106600,
+          "SampledTriggerObjectBytes": 24
+        }
+      ],
+      "MemorySamples": 66,
+      "ObservedMaxHeapBytes": 60110624,
+      "ObservedMaxWorkingSetBytes": 120147968
+    },
+    {
+      "Label": "Target.Before",
+      "SampleCount": 275,
+      "AllocationTypes": [
+        {
+          "Type": "System.String",
+          "Samples": 195,
+          "SampledAllocationIntervalBytes": 20786000,
+          "SampledTriggerObjectBytes": 39400
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepDataEntityRecord[]",
+          "Samples": 34,
+          "SampledAllocationIntervalBytes": 3621960,
+          "SampledTriggerObjectBytes": 1088
+        },
+        {
+          "Type": "Entry[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord[]][]",
+          "Samples": 5,
+          "SampledAllocationIntervalBytes": 3525272,
+          "SampledTriggerObjectBytes": 3327632
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord]",
+          "Samples": 29,
+          "SampledAllocationIntervalBytes": 3091400,
+          "SampledTriggerObjectBytes": 1624
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord][]",
+          "Samples": 7,
+          "SampledAllocationIntervalBytes": 1401296,
+          "SampledTriggerObjectBytes": 1033424
+        },
+        {
+          "Type": "System.Int32[]",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 673824,
+          "SampledTriggerObjectBytes": 551064
+        },
+        {
+          "Type": "System.UInt32",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106920,
+          "SampledTriggerObjectBytes": 24
+        }
+      ],
+      "MemorySamples": 15,
+      "ObservedMaxHeapBytes": 47732112,
+      "ObservedMaxWorkingSetBytes": 111026176
+    },
+    {
+      "Label": "Target.Enter",
+      "SampleCount": 0,
+      "AllocationTypes": [],
+      "MemorySamples": 0,
+      "ObservedMaxHeapBytes": null,
+      "ObservedMaxWorkingSetBytes": null
+    },
+    {
+      "Label": "Target.Rows",
+      "SampleCount": 2189,
+      "AllocationTypes": [
+        {
+          "Type": "System.String",
+          "Samples": 840,
+          "SampledAllocationIntervalBytes": 89524352,
+          "SampledTriggerObjectBytes": 363432
+        },
+        {
+          "Type": "System.String[]",
+          "Samples": 179,
+          "SampledAllocationIntervalBytes": 19415400,
+          "SampledTriggerObjectBytes": 479608
+        },
+        {
+          "Type": "System.Func\u00602[System.String,MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 90,
+          "SampledAllocationIntervalBytes": 9579488,
+          "SampledTriggerObjectBytes": 5760
+        },
+        {
+          "Type": "System.Collections.Generic.List\u00601[System.String]",
+          "Samples": 84,
+          "SampledAllocationIntervalBytes": 8955680,
+          "SampledTriggerObjectBytes": 2688
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepParameter[]",
+          "Samples": 83,
+          "SampledAllocationIntervalBytes": 8839232,
+          "SampledTriggerObjectBytes": 4048
+        },
+        {
+          "Type": "System.Collections.Generic.List\u00601[MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 80,
+          "SampledAllocationIntervalBytes": 8518768,
+          "SampledTriggerObjectBytes": 2560
+        },
+        {
+          "Type": "Enumerator[MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 78,
+          "SampledAllocationIntervalBytes": 8310528,
+          "SampledTriggerObjectBytes": 3120
+        },
+        {
+          "Type": "SelectIListIterator\u00602[System.String,MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 64,
+          "SampledAllocationIntervalBytes": 6814464,
+          "SampledTriggerObjectBytes": 3584
+        },
+        {
+          "Type": "Entry[System.String,MPC.Connectors.Step.Models.StepTypedParameter][]",
+          "Samples": 60,
+          "SampledAllocationIntervalBytes": 6388320,
+          "SampledTriggerObjectBytes": 5760
+        },
+        {
+          "Type": "System.Int32[]",
+          "Samples": 45,
+          "SampledAllocationIntervalBytes": 5210224,
+          "SampledTriggerObjectBytes": 753224
+        },
+        {
+          "Type": "Row",
+          "Samples": 46,
+          "SampledAllocationIntervalBytes": 4892528,
+          "SampledTriggerObjectBytes": 3312
+        },
+        {
+          "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[System.String]",
+          "Samples": 44,
+          "SampledAllocationIntervalBytes": 4685992,
+          "SampledTriggerObjectBytes": 1056
+        },
+        {
+          "Type": "System.Collections.ObjectModel.ReadOnlyCollection\u00601[MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 44,
+          "SampledAllocationIntervalBytes": 4685616,
+          "SampledTriggerObjectBytes": 1056
+        },
+        {
+          "Type": "\u003CGetEnumerator\u003Ed__19[System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter]]",
+          "Samples": 38,
+          "SampledAllocationIntervalBytes": 4047216,
+          "SampledTriggerObjectBytes": 2736
+        },
+        {
+          "Type": "System.Linq.EnumerableSorter\u00602[System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter],System.String]",
+          "Samples": 37,
+          "SampledAllocationIntervalBytes": 3939592,
+          "SampledTriggerObjectBytes": 2072
+        },
+        {
+          "Type": "System.Collections.Generic.Dictionary\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter]",
+          "Samples": 34,
+          "SampledAllocationIntervalBytes": 3621496,
+          "SampledTriggerObjectBytes": 2720
+        },
+        {
+          "Type": "Entry[System.String,MPC.Application.Inventory.TargetProducer\u002BCheck\u002BRow][]",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 3402624,
+          "SampledTriggerObjectBytes": 3305552
+        },
+        {
+          "Type": "System.Comparison\u00601[System.Int32]",
+          "Samples": 31,
+          "SampledAllocationIntervalBytes": 3303184,
+          "SampledTriggerObjectBytes": 1984
+        },
+        {
+          "Type": "System.Linq.OrderedEnumerable\u00602[System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter],System.String]",
+          "Samples": 31,
+          "SampledAllocationIntervalBytes": 3293608,
+          "SampledTriggerObjectBytes": 1736
+        },
+        {
+          "Type": "System.ValueTuple\u00602[MPC.Connectors.Step.Models.StepDataEntityRecord,System.Int32][]",
+          "Samples": 28,
+          "SampledAllocationIntervalBytes": 2976688,
+          "SampledTriggerObjectBytes": 1120
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepTypedParameter",
+          "Samples": 26,
+          "SampledAllocationIntervalBytes": 2769296,
+          "SampledTriggerObjectBytes": 1040
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.String,System.ValueTuple\u00602[MPC.Connectors.Step.Models.StepDataEntityRecord,System.Int32]]",
+          "Samples": 26,
+          "SampledAllocationIntervalBytes": 2768056,
+          "SampledTriggerObjectBytes": 1456
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepEntityReferenceParameter",
+          "Samples": 25,
+          "SampledAllocationIntervalBytes": 2661288,
+          "SampledTriggerObjectBytes": 800
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepRealParameter",
+          "Samples": 24,
+          "SampledAllocationIntervalBytes": 2552696,
+          "SampledTriggerObjectBytes": 768
+        },
+        {
+          "Type": "System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter][]",
+          "Samples": 23,
+          "SampledAllocationIntervalBytes": 2448008,
+          "SampledTriggerObjectBytes": 920
+        },
+        {
+          "Type": "SelectIPartitionIterator\u00602[System.Collections.Generic.KeyValuePair\u00602[System.String,MPC.Connectors.Step.Models.StepTypedParameter],System.String]",
+          "Samples": 23,
+          "SampledAllocationIntervalBytes": 2447448,
+          "SampledTriggerObjectBytes": 1288
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepStringParameter",
+          "Samples": 19,
+          "SampledAllocationIntervalBytes": 2023936,
+          "SampledTriggerObjectBytes": 608
+        },
+        {
+          "Type": "ValueCollection[System.String,MPC.Connectors.Step.Models.StepTypedParameter]",
+          "Samples": 18,
+          "SampledAllocationIntervalBytes": 1915728,
+          "SampledTriggerObjectBytes": 432
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepAggregateParameter",
+          "Samples": 13,
+          "SampledAllocationIntervalBytes": 1381128,
+          "SampledTriggerObjectBytes": 416
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.String,System.ValueTuple\u00602[MPC.Connectors.Step.Models.StepDataEntityRecord,System.Int32]][]",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 1056648,
+          "SampledTriggerObjectBytes": 983200
+        }
+      ],
+      "MemorySamples": 169,
+      "ObservedMaxHeapBytes": 123580200,
+      "ObservedMaxWorkingSetBytes": 190459904
+    },
+    {
+      "Label": "Target.Incoming",
+      "SampleCount": 193,
+      "AllocationTypes": [
+        {
+          "Type": "Entry[System.String][]",
+          "Samples": 44,
+          "SampledAllocationIntervalBytes": 4765720,
+          "SampledTriggerObjectBytes": 109376
+        },
+        {
+          "Type": "DistinctIterator\u00601[System.String]",
+          "Samples": 38,
+          "SampledAllocationIntervalBytes": 4043080,
+          "SampledTriggerObjectBytes": 2432
+        },
+        {
+          "Type": "Entry[System.String,System.Collections.Generic.List\u00601[System.String]][]",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 3402624,
+          "SampledTriggerObjectBytes": 3305552
+        },
+        {
+          "Type": "System.Collections.Generic.HashSet\u00601[System.String]",
+          "Samples": 30,
+          "SampledAllocationIntervalBytes": 3189592,
+          "SampledTriggerObjectBytes": 1920
+        },
+        {
+          "Type": "System.Int32[]",
+          "Samples": 21,
+          "SampledAllocationIntervalBytes": 2516184,
+          "SampledTriggerObjectBytes": 552016
+        },
+        {
+          "Type": "System.String[]",
+          "Samples": 22,
+          "SampledAllocationIntervalBytes": 2346248,
+          "SampledTriggerObjectBytes": 1232
+        },
+        {
+          "Type": "System.Collections.Generic.List\u00601[System.String]",
+          "Samples": 18,
+          "SampledAllocationIntervalBytes": 1919120,
+          "SampledTriggerObjectBytes": 576
+        },
+        {
+          "Type": "Enumerator[System.String]",
+          "Samples": 13,
+          "SampledAllocationIntervalBytes": 1382920,
+          "SampledTriggerObjectBytes": 520
+        },
+        {
+          "Type": "Slot[Allocation][]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 163960,
+          "SampledTriggerObjectBytes": 65560
+        },
+        {
+          "Type": "System.String",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106600,
+          "SampledTriggerObjectBytes": 72
+        },
+        {
+          "Type": "System.GCMemoryInfoData",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 102408,
+          "SampledTriggerObjectBytes": 288
+        }
+      ],
+      "MemorySamples": 7,
+      "ObservedMaxHeapBytes": 124289768,
+      "ObservedMaxWorkingSetBytes": 197066752
+    },
+    {
+      "Label": "Target.Fields",
+      "SampleCount": 372,
+      "AllocationTypes": [
+        {
+          "Type": "System.String",
+          "Samples": 101,
+          "SampledAllocationIntervalBytes": 10769048,
+          "SampledTriggerObjectBytes": 19560
+        },
+        {
+          "Type": "System.Int32[]",
+          "Samples": 93,
+          "SampledAllocationIntervalBytes": 9907104,
+          "SampledTriggerObjectBytes": 3768
+        },
+        {
+          "Type": "Entry[System.String][]",
+          "Samples": 65,
+          "SampledAllocationIntervalBytes": 6918640,
+          "SampledTriggerObjectBytes": 118824
+        },
+        {
+          "Type": "DistinctIterator\u00601[System.String]",
+          "Samples": 46,
+          "SampledAllocationIntervalBytes": 4900080,
+          "SampledTriggerObjectBytes": 2944
+        },
+        {
+          "Type": "System.Collections.Generic.HashSet\u00601[System.String]",
+          "Samples": 27,
+          "SampledAllocationIntervalBytes": 2874528,
+          "SampledTriggerObjectBytes": 1728
+        },
+        {
+          "Type": "Enumerator[MPC.Connectors.Step.Models.StepParameter]",
+          "Samples": 21,
+          "SampledAllocationIntervalBytes": 2237320,
+          "SampledTriggerObjectBytes": 840
+        },
+        {
+          "Type": "System.SZGenericArrayEnumerator\u00601[System.String]",
+          "Samples": 15,
+          "SampledAllocationIntervalBytes": 1598232,
+          "SampledTriggerObjectBytes": 480
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepParameter[]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106600,
+          "SampledTriggerObjectBytes": 64
+        },
+        {
+          "Type": "SelectIListIterator\u00602[MPC.Connectors.Step.Models.StepParameter,System.String]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106600,
+          "SampledTriggerObjectBytes": 56
+        },
+        {
+          "Type": "System.Object[]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106600,
+          "SampledTriggerObjectBytes": 48
+        },
+        {
+          "Type": "System.Diagnostics.Tracing.EventWrittenEventArgs",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 102520,
+          "SampledTriggerObjectBytes": 72
+        }
+      ],
+      "MemorySamples": 134,
+      "ObservedMaxHeapBytes": 127013760,
+      "ObservedMaxWorkingSetBytes": 198840320
+    },
+    {
+      "Label": "Target.Contexts",
+      "SampleCount": 0,
+      "AllocationTypes": [],
+      "MemorySamples": 1,
+      "ObservedMaxHeapBytes": 120902240,
+      "ObservedMaxWorkingSetBytes": 198254592
+    },
+    {
+      "Label": "Precheck.Before",
+      "SampleCount": 1,
+      "AllocationTypes": [
+        {
+          "Type": "System.String",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106416,
+          "SampledTriggerObjectBytes": 2336
+        }
+      ],
+      "MemorySamples": 1,
+      "ObservedMaxHeapBytes": 120902848,
+      "ObservedMaxWorkingSetBytes": 196493312
+    },
+    {
+      "Label": "Precheck.After",
+      "SampleCount": 296,
+      "AllocationTypes": [
+        {
+          "Type": "Entry[System.String][]",
+          "Samples": 54,
+          "SampledAllocationIntervalBytes": 7592984,
+          "SampledTriggerObjectBytes": 2339688
+        },
+        {
+          "Type": "MPC.Connectors.Step.Models.StepDataEntityRecord[]",
+          "Samples": 61,
+          "SampledAllocationIntervalBytes": 6493288,
+          "SampledTriggerObjectBytes": 2504
+        },
+        {
+          "Type": "System.Int32[]",
+          "Samples": 31,
+          "SampledAllocationIntervalBytes": 4046176,
+          "SampledTriggerObjectBytes": 1455632
+        },
+        {
+          "Type": "Entry[System.String,System.Collections.Generic.List\u00601[MPC.Connectors.Step.Models.StepDataEntityRecord]][]",
+          "Samples": 5,
+          "SampledAllocationIntervalBytes": 3517072,
+          "SampledTriggerObjectBytes": 3327584
+        },
+        {
+          "Type": "Entry[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord[]][]",
+          "Samples": 4,
+          "SampledAllocationIntervalBytes": 3402624,
+          "SampledTriggerObjectBytes": 3305552
+        },
+        {
+          "Type": "DistinctIterator\u00601[System.String]",
+          "Samples": 32,
+          "SampledAllocationIntervalBytes": 3402064,
+          "SampledTriggerObjectBytes": 2048
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord]",
+          "Samples": 28,
+          "SampledAllocationIntervalBytes": 2980352,
+          "SampledTriggerObjectBytes": 1568
+        },
+        {
+          "Type": "Enumerator[System.String]",
+          "Samples": 26,
+          "SampledAllocationIntervalBytes": 2765888,
+          "SampledTriggerObjectBytes": 1040
+        },
+        {
+          "Type": "System.Collections.Generic.List\u00601[MPC.Connectors.Step.Models.StepDataEntityRecord]",
+          "Samples": 23,
+          "SampledAllocationIntervalBytes": 2445992,
+          "SampledTriggerObjectBytes": 736
+        },
+        {
+          "Type": "System.Collections.Generic.HashSet\u00601[System.String]",
+          "Samples": 19,
+          "SampledAllocationIntervalBytes": 2022328,
+          "SampledTriggerObjectBytes": 1216
+        },
+        {
+          "Type": "System.Linq.Grouping\u00602[System.String,MPC.Connectors.Step.Models.StepDataEntityRecord][]",
+          "Samples": 3,
+          "SampledAllocationIntervalBytes": 917552,
+          "SampledTriggerObjectBytes": 917648
+        },
+        {
+          "Type": "System.String",
+          "Samples": 6,
+          "SampledAllocationIntervalBytes": 638832,
+          "SampledTriggerObjectBytes": 7264
+        },
+        {
+          "Type": "System.Object[]",
+          "Samples": 2,
+          "SampledAllocationIntervalBytes": 216984,
+          "SampledTriggerObjectBytes": 192
+        },
+        {
+          "Type": "System.String[]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106616,
+          "SampledTriggerObjectBytes": 8216
+        },
+        {
+          "Type": "MoreEventInfo",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106376,
+          "SampledTriggerObjectBytes": 96
+        }
+      ],
+      "MemorySamples": 22,
+      "ObservedMaxHeapBytes": 149308160,
+      "ObservedMaxWorkingSetBytes": 218050560
+    },
+    {
+      "Label": "Target.Ownership",
+      "SampleCount": 41,
+      "AllocationTypes": [
+        {
+          "Type": "Entry[System.String][]",
+          "Samples": 10,
+          "SampledAllocationIntervalBytes": 4656152,
+          "SampledTriggerObjectBytes": 4537168
+        },
+        {
+          "Type": "System.SZGenericArrayEnumerator\u00601[System.String]",
+          "Samples": 22,
+          "SampledAllocationIntervalBytes": 2342416,
+          "SampledTriggerObjectBytes": 704
+        },
+        {
+          "Type": "System.Int32[]",
+          "Samples": 7,
+          "SampledAllocationIntervalBytes": 1281320,
+          "SampledTriggerObjectBytes": 1068424
+        },
+        {
+          "Type": "System.String",
+          "Samples": 2,
+          "SampledAllocationIntervalBytes": 212688,
+          "SampledTriggerObjectBytes": 1296
+        }
+      ],
+      "MemorySamples": 24,
+      "ObservedMaxHeapBytes": 129432960,
+      "ObservedMaxWorkingSetBytes": 210903040
+    },
+    {
+      "Label": "Target.End",
+      "SampleCount": 0,
+      "AllocationTypes": [],
+      "MemorySamples": 0,
+      "ObservedMaxHeapBytes": null,
+      "ObservedMaxWorkingSetBytes": null
+    },
+    {
+      "Label": "Return",
+      "SampleCount": 1,
+      "AllocationTypes": [
+        {
+          "Type": "System.RuntimeType[]",
+          "Samples": 1,
+          "SampledAllocationIntervalBytes": 106600,
+          "SampledTriggerObjectBytes": 24
+        }
+      ],
+      "MemorySamples": 1,
+      "ObservedMaxHeapBytes": 28136192,
+      "ObservedMaxWorkingSetBytes": 178319360
+    }
+  ],
+  "MemorySamples": [
+    {
+      "Time": "2026-11-25T07:08:48.1744562Z",
+      "Heap": 353560,
+      "WorkingSet": 38875136,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:08:48.188625Z",
+      "Heap": 5246880,
+      "WorkingSet": 47247360,
+      "Committed": 1531904
+    },
+    {
+      "Time": "2026-11-25T07:08:48.1939575Z",
+      "Heap": 5949504,
+      "WorkingSet": 48545792,
+      "Committed": 6520832
+    },
+    {
+      "Time": "2026-11-25T07:08:48.1991946Z",
+      "Heap": 13215904,
+      "WorkingSet": 59191296,
+      "Committed": 14155776
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2044502Z",
+      "Heap": 24938184,
+      "WorkingSet": 70852608,
+      "Committed": 14155776
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2097192Z",
+      "Heap": 16349272,
+      "WorkingSet": 72155136,
+      "Committed": 29954048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2149323Z",
+      "Heap": 18135360,
+      "WorkingSet": 72183808,
+      "Committed": 29954048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2201236Z",
+      "Heap": 15586512,
+      "WorkingSet": 72179712,
+      "Committed": 29954048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.225344Z",
+      "Heap": 17446448,
+      "WorkingSet": 72196096,
+      "Committed": 29954048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2305302Z",
+      "Heap": 28405024,
+      "WorkingSet": 81891328,
+      "Committed": 29954048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2357736Z",
+      "Heap": 25864656,
+      "WorkingSet": 81981440,
+      "Committed": 39653376
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2410116Z",
+      "Heap": 31165864,
+      "WorkingSet": 82477056,
+      "Committed": 39915520
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2462026Z",
+      "Heap": 34988480,
+      "WorkingSet": 82579456,
+      "Committed": 43778048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2554063Z",
+      "Heap": 36266160,
+      "WorkingSet": 86646784,
+      "Committed": 44306432
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2606343Z",
+      "Heap": 38051040,
+      "WorkingSet": 87302144,
+      "Committed": 44306432
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2658503Z",
+      "Heap": 38412648,
+      "WorkingSet": 88170496,
+      "Committed": 44306432
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2711069Z",
+      "Heap": 40897088,
+      "WorkingSet": 88166400,
+      "Committed": 44306432
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2763211Z",
+      "Heap": 37775336,
+      "WorkingSet": 88215552,
+      "Committed": 44302336
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2815185Z",
+      "Heap": 37654088,
+      "WorkingSet": 88268800,
+      "Committed": 44302336
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2869289Z",
+      "Heap": 40353360,
+      "WorkingSet": 88268800,
+      "Committed": 44302336
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2921468Z",
+      "Heap": 42433080,
+      "WorkingSet": 88276992,
+      "Committed": 44302336
+    },
+    {
+      "Time": "2026-11-25T07:08:48.2983102Z",
+      "Heap": 38839504,
+      "WorkingSet": 88317952,
+      "Committed": 44306432
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3036106Z",
+      "Heap": 40633208,
+      "WorkingSet": 90095616,
+      "Committed": 44306432
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3088656Z",
+      "Heap": 42876792,
+      "WorkingSet": 92336128,
+      "Committed": 44306432
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3181832Z",
+      "Heap": 40919432,
+      "WorkingSet": 94588928,
+      "Committed": 50601984
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3234457Z",
+      "Heap": 43624696,
+      "WorkingSet": 94584832,
+      "Committed": 50601984
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3287093Z",
+      "Heap": 46354136,
+      "WorkingSet": 94597120,
+      "Committed": 50601984
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3339051Z",
+      "Heap": 42832104,
+      "WorkingSet": 96292864,
+      "Committed": 52305920
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3391136Z",
+      "Heap": 45438840,
+      "WorkingSet": 96296960,
+      "Committed": 52305920
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3443761Z",
+      "Heap": 48143496,
+      "WorkingSet": 96292864,
+      "Committed": 52305920
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3496654Z",
+      "Heap": 44658216,
+      "WorkingSet": 96690176,
+      "Committed": 52629504
+    },
+    {
+      "Time": "2026-11-25T07:08:48.354883Z",
+      "Heap": 46711984,
+      "WorkingSet": 97013760,
+      "Committed": 52629504
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3600941Z",
+      "Heap": 57222728,
+      "WorkingSet": 97214464,
+      "Committed": 52629504
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3653889Z",
+      "Heap": 37636584,
+      "WorkingSet": 97611776,
+      "Committed": 53350400
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3705886Z",
+      "Heap": 39405152,
+      "WorkingSet": 99397632,
+      "Committed": 53350400
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3808483Z",
+      "Heap": 36996736,
+      "WorkingSet": 99860480,
+      "Committed": 55906304
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3863116Z",
+      "Heap": 39331280,
+      "WorkingSet": 102195200,
+      "Committed": 55906304
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3915791Z",
+      "Heap": 41713704,
+      "WorkingSet": 104583168,
+      "Committed": 55906304
+    },
+    {
+      "Time": "2026-11-25T07:08:48.3997577Z",
+      "Heap": 38821848,
+      "WorkingSet": 107446272,
+      "Committed": 63512576
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4054934Z",
+      "Heap": 41679616,
+      "WorkingSet": 107466752,
+      "Committed": 63512576
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4107208Z",
+      "Heap": 44335064,
+      "WorkingSet": 107495424,
+      "Committed": 63512576
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4159348Z",
+      "Heap": 40726840,
+      "WorkingSet": 109363200,
+      "Committed": 65347584
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4211394Z",
+      "Heap": 43465216,
+      "WorkingSet": 109395968,
+      "Committed": 65347584
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4263816Z",
+      "Heap": 46292288,
+      "WorkingSet": 109412352,
+      "Committed": 65347584
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4333409Z",
+      "Heap": 42551872,
+      "WorkingSet": 110546944,
+      "Committed": 65736704
+    },
+    {
+      "Time": "2026-11-25T07:08:48.438588Z",
+      "Heap": 44931088,
+      "WorkingSet": 110841856,
+      "Committed": 65736704
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4438386Z",
+      "Heap": 47690680,
+      "WorkingSet": 113475584,
+      "Committed": 65736704
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4587026Z",
+      "Heap": 45221760,
+      "WorkingSet": 114774016,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4639952Z",
+      "Heap": 48749360,
+      "WorkingSet": 114786304,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4691964Z",
+      "Heap": 49841512,
+      "WorkingSet": 114978816,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4757465Z",
+      "Heap": 50201808,
+      "WorkingSet": 114995200,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4810006Z",
+      "Heap": 53367776,
+      "WorkingSet": 115646464,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4862322Z",
+      "Heap": 54326256,
+      "WorkingSet": 116047872,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4914444Z",
+      "Heap": 58091232,
+      "WorkingSet": 116817920,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.4967653Z",
+      "Heap": 58867088,
+      "WorkingSet": 117669888,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5019905Z",
+      "Heap": 60110624,
+      "WorkingSet": 119316480,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5115782Z",
+      "Heap": 57056032,
+      "WorkingSet": 120020992,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5169703Z",
+      "Heap": 58289232,
+      "WorkingSet": 120082432,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5221891Z",
+      "Heap": 59669816,
+      "WorkingSet": 120115200,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5274073Z",
+      "Heap": 59819920,
+      "WorkingSet": 120131584,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5326672Z",
+      "Heap": 49922064,
+      "WorkingSet": 120119296,
+      "Committed": 69931008
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5378634Z",
+      "Heap": 48610784,
+      "WorkingSet": 120127488,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5430508Z",
+      "Heap": 51250104,
+      "WorkingSet": 120119296,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5482655Z",
+      "Heap": 49438952,
+      "WorkingSet": 120127488,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5534691Z",
+      "Heap": 51321816,
+      "WorkingSet": 120147968,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5586667Z",
+      "Heap": 51345216,
+      "WorkingSet": 120147968,
+      "Committed": 74125312
+    },
+    {
+      "Time": "2026-11-25T07:08:48.5873066Z",
+      "Heap": 31965648,
+      "WorkingSet": 104079360,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6008595Z",
+      "Heap": 32022128,
+      "WorkingSet": 104218624,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6061221Z",
+      "Heap": 34478816,
+      "WorkingSet": 104251392,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6155783Z",
+      "Heap": 36855880,
+      "WorkingSet": 104263680,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6209Z",
+      "Heap": 39476744,
+      "WorkingSet": 104259584,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6261225Z",
+      "Heap": 43543520,
+      "WorkingSet": 104263680,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6315853Z",
+      "Heap": 44100704,
+      "WorkingSet": 104288256,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6368186Z",
+      "Heap": 44164952,
+      "WorkingSet": 104345600,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6420177Z",
+      "Heap": 45896272,
+      "WorkingSet": 104493056,
+      "Committed": 57921536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6531273Z",
+      "Heap": 43801552,
+      "WorkingSet": 108036096,
+      "Committed": 61505536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6584219Z",
+      "Heap": 47493536,
+      "WorkingSet": 108044288,
+      "Committed": 61505536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6642172Z",
+      "Heap": 43797248,
+      "WorkingSet": 108052480,
+      "Committed": 61505536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.669467Z",
+      "Heap": 47570776,
+      "WorkingSet": 108044288,
+      "Committed": 61505536
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6753014Z",
+      "Heap": 43818120,
+      "WorkingSet": 111026176,
+      "Committed": 64442368
+    },
+    {
+      "Time": "2026-11-25T07:08:48.680585Z",
+      "Heap": 47732112,
+      "WorkingSet": 111022080,
+      "Committed": 64442368
+    },
+    {
+      "Time": "2026-11-25T07:08:48.6857718Z",
+      "Heap": 47219336,
+      "WorkingSet": 111005696,
+      "Committed": 64442368
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7010537Z",
+      "Heap": 32004856,
+      "WorkingSet": 100458496,
+      "Committed": 53886976
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7185059Z",
+      "Heap": 32005592,
+      "WorkingSet": 100548608,
+      "Committed": 49831936
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7321005Z",
+      "Heap": 33286688,
+      "WorkingSet": 97693696,
+      "Committed": 49831936
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7373679Z",
+      "Heap": 35686456,
+      "WorkingSet": 99831808,
+      "Committed": 49831936
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7455657Z",
+      "Heap": 36892272,
+      "WorkingSet": 102621184,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7507848Z",
+      "Heap": 39547560,
+      "WorkingSet": 102617088,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7559811Z",
+      "Heap": 39797920,
+      "WorkingSet": 102621184,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7611861Z",
+      "Heap": 39822552,
+      "WorkingSet": 102612992,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7663713Z",
+      "Heap": 39838912,
+      "WorkingSet": 102670336,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7715458Z",
+      "Heap": 39855360,
+      "WorkingSet": 102830080,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7767243Z",
+      "Heap": 40351984,
+      "WorkingSet": 103170048,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7819108Z",
+      "Heap": 40729128,
+      "WorkingSet": 103559168,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.787353Z",
+      "Heap": 40809528,
+      "WorkingSet": 103702528,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.7925511Z",
+      "Heap": 42961088,
+      "WorkingSet": 103907328,
+      "Committed": 55930880
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8025688Z",
+      "Heap": 41878552,
+      "WorkingSet": 106033152,
+      "Committed": 58220544
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8078542Z",
+      "Heap": 44273096,
+      "WorkingSet": 106348544,
+      "Committed": 58220544
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8130565Z",
+      "Heap": 46383616,
+      "WorkingSet": 108355584,
+      "Committed": 58220544
+    },
+    {
+      "Time": "2026-11-25T07:08:48.831456Z",
+      "Heap": 44122480,
+      "WorkingSet": 116793344,
+      "Committed": 69046272
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8369714Z",
+      "Heap": 46548280,
+      "WorkingSet": 116801536,
+      "Committed": 69046272
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8422011Z",
+      "Heap": 48924000,
+      "WorkingSet": 116797440,
+      "Committed": 69046272
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8489474Z",
+      "Heap": 46554000,
+      "WorkingSet": 116813824,
+      "Committed": 69046272
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8541502Z",
+      "Heap": 48905496,
+      "WorkingSet": 116801536,
+      "Committed": 69046272
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8593889Z",
+      "Heap": 51281376,
+      "WorkingSet": 116809728,
+      "Committed": 69046272
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8662083Z",
+      "Heap": 48764656,
+      "WorkingSet": 116805632,
+      "Committed": 69050368
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8714159Z",
+      "Heap": 51149408,
+      "WorkingSet": 116809728,
+      "Committed": 69050368
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8766308Z",
+      "Heap": 53639776,
+      "WorkingSet": 116805632,
+      "Committed": 69050368
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8906345Z",
+      "Heap": 50974688,
+      "WorkingSet": 123314176,
+      "Committed": 75526144
+    },
+    {
+      "Time": "2026-11-25T07:08:48.8959352Z",
+      "Heap": 53425104,
+      "WorkingSet": 123310080,
+      "Committed": 75526144
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9011299Z",
+      "Heap": 56287136,
+      "WorkingSet": 123301888,
+      "Committed": 75526144
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9076081Z",
+      "Heap": 53651064,
+      "WorkingSet": 123305984,
+      "Committed": 75526144
+    },
+    {
+      "Time": "2026-11-25T07:08:48.912845Z",
+      "Heap": 56076576,
+      "WorkingSet": 123301888,
+      "Committed": 75526144
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9180406Z",
+      "Heap": 56371752,
+      "WorkingSet": 123400192,
+      "Committed": 75526144
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9232308Z",
+      "Heap": 57603736,
+      "WorkingSet": 124338176,
+      "Committed": 75526144
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9317925Z",
+      "Heap": 55857480,
+      "WorkingSet": 124350464,
+      "Committed": 75522048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9370172Z",
+      "Heap": 58332616,
+      "WorkingSet": 124342272,
+      "Committed": 75522048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.942228Z",
+      "Heap": 60017272,
+      "WorkingSet": 124649472,
+      "Committed": 75522048
+    },
+    {
+      "Time": "2026-11-25T07:08:48.947515Z",
+      "Heap": 62095944,
+      "WorkingSet": 124710912,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9627698Z",
+      "Heap": 59994864,
+      "WorkingSet": 126238720,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9680112Z",
+      "Heap": 61943544,
+      "WorkingSet": 126234624,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9732177Z",
+      "Heap": 63891856,
+      "WorkingSet": 126238720,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9784647Z",
+      "Heap": 60419408,
+      "WorkingSet": 126234624,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9837331Z",
+      "Heap": 62343408,
+      "WorkingSet": 126238720,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9890194Z",
+      "Heap": 64139648,
+      "WorkingSet": 128024576,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9942757Z",
+      "Heap": 65908080,
+      "WorkingSet": 129798144,
+      "Committed": 77025280
+    },
+    {
+      "Time": "2026-11-25T07:08:48.9997303Z",
+      "Heap": 62484080,
+      "WorkingSet": 130441216,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0050056Z",
+      "Heap": 64515112,
+      "WorkingSet": 130433024,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0102893Z",
+      "Heap": 66586504,
+      "WorkingSet": 130428928,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0155307Z",
+      "Heap": 68657032,
+      "WorkingSet": 130433024,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.025218Z",
+      "Heap": 64667104,
+      "WorkingSet": 130424832,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.030554Z",
+      "Heap": 66753192,
+      "WorkingSet": 130482176,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0357741Z",
+      "Heap": 68808160,
+      "WorkingSet": 130478080,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.04105Z",
+      "Heap": 70779904,
+      "WorkingSet": 130486272,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0475052Z",
+      "Heap": 67882944,
+      "WorkingSet": 130490368,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.052897Z",
+      "Heap": 69774080,
+      "WorkingSet": 130613248,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0582061Z",
+      "Heap": 71440800,
+      "WorkingSet": 132222976,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.063572Z",
+      "Heap": 73208104,
+      "WorkingSet": 134017024,
+      "Committed": 81219584
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0700007Z",
+      "Heap": 70085696,
+      "WorkingSet": 134967296,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0752755Z",
+      "Heap": 72050856,
+      "WorkingSet": 134963200,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0804896Z",
+      "Heap": 73990744,
+      "WorkingSet": 134959104,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0857366Z",
+      "Heap": 75896800,
+      "WorkingSet": 134963200,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0930074Z",
+      "Heap": 72222944,
+      "WorkingSet": 135049216,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.0984773Z",
+      "Heap": 73353176,
+      "WorkingSet": 136282112,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1036789Z",
+      "Heap": 74516112,
+      "WorkingSet": 137453568,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.108893Z",
+      "Heap": 75644832,
+      "WorkingSet": 138612736,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1141049Z",
+      "Heap": 76707792,
+      "WorkingSet": 139730944,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1193487Z",
+      "Heap": 77614792,
+      "WorkingSet": 140697600,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1245603Z",
+      "Heap": 84110000,
+      "WorkingSet": 140996608,
+      "Committed": 85413888
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1300739Z",
+      "Heap": 72000008,
+      "WorkingSet": 138862592,
+      "Committed": 89038848
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1392123Z",
+      "Heap": 71946224,
+      "WorkingSet": 140169216,
+      "Committed": 90353664
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1444766Z",
+      "Heap": 73754776,
+      "WorkingSet": 140169216,
+      "Committed": 90353664
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1496796Z",
+      "Heap": 75595928,
+      "WorkingSet": 140165120,
+      "Committed": 90353664
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1549618Z",
+      "Heap": 77468984,
+      "WorkingSet": 140169216,
+      "Committed": 90353664
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1609047Z",
+      "Heap": 74152320,
+      "WorkingSet": 141553664,
+      "Committed": 91660288
+    },
+    {
+      "Time": "2026-11-25T07:08:49.166217Z",
+      "Heap": 75985920,
+      "WorkingSet": 141762560,
+      "Committed": 91660288
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1715355Z",
+      "Heap": 77636504,
+      "WorkingSet": 143253504,
+      "Committed": 91660288
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1768114Z",
+      "Heap": 79321920,
+      "WorkingSet": 144936960,
+      "Committed": 91660288
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1936958Z",
+      "Heap": 76337120,
+      "WorkingSet": 148168704,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.1990262Z",
+      "Heap": 78244768,
+      "WorkingSet": 148176896,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2042729Z",
+      "Heap": 80176448,
+      "WorkingSet": 148172800,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2094815Z",
+      "Heap": 82074088,
+      "WorkingSet": 148176896,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2146976Z",
+      "Heap": 78633488,
+      "WorkingSet": 148172800,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2199227Z",
+      "Heap": 80565872,
+      "WorkingSet": 148176896,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2251458Z",
+      "Heap": 82522120,
+      "WorkingSet": 148172800,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2303689Z",
+      "Heap": 84444512,
+      "WorkingSet": 148176896,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2355813Z",
+      "Heap": 81027848,
+      "WorkingSet": 148172800,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2408239Z",
+      "Heap": 82993208,
+      "WorkingSet": 148176896,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2460328Z",
+      "Heap": 84949512,
+      "WorkingSet": 148172800,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2512559Z",
+      "Heap": 86904952,
+      "WorkingSet": 148176896,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2571018Z",
+      "Heap": 82883408,
+      "WorkingSet": 148221952,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2624654Z",
+      "Heap": 84628160,
+      "WorkingSet": 149942272,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2676896Z",
+      "Heap": 85602376,
+      "WorkingSet": 150892544,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2737358Z",
+      "Heap": 85666424,
+      "WorkingSet": 150970368,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2842937Z",
+      "Heap": 86663560,
+      "WorkingSet": 152141824,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2895868Z",
+      "Heap": 87611560,
+      "WorkingSet": 153141248,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.2948544Z",
+      "Heap": 88584152,
+      "WorkingSet": 154193920,
+      "Committed": 97996800
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3066485Z",
+      "Heap": 85080576,
+      "WorkingSet": 155619328,
+      "Committed": 105078784
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3119787Z",
+      "Heap": 86831736,
+      "WorkingSet": 155758592,
+      "Committed": 105078784
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3172079Z",
+      "Heap": 88598936,
+      "WorkingSet": 155799552,
+      "Committed": 105078784
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3224295Z",
+      "Heap": 90118424,
+      "WorkingSet": 155873280,
+      "Committed": 105078784
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3276458Z",
+      "Heap": 91266488,
+      "WorkingSet": 155889664,
+      "Committed": 105078784
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3349763Z",
+      "Heap": 87263288,
+      "WorkingSet": 157204480,
+      "Committed": 106385408
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3402408Z",
+      "Heap": 88866640,
+      "WorkingSet": 157200384,
+      "Committed": 106385408
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3455066Z",
+      "Heap": 90018664,
+      "WorkingSet": 157892608,
+      "Committed": 106385408
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3507784Z",
+      "Heap": 90967104,
+      "WorkingSet": 158818304,
+      "Committed": 106385408
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3560007Z",
+      "Heap": 93978232,
+      "WorkingSet": 159727616,
+      "Committed": 106385408
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3613545Z",
+      "Heap": 94951008,
+      "WorkingSet": 160694272,
+      "Committed": 106385408
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3793003Z",
+      "Heap": 91611600,
+      "WorkingSet": 161398784,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3846223Z",
+      "Heap": 93428576,
+      "WorkingSet": 161406976,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.389888Z",
+      "Heap": 95285272,
+      "WorkingSet": 161402880,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.3951097Z",
+      "Heap": 97067888,
+      "WorkingSet": 161406976,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4009494Z",
+      "Heap": 93817320,
+      "WorkingSet": 161411072,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4062271Z",
+      "Heap": 95617872,
+      "WorkingSet": 161406976,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4114475Z",
+      "Heap": 96687104,
+      "WorkingSet": 162185216,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.416689Z",
+      "Heap": 97627128,
+      "WorkingSet": 163131392,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4219016Z",
+      "Heap": 98575376,
+      "WorkingSet": 164081664,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4271144Z",
+      "Heap": 99523904,
+      "WorkingSet": 165027840,
+      "Committed": 110579712
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4338338Z",
+      "Heap": 96007752,
+      "WorkingSet": 165613568,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4390743Z",
+      "Heap": 97783984,
+      "WorkingSet": 165715968,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4443026Z",
+      "Heap": 99600456,
+      "WorkingSet": 165859328,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4495103Z",
+      "Heap": 101062400,
+      "WorkingSet": 165879808,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4626033Z",
+      "Heap": 98205512,
+      "WorkingSet": 165892096,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4680004Z",
+      "Heap": 100006104,
+      "WorkingSet": 165888000,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4732169Z",
+      "Heap": 101838856,
+      "WorkingSet": 165883904,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4784237Z",
+      "Heap": 103629672,
+      "WorkingSet": 165888000,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4844666Z",
+      "Heap": 100405936,
+      "WorkingSet": 165896192,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4897295Z",
+      "Heap": 102214992,
+      "WorkingSet": 165888000,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.4949712Z",
+      "Heap": 103333264,
+      "WorkingSet": 166723584,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5003644Z",
+      "Heap": 104281752,
+      "WorkingSet": 167677952,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5056345Z",
+      "Heap": 105197088,
+      "WorkingSet": 168591360,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.51086Z",
+      "Heap": 106145536,
+      "WorkingSet": 169541632,
+      "Committed": 114774016
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5178692Z",
+      "Heap": 102601088,
+      "WorkingSet": 170094592,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.523151Z",
+      "Heap": 104459384,
+      "WorkingSet": 170094592,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5283693Z",
+      "Heap": 106226544,
+      "WorkingSet": 170086400,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5335747Z",
+      "Heap": 108058592,
+      "WorkingSet": 170090496,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5418232Z",
+      "Heap": 104749792,
+      "WorkingSet": 170131456,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5471471Z",
+      "Heap": 105716360,
+      "WorkingSet": 171061248,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5524025Z",
+      "Heap": 106616696,
+      "WorkingSet": 172027904,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.557762Z",
+      "Heap": 107532328,
+      "WorkingSet": 172969984,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5631054Z",
+      "Heap": 108496904,
+      "WorkingSet": 174141440,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5684491Z",
+      "Heap": 109428784,
+      "WorkingSet": 175153152,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5737917Z",
+      "Heap": 110426608,
+      "WorkingSet": 176304128,
+      "Committed": 118968320
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5861341Z",
+      "Heap": 106963112,
+      "WorkingSet": 177946624,
+      "Committed": 126377984
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5914747Z",
+      "Heap": 108632464,
+      "WorkingSet": 177954816,
+      "Committed": 126377984
+    },
+    {
+      "Time": "2026-11-25T07:08:49.5967222Z",
+      "Heap": 110554560,
+      "WorkingSet": 177950720,
+      "Committed": 126377984
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6020211Z",
+      "Heap": 112527568,
+      "WorkingSet": 177954816,
+      "Committed": 126377984
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6107811Z",
+      "Heap": 109151144,
+      "WorkingSet": 178991104,
+      "Committed": 127356928
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6160574Z",
+      "Heap": 111124520,
+      "WorkingSet": 178982912,
+      "Committed": 127356928
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6213314Z",
+      "Heap": 111612224,
+      "WorkingSet": 179363840,
+      "Committed": 127356928
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6265685Z",
+      "Heap": 112594040,
+      "WorkingSet": 180350976,
+      "Committed": 127356928
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6318209Z",
+      "Heap": 113600080,
+      "WorkingSet": 181346304,
+      "Committed": 127356928
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6370575Z",
+      "Heap": 114598344,
+      "WorkingSet": 182353920,
+      "Committed": 127356928
+    },
+    {
+      "Time": "2026-11-25T07:08:49.654517Z",
+      "Heap": 111389712,
+      "WorkingSet": 183169024,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6598597Z",
+      "Heap": 113355016,
+      "WorkingSet": 183177216,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6651131Z",
+      "Heap": 115323664,
+      "WorkingSet": 183177216,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6703672Z",
+      "Heap": 117300544,
+      "WorkingSet": 183181312,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6756412Z",
+      "Heap": 113887840,
+      "WorkingSet": 183181312,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6809035Z",
+      "Heap": 115828528,
+      "WorkingSet": 183209984,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6861335Z",
+      "Heap": 117620240,
+      "WorkingSet": 183222272,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6915522Z",
+      "Heap": 119535144,
+      "WorkingSet": 183255040,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.6968104Z",
+      "Heap": 115864080,
+      "WorkingSet": 183246848,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7020998Z",
+      "Heap": 117780104,
+      "WorkingSet": 183255040,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7073549Z",
+      "Heap": 119819072,
+      "WorkingSet": 183250944,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7127876Z",
+      "Heap": 121799912,
+      "WorkingSet": 183255040,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7192657Z",
+      "Heap": 117966744,
+      "WorkingSet": 183287808,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7245765Z",
+      "Heap": 118744848,
+      "WorkingSet": 184045568,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7299475Z",
+      "Heap": 119751976,
+      "WorkingSet": 185057280,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7353092Z",
+      "Heap": 120766616,
+      "WorkingSet": 186064896,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7405248Z",
+      "Heap": 121715008,
+      "WorkingSet": 187002880,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7457667Z",
+      "Heap": 122614816,
+      "WorkingSet": 187908096,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7510045Z",
+      "Heap": 123580200,
+      "WorkingSet": 188874752,
+      "Committed": 131551232
+    },
+    {
+      "Time": "2026-11-25T07:08:49.7626147Z",
+      "Heap": 120159880,
+      "WorkingSet": 190459904,
+      "Committed": 138764288
+    },
+    {
+      "Time": "2026-11-25T07:08:49.8190631Z",
+      "Heap": 113425328,
+      "WorkingSet": 188661760,
+      "Committed": 136957952
+    },
+    {
+      "Time": "2026-11-25T07:08:49.8764265Z",
+      "Heap": 116135176,
+      "WorkingSet": 191070208,
+      "Committed": 136957952
+    },
+    {
+      "Time": "2026-11-25T07:08:49.8817478Z",
+      "Heap": 119233480,
+      "WorkingSet": 193757184,
+      "Committed": 136957952
+    },
+    {
+      "Time": "2026-11-25T07:08:49.8883776Z",
+      "Heap": 116869584,
+      "WorkingSet": 194945024,
+      "Committed": 143253504
+    },
+    {
+      "Time": "2026-11-25T07:08:49.893697Z",
+      "Heap": 121170024,
+      "WorkingSet": 194945024,
+      "Committed": 143253504
+    },
+    {
+      "Time": "2026-11-25T07:08:49.9010964Z",
+      "Heap": 120581312,
+      "WorkingSet": 196235264,
+      "Committed": 144564224
+    },
+    {
+      "Time": "2026-11-25T07:08:49.9064581Z",
+      "Heap": 124289768,
+      "WorkingSet": 196222976,
+      "Committed": 144564224
+    },
+    {
+      "Time": "2026-11-25T07:08:49.9138959Z",
+      "Heap": 122108080,
+      "WorkingSet": 197066752,
+      "Committed": 145346560
+    },
+    {
+      "Time": "2026-11-25T07:08:49.9703296Z",
+      "Heap": 120792800,
+      "WorkingSet": 194703360,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0307016Z",
+      "Heap": 120909136,
+      "WorkingSet": 191549440,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0368573Z",
+      "Heap": 121030856,
+      "WorkingSet": 191668224,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0422191Z",
+      "Heap": 121136144,
+      "WorkingSet": 191782912,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0474829Z",
+      "Heap": 121216888,
+      "WorkingSet": 191864832,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0527247Z",
+      "Heap": 121371264,
+      "WorkingSet": 192024576,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0579611Z",
+      "Heap": 121484656,
+      "WorkingSet": 192135168,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0632249Z",
+      "Heap": 121647224,
+      "WorkingSet": 192299008,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.068477Z",
+      "Heap": 121818104,
+      "WorkingSet": 192471040,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.073751Z",
+      "Heap": 121988760,
+      "WorkingSet": 192651264,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0790596Z",
+      "Heap": 122159544,
+      "WorkingSet": 192823296,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.084338Z",
+      "Heap": 122322000,
+      "WorkingSet": 192983040,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0896317Z",
+      "Heap": 122500592,
+      "WorkingSet": 193159168,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.0948604Z",
+      "Heap": 122671424,
+      "WorkingSet": 193335296,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1002911Z",
+      "Heap": 122850256,
+      "WorkingSet": 193515520,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1055395Z",
+      "Heap": 123029168,
+      "WorkingSet": 193695744,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1107921Z",
+      "Heap": 123199984,
+      "WorkingSet": 193871872,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1162782Z",
+      "Heap": 123387104,
+      "WorkingSet": 194056192,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1215203Z",
+      "Heap": 123557752,
+      "WorkingSet": 194228224,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1272769Z",
+      "Heap": 123744960,
+      "WorkingSet": 194416640,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1325162Z",
+      "Heap": 123923760,
+      "WorkingSet": 194592768,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1377491Z",
+      "Heap": 124102944,
+      "WorkingSet": 194772992,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1430538Z",
+      "Heap": 124281752,
+      "WorkingSet": 194957312,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1483174Z",
+      "Heap": 124460560,
+      "WorkingSet": 195133440,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1536866Z",
+      "Heap": 124639464,
+      "WorkingSet": 195317760,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1589973Z",
+      "Heap": 124802168,
+      "WorkingSet": 195481600,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1643276Z",
+      "Heap": 124972728,
+      "WorkingSet": 195649536,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1696217Z",
+      "Heap": 125151736,
+      "WorkingSet": 195833856,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1749262Z",
+      "Heap": 125322400,
+      "WorkingSet": 196005888,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1802197Z",
+      "Heap": 125493320,
+      "WorkingSet": 196173824,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.185519Z",
+      "Heap": 125664136,
+      "WorkingSet": 196349952,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1908167Z",
+      "Heap": 125834712,
+      "WorkingSet": 196517888,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.1961713Z",
+      "Heap": 126005392,
+      "WorkingSet": 196694016,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2014702Z",
+      "Heap": 126168096,
+      "WorkingSet": 196857856,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2067634Z",
+      "Heap": 126330528,
+      "WorkingSet": 197017600,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2120544Z",
+      "Heap": 126501264,
+      "WorkingSet": 197201920,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.217361Z",
+      "Heap": 126663712,
+      "WorkingSet": 197353472,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2227077Z",
+      "Heap": 126843088,
+      "WorkingSet": 197537792,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2280086Z",
+      "Heap": 127013760,
+      "WorkingSet": 197713920,
+      "Committed": 139800576
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2333193Z",
+      "Heap": 120936648,
+      "WorkingSet": 197894144,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2386169Z",
+      "Heap": 121117536,
+      "WorkingSet": 197910528,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2438979Z",
+      "Heap": 121298392,
+      "WorkingSet": 197951488,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2491983Z",
+      "Heap": 121469976,
+      "WorkingSet": 198041600,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.254488Z",
+      "Heap": 121641416,
+      "WorkingSet": 198053888,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2598091Z",
+      "Heap": 121812840,
+      "WorkingSet": 198062080,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.265093Z",
+      "Heap": 122017160,
+      "WorkingSet": 198324224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.284982Z",
+      "Heap": 122780464,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2904132Z",
+      "Heap": 123009400,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.2956473Z",
+      "Heap": 123213768,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.300893Z",
+      "Heap": 123434368,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3061217Z",
+      "Heap": 123622240,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3114983Z",
+      "Heap": 123834696,
+      "WorkingSet": 198393856,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3167889Z",
+      "Heap": 124047160,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3220555Z",
+      "Heap": 124259640,
+      "WorkingSet": 198393856,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3273432Z",
+      "Heap": 124463944,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3326113Z",
+      "Heap": 124668176,
+      "WorkingSet": 198393856,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3378841Z",
+      "Heap": 124888912,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3431724Z",
+      "Heap": 120951616,
+      "WorkingSet": 198393856,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3484499Z",
+      "Heap": 121165272,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3537082Z",
+      "Heap": 121378880,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3589771Z",
+      "Heap": 121575232,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.364244Z",
+      "Heap": 121787776,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3695067Z",
+      "Heap": 121983864,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3747655Z",
+      "Heap": 122196408,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3800264Z",
+      "Heap": 122400696,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3853436Z",
+      "Heap": 122621256,
+      "WorkingSet": 198397952,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3906068Z",
+      "Heap": 122825616,
+      "WorkingSet": 198418432,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.3958628Z",
+      "Heap": 123079248,
+      "WorkingSet": 198426624,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4011381Z",
+      "Heap": 123456264,
+      "WorkingSet": 198434816,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.406435Z",
+      "Heap": 123825056,
+      "WorkingSet": 198451200,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4117223Z",
+      "Heap": 124169096,
+      "WorkingSet": 198463488,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4170214Z",
+      "Heap": 124578904,
+      "WorkingSet": 198475776,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4222991Z",
+      "Heap": 124947576,
+      "WorkingSet": 198492160,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4275711Z",
+      "Heap": 121131592,
+      "WorkingSet": 198504448,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4328717Z",
+      "Heap": 121509776,
+      "WorkingSet": 198516736,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4381809Z",
+      "Heap": 121912528,
+      "WorkingSet": 198529024,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4434703Z",
+      "Heap": 122339144,
+      "WorkingSet": 198533120,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4487296Z",
+      "Heap": 122757264,
+      "WorkingSet": 198537216,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4539904Z",
+      "Heap": 123183544,
+      "WorkingSet": 198533120,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.459245Z",
+      "Heap": 123585200,
+      "WorkingSet": 198537216,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4645093Z",
+      "Heap": 124019568,
+      "WorkingSet": 198537216,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4697639Z",
+      "Heap": 124445912,
+      "WorkingSet": 198537216,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4750234Z",
+      "Heap": 124864032,
+      "WorkingSet": 198537216,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4803062Z",
+      "Heap": 121080376,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4855766Z",
+      "Heap": 121516200,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4908362Z",
+      "Heap": 121952000,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.4960946Z",
+      "Heap": 122378544,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5013739Z",
+      "Heap": 122804752,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5066302Z",
+      "Heap": 123198032,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5118863Z",
+      "Heap": 123591552,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5171695Z",
+      "Heap": 123993096,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5224326Z",
+      "Heap": 124402936,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5276937Z",
+      "Heap": 124821112,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5329492Z",
+      "Heap": 121053920,
+      "WorkingSet": 198553600,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5382204Z",
+      "Heap": 121506184,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5434821Z",
+      "Heap": 121933768,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5487458Z",
+      "Heap": 122351920,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5540103Z",
+      "Heap": 122646592,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5593635Z",
+      "Heap": 123064696,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5646131Z",
+      "Heap": 123482680,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5699051Z",
+      "Heap": 123917152,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.575175Z",
+      "Heap": 124335224,
+      "WorkingSet": 198545408,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5804388Z",
+      "Heap": 124646480,
+      "WorkingSet": 198549504,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5856603Z",
+      "Heap": 120871928,
+      "WorkingSet": 198557696,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5909376Z",
+      "Heap": 121241896,
+      "WorkingSet": 198565888,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.5962064Z",
+      "Heap": 121636392,
+      "WorkingSet": 198557696,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6014483Z",
+      "Heap": 122013632,
+      "WorkingSet": 198561792,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6066762Z",
+      "Heap": 122415320,
+      "WorkingSet": 198557696,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6119583Z",
+      "Heap": 122808696,
+      "WorkingSet": 198565888,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6172882Z",
+      "Heap": 123201912,
+      "WorkingSet": 198561792,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6225523Z",
+      "Heap": 123513184,
+      "WorkingSet": 198561792,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6277651Z",
+      "Heap": 123931088,
+      "WorkingSet": 198561792,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6329637Z",
+      "Heap": 124332776,
+      "WorkingSet": 198561792,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6382131Z",
+      "Heap": 124717928,
+      "WorkingSet": 198561792,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6435063Z",
+      "Heap": 120886280,
+      "WorkingSet": 198569984,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6488421Z",
+      "Heap": 121330192,
+      "WorkingSet": 198578176,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6541294Z",
+      "Heap": 121749400,
+      "WorkingSet": 198582272,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6594185Z",
+      "Heap": 122110160,
+      "WorkingSet": 198594560,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6646338Z",
+      "Heap": 122511824,
+      "WorkingSet": 198602752,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6698384Z",
+      "Heap": 122929896,
+      "WorkingSet": 198631424,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6750356Z",
+      "Heap": 123323344,
+      "WorkingSet": 198778880,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.680226Z",
+      "Heap": 123741456,
+      "WorkingSet": 198787072,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6854101Z",
+      "Heap": 124142256,
+      "WorkingSet": 198795264,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6906152Z",
+      "Heap": 124637560,
+      "WorkingSet": 198807552,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.6958472Z",
+      "Heap": 120891088,
+      "WorkingSet": 198828032,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7010864Z",
+      "Heap": 121318528,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7063666Z",
+      "Heap": 121745352,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7115956Z",
+      "Heap": 122089184,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7168541Z",
+      "Heap": 122482136,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7220774Z",
+      "Heap": 122776376,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7273981Z",
+      "Heap": 123169312,
+      "WorkingSet": 198840320,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7326229Z",
+      "Heap": 123537376,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7378535Z",
+      "Heap": 123930224,
+      "WorkingSet": 198832128,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7430783Z",
+      "Heap": 124298504,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.7483365Z",
+      "Heap": 124732008,
+      "WorkingSet": 198836224,
+      "Committed": 146096128
+    },
+    {
+      "Time": "2026-11-25T07:08:50.809311Z",
+      "Heap": 120865176,
+      "WorkingSet": 198168576,
+      "Committed": 145424384
+    },
+    {
+      "Time": "2026-11-25T07:08:50.874776Z",
+      "Heap": 120902240,
+      "WorkingSet": 198254592,
+      "Committed": 145424384
+    },
+    {
+      "Time": "2026-11-25T07:08:50.9372085Z",
+      "Heap": 120862464,
+      "WorkingSet": 196370432,
+      "Committed": 143597568
+    },
+    {
+      "Time": "2026-11-25T07:08:51.0007186Z",
+      "Heap": 120902848,
+      "WorkingSet": 196493312,
+      "Committed": 143597568
+    },
+    {
+      "Time": "2026-11-25T07:08:51.0647796Z",
+      "Heap": 120867456,
+      "WorkingSet": 196513792,
+      "Committed": 143667200
+    },
+    {
+      "Time": "2026-11-25T07:08:51.128915Z",
+      "Heap": 122575392,
+      "WorkingSet": 198131712,
+      "Committed": 143667200
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1342293Z",
+      "Heap": 125245880,
+      "WorkingSet": 200019968,
+      "Committed": 143667200
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1424303Z",
+      "Heap": 125761280,
+      "WorkingSet": 204685312,
+      "Committed": 151797760
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1476915Z",
+      "Heap": 128291432,
+      "WorkingSet": 204681216,
+      "Committed": 151797760
+    },
+    {
+      "Time": "2026-11-25T07:08:51.15295Z",
+      "Heap": 132243112,
+      "WorkingSet": 204689408,
+      "Committed": 151797760
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1581995Z",
+      "Heap": 134067168,
+      "WorkingSet": 204886016,
+      "Committed": 151797760
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1668075Z",
+      "Heap": 134235576,
+      "WorkingSet": 206868480,
+      "Committed": 154087424
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1720921Z",
+      "Heap": 138726576,
+      "WorkingSet": 210628608,
+      "Committed": 154087424
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1922118Z",
+      "Heap": 136863768,
+      "WorkingSet": 213647360,
+      "Committed": 161124352
+    },
+    {
+      "Time": "2026-11-25T07:08:51.1975947Z",
+      "Heap": 141749448,
+      "WorkingSet": 213954560,
+      "Committed": 161124352
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2027962Z",
+      "Heap": 143119848,
+      "WorkingSet": 215076864,
+      "Committed": 161124352
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2088692Z",
+      "Heap": 140536664,
+      "WorkingSet": 215228416,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2140567Z",
+      "Heap": 144294632,
+      "WorkingSet": 215461888,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2192947Z",
+      "Heap": 145366296,
+      "WorkingSet": 215576576,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2244751Z",
+      "Heap": 145969640,
+      "WorkingSet": 215662592,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2296913Z",
+      "Heap": 146265368,
+      "WorkingSet": 215851008,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2348745Z",
+      "Heap": 147196288,
+      "WorkingSet": 216387584,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2400822Z",
+      "Heap": 147449440,
+      "WorkingSet": 216547328,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.245339Z",
+      "Heap": 149087904,
+      "WorkingSet": 217509888,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2505575Z",
+      "Heap": 149308160,
+      "WorkingSet": 217681920,
+      "Committed": 163233792
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2572926Z",
+      "Heap": 144394056,
+      "WorkingSet": 217976832,
+      "Committed": 165752832
+    },
+    {
+      "Time": "2026-11-25T07:08:51.2625717Z",
+      "Heap": 144558360,
+      "WorkingSet": 218050560,
+      "Committed": 165752832
+    },
+    {
+      "Time": "2026-11-25T07:08:51.3290558Z",
+      "Heap": 120916896,
+      "WorkingSet": 213389312,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.3928639Z",
+      "Heap": 120957976,
+      "WorkingSet": 209649664,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.3981066Z",
+      "Heap": 120974424,
+      "WorkingSet": 209657856,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4033507Z",
+      "Heap": 120982648,
+      "WorkingSet": 209657856,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4086023Z",
+      "Heap": 121039680,
+      "WorkingSet": 209711104,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4138366Z",
+      "Heap": 121277992,
+      "WorkingSet": 209719296,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4190413Z",
+      "Heap": 121925856,
+      "WorkingSet": 209715200,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4242658Z",
+      "Heap": 122823856,
+      "WorkingSet": 209719296,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4294768Z",
+      "Heap": 122994616,
+      "WorkingSet": 209715200,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4347489Z",
+      "Heap": 123157296,
+      "WorkingSet": 209719296,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4399525Z",
+      "Heap": 124778920,
+      "WorkingSet": 209719296,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4456986Z",
+      "Heap": 124925456,
+      "WorkingSet": 209719296,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.450903Z",
+      "Heap": 125079920,
+      "WorkingSet": 209719296,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4561018Z",
+      "Heap": 125447456,
+      "WorkingSet": 209719296,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4614025Z",
+      "Heap": 126135824,
+      "WorkingSet": 209805312,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4666667Z",
+      "Heap": 127049840,
+      "WorkingSet": 209989632,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4718593Z",
+      "Heap": 127228464,
+      "WorkingSet": 210178048,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4770672Z",
+      "Heap": 128915496,
+      "WorkingSet": 210362368,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4823156Z",
+      "Heap": 129085560,
+      "WorkingSet": 210526208,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4875165Z",
+      "Heap": 129256200,
+      "WorkingSet": 210698240,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4927148Z",
+      "Heap": 129360784,
+      "WorkingSet": 210804736,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.4979091Z",
+      "Heap": 129375720,
+      "WorkingSet": 210841600,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.5030994Z",
+      "Heap": 129391912,
+      "WorkingSet": 210853888,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.5083415Z",
+      "Heap": 129408360,
+      "WorkingSet": 210878464,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.5135338Z",
+      "Heap": 129432960,
+      "WorkingSet": 210903040,
+      "Committed": 156655616
+    },
+    {
+      "Time": "2026-11-25T07:08:51.5731167Z",
+      "Heap": 120916880,
+      "WorkingSet": 207122432,
+      "Committed": 152096768
+    },
+    {
+      "Time": "2026-11-25T07:08:51.692886Z",
+      "Heap": 120917768,
+      "WorkingSet": 205254656,
+      "Committed": 152236032
+    },
+    {
+      "Time": "2026-11-25T07:08:51.7806212Z",
+      "Heap": 28136192,
+      "WorkingSet": 178319360,
+      "Committed": 125132800
+    }
+  ],
+  "SemanticSummary": {
+    "DocumentSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+    "RecordCount": 58568,
+    "ReadStatus": "Succeeded",
+    "RootId": "#24035",
+    "RepresentationId": "#19943",
+    "MainRepresentationId": "#19943",
+    "ContextId": "#16376",
+    "Binding": "Observed",
+    "Compatibility": "Observed",
+    "GuardCalled": true,
+    "Status": "TargetBoundOnly",
+    "Reasons": []
+  },
+  "SemanticSha256": "97D97F0F073B7E622D48D6D4EEE40DFFD566D97D6C6CA61EADB7642D042F9FBC",
+  "Caveats": [
+    "CLR allocation ticks are sampled. Interval bytes weighted by triggering type are estimates, NOT exact per-type allocation/live sizes.",
+    "Observer allocations/sampling overhead included; no latency or budget acceptance from these runs.",
+    "Diagnostic copy checkpoints force GC and root Check explicitly; these are controlled reachable-heap observations, NOT natural production peaks or exclusive object graph sizes.",
+    "5ms working-set/heap samples can miss peaks. GC committed bytes, live managed heap and resident process memory are different metrics.",
+    "Types/counts/IDs/hashes only. No raw CAD, private values, object addresses or heap dumps emitted.",
+    "Diagnostic copy output is never accepted as product evidence or given to a consumer. Canonical/diagnostic projected semantics compared separately."
+  ]
+}

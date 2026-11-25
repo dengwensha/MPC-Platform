@@ -1,0 +1,88 @@
+{
+  "Date": "2026-11-25 Europe/Istanbul",
+  "StartAndCanonicalProductionCommit": "9b5f0334001e9d0558e95865bb9001b9ba12cb49",
+  "Class": "VERIFY profiling only; no production/test change",
+  "Platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "SDK": "8.0.422",
+  "ProductionSourceNormalizedSha256": {
+    "src/MPC.Application/Inventory/InventoryEvidence.cs": "7D960E2238128FDE43B8E642282D36920A6FD58E0FAC39EE28F8E49E9BCBA94F",
+    "src/MPC.Application/Inventory/TargetProducer.cs": "CB3F7DB6A9B225286848C88779B54BE56B53D3CA3C83656F83CB8ED3FFAEDAA4",
+    "src/MPC.Application/Inventory/TargetBinding.cs": "2A44B81A7B73308DD2BADB8822600B323C96790242EE1771E62C0854ADD0C590",
+    "src/MPC.Application/Inventory/TargetObservation.cs": "81C618243BD4D362230B2B950175D85D1AC484E9CCDD03A397D4414F91C31A5B",
+    "src/MPC.Application/Inventory/HeaderUnitObservation.cs": "D062130ED86A69D3B0C26F3246CFF6EC3B4F72B891C9D4235F9FBD41C7041633",
+    "src/MPC.Application/Inventory/EnvelopeObservation.cs": "1CAD8B6B3C980D63B89612B21B445DBFEEFB113256F11A9D358F5DF78A35E4D6",
+    "src/MPC.Application/Step/ImportUnitPrecheck.cs": "64A488249CDE753A1B06E3DF5B7259AECAC296FBEB66194B3A952F8F9DEE7E6B",
+    "src/MPC.Connectors.Step/Readers/StepDataEntityReader.cs": "547008BCB29C5F7AB60262B4EC09341675AA1E5B9997935D772F466C20BAD537",
+    "src/MPC.Connectors.Step/Parsing/StepParameterParser.cs": "69AA2488ECBAF60C869F83EE8DE3797B3DFA04ACBC26CB0E216CBAB27CD4AF97"
+  },
+  "ToolSourceNormalizedSha256": {
+    "tools/ci/B6HeapProbe/B6HeapProbe.csproj": "DA2D65915C599EAD09A16AEBBB6C8DD1F3A2A83E26B6B552C53EF1D3151518AD",
+    "tools/ci/B6HeapProbe/Program.cs": "4FBA04E1521D777EDF06864A07DFDDD266FC388C3A86FFD0132C43FAF64B1AAC",
+    "tools/ci/B6HeapProbe/build_diagnostic_copy.py": "2ED8F1F7D3241FD786C8B30204B4266461E959661A2DF090C45257044FCC0045",
+    "tools/ci/B6HeapProbe/run_profile.py": "ABFB04362CEBC2B1C2227F0A9B94456DFB1883850AA5C360B9DBB8A83F6433E2"
+  },
+  "BuildProvenance": "Canonical and profiler built before delivery commit while HEAD was9b5f033; profiler identified by source hashes, no later commit claimed embedded. Diagnostic archive has no.git; normalized transform/hash chain in DiagnosticOverlay.json identifies source.",
+  "CanonicalAssemblySha256": "249490E3A0C8FE5B526568947D5DB0E55C76DF31C86348D04D51E6A685AE2587",
+  "DiagnosticAssemblySha256": "E85FBBA1DB2EC87EC144977D50297B026669C5D6E557C14F4500CD0B19B2FB4A",
+  "ProfilerAssemblySha256": "521648E20BD61EDC2BE3E7CBC9517E91B1C0062DC94178BBCB919A9008995095",
+  "BuildCommands": [
+    "python tools/ci/B6HeapProbe/build_diagnostic_copy.py <approved9b5-repository> <fresh external copy>",
+    "dotnet build <canonical or diagnostic>/src/MPC.Application/MPC.Application.csproj -c Release --warnaserror -m:1 -p:NuGetAudit=false",
+    "dotnet build tools/ci/B6HeapProbe/B6HeapProbe.csproj -c Release --warnaserror -m:1 -p:NuGetAudit=false",
+    "copy diagnostic B6DiagnosticOverlay.json to diagnostic Application bin"
+  ],
+  "RunCommands": [
+    "dotnet B6HeapProbe.dll self-test",
+    "python tools/ci/B6HeapProbe/run_profile.py --canonical <canonical Application bin> --diagnostic <marked diagnostic Application bin> --inputs <four same-hash inputs> --manifest <prior20 manifest> --output <empty output> --trials2"
+  ],
+  "Checks": {
+    "RuntimeByteArrayAllocationObserverSelfTest": "PASS65 events",
+    "NormalFreshProcesses": 24,
+    "ProjectedSemanticsRepeatedAndEqual": true,
+    "ReleasedObjectsCollected": true,
+    "ParserRejectionMustNotEmitSuccessJSON": [
+      "canonical",
+      "inventory",
+      "diagnostic"
+    ],
+    "MarkedModeMismatchRejected": true,
+    "Expected11CheckpointSequenceVerified": true,
+    "NoSampleIsNullNotZeroVerified": true,
+    "FinalGeneratorReproducesMeasuredOverlayExactly": true,
+    "InputHashesVerifiedInsideActualCaptureAndInventoryPrivateByteRead": true
+  },
+  "Limits": [
+    "Runtime sampled type weights are not exact per-type allocations or live sizes",
+    "Forced-GC/rooted-copy checkpoints perturb production liveness; not actual Worker peak or latency acceptance",
+    "Observer allocations and post-call projection included; return segment is not a pure production stage",
+    "Only four selectedLinux files; private Windows/16GB machine and budget not accepted"
+  ],
+  "SnapshotSha256": {
+    "DiagnosticOverlay.json": "4CFF602B303A3728D39F164BE9C74CB5707726A01E1A301F9F081FCE86308335",
+    "Summary.json": "8D2164CA6E2550391D7C9D0B3A57817C3BB51B417F6034FFCD516CD326FA6098",
+    "trial-1/canonical/CORE BAS.STEP.json": "FF3F32E74A5C591DA888DC410C1AFAD7E97E9BF87AF7E079FD095E6674FFAFF6",
+    "trial-1/canonical/CORE STEEL.STEP.json": "8E21A0B774B5CC0AC10B7BC7E09EBD0E19D51E372AAC3F684FAB959D91166D55",
+    "trial-1/canonical/P01-R03-CurvedSurfaces.STEP.json": "FBB776A859C370D2DB6255726D64ACA02CE537DE9EA817278CEF9B90653EA56D",
+    "trial-1/canonical/T001_PRISM.step.json": "C47930FDE5832A45A9B9AF8E00D5BF13C5A64A45A9A8A1BB1E262A0D3DF9D1BE",
+    "trial-1/diagnostic/CORE BAS.STEP.json": "68541D53DA9F6DE8BC65489708E848DE62B4682AEFAFF27CC76AC1D37B6D8FE0",
+    "trial-1/diagnostic/CORE STEEL.STEP.json": "90F5900EA26855E46C967568FA178FB46BB1B4063DEB32FD4BFA699267351CE3",
+    "trial-1/diagnostic/P01-R03-CurvedSurfaces.STEP.json": "3ED5F53C7DB893122E706100D629906415635E92F98E4E103ACD0933511EB649",
+    "trial-1/diagnostic/T001_PRISM.step.json": "411DB87610BF639A99DF79445C7585A970C5A7F73E05C65121162F3996D178C4",
+    "trial-1/inventory/CORE BAS.STEP.json": "83CE2DD7EFD904DBF41CD3B324957F14EEDFAD47EBE828D3F70D10070B8AF6CB",
+    "trial-1/inventory/CORE STEEL.STEP.json": "F0CC8DEACBD2601DF600ED213C83E6080B9FF0E23D960D3606C84174982B7146",
+    "trial-1/inventory/P01-R03-CurvedSurfaces.STEP.json": "EB4BA13266839965FC221E364CC9B35F4F2D8ED9A2B3A1E5A658DCEF8F441146",
+    "trial-1/inventory/T001_PRISM.step.json": "62B514D534A036255681B37AF1F35197ABEB4CD3FFAF8E506DE76178D4C4EB00",
+    "trial-2/canonical/CORE BAS.STEP.json": "B0EE7DAF4BDCA03D5A84CCF9556619DEC142E41048AA0BB6C550FF987437AA37",
+    "trial-2/canonical/CORE STEEL.STEP.json": "0DA2889E382DA0BA48755B836A3D0AC69CD4159D7DDBDCA95E790C0883431108",
+    "trial-2/canonical/P01-R03-CurvedSurfaces.STEP.json": "BDF1240E7819F97227B6162F8FD67AE36CDE2B675FDDD54E7093D58D64A72085",
+    "trial-2/canonical/T001_PRISM.step.json": "3F846D05B277B3ABFC131C4F34ABF12DB5325D1ED3540B7FDE4AD3643A74B4D1",
+    "trial-2/diagnostic/CORE BAS.STEP.json": "7F3C6C736CA21182EBC21586B41287B148C2E049D8B8751F95FDF5D2F8966667",
+    "trial-2/diagnostic/CORE STEEL.STEP.json": "FF9785D24893453DEB2C29676233C829D19933AC5EDF79014AB0C6D02B923004",
+    "trial-2/diagnostic/P01-R03-CurvedSurfaces.STEP.json": "7E287F2940C6DCCAFE1783AD53DFB72D02EEA0EAA960FF72972C9122832F5FC4",
+    "trial-2/diagnostic/T001_PRISM.step.json": "B5F95EFC09F7655587E93C7DC6BF1CE32D3298C98BFEE5AC1F24D5DEB633586A",
+    "trial-2/inventory/CORE BAS.STEP.json": "7959ED5D68E510E0355B7C744C30ACF8305C8421C9FAB057C157F8D29920A4FA",
+    "trial-2/inventory/CORE STEEL.STEP.json": "38DE82898E5387B28FE1DD56DCF8DFA5F129A39C12E9254B778A8005F89B2763",
+    "trial-2/inventory/P01-R03-CurvedSurfaces.STEP.json": "C670E5502BD0E2DEDDFCFD0FD9722CA8211B5DE46823911F11583153024F6F54",
+    "trial-2/inventory/T001_PRISM.step.json": "8136F4509B7A4795C7678491198BB5587F5BF8030475712D79EFBBE15542FBA6"
+  }
+}
