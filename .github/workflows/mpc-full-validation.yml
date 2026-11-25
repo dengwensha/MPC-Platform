@@ -204,6 +204,18 @@ jobs:
           python tools/ci/B6HeapProbe/run_profile.py --dotnet dotnet --probe $probe --canonical src/MPC.Application/bin/Release/net8.0 --diagnostic $diag --inputs $inputs --manifest (Join-Path $root "evidence/B6-public-Windows/Summary.json") --output $output --trials 2
           if ($LASTEXITCODE -ne 0) { throw "Heap profile identity/semantics/lifecycle failed." }
           Copy-Item (Join-Path $copy "B6DiagnosticOverlay.json") $output
+      - name: Checkout immediate baseline for throwaway A experiment
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 7aebe6d2de57916d76ea2d55aa88937120f5c6e0
+          path: .a-baseline
+          persist-credentials: false
+      - name: A paired experiment (public Windows subset; not full private20 acceptance)
+        run: |
+          dotnet build .a-baseline/src/MPC.Application/MPC.Application.csproj -c Release --warnaserror -m:1
+          if ($LASTEXITCODE -ne 0) { throw "A immediate baseline build failed." }
+          $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
+          ./tools/ci/B6CaptureProbe/Invoke-AExperiment.ps1 -BaselineApp (Resolve-Path '.a-baseline/src/MPC.Application/bin/Release/net8.0').Path -CurrentApp (Resolve-Path 'src/MPC.Application/bin/Release/net8.0').Path -Inputs (Join-Path $root 'ru-public-inputs') -Output (Join-Path $root 'evidence/A-public-Windows') -PublicSubset
       - name: Preserve validation evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

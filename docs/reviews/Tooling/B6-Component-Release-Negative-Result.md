@@ -3,17 +3,24 @@
 Date: 2026-11-25 Europe/Istanbul. Owner: Mehmet İlkay Kınacı. Senior: SR02 §43.
 Start/main: f204c031236c0e4ce596954874f912718346f7c2 (#145, main CI311 green).
 Measured B trial: 159b50c0243a03840147fa26517a688da4c1056a (historical PR146 commit).
-Disposition: REJECT B under the locked cost gate. Final src/ is identical to start;
+Disposition: REJECT B because natural process peak did not meaningfully fall (Senior §44). Final src/ is identical to start;
 no parameter-release optimization ships. Five contract-negative tests remain.
 
 ## Locked gate and measured candidate
 
-§43 requires component-name retention/all keys, downstream negatives, exact20+13
-semantics, meaningful pre-A1 heap reduction AND no actual-capture latency/allocation/
-peak regression. No threshold is relaxed here. Historical candidate retained an
+§43 required component-name retention/all keys, downstream negatives, exact20+13
+semantics and a complete real-capture cost check. §44 corrects the interpretation:
+the decisive rejection is unchanged natural process peak, not small startup allocation.
+The original zero-tolerance reading was withdrawn by the reviewer. Historical candidate retained an
 explicit later-read component list irrespective of role, used bounded immutable
 empty contract-name payloads, and preserved original inventory, references, reasons,
 A1 and C1. It did not retain input data across captures.
+
+## §44 correction precedence
+
+The historical archive/Validation.json preserves the original §43 zero-tolerance
+interpretation for traceability; its allocation-based disposition is superseded by
+this §44 correction. Numeric observations and hashes are unchanged.
 
 ## Final evidence
 
@@ -38,9 +45,12 @@ Actual-capture experiment:120 fresh processes,480 measured calls +240 warmups,
 paired first-capture observations (20files×2trials), trial allocation INCREASES by
 39,632–63,704 bytes (38.70–62.21KiB). The new contract-name placeholder initialization
 adds startup work; do not infer it is the sole cause of every byte. Allocation is
-reported separately for first/warm calls. A meaningful phase-heap gain therefore
-does not satisfy the complete gate. Latency varies and is not treated as a timing
-budget verdict. B is removed rather than accepting the allocation increase.
+reported separately for first/warm calls. The allocation increase is one-time placeholder initialization (about0.004% of
+R03 capture allocation), reported for information, NOT the deciding rejection.
+The real process peak stays essentially unchanged despite the43% controlled-heap
+gain, consistent with the existing peak occurring during row construction.
+Latency differences are smaller than observed noise and are not called a regression.
+B is removed because it does not reduce that natural peak.
 
 ## Reproducibility and limits
 
