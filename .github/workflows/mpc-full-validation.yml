@@ -176,17 +176,13 @@ jobs:
       - name: Reconcile current R03 diagnostics
         if: always() && (steps.corpus.outcome == 'success' || steps.corpus.outcome == 'failure')
         run: python tools/ci/reconcile_r03.py
-      - name: Checkout approved source for diagnostic-only heap copy
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          ref: 9b5f0334001e9d0558e95865bb9001b9ba12cb49
-          path: .b6-heap-source
-          persist-credentials: false
       - name: B6 CLR allocation and controlled live-heap profile (not budget acceptance)
         run: |
           $root = Join-Path $env:RUNNER_TEMP "mpc-full-validation"
           $copy = Join-Path $env:RUNNER_TEMP "b6-diagnostic-copy"
-          python tools/ci/B6HeapProbe/build_diagnostic_copy.py .b6-heap-source $copy
+          python tools/ci/B6HeapProbe/test_diagnostic_copy.py .
+          if ($LASTEXITCODE -ne 0) { throw "Diagnostic source guard controls failed." }
+          python tools/ci/B6HeapProbe/build_diagnostic_copy.py . $copy
           if ($LASTEXITCODE -ne 0) { throw "Diagnostic-only source copy failed." }
           dotnet build (Join-Path $copy "src/MPC.Application/MPC.Application.csproj") -c Release --warnaserror -m:1
           if ($LASTEXITCODE -ne 0) { throw "Diagnostic-only build failed." }
