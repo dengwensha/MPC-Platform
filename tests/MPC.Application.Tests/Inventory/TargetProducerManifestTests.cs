@@ -6,7 +6,7 @@ public sealed class TargetProducerManifestTests
 {
     [Theory]
     [InlineData("TargetObservation.cs","81C618243BD4D362230B2B950175D85D1AC484E9CCDD03A397D4414F91C31A5B")]
-    [InlineData("TargetProducer.cs","CB3F7DB6A9B225286848C88779B54BE56B53D3CA3C83656F83CB8ED3FFAEDAA4")]
+    [InlineData("TargetProducer.cs","CE2451F5BC6BC1B183D4651A89128919A47D6E5DCB7F53DC332D30FE63280F68")]
     [InlineData("TargetBinding.cs","2A44B81A7B73308DD2BADB8822600B323C96790242EE1771E62C0854ADD0C590")]
     public void CompleteTargetSourcesRequireReview(string name,string expected)
     {

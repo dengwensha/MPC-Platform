@@ -118,6 +118,7 @@ internal static partial class TargetProducer
                 if (!known && parts.Keys.Any(k => k is "BREP_WITH_VOIDS" or "FACETED_BREP" or "MAPPED_ITEM"
                     or "REPRESENTATION_MAP" or "SHELL_BASED_SURFACE_MODEL" or "FACE_BASED_SURFACE_MODEL"
                     or "GEOMETRIC_CURVE_SET" or "GEOMETRIC_SET")) Invalid(id, "UnsupportedScope");
+                CompactParameters(parts);
             }
             // Include incomplete/unknown records in the reverse index as negative path evidence.
             foreach (var record in _inventory.Entities)
@@ -131,9 +132,7 @@ internal static partial class TargetProducer
                 foreach (string target in References(id).Distinct(StringComparer.Ordinal))
                     if (!Identity(target) || !_rows.ContainsKey(target)) Invalid(id, "ReferenceUnresolved", related: [target]);
                 if (row.Role is "Unclassified" or "UnsupportedPath" or "UnsupportedGeometry") continue;
-                foreach (var field in Fields[row.Signature])
-                    Validate(id, field.Component, [field.Index], row.Parts[field.Component].Parameters[field.Index], field.Profile);
-                Splines(id, row);
+                ValidateTransientRow(id, row);
             }
             foreach (var (id, row) in _rows.Where(p => p.Value.Role == "Context")) Context(id);
             Bind();
@@ -141,6 +140,47 @@ internal static partial class TargetProducer
             var binding = _reasons.Any(r => r.Layer == "Binding") ? TargetLayerStatus.Blocked
                 : _root is null || _geometry is null ? TargetLayerStatus.Unavailable : TargetLayerStatus.Observed;
             return new(_root, _geometry, _main, _context, _inventory.TotalEntityCount, _guardCalled, binding, _compatibility, _reasons);
+        }
+
+        // EXPERIMENT ONLY, Senior §44. Pass one keeps every name and the complete
+        // signature/reference index, but only later-read component payloads. This
+        // list is component-based even for unclassified/partial incoming sources.
+        private static bool RetainParameters(string component) => component is
+            "GLOBAL_UNIT_ASSIGNED_CONTEXT" or "GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT" or
+            "SI_UNIT" or "UNCERTAINTY_MEASURE_WITH_UNIT" or
+            "SHAPE_REPRESENTATION" or "ADVANCED_BREP_SHAPE_REPRESENTATION" or
+            "SHAPE_REPRESENTATION_RELATIONSHIP" or "SHAPE_DEFINITION_REPRESENTATION" or
+            "PRODUCT_DEFINITION_SHAPE" or "PRODUCT_DEFINITION" or
+            "AXIS2_PLACEMENT_3D" or "STYLED_ITEM" or "PRESENTATION_LAYER_ASSIGNMENT" or
+            "MECHANICAL_DESIGN_GEOMETRIC_PRESENTATION_REPRESENTATION";
+
+        // Contract-name-only immutable placeholders; no file/session data cached.
+        private static readonly IReadOnlyDictionary<string, StepTypedParameter> EmptyPayloads = Rules.Keys
+            .SelectMany(s => s.Split('|')).Select(s => s[..s.IndexOf(':')]).Distinct(StringComparer.Ordinal)
+            .ToDictionary(s => s, s => new StepTypedParameter(s + "()", s, []), StringComparer.Ordinal);
+
+        private static void CompactParameters(Dictionary<string, StepTypedParameter> parts)
+        {
+            foreach (var (component, value) in parts)
+                if (!RetainParameters(component) && value.Parameters.Count != 0)
+                    parts[component] = EmptyPayloads.TryGetValue(component, out var empty) ? empty
+                        : new StepTypedParameter(component + "()", component, []);
+        }
+
+        private void ValidateTransientRow(string id, Row compact)
+        {
+            // Same immutable RawStatement; no file reread. All forward signatures
+            // exist before validation. Install just this row for existing P()/spline
+            // reads, then restore even on failure. No transient tree escapes Check.
+            var active = compact with { Parts = StepEvidenceSyntax.Components(compact.Record.RawStatement) };
+            _rows[id] = active;
+            try
+            {
+                foreach (var field in Fields[active.Signature])
+                    Validate(id, field.Component, [field.Index], active.Parts[field.Component].Parameters[field.Index], field.Profile);
+                Splines(id, active);
+            }
+            finally { _rows[id] = compact; }
         }
 
         // Executes every named profile and every nested member, accumulating paths.

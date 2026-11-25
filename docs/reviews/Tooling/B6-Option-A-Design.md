@@ -1,9 +1,9 @@
 # B6 option A — bounded design after rejected B trial
 
-Date: 2026-11-25 Europe/Istanbul. DESIGN ONLY; no implementation authority or
-resource-budget acceptance inferred. Senior SR02 §43 requires rejection of B if
-its complete cost acceptance is not met. B has a meaningful pre-A1 heap gain but
-adds first-capture allocation; do not silently relax that condition.
+Date: 2026-11-25 Europe/Istanbul. DESIGN; §44 authorizes a throwaway experiment only. No production implementation
+or resource-budget acceptance inferred. Senior SR02 §43 requires rejection of B if
+its complete cost acceptance is not met. §44 accepts B's rejection because natural process peak did not improve; the small
+one-time allocation is informational, not the deciding rejection.
 
 ## Proposed smallest A experiment
 
@@ -59,3 +59,15 @@ worth measuring. Do not expand the production reader or attach ASTs to inventory
 Requested design decision: is this bounded TWO-PASS experiment appropriate, or
 should single-pass/deferred validation be designed first? No A production change
 is included in this PR.
+
+## Senior §44 accepted experiment and bounds
+
+Two-pass throwaway branch authorized; production PR requires separate review.
+20 corpus files, two trials, fresh processes; exact20+13+5 semantics. Linux and
+Windows separately. R03 process peak must decrease≥15% in EACH trial or A is rejected.
+R03 warm time≤20% increase; any baseline>1s file≤25%; first call≤10s. Warm allocation
+≤30% increase; retained heap±1MiB; one-time initialization≤1MiB per process, reported
+separately. A time delta smaller than inter-trial variation is no measured change.
+If peak passes but time/allocation exceeds its bound, present the tradeoff to the
+owner; do not auto-approve or auto-reject.512MiB remains first-consumer prerequisite.
+Full private Windows20 is not inferred from public Windows CI or Linux results.
