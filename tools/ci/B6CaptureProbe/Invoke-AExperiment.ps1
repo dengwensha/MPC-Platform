@@ -22,32 +22,37 @@ if(-not $PublicSubset){
 }
 New-Item -ItemType Directory $Output | Out-Null
 function Invoke-Checked([string[]]$Arguments){$executable=$Arguments[0];$remaining=$Arguments[1..($Arguments.Length-1)];& $executable @remaining;if($LASTEXITCODE -ne 0){throw "Experiment command failed: $executable"}}
+$fixtureRoot=Join-Path ([IO.Path]::GetTempPath()) ("mpc-a-fixtures-"+[Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory $fixtureRoot | Out-Null
 Push-Location $repo
 try {
  Invoke-Checked -Arguments @('dotnet','build','tools/ci/B6CaptureProbe/B6CaptureProbe.csproj','-c','Release','--warnaserror','-m:1')
  Invoke-Checked -Arguments @('dotnet','build','tools/ci/M2TargetProbe/M2TargetProbe.csproj','-c','Release','--warnaserror','-m:1')
- $audit=Join-Path $Output 'audit-inputs';New-Item -ItemType Directory $audit | Out-Null
- $files | ForEach-Object {Copy-Item $_.FullName $audit}
- $controls=Join-Path $Output 'controls'
+ $controls=Join-Path $fixtureRoot 'controls'
  Invoke-Checked -Arguments @('python','tools/ci/M2ScopeDraft/make_controls.py','.',$controls)
- Copy-Item (Join-Path $controls '*.step') $audit
- Copy-Item 'tests/MPC.Application.Tests/TestData/Step/RU-QuarterCone-TargetMetadata.step' (Join-Path $audit 'C13-ConeTypedProduct.step')
- $negative=Join-Path $Output 'negatives'
+ Copy-Item 'tests/MPC.Application.Tests/TestData/Step/RU-QuarterCone-TargetMetadata.step' (Join-Path $controls 'C13-ConeTypedProduct.step')
+ $negative=Join-Path $fixtureRoot 'negatives'
  Invoke-Checked -Arguments @('python','tools/ci/B6CaptureProbe/make_a_negatives.py','.',$negative)
- Copy-Item (Join-Path $negative '*.step') $audit
- $auditCount=$expected+18
+ $groups=@(@{Name='corpus';Path=$Inputs;Count=$expected},@{Name='controls';Path=$controls;Count=13},@{Name='negatives';Path=$negative;Count=5})
  foreach($trial in 1..2){
   foreach($label in @('before','after')){
    $app=if($label -eq 'before'){$BaselineApp}else{$CurrentApp}
-   Invoke-Checked -Arguments @('dotnet','tools/ci/M2TargetProbe/bin/Release/net8.0/M2TargetProbe.dll',$app,$audit,(Join-Path $Output "audit-$trial/$label"))
+   foreach($group in $groups){
+    Invoke-Checked -Arguments @('dotnet','tools/ci/M2TargetProbe/bin/Release/net8.0/M2TargetProbe.dll',$app,$group.Path,(Join-Path $Output "audit-$trial/$label/$($group.Name)"))
+   }
   }
-  Invoke-Checked -Arguments @('python','tools/ci/B6CaptureProbe/compare_target_semantics.py',(Join-Path $Output "audit-$trial/before"),(Join-Path $Output "audit-$trial/after"),(Join-Path $Output "Comparison-$trial.json"),'--count',"$auditCount")
+  foreach($group in $groups){
+   Invoke-Checked -Arguments @('python','tools/ci/B6CaptureProbe/compare_target_semantics.py',(Join-Path $Output "audit-$trial/before/$($group.Name)"),(Join-Path $Output "audit-$trial/after/$($group.Name)"),(Join-Path $Output "Comparison-$trial-$($group.Name).json"),'--count',"$($group.Count)")
+  }
  }
  foreach($label in @('before','after')){
-  Invoke-Checked -Arguments @('python','tools/ci/B6CaptureProbe/compare_target_semantics.py',(Join-Path $Output "audit-1/$label"),(Join-Path $Output "audit-2/$label"),(Join-Path $Output "Repeat-$label.json"),'--count',"$auditCount")
+  foreach($group in $groups){
+   Invoke-Checked -Arguments @('python','tools/ci/B6CaptureProbe/compare_target_semantics.py',(Join-Path $Output "audit-1/$label/$($group.Name)"),(Join-Path $Output "audit-2/$label/$($group.Name)"),(Join-Path $Output "Repeat-$label-$($group.Name).json"),'--count',"$($group.Count)")
+  }
  }
  Invoke-Checked -Arguments @('python','tools/ci/B6CaptureProbe/run_b6.py','--probe','tools/ci/B6CaptureProbe/bin/Release/net8.0/B6CaptureProbe.dll','--baseline',$BaselineApp,'--current',$CurrentApp,'--inputs',$Inputs,'--output',(Join-Path $Output 'capture'),'--require-target-equality')
  Invoke-Checked -Arguments @('python','tools/ci/B6CaptureProbe/evaluate_a.py',(Join-Path $Output 'capture'),(Join-Path $Output 'Assessment.json'),'--platform','Windows','--expected-count','20')
- # Raw CAD is not evidence for upload. Remove only copies created by this runner.
- Remove-Item -Recurse -LiteralPath $audit,$controls,$negative
-} finally {Pop-Location}
+} finally {
+ if(Test-Path $fixtureRoot){Remove-Item -Recurse -LiteralPath $fixtureRoot}
+ Pop-Location
+}
