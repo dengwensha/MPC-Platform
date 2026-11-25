@@ -1,0 +1,23 @@
+{
+  "Platform": "WindowsCI public subset ONLY",
+  "Run": 45590947984,
+  "CI": 316,
+  "ReviewedHead": "6e560cd02bc726aa721b582a16bf0dd556454b96",
+  "Baseline": "7aebe6d2de57916d76ea2d55aa88937120f5c6e0",
+  "ArtifactZipSha256": "2d9a631f9f50621875b9e50c11674e82879039d90e69abcfa95ae464ba612989",
+  "FullRegression": 2253,
+  "WorkerAcceptance": "5/5",
+  "PublicCaptureFiles": 9,
+  "SemanticCases": 27,
+  "Trials": 2,
+  "AllAuditComparisonsEqual": true,
+  "FreshCostProcesses": 54,
+  "MeasuredCalls": 216,
+  "Warmups": 108,
+  "UnavailableControls": 4,
+  "AllReleasedObjectsCollected": true,
+  "PrivateWindows20Complete": false,
+  "Owner16GBMeasurementComplete": false,
+  "ProductAccepted": false,
+  "StartupInterpretation": "Total and incremental proxies both disclosed;1MiB interpretation remains awaiting owner clarification."
+}

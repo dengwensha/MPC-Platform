@@ -1,0 +1,1207 @@
+{
+  "SchemaRevision": 1,
+  "Policy": "Senior44 A throwaway bounds",
+  "Platform": "Linux",
+  "ExpectedFiles": 20,
+  "ObservedFiles": 20,
+  "Trials": 2,
+  "SemanticIdentityAndLifetimesPass": true,
+  "R03PeakBothTrialsPass": true,
+  "WarmAndFirstTimePass": true,
+  "WarmAllocationPass": false,
+  "RetainedHeapPass": true,
+  "StartupProxyPass": false,
+  "Disposition": "OwnerTradeoffRequired",
+  "ProductAccepted": false,
+  "RealWorkerBudgetAccepted": false,
+  "Windows20Inferred": false,
+  "Definitions": {
+    "Peak": "max lifetime process peak across first/warm measured calls, per fresh process/trial; includes setup/warmups",
+    "TimeNoise": "max absolute inter-trial warm-median difference of baseline/current. Smaller time delta is no measured change.",
+    "Startup": "max(0, first-call allocated bytes minus same-process warm median). Proxy includes first-call effects; not exclusive static-table attribution. Both absolute and incremental proxies reported.",
+    "Tradeoff": "If R03 peak passes but time/allocation exceeds bounds, present owner decision; never silently reject/accept.",
+    "Scope": "Linux and Windows are separate. Public Windows subset is not full private Windows20 or real Worker/owner16GB acceptance."
+  },
+  "Rows": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "BeforeWarmTrialMediansMilliseconds": [
+        289.7842,
+        254.3196
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        263.5429,
+        281.8303
+      ],
+      "WarmMedianDeltaMilliseconds": 0.6347000000000094,
+      "InterTrialNoiseMilliseconds": 35.46459999999999,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 95641600,
+          "CurrentPeakBytes": 88055808,
+          "PeakReductionPercent": 7.931477516059959,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 86752088,
+          "CurrentWarmAllocatedBytes": 112695184,
+          "WarmAllocationIncreasePercent": 29.90486638200569,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931208,
+          "CurrentStartupAllocationProxyBytes": 987776,
+          "IncrementalStartupAllocationProxyBytes": 56568,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 438.1944,
+          "CurrentFirstMilliseconds": 716.7308,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 95342592,
+          "CurrentPeakBytes": 86925312,
+          "PeakReductionPercent": 8.828457275422085,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 86752224,
+          "CurrentWarmAllocatedBytes": 112695272,
+          "WarmAllocationIncreasePercent": 29.904764170656883,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931072,
+          "CurrentStartupAllocationProxyBytes": 982576,
+          "IncrementalStartupAllocationProxyBytes": 51504,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 557.3825,
+          "CurrentFirstMilliseconds": 574.1172,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "BeforeWarmTrialMediansMilliseconds": [
+        40.4616,
+        38.2669
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        54.2287,
+        47.5697
+      ],
+      "WarmMedianDeltaMilliseconds": 11.534950000000002,
+      "InterTrialNoiseMilliseconds": 6.659000000000006,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 64557056,
+          "CurrentPeakBytes": 65519616,
+          "PeakReductionPercent": -1.4910221432650195,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 8332656,
+          "CurrentWarmAllocatedBytes": 10784040,
+          "WarmAllocationIncreasePercent": 29.418999176253035,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 981096,
+          "IncrementalStartupAllocationProxyBytes": 49912,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 137.6297,
+          "CurrentFirstMilliseconds": 142.1542,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 64843776,
+          "CurrentPeakBytes": 64024576,
+          "PeakReductionPercent": 1.2633440717579436,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 8332656,
+          "CurrentWarmAllocatedBytes": 10784040,
+          "WarmAllocationIncreasePercent": 29.418999176253035,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 981096,
+          "IncrementalStartupAllocationProxyBytes": 49912,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 136.7517,
+          "CurrentFirstMilliseconds": 133.2011,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "BeforeWarmTrialMediansMilliseconds": [
+        166.8127,
+        169.5138
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        218.1465,
+        187.7602
+      ],
+      "WarmMedianDeltaMilliseconds": 34.790099999999995,
+      "InterTrialNoiseMilliseconds": 30.386300000000006,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 82468864,
+          "CurrentPeakBytes": 78856192,
+          "PeakReductionPercent": 4.380649647362667,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 54873032,
+          "CurrentWarmAllocatedBytes": 72849712,
+          "WarmAllocationIncreasePercent": 32.76050064082481,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 930984,
+          "CurrentStartupAllocationProxyBytes": 987344,
+          "IncrementalStartupAllocationProxyBytes": 56360,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28568,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 423.5963,
+          "CurrentFirstMilliseconds": 442.4013,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 82223104,
+          "CurrentPeakBytes": 78831616,
+          "PeakReductionPercent": 4.124738467669619,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 54872368,
+          "CurrentWarmAllocatedBytes": 72849712,
+          "WarmAllocationIncreasePercent": 32.762107150178025,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 931648,
+          "CurrentStartupAllocationProxyBytes": 981864,
+          "IncrementalStartupAllocationProxyBytes": 50216,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28568,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 445.4414,
+          "CurrentFirstMilliseconds": 477.0708,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "BeforeWarmTrialMediansMilliseconds": [
+        40.3561,
+        30.2124
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        45.4704,
+        39.6476
+      ],
+      "WarmMedianDeltaMilliseconds": 7.274749999999997,
+      "InterTrialNoiseMilliseconds": 10.143699999999999,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 63934464,
+          "CurrentPeakBytes": 65871872,
+          "PeakReductionPercent": -3.0303030303030276,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 9166144,
+          "CurrentWarmAllocatedBytes": 11795504,
+          "WarmAllocationIncreasePercent": 28.68556287136663,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 982448,
+          "IncrementalStartupAllocationProxyBytes": 51264,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 142.0276,
+          "CurrentFirstMilliseconds": 162.0511,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 63311872,
+          "CurrentPeakBytes": 65863680,
+          "PeakReductionPercent": -4.030536326583434,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 9166144,
+          "CurrentWarmAllocatedBytes": 11795504,
+          "WarmAllocationIncreasePercent": 28.68556287136663,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 982448,
+          "IncrementalStartupAllocationProxyBytes": 51264,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 129.0964,
+          "CurrentFirstMilliseconds": 193.3714,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "BeforeWarmTrialMediansMilliseconds": [
+        48.9133,
+        43.4002
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        51.3368,
+        44.598
+      ],
+      "WarmMedianDeltaMilliseconds": 1.8106499999999954,
+      "InterTrialNoiseMilliseconds": 6.738799999999998,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 63922176,
+          "CurrentPeakBytes": 65978368,
+          "PeakReductionPercent": -3.216711521209792,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 9165288,
+          "CurrentWarmAllocatedBytes": 11794624,
+          "WarmAllocationIncreasePercent": 28.68798012675653,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 994792,
+          "IncrementalStartupAllocationProxyBytes": 63608,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 164.3637,
+          "CurrentFirstMilliseconds": 144.254,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 63610880,
+          "CurrentPeakBytes": 66187264,
+          "PeakReductionPercent": -4.050225370251126,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 9165288,
+          "CurrentWarmAllocatedBytes": 11794624,
+          "WarmAllocationIncreasePercent": 28.68798012675653,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 982456,
+          "IncrementalStartupAllocationProxyBytes": 51272,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 191.8427,
+          "CurrentFirstMilliseconds": 142.6915,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "BeforeWarmTrialMediansMilliseconds": [
+        82.9036,
+        72.158
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        94.6184,
+        101.9785
+      ],
+      "WarmMedianDeltaMilliseconds": 20.767650000000003,
+      "InterTrialNoiseMilliseconds": 10.745599999999996,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 72822784,
+          "CurrentPeakBytes": 70561792,
+          "PeakReductionPercent": 3.1047865459249646,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 17190176,
+          "CurrentWarmAllocatedBytes": 21671136,
+          "WarmAllocationIncreasePercent": 26.066981513161934,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 1411792,
+          "CurrentStartupAllocationProxyBytes": 1473480,
+          "IncrementalStartupAllocationProxyBytes": 61688,
+          "StartupProxyPass": false,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 246.3555,
+          "CurrentFirstMilliseconds": 245.3924,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 71876608,
+          "CurrentPeakBytes": 71794688,
+          "PeakReductionPercent": 0.11397310234784186,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 17190176,
+          "CurrentWarmAllocatedBytes": 21671136,
+          "WarmAllocationIncreasePercent": 26.066981513161934,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 1424128,
+          "CurrentStartupAllocationProxyBytes": 1473480,
+          "IncrementalStartupAllocationProxyBytes": 49352,
+          "StartupProxyPass": false,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 288.2191,
+          "CurrentFirstMilliseconds": 213.6868,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "BeforeWarmTrialMediansMilliseconds": [
+        569.6481,
+        513.715
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        513.5118,
+        536.9654
+      ],
+      "WarmMedianDeltaMilliseconds": -16.442949999999996,
+      "InterTrialNoiseMilliseconds": 55.93309999999997,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 141885440,
+          "CurrentPeakBytes": 118779904,
+          "PeakReductionPercent": 16.284642032332563,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 238455504,
+          "CurrentWarmAllocatedBytes": 326087808,
+          "WarmAllocationIncreasePercent": 36.74996069706993,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 930536,
+          "CurrentStartupAllocationProxyBytes": 979576,
+          "IncrementalStartupAllocationProxyBytes": 49040,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 1499.3346,
+          "CurrentFirstMilliseconds": 1611.0179,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 141697024,
+          "CurrentPeakBytes": 121659392,
+          "PeakReductionPercent": 14.141180551540733,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 238455560,
+          "CurrentWarmAllocatedBytes": 326085232,
+          "WarmAllocationIncreasePercent": 36.748848296932145,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 933936,
+          "CurrentStartupAllocationProxyBytes": 982184,
+          "IncrementalStartupAllocationProxyBytes": 48248,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 1284.6141,
+          "CurrentFirstMilliseconds": 1517.8075,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "BeforeWarmTrialMediansMilliseconds": [
+        868.2913,
+        911.3009
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        878.9558,
+        844.1529
+      ],
+      "WarmMedianDeltaMilliseconds": -28.241750000000025,
+      "InterTrialNoiseMilliseconds": 43.00959999999998,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 190509056,
+          "CurrentPeakBytes": 150687744,
+          "PeakReductionPercent": 20.902582184859497,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 393876616,
+          "CurrentWarmAllocatedBytes": 524412264,
+          "WarmAllocationIncreasePercent": 33.1412535543872,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 950176,
+          "CurrentStartupAllocationProxyBytes": 997696,
+          "IncrementalStartupAllocationProxyBytes": 47520,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 1720.206,
+          "CurrentFirstMilliseconds": 1709.0182,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 190947328,
+          "CurrentPeakBytes": 149991424,
+          "PeakReductionPercent": 21.448796602170837,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 393874400,
+          "CurrentWarmAllocatedBytes": 524412040,
+          "WarmAllocationIncreasePercent": 33.14194575732772,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 959024,
+          "CurrentStartupAllocationProxyBytes": 993920,
+          "IncrementalStartupAllocationProxyBytes": 34896,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 22368,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 1825.1012,
+          "CurrentFirstMilliseconds": 1903.9077,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "BeforeWarmTrialMediansMilliseconds": [
+        1019.9316,
+        991.9666
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        968.6384,
+        989.7411
+      ],
+      "WarmMedianDeltaMilliseconds": -26.75935000000004,
+      "InterTrialNoiseMilliseconds": 27.965000000000032,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": 25.0,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 183951360,
+          "CurrentPeakBytes": 154288128,
+          "PeakReductionPercent": 16.125584502338008,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 408215912,
+          "CurrentWarmAllocatedBytes": 541291640,
+          "WarmAllocationIncreasePercent": 32.59934855258655,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 952136,
+          "CurrentStartupAllocationProxyBytes": 986064,
+          "IncrementalStartupAllocationProxyBytes": 33928,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 24576,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 1858.4141,
+          "CurrentFirstMilliseconds": 1904.8599,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 193892352,
+          "CurrentPeakBytes": 154484736,
+          "PeakReductionPercent": 20.324481906331204,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 408222216,
+          "CurrentWarmAllocatedBytes": 541289288,
+          "WarmAllocationIncreasePercent": 32.596724721125916,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 939952,
+          "CurrentStartupAllocationProxyBytes": 983696,
+          "IncrementalStartupAllocationProxyBytes": 43744,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 22368,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 2049.8383,
+          "CurrentFirstMilliseconds": 1839.2577,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "BeforeWarmTrialMediansMilliseconds": [
+        966.2854,
+        1021.773
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        1000.6997,
+        988.0836
+      ],
+      "WarmMedianDeltaMilliseconds": 0.36245000000008076,
+      "InterTrialNoiseMilliseconds": 55.48760000000004,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 193667072,
+          "CurrentPeakBytes": 156409856,
+          "PeakReductionPercent": 19.237764899961928,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 416516624,
+          "CurrentWarmAllocatedBytes": 552112768,
+          "WarmAllocationIncreasePercent": 32.55479762075475,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 934272,
+          "CurrentStartupAllocationProxyBytes": 993936,
+          "IncrementalStartupAllocationProxyBytes": 59664,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 1928.2745,
+          "CurrentFirstMilliseconds": 2060.5452,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 193949696,
+          "CurrentPeakBytes": 156909568,
+          "PeakReductionPercent": 19.09780152478301,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 416516648,
+          "CurrentWarmAllocatedBytes": 552112640,
+          "WarmAllocationIncreasePercent": 32.554759251783864,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 939712,
+          "CurrentStartupAllocationProxyBytes": 995128,
+          "IncrementalStartupAllocationProxyBytes": 55416,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 2121.4142,
+          "CurrentFirstMilliseconds": 2016.1897,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "BeforeWarmTrialMediansMilliseconds": [
+        1406.6321,
+        1452.088
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        1364.1509,
+        1289.7784
+      ],
+      "WarmMedianDeltaMilliseconds": -102.39540000000011,
+      "InterTrialNoiseMilliseconds": 74.37250000000017,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": 25.0,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 240230400,
+          "CurrentPeakBytes": 193642496,
+          "PeakReductionPercent": 19.393009377664107,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 554584192,
+          "CurrentWarmAllocatedBytes": 734085472,
+          "WarmAllocationIncreasePercent": 32.36682231288699,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 946672,
+          "CurrentStartupAllocationProxyBytes": 989984,
+          "IncrementalStartupAllocationProxyBytes": 43312,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 22368,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 2660.7223,
+          "CurrentFirstMilliseconds": 2485.4312,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 239673344,
+          "CurrentPeakBytes": 187543552,
+          "PeakReductionPercent": 21.75035034350754,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 554586696,
+          "CurrentWarmAllocatedBytes": 734085488,
+          "WarmAllocationIncreasePercent": 32.36622755191372,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 941776,
+          "CurrentStartupAllocationProxyBytes": 996928,
+          "IncrementalStartupAllocationProxyBytes": 55152,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 2217.4656,
+          "CurrentFirstMilliseconds": 2285.6249,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "BeforeWarmTrialMediansMilliseconds": [
+        2175.6816,
+        2022.373
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        2013.4291,
+        1994.5713
+      ],
+      "WarmMedianDeltaMilliseconds": -95.02709999999979,
+      "InterTrialNoiseMilliseconds": 153.30859999999984,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": 25.0,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 329756672,
+          "CurrentPeakBytes": 246067200,
+          "PeakReductionPercent": 25.379159576185916,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 838001464,
+          "CurrentWarmAllocatedBytes": 1111607216,
+          "WarmAllocationIncreasePercent": 32.649794034250036,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 936216,
+          "CurrentStartupAllocationProxyBytes": 995512,
+          "IncrementalStartupAllocationProxyBytes": 59296,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 3505.8608,
+          "CurrentFirstMilliseconds": 2796.8517,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 332939264,
+          "CurrentPeakBytes": 250867712,
+          "PeakReductionPercent": 24.650607745681807,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 837991704,
+          "CurrentWarmAllocatedBytes": 1111607960,
+          "WarmAllocationIncreasePercent": 32.65142777594849,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 933480,
+          "CurrentStartupAllocationProxyBytes": 1002696,
+          "IncrementalStartupAllocationProxyBytes": 69216,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 3490.1327,
+          "CurrentFirstMilliseconds": 2912.0703,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "BeforeWarmTrialMediansMilliseconds": [
+        12.3201,
+        10.6694
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        14.4343,
+        14.7244
+      ],
+      "WarmMedianDeltaMilliseconds": 3.0846,
+      "InterTrialNoiseMilliseconds": 1.6507000000000005,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 54607872,
+          "CurrentPeakBytes": 56135680,
+          "PeakReductionPercent": -2.7977797779777935,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 3524408,
+          "CurrentWarmAllocatedBytes": 4446576,
+          "WarmAllocationIncreasePercent": 26.16518859337511,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 943184,
+          "CurrentStartupAllocationProxyBytes": 980760,
+          "IncrementalStartupAllocationProxyBytes": 37576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 22368,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 126.5405,
+          "CurrentFirstMilliseconds": 126.3415,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 54890496,
+          "CurrentPeakBytes": 56020992,
+          "PeakReductionPercent": -2.059547794940686,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 3524408,
+          "CurrentWarmAllocatedBytes": 4446576,
+          "WarmAllocationIncreasePercent": 26.16518859337511,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980760,
+          "IncrementalStartupAllocationProxyBytes": 49912,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 106.8904,
+          "CurrentFirstMilliseconds": 133.1178,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "BeforeWarmTrialMediansMilliseconds": [
+        24.5675,
+        21.3653
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        57.3569,
+        29.6431
+      ],
+      "WarmMedianDeltaMilliseconds": 20.5336,
+      "InterTrialNoiseMilliseconds": 27.713800000000003,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 63098880,
+          "CurrentPeakBytes": 62627840,
+          "PeakReductionPercent": 0.7465108730931536,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 6451352,
+          "CurrentWarmAllocatedBytes": 8274400,
+          "WarmAllocationIncreasePercent": 28.25838676916095,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 993096,
+          "IncrementalStartupAllocationProxyBytes": 61912,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 34656,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 138.2576,
+          "CurrentFirstMilliseconds": 144.8989,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 63180800,
+          "CurrentPeakBytes": 61227008,
+          "PeakReductionPercent": 3.0923824959481316,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 6451352,
+          "CurrentWarmAllocatedBytes": 8274400,
+          "WarmAllocationIncreasePercent": 28.25838676916095,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 943520,
+          "CurrentStartupAllocationProxyBytes": 980760,
+          "IncrementalStartupAllocationProxyBytes": 37240,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 22368,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 125.314,
+          "CurrentFirstMilliseconds": 205.5244,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "BeforeWarmTrialMediansMilliseconds": [
+        4008.5857,
+        3732.7155
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        3797.9237,
+        3701.1546
+      ],
+      "WarmMedianDeltaMilliseconds": -121.11145000000033,
+      "InterTrialNoiseMilliseconds": 275.8702000000003,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": 20.0,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 473374720,
+          "CurrentPeakBytes": 356204544,
+          "PeakReductionPercent": 24.75209829540538,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 1423137448,
+          "CurrentWarmAllocatedBytes": 1926409280,
+          "WarmAllocationIncreasePercent": 35.36354360622516,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 963992,
+          "CurrentStartupAllocationProxyBytes": 1004336,
+          "IncrementalStartupAllocationProxyBytes": 40344,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 5174.6578,
+          "CurrentFirstMilliseconds": 5066.0031,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 479162368,
+          "CurrentPeakBytes": 342458368,
+          "PeakReductionPercent": 28.52978637921749,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 1423133184,
+          "CurrentWarmAllocatedBytes": 1926408704,
+          "WarmAllocationIncreasePercent": 35.363908709193595,
+          "WarmAllocationPass": false,
+          "BeforeStartupAllocationProxyBytes": 955872,
+          "CurrentStartupAllocationProxyBytes": 1003696,
+          "IncrementalStartupAllocationProxyBytes": 47824,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 5326.0913,
+          "CurrentFirstMilliseconds": 4816.2388,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "T001_PRISM.step",
+      "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "BeforeWarmTrialMediansMilliseconds": [
+        7.0043,
+        7.4023
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        8.3871,
+        7.957
+      ],
+      "WarmMedianDeltaMilliseconds": 0.96875,
+      "InterTrialNoiseMilliseconds": 0.43010000000000037,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 53530624,
+          "CurrentPeakBytes": 54059008,
+          "PeakReductionPercent": -0.9870686357028147,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 2238184,
+          "CurrentWarmAllocatedBytes": 2770832,
+          "WarmAllocationIncreasePercent": 23.798222130084024,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980424,
+          "IncrementalStartupAllocationProxyBytes": 49576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 110.5227,
+          "CurrentFirstMilliseconds": 104.1716,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 53485568,
+          "CurrentPeakBytes": 54108160,
+          "PeakReductionPercent": -1.1640373717261454,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 2238184,
+          "CurrentWarmAllocatedBytes": 2770832,
+          "WarmAllocationIncreasePercent": 23.798222130084024,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980424,
+          "IncrementalStartupAllocationProxyBytes": 49576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 117.2183,
+          "CurrentFirstMilliseconds": 108.0668,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "T002_SPHERE.step",
+      "InputSha256": "AB1155D291C0C0284B76F80077471C44DB33DD3A593034DD036041A0525C0193",
+      "BeforeWarmTrialMediansMilliseconds": [
+        3.6007,
+        3.7005
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        4.1633,
+        4.0978
+      ],
+      "WarmMedianDeltaMilliseconds": 0.47994999999999965,
+      "InterTrialNoiseMilliseconds": 0.09980000000000011,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 52609024,
+          "CurrentPeakBytes": 52678656,
+          "PeakReductionPercent": -0.13235752102149778,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 1267416,
+          "CurrentWarmAllocatedBytes": 1495032,
+          "WarmAllocationIncreasePercent": 17.959060008710637,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980424,
+          "IncrementalStartupAllocationProxyBytes": 49576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 110.6697,
+          "CurrentFirstMilliseconds": 166.2753,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 52490240,
+          "CurrentPeakBytes": 52719616,
+          "PeakReductionPercent": -0.4369879047990688,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 1267416,
+          "CurrentWarmAllocatedBytes": 1495032,
+          "WarmAllocationIncreasePercent": 17.959060008710637,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980424,
+          "IncrementalStartupAllocationProxyBytes": 49576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 94.2301,
+          "CurrentFirstMilliseconds": 94.5924,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "T003_CYLINDER.step",
+      "InputSha256": "A78EBDD2613C4E9D7897B0FAA60061D0B8212BC685CE4480D9963C267E3D4E65",
+      "BeforeWarmTrialMediansMilliseconds": [
+        4.6765,
+        5.316
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        7.3695,
+        5.6508
+      ],
+      "WarmMedianDeltaMilliseconds": 1.5139000000000005,
+      "InterTrialNoiseMilliseconds": 1.7187000000000001,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 52842496,
+          "CurrentPeakBytes": 53473280,
+          "PeakReductionPercent": -1.1937059142702156,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 1729080,
+          "CurrentWarmAllocatedBytes": 2096624,
+          "WarmAllocationIncreasePercent": 21.256622018645754,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 943184,
+          "CurrentStartupAllocationProxyBytes": 980424,
+          "IncrementalStartupAllocationProxyBytes": 37240,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 22368,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 92.5647,
+          "CurrentFirstMilliseconds": 101.1931,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 52842496,
+          "CurrentPeakBytes": 53350400,
+          "PeakReductionPercent": -0.961165801100683,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 1729080,
+          "CurrentWarmAllocatedBytes": 2096624,
+          "WarmAllocationIncreasePercent": 21.256622018645754,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980424,
+          "IncrementalStartupAllocationProxyBytes": 49576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 99.5105,
+          "CurrentFirstMilliseconds": 112.5688,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "T101_BASIC_POCKET.step",
+      "InputSha256": "F1A8A662CCC67DE88A5EF9BAE4A01B5B15FFB5D9CCB6A3E4DE1CC677A6E42049",
+      "BeforeWarmTrialMediansMilliseconds": [
+        10.9706,
+        10.8156
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        12.7996,
+        13.1025
+      ],
+      "WarmMedianDeltaMilliseconds": 2.057949999999998,
+      "InterTrialNoiseMilliseconds": 0.3028999999999993,
+      "NoMeasuredTimeChangeWithinNoise": false,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 54800384,
+          "CurrentPeakBytes": 56049664,
+          "PeakReductionPercent": -2.279692054712612,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 3521560,
+          "CurrentWarmAllocatedBytes": 4443160,
+          "WarmAllocationIncreasePercent": 26.170220016129207,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980760,
+          "IncrementalStartupAllocationProxyBytes": 49912,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 114.17,
+          "CurrentFirstMilliseconds": 125.362,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 54771712,
+          "CurrentPeakBytes": 55980032,
+          "PeakReductionPercent": -2.2061023033203675,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 3521560,
+          "CurrentWarmAllocatedBytes": 4443160,
+          "WarmAllocationIncreasePercent": 26.170220016129207,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 930848,
+          "CurrentStartupAllocationProxyBytes": 980760,
+          "IncrementalStartupAllocationProxyBytes": 49912,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 105.8495,
+          "CurrentFirstMilliseconds": 111.9363,
+          "FirstTimePass": true
+        }
+      ]
+    },
+    {
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "InputSha256": "B54769A3969B6FFD9EF582F1C0791C682561300CF79C15F4883095CD2A065CD4",
+      "BeforeWarmTrialMediansMilliseconds": [
+        36.2686,
+        32.4228
+      ],
+      "CurrentWarmTrialMediansMilliseconds": [
+        35.0032,
+        36.3767
+      ],
+      "WarmMedianDeltaMilliseconds": 1.3442499999999953,
+      "InterTrialNoiseMilliseconds": 3.845799999999997,
+      "NoMeasuredTimeChangeWithinNoise": true,
+      "WarmTimeLimitIncreasePercent": null,
+      "WarmTimePass": true,
+      "Trials": [
+        {
+          "Trial": 1,
+          "BeforePeakBytes": 63836160,
+          "CurrentPeakBytes": 61558784,
+          "PeakReductionPercent": 3.5675328841835108,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 7268512,
+          "CurrentWarmAllocatedBytes": 9358392,
+          "WarmAllocationIncreasePercent": 28.75251495766946,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 980760,
+          "IncrementalStartupAllocationProxyBytes": 49576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 127.6961,
+          "CurrentFirstMilliseconds": 132.6619,
+          "FirstTimePass": true
+        },
+        {
+          "Trial": 2,
+          "BeforePeakBytes": 64802816,
+          "CurrentPeakBytes": 61964288,
+          "PeakReductionPercent": 4.380254092661651,
+          "R03PeakPass": true,
+          "BeforeWarmAllocatedBytes": 7268512,
+          "CurrentWarmAllocatedBytes": 9358392,
+          "WarmAllocationIncreasePercent": 28.75251495766946,
+          "WarmAllocationPass": true,
+          "BeforeStartupAllocationProxyBytes": 931184,
+          "CurrentStartupAllocationProxyBytes": 980760,
+          "IncrementalStartupAllocationProxyBytes": 49576,
+          "StartupProxyPass": true,
+          "MaxAbsoluteRetainedHeapDeltaDifferenceBytes": 28512,
+          "RetainedHeapPass": true,
+          "BeforeFirstMilliseconds": 120.5807,
+          "CurrentFirstMilliseconds": 193.6122,
+          "FirstTimePass": true
+        }
+      ]
+    }
+  ]
+}

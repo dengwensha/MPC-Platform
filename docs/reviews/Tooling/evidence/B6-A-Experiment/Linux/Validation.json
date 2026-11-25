@@ -1,0 +1,38 @@
+{
+  "Date": "2026-11-25 Europe/Istanbul",
+  "Platform": "Linux x64 / SDK8.0.422",
+  "BaselineCommit": "7aebe6d2de57916d76ea2d55aa88937120f5c6e0",
+  "MeasuredCodeCommit": "6e560cd02bc726aa721b582a16bf0dd556454b96",
+  "ThreeSourceNormalizedSha256": {
+    "src/MPC.Application/Inventory/InventoryEvidence.cs": "7D960E2238128FDE43B8E642282D36920A6FD58E0FAC39EE28F8E49E9BCBA94F",
+    "src/MPC.Application/Inventory/TargetProducer.cs": "CE2451F5BC6BC1B183D4651A89128919A47D6E5DCB7F53DC332D30FE63280F68",
+    "src/MPC.Application/Inventory/TargetBinding.cs": "2A44B81A7B73308DD2BADB8822600B323C96790242EE1771E62C0854ADD0C590"
+  },
+  "SemanticInputs": 38,
+  "Trials": 2,
+  "AllAuditAndRepeatComparisonsEqual": true,
+  "CaptureInputs": 20,
+  "FreshProcesses": 120,
+  "MeasuredCalls": 480,
+  "Warmups": 240,
+  "UnavailableControls": 4,
+  "AllReleasedObjectsCollected": true,
+  "Disposition": "OwnerTradeoffRequired",
+  "WarmAllocationFailingInputs": [
+    "2_S26352_0300_05_2210.STEP",
+    "BACK PLATE.STEP",
+    "BACK_PLATE_ORIGINAL.STEP",
+    "CAVITY BASE.STEP",
+    "CAVITY STEEL.STEP",
+    "CORE BAS.STEP",
+    "CORE STEEL.STEP",
+    "P01-R03-CurvedSurfaces.STEP"
+  ],
+  "IncrementalStartupProxyMaxBytes": 69216,
+  "StartupInterpretation": "Total-vs-A-increment clarification requested, not yet answered. Both proxies reported; existing Festo total proxy exceeds1MiB before A. No automatic interpretation/acceptance inferred.",
+  "Windows20Pending": true,
+  "ProductPrCreated": false,
+  "ExperimentPR": 147,
+  "MergeExperiment": false,
+  "Scope": "Throwaway experiment only. No real Worker,16GB Windows or product budget acceptance."
+}
