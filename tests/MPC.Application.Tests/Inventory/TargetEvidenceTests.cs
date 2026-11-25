@@ -130,6 +130,50 @@ public sealed class TargetEvidenceTests
     }
 
     [Fact]
+    public void ReleasedGeometryCannotMasqueradeAsAnAxisPlacement()
+    {
+        var s = Capture(Entity(Golden, "#175", "CARTESIAN_POINT('',(0.,0.,0.))"));
+        Assert.Equal(TargetStatus.Blocked, Gate.Evaluate(s.Evidence, s).Status);
+        Assert.Contains(s.ReadTarget(s.Evidence)!.Reasons, r => r.Code == "RootBindingInvalid"
+            && r.SourceId == "#47" && r.RelatedIds.Contains("#175"));
+    }
+
+    [Theory]
+    [InlineData("#48", "STYLED_ITEM('',(#135),#63)")]
+    [InlineData("#133", "PRESENTATION_LAYER_ASSIGNMENT('','',(#63))")]
+    public void UnknownIncomingRoleMustKeepStyledAndLayerComponentParameters(string id, string component)
+    {
+        // Neither row has Presentation role. Root incoming admission still reads these
+        // components; a role-based release would silently add RootBindingInvalid.
+        var s = Capture(Entity(Golden, id, "(" + component + " UNKNOWN())"));
+        var reasons = s.ReadTarget(s.Evidence)!.Reasons;
+        Assert.Contains(reasons, r => r.Code == "UnclassifiedSignature" && r.SourceId == id);
+        Assert.DoesNotContain(reasons, r => r.Code == "RootBindingInvalid"
+            && r.SourceId == "#63" && r.RelatedIds.Contains(id));
+        Assert.Equal(TargetStatus.Blocked, Gate.Evaluate(s.Evidence, s).Status);
+    }
+
+    [Fact]
+    public void EveryShapeRepresentationStillParticipatesInRootMemberSearch()
+    {
+        var s = Capture(Add(Golden, "#990001=ADVANCED_BREP_SHAPE_REPRESENTATION('',(#63),#61);"));
+        Assert.Contains(s.ReadTarget(s.Evidence)!.Reasons, r => r.Code == "RootBindingInvalid"
+            && r.SourceId == "#63" && r.RelatedIds.SequenceEqual(new[] { "#47", "#990001" }));
+        Assert.Equal(TargetStatus.Blocked, Gate.Evaluate(s.Evidence, s).Status);
+    }
+
+    [Fact]
+    public void PartialIncomingRecordCannotDisappearWhenParameterPayloadsAreReleased()
+    {
+        var s = Capture(Add(Golden, "#990001=( #63 );"));
+        var reasons = s.ReadTarget(s.Evidence)!.Reasons;
+        Assert.Contains(reasons, r => r.Code == "RecordPartial" && r.SourceId == "#990001");
+        Assert.Contains(reasons, r => r.Code == "RootBindingInvalid"
+            && r.SourceId == "#63" && r.RelatedIds.Contains("#990001"));
+        Assert.Equal(TargetStatus.Blocked, Gate.Evaluate(s.Evidence, s).Status);
+    }
+
+    [Fact]
     public void MalformedPresentationUnitsAndForeignStyleTargetCannotHideAsMetadata()
     {
         string source=Entity(Golden,"#16","(LENGTH_UNIT() NAMED_UNIT(*) SI_UNIT(.KILO.,.METRE.))");

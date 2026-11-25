@@ -1,0 +1,1045 @@
+{
+  "SchemaRevision": 1,
+  "FileCount": 20,
+  "Trials": 2,
+  "FreshProcesses": 120,
+  "MeasuredProductionCalls": 480,
+  "BeforeAfterTargetSemanticsRequired": true,
+  "UntimedWarmupProductionCalls": 240,
+  "TargetStatusCounts": {
+    "TargetBoundOnly": 17,
+    "Blocked": 3
+  },
+  "AllSemanticsAndInputIdentitiesVerified": true,
+  "AllReleasedObjectsCollected": true,
+  "FailureControls": [
+    {
+      "Label": "baseline",
+      "Case": "Missing.step",
+      "ExpectedStage": "SourceCapture",
+      "ObservedStage": "SourceCapture"
+    },
+    {
+      "Label": "baseline",
+      "Case": "ParserRejected.step",
+      "ExpectedStage": "InventoryParse",
+      "ObservedStage": "InventoryParse"
+    },
+    {
+      "Label": "current",
+      "Case": "Missing.step",
+      "ExpectedStage": "SourceCapture",
+      "ObservedStage": "SourceCapture"
+    },
+    {
+      "Label": "current",
+      "Case": "ParserRejected.step",
+      "ExpectedStage": "InventoryParse",
+      "ObservedStage": "InventoryParse"
+    }
+  ],
+  "MemoryCaveat": "Process peak includes setup/warmups/earlier summaries; isolated-target memory includes prepared inventory. Never subtract peaks as attributable production memory.",
+  "TimingCaveat": "First invocation after assembly/delegate binding and input preflight; no cold OS-cache/startup claim. Explicit full GC before calls. Derived capture delta is empirical difference, not exact stage attribution. No CI timing thresholds.",
+  "Rows": [
+    {
+      "InputName": "0_S26352_0700_01_9001.STEP",
+      "InputSha256": "467F2674DA7E0B2F909B2D5C45CDAE13860A27C58108B2968DFB5BF20A7A4077",
+      "InputBytes": 678344,
+      "RecordCount": 9167,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          566.4936,
+          548.6167
+        ],
+        "WarmMedianMilliseconds": 262.2492,
+        "WarmMaxMilliseconds": 329.0977,
+        "WarmMedianAllocatedBytes": 86752028,
+        "MaxRetainedHeapDeltaBytes": 4287232,
+        "FirstInvocationMaxProcessPeakBytes": 85610496,
+        "FirstInvocationMaxWorkingSetBytes": 85610496,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 95383552
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          599.4782,
+          632.2188
+        ],
+        "WarmMedianMilliseconds": 316.2219,
+        "WarmMaxMilliseconds": 327.1882,
+        "WarmMedianAllocatedBytes": 86753220,
+        "MaxRetainedHeapDeltaBytes": 4321928,
+        "FirstInvocationMaxProcessPeakBytes": 85995520,
+        "FirstInvocationMaxWorkingSetBytes": 85995520,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 95834112
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          504.9655,
+          434.8147
+        ],
+        "WarmMedianMilliseconds": 210.5905,
+        "WarmMaxMilliseconds": 255.3647,
+        "WarmMedianAllocatedBytes": 53314276,
+        "MaxRetainedHeapDeltaBytes": 389224,
+        "FirstInvocationMaxProcessPeakBytes": 80429056,
+        "FirstInvocationMaxWorkingSetBytes": 80429056,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 91013120
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 53.9727
+    },
+    {
+      "InputName": "1_S26352_0300_05_2201.STEP",
+      "InputSha256": "E94229CF8CDCD7EDA071498A0CB121ABF5A549AEA7A8DA9D10D899A5A3B7B34E",
+      "InputBytes": 62139,
+      "RecordCount": 879,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          142.5117,
+          136.479
+        ],
+        "WarmMedianMilliseconds": 41.5167,
+        "WarmMaxMilliseconds": 49.1233,
+        "WarmMedianAllocatedBytes": 8331984,
+        "MaxRetainedHeapDeltaBytes": 747344,
+        "FirstInvocationMaxProcessPeakBytes": 52936704,
+        "FirstInvocationMaxWorkingSetBytes": 52936704,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 64540672
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          137.3065,
+          131.7741
+        ],
+        "WarmMedianMilliseconds": 42.1318,
+        "WarmMaxMilliseconds": 44.3846,
+        "WarmMedianAllocatedBytes": 8333712,
+        "MaxRetainedHeapDeltaBytes": 775896,
+        "FirstInvocationMaxProcessPeakBytes": 52944896,
+        "FirstInvocationMaxWorkingSetBytes": 52944896,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 64835584
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          90.4946,
+          93.0564
+        ],
+        "WarmMedianMilliseconds": 31.9043,
+        "WarmMaxMilliseconds": 44.586,
+        "WarmMedianAllocatedBytes": 4892440,
+        "MaxRetainedHeapDeltaBytes": 389144,
+        "FirstInvocationMaxProcessPeakBytes": 56684544,
+        "FirstInvocationMaxWorkingSetBytes": 56684544,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 65789952
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 0.6151
+    },
+    {
+      "InputName": "2_S26352_0300_05_2210.STEP",
+      "InputSha256": "6A3DC8060C8B0BDB25BD9396E64DC73686C077BF8EA83CF925E823487A064884",
+      "InputBytes": 481206,
+      "RecordCount": 5519,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          385.2265,
+          379.6914
+        ],
+        "WarmMedianMilliseconds": 212.1235,
+        "WarmMaxMilliseconds": 256.1134,
+        "WarmMedianAllocatedBytes": 54874084,
+        "MaxRetainedHeapDeltaBytes": 2835960,
+        "FirstInvocationMaxProcessPeakBytes": 74989568,
+        "FirstInvocationMaxWorkingSetBytes": 74989568,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 85426176
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          364.5641,
+          466.252
+        ],
+        "WarmMedianMilliseconds": 185.6397,
+        "WarmMaxMilliseconds": 255.2904,
+        "WarmMedianAllocatedBytes": 54873436,
+        "MaxRetainedHeapDeltaBytes": 2864512,
+        "FirstInvocationMaxProcessPeakBytes": 73637888,
+        "FirstInvocationMaxWorkingSetBytes": 73637888,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 85135360
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          341.3983,
+          377.2285
+        ],
+        "WarmMedianMilliseconds": 134.5499,
+        "WarmMaxMilliseconds": 251.3086,
+        "WarmMedianAllocatedBytes": 33834840,
+        "MaxRetainedHeapDeltaBytes": 395368,
+        "FirstInvocationMaxProcessPeakBytes": 77049856,
+        "FirstInvocationMaxWorkingSetBytes": 77049856,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 85864448
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -26.4838
+    },
+    {
+      "InputName": "3_S26352_0300_05_2118.STEP",
+      "InputSha256": "BBEE62BB4BE71B860392010BA7C6505695C2F4E7C4DFBEA035E2398EAC49CCB0",
+      "InputBytes": 67115,
+      "RecordCount": 935,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          147.9873,
+          217.0719
+        ],
+        "WarmMedianMilliseconds": 40.7402,
+        "WarmMaxMilliseconds": 62.7246,
+        "WarmMedianAllocatedBytes": 9165472,
+        "MaxRetainedHeapDeltaBytes": 772760,
+        "FirstInvocationMaxProcessPeakBytes": 53358592,
+        "FirstInvocationMaxWorkingSetBytes": 53358592,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 63926272
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          165.6434,
+          137.3308
+        ],
+        "WarmMedianMilliseconds": 39.5597,
+        "WarmMaxMilliseconds": 62.9936,
+        "WarmMedianAllocatedBytes": 9167200,
+        "MaxRetainedHeapDeltaBytes": 801312,
+        "FirstInvocationMaxProcessPeakBytes": 53547008,
+        "FirstInvocationMaxWorkingSetBytes": 53547008,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 63770624
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          95.175,
+          96.9335
+        ],
+        "WarmMedianMilliseconds": 42.8085,
+        "WarmMaxMilliseconds": 53.234,
+        "WarmMedianAllocatedBytes": 5417968,
+        "MaxRetainedHeapDeltaBytes": 389144,
+        "FirstInvocationMaxProcessPeakBytes": 57131008,
+        "FirstInvocationMaxWorkingSetBytes": 57131008,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 64917504
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -1.1805
+    },
+    {
+      "InputName": "4_S26352_0300_05_2114.STEP",
+      "InputSha256": "2754EA5E6649D79E521C0DF5E30577C396FEB615FCD762611FBF595F9DCCC3BB",
+      "InputBytes": 67120,
+      "RecordCount": 935,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          158.9617,
+          138.0564
+        ],
+        "WarmMedianMilliseconds": 53.4325,
+        "WarmMaxMilliseconds": 66.0429,
+        "WarmMedianAllocatedBytes": 9164616,
+        "MaxRetainedHeapDeltaBytes": 772728,
+        "FirstInvocationMaxProcessPeakBytes": 53342208,
+        "FirstInvocationMaxWorkingSetBytes": 53342208,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 63885312
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          143.6388,
+          149.6502
+        ],
+        "WarmMedianMilliseconds": 40.2625,
+        "WarmMaxMilliseconds": 50.3211,
+        "WarmMedianAllocatedBytes": 9166344,
+        "MaxRetainedHeapDeltaBytes": 801280,
+        "FirstInvocationMaxProcessPeakBytes": 53485568,
+        "FirstInvocationMaxWorkingSetBytes": 53485568,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 64225280
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          98.4081,
+          89.7574
+        ],
+        "WarmMedianMilliseconds": 33.8677,
+        "WarmMaxMilliseconds": 39.1849,
+        "WarmMedianAllocatedBytes": 5417960,
+        "MaxRetainedHeapDeltaBytes": 386000,
+        "FirstInvocationMaxProcessPeakBytes": 57286656,
+        "FirstInvocationMaxWorkingSetBytes": 57286656,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 65101824
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -13.17
+    },
+    {
+      "InputName": "5831 CAU-1_4.stp",
+      "InputSha256": "A1B72CD5A3035C2F8DD8A9FCDED1B32407F1DCE38A308D109E8CA10FD359CD61",
+      "InputBytes": 88220,
+      "RecordCount": 2122,
+      "TargetStatus": "Blocked",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          259.3013,
+          281.6452
+        ],
+        "WarmMedianMilliseconds": 87.0658,
+        "WarmMaxMilliseconds": 99.3962,
+        "WarmMedianAllocatedBytes": 17189504,
+        "MaxRetainedHeapDeltaBytes": 1429968,
+        "FirstInvocationMaxProcessPeakBytes": 64057344,
+        "FirstInvocationMaxWorkingSetBytes": 64057344,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 72204288
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          243.8893,
+          257.2503
+        ],
+        "WarmMedianMilliseconds": 118.5482,
+        "WarmMaxMilliseconds": 131.8438,
+        "WarmMedianAllocatedBytes": 17191232,
+        "MaxRetainedHeapDeltaBytes": 1458520,
+        "FirstInvocationMaxProcessPeakBytes": 65032192,
+        "FirstInvocationMaxWorkingSetBytes": 65032192,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 73347072
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          149.2269,
+          140.8355
+        ],
+        "WarmMedianMilliseconds": 66.6243,
+        "WarmMaxMilliseconds": 98.3845,
+        "WarmMedianAllocatedBytes": 10978880,
+        "MaxRetainedHeapDeltaBytes": 401744,
+        "FirstInvocationMaxProcessPeakBytes": 66207744,
+        "FirstInvocationMaxWorkingSetBytes": 66207744,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 72466432
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 31.4824
+    },
+    {
+      "InputName": "BACK PLATE.STEP",
+      "InputSha256": "3495424C9F30C22F3335AC0876720544E286AA567E78CAAA7A091304A9E6F844",
+      "InputBytes": 2341713,
+      "RecordCount": 26124,
+      "TargetStatus": "Blocked",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          1504.5953,
+          1419.42
+        ],
+        "WarmMedianMilliseconds": 583.899,
+        "WarmMaxMilliseconds": 799.6599,
+        "WarmMedianAllocatedBytes": 238454868,
+        "MaxRetainedHeapDeltaBytes": 12540720,
+        "FirstInvocationMaxProcessPeakBytes": 125771776,
+        "FirstInvocationMaxWorkingSetBytes": 125771776,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 142102528
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          1509.9364,
+          1521.6303
+        ],
+        "WarmMedianMilliseconds": 561.1001,
+        "WarmMaxMilliseconds": 764.6952,
+        "WarmMedianAllocatedBytes": 238456616,
+        "MaxRetainedHeapDeltaBytes": 12569272,
+        "FirstInvocationMaxProcessPeakBytes": 127655936,
+        "FirstInvocationMaxWorkingSetBytes": 127655936,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 141996032
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          1263.1465,
+          1312.8516
+        ],
+        "WarmMedianMilliseconds": 437.085,
+        "WarmMaxMilliseconds": 486.7835,
+        "WarmMedianAllocatedBytes": 140067356,
+        "MaxRetainedHeapDeltaBytes": 381088,
+        "FirstInvocationMaxProcessPeakBytes": 130351104,
+        "FirstInvocationMaxWorkingSetBytes": 130351104,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 141905920
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -22.7989
+    },
+    {
+      "InputName": "BACK_PLATE_ORIGINAL.STEP",
+      "InputSha256": "7AA7F11E0C48955CBC1E586A83BAA6F52F03FEC11E8413C1F3B3733933E7B016",
+      "InputBytes": 3587107,
+      "RecordCount": 37844,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          1876.977,
+          1808.2756
+        ],
+        "WarmMedianMilliseconds": 861.3048,
+        "WarmMaxMilliseconds": 898.7033,
+        "WarmMedianAllocatedBytes": 393873352,
+        "MaxRetainedHeapDeltaBytes": 18033280,
+        "FirstInvocationMaxProcessPeakBytes": 169123840,
+        "FirstInvocationMaxWorkingSetBytes": 169123840,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 191000576
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          1932.32,
+          1953.117
+        ],
+        "WarmMedianMilliseconds": 886.5349,
+        "WarmMaxMilliseconds": 1026.5615,
+        "WarmMedianAllocatedBytes": 393876988,
+        "MaxRetainedHeapDeltaBytes": 18055688,
+        "FirstInvocationMaxProcessPeakBytes": 170467328,
+        "FirstInvocationMaxWorkingSetBytes": 170467328,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 190726144
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          1761.0446,
+          1778.7837
+        ],
+        "WarmMedianMilliseconds": 732.8595,
+        "WarmMaxMilliseconds": 831.6765,
+        "WarmMedianAllocatedBytes": 245003192,
+        "MaxRetainedHeapDeltaBytes": 378424,
+        "FirstInvocationMaxProcessPeakBytes": 172994560,
+        "FirstInvocationMaxWorkingSetBytes": 170704896,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 177213440
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 25.2301
+    },
+    {
+      "InputName": "CAVITY BASE.STEP",
+      "InputSha256": "30A8BBD06598E780A623AB63D1253EF013352B008D4DD8B7AE85C73C9DC2AB49",
+      "InputBytes": 3617920,
+      "RecordCount": 40333,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          1953.6015,
+          1934.7335
+        ],
+        "WarmMedianMilliseconds": 1026.4923,
+        "WarmMaxMilliseconds": 1058.7522,
+        "WarmMedianAllocatedBytes": 408218804,
+        "MaxRetainedHeapDeltaBytes": 18974488,
+        "FirstInvocationMaxProcessPeakBytes": 177029120,
+        "FirstInvocationMaxWorkingSetBytes": 177029120,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 193921024
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          2016.3113,
+          1976.1823
+        ],
+        "WarmMedianMilliseconds": 966.1069,
+        "WarmMaxMilliseconds": 992.3841,
+        "WarmMedianAllocatedBytes": 408219032,
+        "MaxRetainedHeapDeltaBytes": 19009184,
+        "FirstInvocationMaxProcessPeakBytes": 173867008,
+        "FirstInvocationMaxWorkingSetBytes": 170971136,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 194187264
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          1798.1019,
+          1793.0445
+        ],
+        "WarmMedianMilliseconds": 865.8397,
+        "WarmMaxMilliseconds": 945.9744,
+        "WarmMedianAllocatedBytes": 253394896,
+        "MaxRetainedHeapDeltaBytes": 387736,
+        "FirstInvocationMaxProcessPeakBytes": 172716032,
+        "FirstInvocationMaxWorkingSetBytes": 172716032,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 186654720
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -60.3854
+    },
+    {
+      "InputName": "CAVITY STEEL.STEP",
+      "InputSha256": "F903CA53872A82F301E06ED69363CCA62D476F4CDAAC5152499AC937B01DCB1F",
+      "InputBytes": 3694478,
+      "RecordCount": 41350,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          2003.3264,
+          2003.1279
+        ],
+        "WarmMedianMilliseconds": 1039.1726,
+        "WarmMaxMilliseconds": 1074.0459,
+        "WarmMedianAllocatedBytes": 416516024,
+        "MaxRetainedHeapDeltaBytes": 19421768,
+        "FirstInvocationMaxProcessPeakBytes": 178610176,
+        "FirstInvocationMaxWorkingSetBytes": 178610176,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 195858432
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          2095.1653,
+          2076.4777
+        ],
+        "WarmMedianMilliseconds": 1004.1657,
+        "WarmMaxMilliseconds": 1132.2501,
+        "WarmMedianAllocatedBytes": 416519172,
+        "MaxRetainedHeapDeltaBytes": 19450320,
+        "FirstInvocationMaxProcessPeakBytes": 178061312,
+        "FirstInvocationMaxWorkingSetBytes": 178061312,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 195964928
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          1701.447,
+          1746.1639
+        ],
+        "WarmMedianMilliseconds": 801.3282,
+        "WarmMaxMilliseconds": 859.2712,
+        "WarmMedianAllocatedBytes": 258272592,
+        "MaxRetainedHeapDeltaBytes": 387728,
+        "FirstInvocationMaxProcessPeakBytes": 179138560,
+        "FirstInvocationMaxWorkingSetBytes": 177418240,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 186060800
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -35.0069
+    },
+    {
+      "InputName": "CORE BAS.STEP",
+      "InputSha256": "468E3E9D5F77450FB5226732DB4BF0465D491C27594D0CA817DC0D3F29DA7F87",
+      "InputBytes": 4851354,
+      "RecordCount": 58568,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          2267.7538,
+          2280.2294
+        ],
+        "WarmMedianMilliseconds": 1373.9234,
+        "WarmMaxMilliseconds": 1491.9685,
+        "WarmMedianAllocatedBytes": 554583820,
+        "MaxRetainedHeapDeltaBytes": 26938392,
+        "FirstInvocationMaxProcessPeakBytes": 225017856,
+        "FirstInvocationMaxWorkingSetBytes": 225017856,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 240267264
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          2535.584,
+          2473.5277
+        ],
+        "WarmMedianMilliseconds": 1312.1975,
+        "WarmMaxMilliseconds": 1537.6264,
+        "WarmMedianAllocatedBytes": 554583760,
+        "MaxRetainedHeapDeltaBytes": 26981312,
+        "FirstInvocationMaxProcessPeakBytes": 224006144,
+        "FirstInvocationMaxWorkingSetBytes": 224006144,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 244215808
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          2005.5829,
+          1824.8742
+        ],
+        "WarmMedianMilliseconds": 1110.7475,
+        "WarmMaxMilliseconds": 1185.1821,
+        "WarmMedianAllocatedBytes": 341466884,
+        "MaxRetainedHeapDeltaBytes": 387728,
+        "FirstInvocationMaxProcessPeakBytes": 216915968,
+        "FirstInvocationMaxWorkingSetBytes": 216915968,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 231657472
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -61.7259
+    },
+    {
+      "InputName": "CORE STEEL.STEP",
+      "InputSha256": "03690EE5ABE192A303042508D1304C4DDA56DBFFE6313ABDF6775FF07DFA1514",
+      "InputBytes": 7428975,
+      "RecordCount": 82444,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          3211.2688,
+          3074.4863
+        ],
+        "WarmMedianMilliseconds": 2087.4925,
+        "WarmMaxMilliseconds": 2342.4664,
+        "WarmMedianAllocatedBytes": 837991860,
+        "MaxRetainedHeapDeltaBytes": 38868232,
+        "FirstInvocationMaxProcessPeakBytes": 308830208,
+        "FirstInvocationMaxWorkingSetBytes": 308830208,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 332824576
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          3151.8444,
+          3674.2436
+        ],
+        "WarmMedianMilliseconds": 2109.3435,
+        "WarmMaxMilliseconds": 2204.7938,
+        "WarmMedianAllocatedBytes": 837994296,
+        "MaxRetainedHeapDeltaBytes": 38896784,
+        "FirstInvocationMaxProcessPeakBytes": 308658176,
+        "FirstInvocationMaxWorkingSetBytes": 308658176,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 333434880
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          2504.3423,
+          2657.47
+        ],
+        "WarmMedianMilliseconds": 1818.3416,
+        "WarmMaxMilliseconds": 1878.2546,
+        "WarmMedianAllocatedBytes": 521151692,
+        "MaxRetainedHeapDeltaBytes": 387728,
+        "FirstInvocationMaxProcessPeakBytes": 310394880,
+        "FirstInvocationMaxWorkingSetBytes": 310394880,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 320749568
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 21.851
+    },
+    {
+      "InputName": "P01-R01-Prismatic.STEP",
+      "InputSha256": "E518DB3332DC665B16CC31DA960C46B75B8D75128234129922A25146BE1C33AD",
+      "InputBytes": 23222,
+      "RecordCount": 329,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          103.6561,
+          110.7689
+        ],
+        "WarmMedianMilliseconds": 10.4486,
+        "WarmMaxMilliseconds": 11.139,
+        "WarmMedianAllocatedBytes": 3523736,
+        "MaxRetainedHeapDeltaBytes": 509224,
+        "FirstInvocationMaxProcessPeakBytes": 50712576,
+        "FirstInvocationMaxWorkingSetBytes": 50712576,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 54792192
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          125.7676,
+          110.7621
+        ],
+        "WarmMedianMilliseconds": 10.8227,
+        "WarmMaxMilliseconds": 11.3269,
+        "WarmMedianAllocatedBytes": 3525464,
+        "MaxRetainedHeapDeltaBytes": 537776,
+        "FirstInvocationMaxProcessPeakBytes": 50843648,
+        "FirstInvocationMaxWorkingSetBytes": 50843648,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 54800384
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          77.4791,
+          66.0412
+        ],
+        "WarmMedianMilliseconds": 8.2647,
+        "WarmMaxMilliseconds": 8.4337,
+        "WarmMedianAllocatedBytes": 1930056,
+        "MaxRetainedHeapDeltaBytes": 395824,
+        "FirstInvocationMaxProcessPeakBytes": 52158464,
+        "FirstInvocationMaxWorkingSetBytes": 52158464,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 54996992
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 0.3741
+    },
+    {
+      "InputName": "P01-R02-InternalBoundaries.STEP",
+      "InputSha256": "0E9E2D6E15E1328C068E30703AD621AE883B6FE94A5DB51353A0D26F82E1578F",
+      "InputBytes": 46323,
+      "RecordCount": 649,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          120.0077,
+          125.6699
+        ],
+        "WarmMedianMilliseconds": 33.7959,
+        "WarmMaxMilliseconds": 56.2447,
+        "WarmMedianAllocatedBytes": 6450680,
+        "MaxRetainedHeapDeltaBytes": 651648,
+        "FirstInvocationMaxProcessPeakBytes": 52916224,
+        "FirstInvocationMaxWorkingSetBytes": 52916224,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 63721472
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          121.9995,
+          123.5831
+        ],
+        "WarmMedianMilliseconds": 25.3841,
+        "WarmMaxMilliseconds": 49.4827,
+        "WarmMedianAllocatedBytes": 6452408,
+        "MaxRetainedHeapDeltaBytes": 680200,
+        "FirstInvocationMaxProcessPeakBytes": 53096448,
+        "FirstInvocationMaxWorkingSetBytes": 53096448,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 63963136
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          78.4585,
+          73.1174
+        ],
+        "WarmMedianMilliseconds": 17.2613,
+        "WarmMaxMilliseconds": 32.6716,
+        "WarmMedianAllocatedBytes": 3738736,
+        "MaxRetainedHeapDeltaBytes": 386000,
+        "FirstInvocationMaxProcessPeakBytes": 54824960,
+        "FirstInvocationMaxWorkingSetBytes": 54824960,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 60616704
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -8.4118
+    },
+    {
+      "InputName": "P01-R03-CurvedSurfaces.STEP",
+      "InputSha256": "319DD894747CAF95AC1100C6283B55C014D40AEAC4ECCC00EF54648ADF9AEA12",
+      "InputBytes": 14003088,
+      "RecordCount": 135828,
+      "TargetStatus": "Blocked",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          5087.6053,
+          5407.4864
+        ],
+        "WarmMedianMilliseconds": 3836.4181,
+        "WarmMaxMilliseconds": 4998.5459,
+        "WarmMedianAllocatedBytes": 1423134000,
+        "MaxRetainedHeapDeltaBytes": 65989088,
+        "FirstInvocationMaxProcessPeakBytes": 460800000,
+        "FirstInvocationMaxWorkingSetBytes": 456433664,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 480002048
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          4986.8145,
+          5915.3747
+        ],
+        "WarmMedianMilliseconds": 3889.4675,
+        "WarmMaxMilliseconds": 4208.1778,
+        "WarmMedianAllocatedBytes": 1423134168,
+        "MaxRetainedHeapDeltaBytes": 66017640,
+        "FirstInvocationMaxProcessPeakBytes": 460165120,
+        "FirstInvocationMaxWorkingSetBytes": 457207808,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 479784960
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          4093.37,
+          4581.8157
+        ],
+        "WarmMedianMilliseconds": 3203.6138,
+        "WarmMaxMilliseconds": 3926.6556,
+        "WarmMedianAllocatedBytes": 883981604,
+        "MaxRetainedHeapDeltaBytes": 408024,
+        "FirstInvocationMaxProcessPeakBytes": 463044608,
+        "FirstInvocationMaxWorkingSetBytes": 463044608,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 472018944
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 53.0494
+    },
+    {
+      "InputName": "T001_PRISM.step",
+      "InputSha256": "31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B",
+      "InputBytes": 13242,
+      "RecordCount": 187,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          105.9096,
+          121.0415
+        ],
+        "WarmMedianMilliseconds": 7.1571,
+        "WarmMaxMilliseconds": 7.3956,
+        "WarmMedianAllocatedBytes": 2237512,
+        "MaxRetainedHeapDeltaBytes": 448696,
+        "FirstInvocationMaxProcessPeakBytes": 49487872,
+        "FirstInvocationMaxWorkingSetBytes": 49487872,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 53514240
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          110.9478,
+          111.8959
+        ],
+        "WarmMedianMilliseconds": 7.2579,
+        "WarmMaxMilliseconds": 126.1491,
+        "WarmMedianAllocatedBytes": 2239240,
+        "MaxRetainedHeapDeltaBytes": 477248,
+        "FirstInvocationMaxProcessPeakBytes": 49590272,
+        "FirstInvocationMaxWorkingSetBytes": 49590272,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 53485568
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          58.8369,
+          75.8
+        ],
+        "WarmMedianMilliseconds": 5.123,
+        "WarmMaxMilliseconds": 6.4508,
+        "WarmMedianAllocatedBytes": 1133320,
+        "MaxRetainedHeapDeltaBytes": 389680,
+        "FirstInvocationMaxProcessPeakBytes": 50720768,
+        "FirstInvocationMaxWorkingSetBytes": 50720768,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 53698560
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 0.1008
+    },
+    {
+      "InputName": "T002_SPHERE.step",
+      "InputSha256": "AB1155D291C0C0284B76F80077471C44DB33DD3A593034DD036041A0525C0193",
+      "InputBytes": 5798,
+      "RecordCount": 75,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          101.9578,
+          115.436
+        ],
+        "WarmMedianMilliseconds": 3.6616,
+        "WarmMaxMilliseconds": 4.2635,
+        "WarmMedianAllocatedBytes": 1266744,
+        "MaxRetainedHeapDeltaBytes": 402424,
+        "FirstInvocationMaxProcessPeakBytes": 47820800,
+        "FirstInvocationMaxWorkingSetBytes": 47820800,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 52576256
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          91.1432,
+          121.4767
+        ],
+        "WarmMedianMilliseconds": 5.0642,
+        "WarmMaxMilliseconds": 42.6564,
+        "WarmMedianAllocatedBytes": 1268472,
+        "MaxRetainedHeapDeltaBytes": 430976,
+        "FirstInvocationMaxProcessPeakBytes": 47992832,
+        "FirstInvocationMaxWorkingSetBytes": 47992832,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 52695040
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          60.3024,
+          81.3437
+        ],
+        "WarmMedianMilliseconds": 3.4372,
+        "WarmMaxMilliseconds": 4.2841,
+        "WarmMedianAllocatedBytes": 534752,
+        "MaxRetainedHeapDeltaBytes": 389680,
+        "FirstInvocationMaxProcessPeakBytes": 49135616,
+        "FirstInvocationMaxWorkingSetBytes": 49135616,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 52457472
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 1.4026
+    },
+    {
+      "InputName": "T003_CYLINDER.step",
+      "InputSha256": "A78EBDD2613C4E9D7897B0FAA60061D0B8212BC685CE4480D9963C267E3D4E65",
+      "InputBytes": 9270,
+      "RecordCount": 125,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          111.1015,
+          111.4683
+        ],
+        "WarmMedianMilliseconds": 5.3753,
+        "WarmMaxMilliseconds": 5.5907,
+        "WarmMedianAllocatedBytes": 1728408,
+        "MaxRetainedHeapDeltaBytes": 424752,
+        "FirstInvocationMaxProcessPeakBytes": 48177152,
+        "FirstInvocationMaxWorkingSetBytes": 48177152,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 53006336
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          97.6885,
+          147.8508
+        ],
+        "WarmMedianMilliseconds": 5.8871,
+        "WarmMaxMilliseconds": 6.9285,
+        "WarmMedianAllocatedBytes": 1730136,
+        "MaxRetainedHeapDeltaBytes": 453304,
+        "FirstInvocationMaxProcessPeakBytes": 48340992,
+        "FirstInvocationMaxWorkingSetBytes": 48340992,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 53731328
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          57.9161,
+          81.3473
+        ],
+        "WarmMedianMilliseconds": 3.7788,
+        "WarmMaxMilliseconds": 3.9236,
+        "WarmMedianAllocatedBytes": 815664,
+        "MaxRetainedHeapDeltaBytes": 389680,
+        "FirstInvocationMaxProcessPeakBytes": 49508352,
+        "FirstInvocationMaxWorkingSetBytes": 49508352,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 52584448
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": 0.5118
+    },
+    {
+      "InputName": "T101_BASIC_POCKET.step",
+      "InputSha256": "F1A8A662CCC67DE88A5EF9BAE4A01B5B15FFB5D9CCB6A3E4DE1CC677A6E42049",
+      "InputBytes": 22842,
+      "RecordCount": 329,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          114.6689,
+          168.3912
+        ],
+        "WarmMedianMilliseconds": 12.3287,
+        "WarmMaxMilliseconds": 14.2737,
+        "WarmMedianAllocatedBytes": 3520888,
+        "MaxRetainedHeapDeltaBytes": 509168,
+        "FirstInvocationMaxProcessPeakBytes": 50855936,
+        "FirstInvocationMaxWorkingSetBytes": 50855936,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 54874112
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          108.2994,
+          140.3395
+        ],
+        "WarmMedianMilliseconds": 11.3714,
+        "WarmMaxMilliseconds": 12.6831,
+        "WarmMedianAllocatedBytes": 3522616,
+        "MaxRetainedHeapDeltaBytes": 537720,
+        "FirstInvocationMaxProcessPeakBytes": 50962432,
+        "FirstInvocationMaxWorkingSetBytes": 50962432,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 54845440
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          72.0269,
+          81.1203
+        ],
+        "WarmMedianMilliseconds": 11.2239,
+        "WarmMaxMilliseconds": 84.8311,
+        "WarmMedianAllocatedBytes": 1929408,
+        "MaxRetainedHeapDeltaBytes": 389680,
+        "FirstInvocationMaxProcessPeakBytes": 52125696,
+        "FirstInvocationMaxWorkingSetBytes": 52125696,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 54968320
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -0.9573
+    },
+    {
+      "InputName": "T103_MULTIPLE_ISLANDS.step",
+      "InputSha256": "B54769A3969B6FFD9EF582F1C0791C682561300CF79C15F4883095CD2A065CD4",
+      "InputBytes": 51739,
+      "RecordCount": 755,
+      "TargetStatus": "TargetBoundOnly",
+      "BaselineCurrentCommonEvidenceEqual": true,
+      "IsolatedAndOwnedTargetDataEqual": true,
+      "TrialSemanticsEqual": true,
+      "BaselineCapture": {
+        "ProcessFirstMilliseconds": [
+          138.1612,
+          145.8531
+        ],
+        "WarmMedianMilliseconds": 34.0872,
+        "WarmMaxMilliseconds": 39.6167,
+        "WarmMedianAllocatedBytes": 7267840,
+        "MaxRetainedHeapDeltaBytes": 693856,
+        "FirstInvocationMaxProcessPeakBytes": 53088256,
+        "FirstInvocationMaxWorkingSetBytes": 53088256,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 64233472
+      },
+      "CurrentCapture": {
+        "ProcessFirstMilliseconds": [
+          145.1231,
+          153.6415
+        ],
+        "WarmMedianMilliseconds": 33.6206,
+        "WarmMaxMilliseconds": 38.7796,
+        "WarmMedianAllocatedBytes": 7269568,
+        "MaxRetainedHeapDeltaBytes": 722408,
+        "FirstInvocationMaxProcessPeakBytes": 52867072,
+        "FirstInvocationMaxWorkingSetBytes": 52867072,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 64569344
+      },
+      "IsolatedTarget": {
+        "ProcessFirstMilliseconds": [
+          74.7547,
+          96.4538
+        ],
+        "WarmMedianMilliseconds": 25.3496,
+        "WarmMaxMilliseconds": 36.2559,
+        "WarmMedianAllocatedBytes": 4244248,
+        "MaxRetainedHeapDeltaBytes": 389144,
+        "FirstInvocationMaxProcessPeakBytes": 55664640,
+        "FirstInvocationMaxWorkingSetBytes": 55664640,
+        "AllSamplesMaxLifetimeProcessPeakBytes": 61931520
+      },
+      "DerivedWarmCaptureMedianDeltaMilliseconds": -0.4666
+    }
+  ]
+}
