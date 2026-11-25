@@ -203,7 +203,7 @@ jobs:
             Copy-Item (Join-Path (Join-Path $root "ru-public-inputs") $name) $inputs
           }
           $output = Join-Path $root "evidence/B6-live-heap-Windows"
-          python tools/ci/B6HeapProbe/run_profile.py --dotnet dotnet --probe $probe --canonical src/MPC.Application/bin/Release/net8.0 --diagnostic $diag --inputs $inputs --manifest docs/reviews/Tooling/evidence/B6-Target-Allocation-Linux/Summary.json --output $output --trials 2
+          python tools/ci/B6HeapProbe/run_profile.py --dotnet dotnet --probe $probe --canonical src/MPC.Application/bin/Release/net8.0 --diagnostic $diag --inputs $inputs --manifest (Join-Path $root "evidence/B6-public-Windows/Summary.json") --output $output --trials 2
           if ($LASTEXITCODE -ne 0) { throw "Heap profile identity/semantics/lifecycle failed." }
           Copy-Item (Join-Path $copy "B6DiagnosticOverlay.json") $output
       - name: Preserve validation evidence

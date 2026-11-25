@@ -138,3 +138,27 @@ placement, presentation and ownership checks still need them; preserve forward
 references, unknown/partial records and every ordered cause. No such change is
 implemented or approved here. Lower post-GC heap does not guarantee lower reserved
 GC segments or resident peak; the actual Worker budget remains a later gate.
+
+
+## Windows identity correction (CI307)
+
+Initial CI307 passed all existing regression/Worker/B6 checks and the R03 first-
+trial profiles, but then FAILED the T001 input hash assertion before profiling it.
+The Windows checkout fixture uses CRLF; its SHA256 is
+A7270A9C6A1ACFB9769BF6AFCF6C1EA527E0FA80610C11931F68884498E76716.
+The historical Linux LF bytes hash to
+31F929F53E53A321399BDF0E6691A0DA34B8DF12F55BC73AB6EFBA458555751B.
+Converting the repository LF fixture to CRLF exactly reproduces the Windows hash.
+The bytes are NOT silently normalized for profiling. The corrected Windows step
+uses that SAME run's B6-public-Windows/Summary.json as the expected hash/count/status
+manifest. That earlier B6 step already verifies before/current capture identity,
+semantics and unchanged inputs. The profiler still requires exact equality, checks
+the actual private bytes/capture hash and unchanged file after every mode. R03 is
+release-package data and remains byte-identical across these platforms. Linux
+four-file evidence continues to use its exact historical Linux manifest.
+
+CI307 partial profiles are not accepted as a completed Windows experiment. Its ZIP
+SHA25602A1A40FBB708B6723DA438E219A124DB7C9588EB8791DBA755DFBB0198DAE91
+was downloaded/verified to diagnose the mismatch. No production/probe/runner/test
+change is involved in this correction; only the CI manifest path and this record.
+Final exact-head CI is recorded in the PR.
